@@ -27,3 +27,16 @@ label.button{position:relative;overflow:hidden}label.button input[type=file]{dis
 .cast-sidebar .add-panel .tiny{grid-column:1;grid-row:3;margin:0;font-size:9px}
 .cast-sidebar .example-link{text-align:left;margin:10px 0 0;font-size:10px}
 @media(max-width:720px){.cast-sidebar .add-panel{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;padding:16px}.cast-sidebar .add-panel h3{grid-column:1 / -1;grid-row:auto}.cast-sidebar .add-panel>p:not(.tiny){grid-column:1 / -1;grid-row:auto}.cast-sidebar .add-panel .field{grid-column:1 / -1;grid-row:auto}.cast-sidebar .add-panel button{grid-column:auto;grid-row:auto;padding:9px;font-size:10px}.cast-sidebar .add-panel .tiny{grid-column:1 / -1;grid-row:auto}}
+/* Character editor stays above the cast without changing the page layout. */
+.character-modal{width:min(1040px,calc(100% - 32px));max-width:none;max-height:calc(100dvh - 32px);margin:auto;padding:0;color:inherit;overflow:hidden;box-shadow:0 24px 90px #0009}
+.character-modal[open]{display:flex;flex-direction:column}
+.character-modal::backdrop{background:#050b08bf;backdrop-filter:blur(4px)}
+.character-modal .character-modal-heading{flex:none;flex-direction:row;align-items:center;gap:16px;margin:0;padding:20px 24px;border-bottom:1px solid var(--line)}
+.character-modal-heading h3{margin:0}
+.character-modal-heading button{flex:none;min-width:42px;padding:8px;font-size:22px;background:transparent}
+.character-modal-body{min-height:0;padding:24px;overflow-y:auto;overscroll-behavior:contain;scrollbar-gutter:stable}
+.character-modal-actions{display:flex;flex:none;justify-content:space-between;align-items:center;gap:16px;padding:16px 24px;border-top:1px solid var(--line)}
+.character-modal-actions .primary{min-width:100px}
+.character-modal .relationship-row{flex-wrap:wrap;overflow-wrap:anywhere}
+.character-modal .relationship-row select{flex-shrink:0}
+@media(max-width:720px){.character-modal{width:calc(100% - 24px);max-height:calc(100dvh - 24px);padding:0}.character-modal .character-modal-heading,.character-modal-body{padding:20px}.character-modal-actions{padding:16px 20px}.character-modal-actions .muted{font-size:11px}}
