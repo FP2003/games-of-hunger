@@ -13,6 +13,7 @@ export function createMemoryRepository(): GameRepository {
         const tx: Transaction = {
           get: async (store, key) => structuredClone(next[store].get(key)),
           values: async store => structuredClone([...next[store].values()]),
+          entries: async store => structuredClone([...next[store].entries()]),
           put: async (store, key, value) => { if (!write) throw new Error('Read-only transaction.'); next[store].set(key, structuredClone(value)); },
           delete: async (store, key) => { if (!write) throw new Error('Read-only transaction.'); next[store].delete(key); },
         };

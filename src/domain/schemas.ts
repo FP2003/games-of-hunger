@@ -29,6 +29,17 @@ export const CastSchema = z.object({ version: z.literal(1), title: label, player
   });
 });
 export const GameSettingsSchema = z.object({ seed: z.string().trim().min(1).max(200), danger: z.enum(['low', 'normal', 'high']), tone: ToneSchema, personality: z.enum(['off', 'normal', 'strong']), loreCarryover: z.boolean() }).strict();
+// Drafts preserve incomplete fields verbatim; starting a game still requires CastSchema.
+export const DraftPlayerSchema = PlayerDefinitionSchema.extend({ name: z.string().max(120), signatureItem: z.string().max(120).optional(), team: z.string().max(120).optional() });
+export const DraftCastSchema = z.object({ version: z.literal(1), title: z.string().max(120), players: z.array(DraftPlayerSchema).max(48), relationships: z.array(RelationshipSchema) }).strict();
+export const RemovedPlayerSchema = z.object({ player: DraftPlayerSchema, index: z.number().int().nonnegative(), relationships: z.array(RelationshipSchema) }).strict();
+export const EditorDraftSchema = z.object({
+  version: z.literal(1), cast: DraftCastSchema,
+  settings: GameSettingsSchema.extend({ seed: z.string().max(200) }),
+  castId: id.optional(), paste: z.string(), undo: z.array(RemovedPlayerSchema).max(20),
+}).strict();
+export type EditorDraft = z.infer<typeof EditorDraftSchema>;
+export type RemovedPlayer = z.infer<typeof RemovedPlayerSchema>;
 export const PhaseSchema = z.object({ kind: PhaseKindSchema, index: z.number().int().nonnegative(), day: z.number().int().nonnegative() }).strict();
 export const MarkerDefinitionSchema = z.object({ id, type: z.enum(['boolean', 'number', 'player']), lifetime: z.enum(['phase', 'season']), description: label }).strict();
 export const ItemDefinitionSchema = z.object({ id, name: label, description: z.string().max(1000), tags: z.array(id).default([]), curse: z.enum(['compass', 'bell', 'tin']).optional() }).strict();

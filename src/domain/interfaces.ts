@@ -1,4 +1,4 @@
-import type { CastDefinition, ContentPack, Confessional, EventFact, EventTemplate, GameState, LoreContext, PlaybackSave, RunInput, RunRecord, SeasonHistory, Phase, ConfessionalTemplate } from './schemas';
+import type { CastDefinition, ContentPack, Confessional, EditorDraft, EventFact, EventTemplate, GameState, LoreContext, PlaybackSave, RunInput, RunRecord, SeasonHistory, Phase, ConfessionalTemplate } from './schemas';
 
 export interface RandomSource {
   next(): number;
@@ -33,23 +33,32 @@ export class RepositoryError extends Error {
   constructor(public readonly code: RepositoryErrorCode, message: string, public readonly cause?: unknown) { super(message); this.name = 'RepositoryError'; }
 }
 export interface PortraitAsset { id: string; blob: Blob }
+export interface SavedCast { id: string; cast: CastDefinition }
+/** Contains only information safe to display before revealing the story. */
+export interface UnfinishedRun extends PlaybackSave { title: string; eventCount: number }
 /** All failures reject with RepositoryError. savePlayback uses expected revision;
  * omitted expectedRevision creates a new save only. Revisions increment atomically. */
 export interface GameRepository {
   listCasts(): Promise<CastDefinition[]>;
+  listSavedCasts(): Promise<SavedCast[]>;
   getCast(id: string): Promise<CastDefinition | null>;
   saveCast(id: string, cast: CastDefinition): Promise<void>;
   deleteCast(id: string): Promise<void>;
+  getDraft(): Promise<EditorDraft | null>;
+  saveDraft(draft: EditorDraft): Promise<void>;
   getRun(id: string): Promise<RunRecord | null>;
   saveRun(run: RunRecord): Promise<void>;
   getPlayback(): Promise<PlaybackSave | null>;
   savePlayback(run: RunRecord, cursor: number, expectedRevision?: number): Promise<PlaybackSave>;
+  updatePlayback(runId: string, cursor: number, expectedRevision: number): Promise<PlaybackSave>;
+  listUnfinishedRuns(): Promise<UnfinishedRun[]>;
   clearPlayback(expectedRevision?: number): Promise<void>;
   getHistory(): Promise<SeasonHistory>;
   recordCompleted(run: RunRecord): Promise<SeasonHistory>;
   importHistory(history: SeasonHistory, runs: RunRecord[]): Promise<void>;
   getPortrait(id: string): Promise<Blob | null>;
   savePortrait(asset: PortraitAsset): Promise<void>;
+  collectUnusedPortraits(protectedAssetIds?: string[]): Promise<number>;
   close(): void;
 }
 export interface ConfessionalCandidate { template: ConfessionalTemplate; speakerId: string }

@@ -26,6 +26,11 @@ export async function createIndexedDbRepository(name = 'games-of-hunger-v1'): Pr
       const tx: Transaction = {
         get: (store, key) => request(raw.objectStore(store).get(key)),
         values: store => request(raw.objectStore(store).getAll()),
+        entries: async store => {
+          const source = raw.objectStore(store);
+          const [keys, values] = await Promise.all([request(source.getAllKeys()), request(source.getAll())]);
+          return keys.map((key, index) => [String(key), values[index]]);
+        },
         put: async (store, key, value) => { await request(raw.objectStore(store).put(value, key)); },
         delete: async (store, key) => { await request(raw.objectStore(store).delete(key)); },
       };

@@ -20,7 +20,7 @@ export const validateRun = (input: unknown): ValidationResult<RunRecord> => vali
 export const validateRunEnvelope = (input: unknown): ValidationResult<RunEnvelope> => validateWith(RunEnvelopeSchema, input);
 export const validateHistoryEnvelope = (input: unknown): ValidationResult<HistoryEnvelope> => validateWith(HistoryEnvelopeSchema, input);
 export function parseJson(text: string): ValidationResult<unknown> {
-  if (text.length > 30_000_000) return { success: false, errors: [{ code: 'too_large', path: '$', message: 'This JSON file exceeds the 30 MB import limit.' }] };
+  // Exports have no fixed size cap, so valid backups must not be rejected by size.
   try { return { success: true, data: JSON.parse(text) as unknown }; }
   catch { return { success: false, errors: [{ code: 'invalid_json', path: '$', message: 'This file is not valid JSON. Check commas and quotation marks.' }] }; }
 }
