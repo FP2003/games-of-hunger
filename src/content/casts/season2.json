@@ -1,0 +1,151 @@
+{
+  "version": 1,
+  "title": "The Legionairre Games",
+  "players": [
+    {
+      "id": "legionairre-marcos",
+      "name": "Marcos",
+      "traits": [],
+      "team": "District 1"
+    },
+    {
+      "id": "legionairre-chaos",
+      "name": "Chaos",
+      "traits": [],
+      "team": "District 1"
+    },
+    {
+      "id": "legionairre-joshi",
+      "name": "Joshi",
+      "traits": [],
+      "team": "District 2"
+    },
+    {
+      "id": "legionairre-akesel",
+      "name": "Akesel",
+      "traits": [],
+      "team": "District 2"
+    },
+    {
+      "id": "legionairre-gulliver",
+      "name": "Gulliver",
+      "traits": [],
+      "team": "District 3"
+    },
+    {
+      "id": "legionairre-jokin",
+      "name": "Jokin",
+      "traits": [],
+      "team": "District 3"
+    },
+    {
+      "id": "legionairre-amyriad",
+      "name": "AMyriad",
+      "traits": [],
+      "team": "District 4"
+    },
+    {
+      "id": "legionairre-siegfried",
+      "name": "Siegfried",
+      "traits": [],
+      "team": "District 4"
+    },
+    {
+      "id": "legionairre-solus",
+      "name": "Solus",
+      "traits": [],
+      "team": "District 5"
+    },
+    {
+      "id": "legionairre-kowalik",
+      "name": "Kowalik",
+      "traits": [],
+      "team": "District 5"
+    },
+    {
+      "id": "legionairre-suggs",
+      "name": "Suggs",
+      "traits": [],
+      "team": "District 6"
+    },
+    {
+      "id": "legionairre-emma",
+      "name": "Emma",
+      "traits": [],
+      "team": "District 6"
+    },
+    {
+      "id": "legionairre-deaclaw",
+      "name": "Deaclaw",
+      "traits": [],
+      "team": "District 7"
+    },
+    {
+      "id": "legionairre-rick",
+      "name": "Rick",
+      "traits": [],
+      "team": "District 7"
+    },
+    {
+      "id": "legionairre-shadz",
+      "name": "Shadz",
+      "traits": [],
+      "team": "District 8"
+    },
+    {
+      "id": "legionairre-tobi",
+      "name": "Tobi",
+      "traits": [],
+      "team": "District 8"
+    },
+    {
+      "id": "legionairre-skizzo",
+      "name": "Skizzo",
+      "traits": [],
+      "team": "District 9"
+    },
+    {
+      "id": "legionairre-luvy",
+      "name": "Luvy",
+      "traits": [],
+      "team": "District 9"
+    },
+    {
+      "id": "legionairre-adur",
+      "name": "Adur",
+      "traits": [],
+      "team": "District 10"
+    },
+    {
+      "id": "legionairre-ary",
+      "name": "Ary",
+      "traits": [],
+      "team": "District 10"
+    },
+    {
+      "id": "legionairre-shield",
+      "name": "Shield",
+      "traits": [],
+      "team": "District 11"
+    },
+    {
+      "id": "legionairre-flurris",
+      "name": "Flurris",
+      "traits": [],
+      "team": "District 11"
+    },
+    {
+      "id": "legionairre-fauna",
+      "name": "Fauna",
+      "traits": [],
+      "team": "District 12"
+    },
+    {
+      "id": "legionairre-hiro",
+      "name": "Hiro",
+      "traits": [],
+      "team": "District 12"
+    }
+  ],
+  "relationships": []
+}
