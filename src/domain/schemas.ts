@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { canonicalRunId, canonicalStringify } from './canonical';
 
 export const BIOME_IDS = ['forest', 'swamp', 'mountains', 'desert', 'tundra', 'ruins'] as const;
 export const TRAITS = ['reckless', 'loyal', 'sneaky', 'dramatic', 'cautious', 'resourceful'] as const;
@@ -69,6 +70,8 @@ export const ContentPackSchema = z.object({ id, version: label, title: label, bi
   const biomeIds = new Set(pack.biomes.map(b => b.id));
   BIOME_IDS.forEach(b => { if (!biomeIds.has(b)) issue(['biomes'], `Missing biome: ${b}.`); });
   pack.biomes.forEach((b, i) => b.adjacent.forEach(a => { if (a === b.id || !pack.biomes.find(v => v.id === a)?.adjacent.includes(b.id)) issue(['biomes', i, 'adjacent'], 'Adjacency must be reciprocal and cannot include itself.'); }));
+  const reachable = new Set<string>(); const visit = (biome: string) => { if (reachable.has(biome)) return; reachable.add(biome); pack.biomes.find(b => b.id === biome)?.adjacent.forEach(visit); }; visit(pack.biomes[0].id);
+  if (reachable.size !== 6) issue(['biomes'], 'The arena graph must connect all six biomes.');
   const itemIds = new Set(pack.items.map(i => i.id)); const markers = new Map(pack.markers.map(m => [m.id, m]));
   pack.events.forEach((event, i) => {
     const roles = new Set(event.roles.map(r => r.id));
@@ -107,37 +110,99 @@ export const PlacementSchema = z.object({ playerId: id, rank: z.number().int().m
 export const RunRecordSchema = z.object({ id, engineVersion: id, input: RunInputSchema, initialState: GameStateSchema, events: z.array(EventRecordSchema).min(1).max(10000), winnerId: id, placements: z.array(PlacementSchema).min(2).max(48), awards: z.array(AwardSchema), recap: z.array(z.string()) }).strict().superRefine((run, ctx) => {
   const add = (path: (string | number)[], message: string) => ctx.addIssue({ code: 'custom', path, message });
   const ids = new Set(run.input.cast.players.map(p => p.id));
+  if (run.id !== canonicalRunId(run.input, run.engineVersion)) add(['id'], 'Run identity does not match its versioned input snapshot.');
+  if (run.initialState.players.some(p => !p.alive)) add(['initialState', 'players'], 'Every contestant must begin the season alive.');
+  if (!run.input.settings.loreCarryover && run.input.lore.facts.length) add(['input', 'lore'], 'Lore-disabled runs cannot contain historical context.');
   if (!ids.has(run.winnerId)) add(['winnerId'], 'Winner must belong to this cast.');
   const checkState = (state: z.infer<typeof GameStateSchema>, path: (string | number)[]) => {
     if (state.players.length !== ids.size || new Set(state.players.map(p => p.id)).size !== ids.size || state.players.some(p => !ids.has(p.id))) add([...path, 'players'], 'Snapshots must contain exactly the original cast IDs.');
     if (new Set(state.items.map(i => i.id)).size !== state.items.length) add([...path, 'items'], 'Item instance IDs must be unique.');
     state.items.forEach((item, i) => { if (item.ownerId && (!state.players.find(p => p.id === item.ownerId)?.alive || item.destroyed)) add([...path, 'items', i], 'Items may only belong to living players and destroyed items have no owner.'); if (!item.definitionId.startsWith('signature:') && !run.input.content.items.some(d => d.id === item.definitionId)) add([...path, 'items', i, 'definitionId'], 'Unknown item definition.'); });
+    state.items.forEach((item, i) => { if (item.ownerId && state.players.find(p => p.id === item.ownerId)?.biome !== item.biome) add([...path, 'items', i, 'biome'], 'Owned items must share their owner’s location.'); });
     state.relationships.forEach((r, i) => { if (!ids.has(r.from) || !ids.has(r.to) || r.from === r.to) add([...path, 'relationships', i], 'Invalid relationship reference.'); });
+    if (new Set(state.relationships.map(r => JSON.stringify([r.from, r.to]))).size !== state.relationships.length) add([...path, 'relationships'], 'Directed relationship edges must be unique.');
+    state.players.forEach((p, i) => Object.entries(p.markers).forEach(([key, value]) => {
+      const marker = run.input.content.markers.find(m => m.id === key);
+      if (!marker || typeof value !== (marker.type === 'player' ? 'string' : marker.type) || (marker.type === 'player' && !state.players.find(v => v.id === value)?.alive)) add([...path, 'players', i, 'markers', key], 'Story marker must have a declared type and valid living target.');
+    }));
   };
   checkState(run.initialState, ['initialState']);
   let previous = run.initialState;
+  const eventIds = new Set<string>(); const assigned = new Map<number, Set<string>>(); const eliminatedAt = new Map<string, { sequence: number; rank: number }>();
   run.events.forEach((event, i) => {
     if (event.sequence !== i) add(['events', i, 'sequence'], 'Event sequences must be contiguous starting at zero.');
     const participants = Object.values(event.bindings);
+    if (eventIds.has(event.id)) add(['events', i, 'id'], 'Event IDs must be unique.'); eventIds.add(event.id);
+    const phaseAssigned = assigned.get(event.phase.index) ?? new Set<string>();
+    if (participants.some(p => phaseAssigned.has(p))) add(['events', i, 'bindings'], 'A contestant may have only one active assignment per phase.'); participants.forEach(p => phaseAssigned.add(p)); assigned.set(event.phase.index, phaseAssigned);
     if (new Set(participants).size !== participants.length || participants.some(p => !previous.players.find(x => x.id === p)?.alive)) add(['events', i, 'bindings'], 'Active participants must be distinct living players.');
-    if (!run.input.content.events.some(t => t.id === event.templateId) && !event.templateId.startsWith('fallback:')) add(['events', i, 'templateId'], 'Unknown event template.');
+    const template = run.input.content.events.find(t => t.id === event.templateId);
+    if (!template && !event.templateId.startsWith('fallback:')) add(['events', i, 'templateId'], 'Unknown event template.');
+    if (template && (canonicalStringify(Object.keys(event.bindings).sort()) !== canonicalStringify(template.roles.map(r => r.id).sort()) || canonicalStringify(event.effects) !== canonicalStringify(template.effects) || !template.phases.includes(event.phase.kind))) add(['events', i], 'Recorded roles, effects, and phase must agree with the snapshotted template.');
+    if (!participants.length) add(['events', i, 'bindings'], 'Recorded events need an active participant.');
+    if (template?.scope === 'local' && new Set(participants.map(id => previous.players.find(p => p.id === id)?.biome)).size > 1) add(['events', i, 'bindings'], 'Local encounters require participants in the same biome.');
     checkState(event.state, ['events', i, 'state']);
     event.state.players.forEach(p => { if (p.alive && !previous.players.find(x => x.id === p.id)?.alive) add(['events', i, 'state'], 'Eliminated players cannot return.'); });
-    event.facts.forEach((f, j) => { if ((f.actorId && !ids.has(f.actorId)) || (f.targetId && !ids.has(f.targetId))) add(['events', i, 'facts', j], 'Fact references an unknown player.'); });
-    if (event.confessional && (!ids.has(event.confessional.speakerId) || (!event.state.players.find(p => p.id === event.confessional!.speakerId)?.alive && !event.confessional.exit))) add(['events', i, 'confessional'], 'Confessional must be living or an immediate exit interview.');
+    const eliminated = previous.players.filter(p => p.alive && !event.state.players.find(v => v.id === p.id)?.alive);
+    eliminated.forEach(p => {
+      eliminatedAt.set(p.id, { sequence: i, rank: event.state.players.filter(v => v.alive).length + 1 });
+      if (!event.facts.some(f => f.type === 'elimination' && f.targetId === p.id) || !event.effects.some(e => e.kind === 'eliminate' && event.bindings[e.role] === p.id)) add(['events', i, 'facts'], 'Every elimination must have a matching committed effect and fact.');
+    });
+    event.state.players.forEach(p => {
+      const before = previous.players.find(v => v.id === p.id);
+      let position = before?.biome;
+      const movements = event.facts.filter(f => f.type === 'move' && f.actorId === p.id);
+      for (const movement of movements) {
+        if (!movement.biome || !run.input.content.biomes.find(b => b.id === position)?.adjacent.includes(movement.biome)) add(['events', i, 'facts'], 'Every movement fact must follow an adjacent route.');
+        position = movement.biome;
+      }
+      if (before && p.biome !== position) add(['events', i, 'state', 'players'], 'Location changes must match explicit adjacent movement facts.');
+    });
+    previous.items.forEach(item => {
+      const after = event.state.items.find(v => v.id === item.id);
+      if (!after || after.definitionId !== item.definitionId || (item.destroyed && !after.destroyed)) { add(['events', i, 'state', 'items'], 'Existing item instances cannot disappear, change definition, or return after destruction.'); return; }
+      const facts = event.facts.filter(f => f.itemId === item.id);
+      if (!item.destroyed && after.destroyed && !facts.some(f => f.type === 'destroy')) add(['events', i, 'facts'], 'Item destruction requires a matching recorded fact.');
+      if (item.ownerId !== after.ownerId) {
+        const transfer = item.ownerId && after.ownerId && facts.some(f => (f.type === 'transfer' && f.actorId === item.ownerId && f.targetId === after.ownerId) || (f.type === 'theft' && f.actorId === after.ownerId && f.targetId === item.ownerId));
+        const release = !item.ownerId || facts.some(f => (f.type === 'drop' || f.type === 'destroy') && f.actorId === item.ownerId);
+        const acquire = !after.ownerId || facts.some(f => f.type === 'acquire' && f.actorId === after.ownerId);
+        if (!transfer && !(release && acquire)) add(['events', i, 'facts'], 'Item ownership changes require acquisition, transfer, theft, or loss facts.');
+      }
+    });
+    event.state.items.filter(item => !previous.items.some(v => v.id === item.id)).forEach(item => { if (!event.facts.some(f => f.type === 'acquire' && f.itemId === item.id)) add(['events', i, 'facts'], 'New item instances require an acquisition fact.'); });
+    event.facts.forEach((f, j) => {
+      if ((f.actorId && !ids.has(f.actorId)) || (f.targetId && !ids.has(f.targetId))) add(['events', i, 'facts', j], 'Fact references an unknown player.');
+      const item = f.itemId ? event.state.items.find(v => v.id === f.itemId) ?? previous.items.find(v => v.id === f.itemId) : undefined;
+      if ((f.itemId && !item) || (f.itemDefinitionId && !f.itemDefinitionId.startsWith('signature:') && !run.input.content.items.some(v => v.id === f.itemDefinitionId)) || (item && f.itemDefinitionId && item.definitionId !== f.itemDefinitionId)) add(['events', i, 'facts', j], 'Fact references an unknown or inconsistent item.');
+      if (f.type === 'elimination' && (!f.targetId || !eliminated.some(p => p.id === f.targetId))) add(['events', i, 'facts', j], 'Elimination facts must match a contestant eliminated in this event.');
+      if (f.sourceEvent !== undefined && !f.sourceRunId && f.sourceEvent >= i) add(['events', i, 'facts', j, 'sourceEvent'], 'A local callback must cite an earlier event.');
+      if (f.type === 'revenge' && (f.sourceEvent === undefined || !run.events[f.sourceEvent]?.facts.some(prior => ['theft', 'betrayal', 'elimination'].includes(prior.type) && prior.actorId === f.targetId && prior.targetId === f.actorId))) add(['events', i, 'facts', j], 'Revenge must cite an actual earlier hostile action against the responding player.');
+      if (f.type === 'lore' && !run.input.lore.facts.some(l => l.sourceRunId === f.sourceRunId && (f.sourceEvent === undefined || l.eventSequences.includes(f.sourceEvent)) && (!f.actorId || l.playerIds.includes(f.actorId)))) add(['events', i, 'facts', j], 'A historical callback must cite the snapshotted lore context.');
+    });
+    if (event.confessional) {
+      const c = event.confessional; const beforeAlive = previous.players.find(p => p.id === c.speakerId)?.alive; const afterAlive = event.state.players.find(p => p.id === c.speakerId)?.alive;
+      if (!participants.includes(c.speakerId) || !beforeAlive || (c.exit ? afterAlive : !afterAlive) || !run.input.content.confessionals.some(t => t.id === c.templateId)) add(['events', i, 'confessional'], 'A confessional must belong to an involved living player or an immediate exit interview using a known template.');
+    }
     previous = event.state;
   });
   const living = previous.players.filter(p => p.alive);
   if (living.length !== 1 || living[0].id !== run.winnerId) add(['winnerId'], 'The final snapshot must contain exactly the recorded winner.');
   if (run.placements.length !== ids.size || new Set(run.placements.map(p => p.playerId)).size !== ids.size || run.placements.some(p => !ids.has(p.playerId) || (p.eventSequence !== null && p.eventSequence >= run.events.length))) add(['placements'], 'Placements must cover the cast with valid event references.');
-  run.awards.forEach((a, i) => { if (a.recipientIds.some(p => !ids.has(p)) || a.eventSequences.some(n => n >= run.events.length)) add(['awards', i], 'Award evidence must refer to this run.'); });
+  run.placements.forEach((p, i) => { const eliminated = eliminatedAt.get(p.playerId); if (p.playerId === run.winnerId ? p.rank !== 1 || p.eventSequence !== null : !eliminated || p.rank !== eliminated.rank || p.eventSequence !== eliminated.sequence) add(['placements', i], 'Placement rank and elimination event must match the recorded timeline.'); });
+  const awardFactTypes: Record<string, string> = { eliminations: 'elimination', betrayal: 'betrayal', revenge: 'revenge', curses: 'curse', assistance: 'assistance' };
+  run.awards.forEach((a, i) => {
+    if (a.recipientIds.some(p => !ids.has(p)) || !a.eventSequences.length || a.eventSequences.some(n => n >= run.events.length)) add(['awards', i], 'Award evidence must refer to this run.');
+    const factType = awardFactTypes[a.id];
+    if (factType && a.recipientIds.some(id => !a.eventSequences.some(n => run.events[n]?.facts.some(f => f.type === factType && f.actorId === id)))) add(['awards', i], 'Award recipients need matching structured evidence for this category.');
+  });
 });
 export const PlaybackSaveSchema = z.object({ runId: id, cursor: z.number().int().nonnegative(), revision: z.number().int().nonnegative(), updatedAt: z.string() }).strict();
 export const SeasonEntrySchema = z.object({ runId: id, winnerId: id, castTitle: label, playerIds: z.array(id), completedAt: z.string(), lore: z.array(LoreFactSchema) }).strict();
-export const SeasonHistorySchema = z.object({ version: z.literal(1), seasons: z.array(SeasonEntrySchema) }).strict();
+export const SeasonHistorySchema = z.object({ version: z.literal(1), seasons: z.array(SeasonEntrySchema) }).strict().superRefine((value, ctx) => { if (new Set(value.seasons.map(s => s.runId)).size !== value.seasons.length) ctx.addIssue({ code: 'custom', path: ['seasons'], message: 'Completed seasons must have unique run IDs.' }); });
 export const CastEnvelopeSchema = z.object({ kind: z.literal('cast'), schemaVersion: z.literal(1), cast: CastSchema }).strict();
 export const RunEnvelopeSchema = z.object({ kind: z.literal('run'), schemaVersion: z.literal(1), run: RunRecordSchema, cursor: z.number().int().nonnegative() }).strict().superRefine((v, ctx) => { if (v.cursor > v.run.events.length) ctx.addIssue({ code: 'custom', path: ['cursor'], message: 'Cursor exceeds the recorded event count.' }); });
-export const HistoryEnvelopeSchema = z.object({ kind: z.literal('history'), schemaVersion: z.literal(1), history: SeasonHistorySchema, runs: z.array(RunRecordSchema) }).strict().superRefine((v, ctx) => { const ids = new Set(v.runs.map(r => r.id)); v.history.seasons.forEach((s, i) => { if (!ids.has(s.runId)) ctx.addIssue({ code: 'custom', path: ['history', 'seasons', i, 'runId'], message: 'History backup is missing a referenced run.' }); }); });
+export const HistoryEnvelopeSchema = z.object({ kind: z.literal('history'), schemaVersion: z.literal(1), history: SeasonHistorySchema, runs: z.array(RunRecordSchema) }).strict().superRefine((v, ctx) => { const ids = new Set(v.runs.map(r => r.id)); if (ids.size !== v.runs.length) ctx.addIssue({ code: 'custom', path: ['runs'], message: 'Backup run IDs must be unique.' }); v.history.seasons.forEach((s, i) => { if (!ids.has(s.runId)) ctx.addIssue({ code: 'custom', path: ['history', 'seasons', i, 'runId'], message: 'History backup is missing a referenced run.' }); }); });
 
 export type BiomeId = z.infer<typeof BiomeIdSchema>;
 export type Trait = z.infer<typeof TraitSchema>;

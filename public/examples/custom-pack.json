@@ -1,0 +1,31 @@
+{
+  "id": "quiet-trails-example",
+  "version": "1.0.0",
+  "title": "Quiet Trails Example",
+  "biomes": [
+    { "id": "forest", "name": "Forest", "description": "A shaded trail.", "adjacent": ["swamp", "mountains"] },
+    { "id": "swamp", "name": "Swamp", "description": "A reed-lined crossing.", "adjacent": ["forest", "desert"] },
+    { "id": "mountains", "name": "Mountains", "description": "An exposed pass.", "adjacent": ["forest", "tundra"] },
+    { "id": "desert", "name": "Desert", "description": "A sandy route.", "adjacent": ["swamp", "ruins"] },
+    { "id": "tundra", "name": "Tundra", "description": "A marked snow trail.", "adjacent": ["mountains", "ruins"] },
+    { "id": "ruins", "name": "Ruins", "description": "A former broadcast station.", "adjacent": ["desert", "tundra"] }
+  ],
+  "items": [],
+  "markers": [],
+  "events": [
+    {
+      "id": "quiet-trail",
+      "category": "survival",
+      "phases": ["opening", "day", "night"],
+      "tones": ["mixed"],
+      "scope": "local",
+      "roles": [{ "id": "actor" }],
+      "conditions": [],
+      "weight": 1,
+      "cooldown": 0,
+      "variants": ["{actor.name} takes the next marked trail into {biome}."],
+      "effects": [{ "kind": "move", "role": "actor", "biome": "adjacent" }]
+    }
+  ],
+  "confessionals": []
+}
