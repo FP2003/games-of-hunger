@@ -4,11 +4,11 @@ The planning documents remain the product brief. This file records implementatio
 
 | Package | Owner | Status | Checkpoint / next action |
 | --- | --- | --- | --- |
-| WP00 | Master + foundation agent | Active | Root tooling and executable contracts |
-| WP01 | Engine agent (pending Gate A) | Unassigned | Deterministic simulation and mechanics |
-| WP02 | Content agent (pending Gate A) | Unassigned | Original pack and narrative |
-| WP03 | UI agent (next available slot) | Unassigned | Cast, setup, playback, results, history |
-| WP04 | Storage agent (pending Gate A) | Unassigned | IndexedDB, portable replay and lore |
+| WP00 | Master + foundation agent | Verified | Gate A: typecheck, 7 contract tests, production build pass |
+| WP01 | Engine agent | Active | Deterministic simulation and mechanics |
+| WP02 | Content agent | Active | Original pack and narrative |
+| WP03 | Master (agent review later) | Active | Cast, setup, playback, results, history |
+| WP04 | Storage agent | Active | IndexedDB, portable replay and lore |
 | WP05 | Master | Active | Integrate, test, browser verification and release notes |
 
 ## Repository
@@ -17,4 +17,5 @@ Existing remote main contains the original license. Local planning files will be
 
 ## Verification
 
-No implementation milestone has passed yet.
+M0 / Gate A passed: `npm run check` on the shared foundation (7 tests). Node 22.16.0; React 19, Vite 8, Vitest 5, Zod 4. Dependency audit: zero vulnerabilities.
+

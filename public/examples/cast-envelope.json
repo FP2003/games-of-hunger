@@ -1,0 +1,13 @@
+{
+  "kind": "cast",
+  "schemaVersion": 1,
+  "cast": {
+    "version": 1,
+    "title": "The Campfire Cast",
+    "players": [
+      { "id": "alex", "name": "Alex", "traits": ["loyal"] },
+      { "id": "riley", "name": "Riley", "traits": ["dramatic"] }
+    ],
+    "relationships": []
+  }
+}

@@ -6,11 +6,11 @@ Stories use original, authored templates and deterministic simulation rules. No 
 
 ## Project status
 
-Planning only. This repository currently contains the implementation brief and assignable work packages, not an application. No development, build, or deployment commands are available yet.
+Implementation is underway. See [implementation status](docs/IMPLEMENTATION_STATUS.md) for completed gates and verification evidence.
 
 Intended GitHub repository: https://github.com/FP2003/games-of-hunger
 
-Proposed stack: TypeScript, React, Vite, custom CSS, JSON content packs, and browser-local persistence.
+Stack: TypeScript, React, Vite, custom CSS, validated content packs, and browser-local persistence.
 
 ## Start here
 
@@ -35,3 +35,4 @@ Proposed stack: TypeScript, React, Vite, custom CSS, JSON content packs, and bro
 | WP05 | [Integration and quality](docs/work-packages/05-integration-and-quality.md) | Continuous coordination; final gate after WP01–WP04 |
 
 The master agent owns sequencing and shared-file integration. Each package contains its own scope, file ownership, deliverables, acceptance criteria, and handoff requirements.
+

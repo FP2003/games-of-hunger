@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "title": "The Campfire Cast",
+  "players": [
+    { "id": "alex", "name": "Alex", "traits": ["loyal"], "signatureItem": "a dented kettle" },
+    { "id": "riley", "name": "Riley", "traits": ["reckless", "dramatic"] },
+    { "id": "morgan", "name": "Morgan", "traits": ["resourceful"] },
+    { "id": "jules", "name": "Jules", "traits": ["sneaky", "cautious"] }
+  ],
+  "relationships": [
+    { "from": "alex", "to": "riley", "trust": 40, "grudge": 0 },
+    { "from": "riley", "to": "alex", "trust": 40, "grudge": 0 }
+  ]
+}
