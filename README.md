@@ -28,7 +28,7 @@ npm run check
 npm run preview
 ```
 
-`npm run check` runs strict type checking, automated tests, and a production build. `npm run preview` serves that build. `npm run test:watch` watches tests. The GitHub workflow runs the same check on pushes and pull requests.
+`npm run check` runs strict type checking, domain/storage tests, a production build, and browser journey tests. `npm run preview` serves that build. `npm run test:watch` watches domain tests; `npm run test:browser` builds and runs the browser journeys. On Windows, browser tests use installed Microsoft Edge by default. On other systems, first run `npx playwright install chromium`. Set `PLAYWRIGHT_CHANNEL` to use a different installed browser channel. The GitHub workflow installs Chromium and runs the same check on pushes and pull requests.
 
 ## Playing and customising
 
@@ -38,9 +38,13 @@ Player IDs preserve identity across edits and seasons. Duplicate names are suppo
 
 ## Saves and backups
 
-Casts, portrait assets, interrupted replays and completed seasons are stored in this browser's IndexedDB. Progress is saved after every reveal. Reload and choose **Resume broadcast** to continue. A conflict with another tab is reported; export your in-memory replay before closing if a save fails. If IndexedDB cannot open, an explicitly labelled temporary session remains playable.
+Casts, portrait assets, interrupted replays and completed seasons are stored in this browser's IndexedDB. Cast drafts save automatically, including incomplete names, settings, pasted names and up to 20 character removals that can be undone. **Save cast** updates the selected named cast; **Save as new cast** creates another slot. Choose a lineup under **Saved casts**. Removing a saved slot leaves the current draft available.
 
-Export cast JSON to reuse identities, full replay JSON for portable playback, and history JSON for completed-season backups. Full replay exports contain future events, including when exported during an unfinished game. Replay and history exports snapshot the content, settings, lore, rendered story and states; a shared seed alone is not a portable game. Portrait image bytes are omitted from JSON; missing local portraits fall back to initials.
+Progress is saved after every reveal. Reload and choose **Resume broadcast**, or pick any story under **Unfinished broadcasts**. Each story retains its own cursor; opening a replay leaves your editor draft intact. New saves store the replay once; subsequent reveals update only progress metadata. Existing version-1 saves remain compatible. A conflict with another tab is reported; export your in-memory replay, retry saving, or explicitly load saved progress. If IndexedDB cannot open, an explicitly labelled temporary session remains playable. Startup loads casts, drafts, playback and history independently so one damaged category does not hide the others.
+
+Export cast JSON to reuse identities, full replay JSON for portable playback, and history JSON for completed-season backups. Imports have no fixed file-size limit, so the app can restore its own backups above 30 MB; available browser memory still bounds very large files. Full replay exports contain future events, including when exported during an unfinished game. Replay and history exports snapshot the content, settings, lore, rendered story and states; a shared seed alone is not a portable game. Revealed story logs, phase recaps and text recap exports include confessionals and exit interviews with speaker labels.
+
+Portrait image bytes are omitted from JSON; missing local portraits fall back to initials. Unused portraits are reclaimed automatically after a minute without portrait changes. **Free unused portrait space** also removes images no longer referenced by saved casts, stored replays, the current draft, undo history or the open game. Uploads younger than one minute are retained so cleanup cannot interrupt a recent upload.
 
 Completed seasons count once per canonical run ID. An identical seed, cast, settings, content and lore is the same season; choose a new seed for another season. Lore is optional, factual, source-backed and matched by player ID. It never restores previous survival state or inventory.
 

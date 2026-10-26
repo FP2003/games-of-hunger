@@ -145,6 +145,14 @@ Events need sufficient generic fallbacks for small casts and sparse eligible con
 
 An asynchronous `GameRepository` interface must cover cast CRUD, run storage, playback-save read/write, completed history read/write, and portrait-asset access. WP00 specifies methods and error results; WP04 implements the browser adapter and an in-memory test adapter.
 
+The version-1 database has additive metadata for editor drafts, run summaries and per-run playback cursors. Named cast slot IDs are separate from player IDs and cast titles; `listSavedCasts` exposes slot IDs while `listCasts` remains compatible. `EditorDraft` has its own versioned schema and permits incomplete names, titles and seeds. It also stores pending pasted names and a bounded removal undo stack. Drafts must pass the ordinary cast/settings validators before generation or cast export.
+
+`savePlayback` validates and stores/compares the immutable replay. `updatePlayback` updates only lightweight metadata after initial registration; older records acquire metadata on first update. Both methods use the active playback revision for optimistic concurrency, increment it atomically, and retain a separate cursor for each run. `listUnfinishedRuns` exposes only spoiler-safe titles/cursors/timestamps and excludes completed seasons. Existing active-only saves are discoverable without a database reset or version change.
+
+Startup reads independent data categories separately. A failed draft read disables automatic draft overwriting, preserving an unreadable or newer existing record. Viewing a replay does not replace the editor draft. Character-removal undo restores the original ID, position, customization and still-valid directed relationships while retaining later edits to other characters.
+
+Portrait collection runs after a minute without changes to portrait references, or on explicit request. It scans saved casts, all stored runs, the draft and its undo history, plus caller-supplied in-memory references. It reclaims only unreferenced assets older than one minute (legacy unreferenced assets without timestamps can be reclaimed immediately). Unknown or invalid stored references cause cleanup to fail without deleting assets.
+
 Playback cursor = count of revealed events, from zero through `run.events.length`. Cursor zero displays initial state; cursor N displays event N-1's post-state. Final results are unlocked only when the complete run has been revealed.
 
 The UI triggers completed-season recording after the final reveal. `applyCompletedRun` is idempotent by canonical run ID. Reopening results or importing an existing run must not duplicate wins or lore.
@@ -152,6 +160,8 @@ The UI triggers completed-season recording after the final reveal. `applyComplet
 Cast, portable run, and history export envelopes each include `kind` and `schemaVersion`. The lightweight cast example's `version` is the cast-definition version inside the cast export envelope; direct lightweight input is also supported. WP00 provides fixtures for both forms so importers do not confuse them.
 
 Portable run exports include all information needed for playback, including rendered text and saved snapshots. A seed-only export is not a portable replay. Old run records remain readable without installing an old content pack.
+
+JSON imports have no fixed byte/character cap that could reject an otherwise valid app export. Semantic schema validation and transactional history import still apply. Very large imports require sufficient browser memory. Revealed logs, phase recaps and text recap exports retain each event's confessional and its speaker/exit label.
 
 Missing portraits fall back to initials. First-release portrait inputs should support local uploads and built-in assets. Arbitrary remote portrait URLs and ZIP asset archives can be deferred.
 

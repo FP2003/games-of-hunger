@@ -1,10 +1,10 @@
 # Prototype verification
 
-Verified on 26 October 2026 using Windows, Node 22.16.0 and the in-app Chromium browser. No website deployment was performed.
+Verified on 26 October 2026 using Windows and Node 22.16.0. The original manual checks used the in-app Chromium browser; the review follow-up uses automated Playwright journeys in installed Microsoft Edge against the production build. No website deployment was performed.
 
 ## Final automated gate
 
-`npm run check`: strict type checking passes; 84 tests across 8 files pass; production build passes. The final build contains approximately 415 kB of JavaScript (126 kB gzip) and 20 kB of CSS (5 kB gzip). `npm audit` after removing unused tooling reports zero vulnerabilities.
+`npm run check`: strict type checking, 99 domain/storage tests across 11 files, 14 production-browser journeys and the production build pass. The final build contains approximately 424 kB of JavaScript (128 kB gzip) and 22 kB of CSS (5 kB gzip). Installing the browser test tooling reported zero dependency vulnerabilities.
 
 The suite includes 105 seeded engine runs spanning 2, 3, 12, 24 and 48 players at all danger levels. It verifies deterministic output, independent wording, bounded fallback termination, no resurrection, living distinct participants, phase assignment limits, ownership, local encounters, movement, simultaneous placements, curses, markers, nemeses, reciprocal alliances and fact-based awards. Import tests reject 25 malformed/forged replay scenarios. Repository tests exercise memory and IndexedDB semantics using fake-indexeddb; the production browser separately exercised actual IndexedDB.
 
@@ -47,7 +47,15 @@ UI yields before synchronous generation to display its loading state. These meas
 
 - Browser-local data does not sync across devices; JSON backups are the transfer path.
 - Portrait assets remain local and are not embedded in JSON. Initials recover missing portraits.
-- Import limits are 30 MB. Unknown versions reject without destructive migration; current schema is version 1.
-- Only the current browser was manually exercised. Safari/Firefox, screen readers, device-specific quota behavior and comprehensive assistive-technology coverage remain unverified.
+- JSON imports have no fixed file-size cap; actual exported history and file-picker replay imports above 30 MB are verified. Very large backups remain bounded by available browser memory. Unknown versions reject without destructive migration; current database/envelope/draft schemas are version 1.
+- The original in-app Chromium browser was manually exercised, and installed Microsoft Edge now runs 14 automated journeys. Safari/Firefox, screen readers, device-specific quota behavior and comprehensive assistive-technology coverage remain unverified. CI is configured to install Chromium; a local Edge pass does not claim a remote CI result.
 - Cold-start offline installation, cloud multiplayer, alternate settings and inside-joke packs remain backlog scope.
 - GitHub Actions is configured; local passing checks do not claim a hosted CI result. See GitHub for remote workflow status after push.
+
+## Follow-up review verification
+
+All ten requested review improvements are implemented; the requirement/evidence mapping is in `IMPLEMENTATION_STATUS.md`. New tests cover incomplete draft persistence, independent named slots, multiple unfinished cursors, legacy version-1 metadata migration, progress-only writes, protected portrait collection and backups larger than the former import limit. Existing run identity, semantic replay validation, conflict handling and atomic history-import checks still pass.
+
+The Playwright suite starts the actual production preview and exercises 14 user journeys with real IndexedDB: draft reload, cast slots, undo, multiple broadcasts, autoplay/phase completion, keyboard and spoiler boundaries, confessional log/export, quota retry, corrupt playback, unreadable-draft preservation, two-tab conflict recovery, portrait cleanup (manual and automatic), large-file import, and a 390px mobile viewport. Desktop and mobile screenshots of the new cast toolbar were inspected; the mobile test also checks viewport overflow. Failure screenshots/traces and success layout screenshots are written under ignored `test-results/`.
+
+No deployment, push, account integration or cloud service was added. Existing databases remain version 1; new draft/summary/per-run-cursor metadata is additive. Cast and replay exports continue to omit portrait bytes.
