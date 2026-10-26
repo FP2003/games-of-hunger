@@ -10,8 +10,8 @@ import type { AppServices } from './services';
 
 async function launch() {
   let storageWarning: string | undefined;
-  const repository = await createIndexedDbRepository().catch(() => {
-    storageWarning = 'Browser storage is unavailable. This session is temporary; export your cast and replay before closing the page.';
+  const repository = await createIndexedDbRepository().catch(error => {
+    storageWarning = `${error instanceof Error ? error.message : 'Browser storage is unavailable.'} This session is temporary; export your cast and replay before closing the page.`;
     return createMemoryRepository();
   });
   const services: AppServices = {

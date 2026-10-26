@@ -6,3 +6,24 @@
 label.button{position:relative;overflow:hidden}label.button input[type=file]{display:block;position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer}label.button:focus-within{outline:3px solid var(--acid);outline-offset:4px}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 
+
+/* Saved workspace controls */
+.unfinished-panel{margin:20px 0;padding:24px}.unfinished-panel h3{margin-top:0}.unfinished-row{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:16px 0;border-top:1px solid var(--line)}.unfinished-row strong,.unfinished-row small{display:block}.unfinished-row small{font-size:11px;color:var(--muted);margin-top:6px}.unfinished-row button{font-size:12px;max-width:55%;overflow-wrap:anywhere}.cast-library{margin-top:24px;padding:20px}.cast-library h3{margin-top:0}.cast-library .full{margin-top:8px}.draft-status{color:var(--muted);font-size:11px}.bottom-bar .button-row{justify-content:flex-end}.save-recovery{padding:20px;margin-bottom:20px}.save-recovery p{font-size:13px}
+@media(max-width:720px){.unfinished-panel{padding:20px}.unfinished-row{align-items:stretch;flex-direction:column;gap:12px}.unfinished-row button{max-width:100%}.bottom-bar .button-row{display:grid;grid-template-columns:1fr 1fr}.cast-library{margin-top:16px}}
+
+.cast-library{display:flex;align-items:flex-end;flex-wrap:wrap;gap:12px;margin:0 0 24px;padding:20px}.cast-library h3{width:100%;margin:0 0 4px}.cast-library .field{flex:1;min-width:200px;margin:0}.cast-library .full{width:auto;margin:0;font-size:11px}
+@media(max-width:720px){.cast-library{margin:0 0 20px}.cast-library .field{flex-basis:100%;min-width:0}.cast-library .full{flex:1 1 45%}}
+
+/* Relationship maps share the same controls in the cast and character editor. */
+.cast-layout{display:block}
+.cast-sidebar{margin:20px 0}
+.cast-sidebar .add-panel{display:grid;grid-template-columns:180px minmax(180px,1fr) 210px;gap:8px 22px;align-items:center;padding:20px}
+.cast-sidebar .add-panel .panel-icon,.cast-sidebar .tip{display:none}
+.cast-sidebar .add-panel h3{grid-column:1;grid-row:1;margin:0;font-size:24px}
+.cast-sidebar .add-panel>p:not(.tiny){grid-column:1;grid-row:2;margin:0;align-self:start}
+.cast-sidebar .add-panel .field{grid-column:2;grid-row:1 / span 3;margin:0}
+.cast-sidebar .add-panel textarea{height:90px;min-height:72px}
+.cast-sidebar .add-panel button{grid-column:3;font-size:11px;margin:0}
+.cast-sidebar .add-panel .tiny{grid-column:1;grid-row:3;margin:0;font-size:9px}
+.cast-sidebar .example-link{text-align:left;margin:10px 0 0;font-size:10px}
+@media(max-width:720px){.cast-sidebar .add-panel{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px;padding:16px}.cast-sidebar .add-panel h3{grid-column:1 / -1;grid-row:auto}.cast-sidebar .add-panel>p:not(.tiny){grid-column:1 / -1;grid-row:auto}.cast-sidebar .add-panel .field{grid-column:1 / -1;grid-row:auto}.cast-sidebar .add-panel button{grid-column:auto;grid-row:auto;padding:9px;font-size:10px}.cast-sidebar .add-panel .tiny{grid-column:1 / -1;grid-row:auto}}
