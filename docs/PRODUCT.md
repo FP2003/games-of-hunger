@@ -23,7 +23,7 @@ The inspiration is the cast-and-event experience of the BrantSteele Hunger Games
 1. Create a cast by typing names, pasting one name per line, or importing JSON.
 2. Optionally edit portraits, personality traits, signature items, and relationships.
 3. Choose game settings and optionally enter a seed.
-4. Start a game and reveal one event or phase at a time, or use autoplay.
+4. Start a game and reveal a whole bloodbath, day or night at a time, or use phase autoplay. Events and tributes are grouped by region, with fallen-tribute roll calls after each night.
 5. Follow survivors, locations, inventories, rivalries, and confessionals without seeing future results.
 6. Reveal the winner, awards, and recap.
 7. Retain the completed season in history and optionally use its lore in a new game.
@@ -34,12 +34,12 @@ The inspiration is the cast-and-event experience of the BrantSteele Hunger Games
 | --- | --- |
 | Cast | 2–48 players; names required; stable IDs; optional portraits, traits, and signature items. |
 | Arena | Forest, swamp, mountains, desert, tundra, and ruins; location affects event eligibility and movement. |
-| Simulation | Opening scramble, alternating day/night phases, escalating finale, one winner. |
+| Simulation | Bloodbath with risky central supplies or safe escapes, regional encounters and border travel, alternating day/night phases, sponsor gifts, escalating finale, one winner. |
 | Stories | Original event text, variants, repetition controls, consequences, connected event chains. |
 | Items | Unique item ownership, transfers, theft, loss, and several mechanical curses. |
 | Relationships | Directed trust and grudges, derived nemeses, alliances, betrayal, revenge. |
 | Confessionals | Authored reactions tied to personality and actual events; repetition control. |
-| Watching | Next event, next phase, autoplay, pause, survivor panel, phase recap, presentation mode. |
+| Watching | Whole-phase reports by region, next phase, autoplay, pause, regional survivor panel, nightly fallen-tribute recap, presentation mode. |
 | Results | Winner, placements, supported award categories, deterministic recap from history. |
 | Persistence | Casts, interrupted playback, completed seasons, export/import, optional lore carryover. |
 

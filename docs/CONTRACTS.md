@@ -65,12 +65,14 @@ Example lightweight input:
 
 Required settings: seed string, danger (`low`, `normal`, `high`), tone (`dramatic`, `absurd`, `mixed`), personality influence (`off`, `normal`, `strong`), and lore carryover boolean. Content selection is identified and snapshotted in the run input.
 
-- Initial placement puts players in the opening area of one arena; the opening scramble may assign them to biomes.
-- Phase order: opening, day 1, night 1, day 2, night 2, and so on; finale when only two players remain or the phase cap is reached.
+- Initial placement puts players in the central ruins. The default bloodbath offers central supply collection, lethal contests for extra supplies, or safe escape into an adjacent outer region.
+- Phase order: opening, day 1, night 1, day 2, night 2, and so on; finale when only two players remain or Day 8 begins.
+- Playback advances whole phases and groups events and living tributes by region. Each night is followed by a separate fallen-tribute page, with no additional events revealed until advancing to the next day. Roll calls include deaths since the preceding night; the first includes the bloodbath. An early ending receives a final memorial before results. The page choice is an optional tab-local reading preference; the authoritative saved cursor remains the number of revealed events.
+- Default cross-region encounters require explicit travel along an adjacent route before interaction; separated finalists return to the centre. Ordinary sponsor-gift events create supplies in living recipients' inventories.
 - Every living player gets at most one active event assignment per phase. Events may involve multiple distinct players. Reactive consequences and confessionals do not consume another assignment.
 - Movement is an explicit event/effect, not a silent random relocation.
 - Check victory after each applied event; stop immediately when one survivor remains.
-- Hard cap: 60 ordinary phases after opening. Finale then uses original fallback events to eliminate at least one player per step while retaining one survivor.
+- Hard cap: eight in-game days. Ordinary events stop after Night 7 at the latest. Finale bouts eliminate at least one player per step while retaining one survivor, using authored or fallback events. Bouts have distinct phase indices for assignment/cooldown bookkeeping but share the finale's starting day, so the remaining confrontations cannot extend the calendar past Day 8. Existing imported replays keep their recorded timelines.
 - Danger changes event weighting, not eligibility or validity rules. Low danger must still finish.
 - Personalities alter selection weights within documented bounds; they never guarantee survival or a particular action.
 
@@ -148,6 +150,8 @@ An asynchronous `GameRepository` interface must cover cast CRUD, run storage, pl
 The version-1 database has additive metadata for editor drafts, run summaries and per-run playback cursors. Named cast slot IDs are separate from player IDs and cast titles; `listSavedCasts` exposes slot IDs while `listCasts` remains compatible. `EditorDraft` has its own versioned schema and permits incomplete names, titles and seeds. It also stores pending pasted names and a bounded removal undo stack. Drafts must pass the ordinary cast/settings validators before generation or cast export.
 
 `savePlayback` validates and stores/compares the immutable replay. `updatePlayback` updates only lightweight metadata after initial registration; older records acquire metadata on first update. Both methods use the active playback revision for optimistic concurrency, increment it atomically, and retain a separate cursor for each run. `listUnfinishedRuns` exposes only spoiler-safe titles/cursors/timestamps and excludes completed seasons. Existing active-only saves are discoverable without a database reset or version change.
+
+`deleteUnfinishedRun(runId, expectedRevision)` atomically removes the selected unfinished replay, its run metadata and per-game progress. It also clears the active pointer when it references that run, returning the remaining active save or null. Deletion checks the selected game's listed revision, rejects completed/history-backed runs, supports legacy active-only saves and leaves other games, casts, drafts and history untouched. The UI queues deletion after pending progress writes and clears any matching open replay and resume banner after success.
 
 Startup reads independent data categories separately. A failed draft read disables automatic draft overwriting, preserving an unreadable or newer existing record. Viewing a replay does not replace the editor draft. Character-removal undo restores the original ID, position, customization and still-valid directed relationships while retaining later edits to other characters.
 

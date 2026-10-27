@@ -1,4 +1,6 @@
 import type { CastDefinition, ContentPack, GameState, RunInput, Relationship, Effect, EventFact, RandomSource, EventTemplate, Phase, Condition } from '../domain';
+import { biomeStatus, canEnter } from './arena';
+import { BIOME_TRANSITIONS } from '../domain';
 
 const clone = <T>(v: T): T => structuredClone(v);
 const compare = (a: string, b: string) => a < b ? -1 : a > b ? 1 : 0;
@@ -33,7 +35,7 @@ export function applyEffects(before: GameState, effects: readonly Effect[], bind
   const item = (role: string, definitionId?: string) => { const p = player(role); const result = state.items.filter(i => i.ownerId === p.id && !i.destroyed && (!definitionId || i.definitionId === definitionId)).sort((a,b) => compare(a.id,b.id))[0]; if (!result) throw new Error('Item is unavailable.'); return result; };
   const record = (fact: EventFact) => facts.push(fact);
   const move = (role: string, destination: 'adjacent' | GameState['players'][number]['biome']) => {
-    const p = player(role); const adjacent = content.biomes.find(b => b.id === p.biome)?.adjacent ?? [];
+    const p = player(role); const adjacent = (content.biomes.find(b => b.id === p.biome)?.adjacent ?? []).filter(b => canEnter(state, b));
     const next = destination === 'adjacent' ? random.pick([...adjacent].sort(compare)) : destination;
     if (!adjacent.includes(next)) throw new Error('Movement must follow an adjacent route.');
     p.biome = next; state.items.filter(i => i.ownerId === p.id).forEach(i => { i.biome = next; }); record({ type: 'move', actorId: p.id, biome: next });
@@ -41,6 +43,13 @@ export function applyEffects(before: GameState, effects: readonly Effect[], bind
   try {
     for (const effect of effects) {
       switch (effect.kind) {
+        case 'biomeStatus': {
+          const previous = biomeStatus(state, effect.biome);
+          if (effect.biome === 'ruins' || !BIOME_TRANSITIONS[previous].includes(effect.status) || (effect.status === 'closed' && state.players.some(p => p.alive && p.biome === effect.biome))) throw new Error('Invalid biome transition.');
+          state.arena = [...(state.arena ?? []).filter(b => b.biome !== effect.biome), { biome: effect.biome, status: effect.status }].sort((a, b) => compare(a.biome, b.biome));
+          record({ type: 'arena', biome: effect.biome, biomeStatus: effect.status });
+          break;
+        }
         case 'move': move(effect.role, effect.biome); break;
         case 'createItem': {
           const p = player(effect.role); const def = content.items.find(i => i.id === effect.definitionId); if (!def) throw new Error('Unknown item.');
