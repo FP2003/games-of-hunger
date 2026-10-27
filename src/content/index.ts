@@ -3,6 +3,9 @@ import { contextualEncounters, finalConfrontations, injuryEncounters, openingEsc
 import { arenaScenes } from './arena';
 import { multikillScenes } from './multikills';
 import { personalityMarkers, personalityScenes } from './personality';
+import { nightScenes } from './night';
+import { weaponExchangeScenes, weaponItems, weaponScenes, weaponTrapScenes } from './weapons';
+import { withConfessionalVariety, withSceneVariety } from './variety';
 
 const ordinary = ['day', 'night'] as const;
 const allTones = ['dramatic', 'absurd', 'mixed'] as const;
@@ -21,9 +24,10 @@ export const biomes: ContentPack['biomes'] = [
   { id: 'mountains', name: 'The Mountains', description: 'Thin air, exposed ridges, and long views of bad decisions.', adjacent: ['forest', 'tundra', 'ruins'] },
   { id: 'desert', name: 'The Desert', description: 'Open sand and scarce water put every bargain under pressure.', adjacent: ['swamp', 'ruins'] },
   { id: 'tundra', name: 'The Tundra', description: 'A quiet white expanse where shelter becomes a currency.', adjacent: ['mountains', 'ruins'] },
-  { id: 'ruins', name: 'The Ruins', description: 'The central supply ground, with routes into every outer region.', adjacent: ['forest', 'swamp', 'mountains', 'desert', 'tundra'] },
+  { id: 'ruins', name: 'The Center Podium', description: 'The central supply ground, with routes into every outer region.', adjacent: ['forest', 'swamp', 'mountains', 'desert', 'tundra'] },
 ];
 export const items: ContentPack['items'] = [
+  ...weaponItems,
   { id: 'ration', name: 'sealed rations', description: 'Food with an optimistically distant expiry date.', tags: ['supplies'] },
   { id: 'rope', name: 'rescue rope', description: 'A sturdy length of rope with a questionable knot diagram.', tags: ['supplies', 'tool'] },
   { id: 'lantern', name: 'storm lantern', description: 'A small pool of light in an enormous arena.', tags: ['tool'] },
@@ -66,6 +70,20 @@ const sponsorships = ['ration', 'flask', 'blanket'].map((definitionId, i) => eve
   'An anonymous sponsor sends a water parcel to {actor.name} in {biome}. Inside is {item}.',
   'A silver sponsor parachute lands beside {actor.name} in {biome}, carrying {item} for the cold ahead.',
 ][i], [{ kind: 'createItem', role: 'actor', definitionId }], { weight: 0.55, cooldown: 4 }));
+
+const resupply = [false, true].map(arriving => event(`podium-resupply${arriving ? '-arrival' : ''}`, 'survival',
+  `A cargo drone resupplies the Center Podium with fresh food, water flasks, and emergency blankets. ${arriving ? '{actor.name} follows the delivery beacon back to the podium' : '{actor.name} opens the newly delivered crate'}, takes sealed rations, and sets out a water flask and an emergency blanket for the next tribute.`,
+  [
+    ...(arriving ? [{ kind: 'move' as const, role: 'actor', biome: 'ruins' as const }] : []),
+    { kind: 'createItem', role: 'actor', definitionId: 'ration' },
+    { kind: 'setMarker', role: 'actor', marker: 'podium-resupply-collected', value: true },
+    { kind: 'createItem', role: 'actor', definitionId: 'flask' },
+    { kind: 'dropItem', role: 'actor', definitionId: 'flask' },
+    { kind: 'createItem', role: 'actor', definitionId: 'blanket' },
+    { kind: 'dropItem', role: 'actor', definitionId: 'blanket' },
+  ],
+  { phases: ['day'], tones: [...allTones], schedule: { day: 3, group: 'podium-resupply' }, conditions: [{ kind: 'biome', role: 'actor', biomes: arriving ? biomes.filter(b => b.id !== 'ruins').map(b => b.id) : ['ruins'] }] }
+));
 
 // Cross-region encounters explicitly move a tribute along a shared border first.
 const crossings = biomes.flatMap(destination => (['social', 'conflict'] as const).map(category => event(`crossing-${category}-${destination.id}`, category,
@@ -180,7 +198,7 @@ const conflictLines: Record<BiomeId, [string, string]> = {
   mountains: ['{actor.name} crouches behind the ridge checkpoint and sweeps a branch across {target.name}\'s ankles. {target.name} tumbles off the exposed mountain path; the fall is fatal.', '{actor.name} shoves the mountain shelter door into {target.name}, knocking {target.object} onto the steps. Before {target.name} can stand, {actor.name} strikes with a heavy stone. {target.name} dies at the shelter entrance.'],
   desert: ['{actor.name} hides behind a desert checkpoint tank and stabs {target.name} in the abdomen as they round the corner. {target.name} crawls into the shade but dies from blood loss.', '{actor.name} chases {target.name} across a dune toward an abandoned quarry, then throws a stone at {target.possessive} legs. {target.name} loses footing at the quarry lip and falls to a fatal landing below.'],
   tundra: ['{actor.name} drags a frozen branch across the tundra shelter entrance as {target.name} runs inside. {target.name} trips onto the concrete threshold; {actor.name} follows with a fatal blow from a stone.', '{actor.name} stamps through the thin snow crust spanning a tundra crevasse, then jumps back as {target.name} approaches. The weakened bridge collapses beneath {target.name}, whose fall is fatal.'],
-  ruins: ['{actor.name} hooks a foot behind {target.name}\'s ankle beneath a closing station gate, then rolls clear. {target.name} cannot rise before the gate drops; the crushing injuries are fatal.', '{actor.name} waits behind the emergency beacon in the ruins, then strikes {target.name} with a broken pipe. {target.name} stumbles into a missing floor panel and falls to a fatal landing in the basement.'],
+  ruins: ['{actor.name} hooks a foot behind {target.name}\'s ankle beneath a closing station gate, then rolls clear. {target.name} cannot rise before the gate drops; the crushing injuries are fatal.', '{actor.name} waits behind the emergency beacon in the Center Podium, then strikes {target.name} with a broken pipe. {target.name} stumbles into a missing floor panel and falls to a fatal landing in the basement.'],
 };
 const conflict: EventTemplate[] = biomes.flatMap(b => conflictLines[b.id].map((text, i) => event(`${b.id}-contest-${i + 1}`, 'conflict', text, [{ kind: 'eliminate', role: 'target', credit: 'actor' }], { roles: pair, conditions: [biomeCondition(b.id)], weight: 1.5 })));
 [
@@ -211,14 +229,14 @@ const hazards: Record<BiomeId, [string, string]> = {
   mountains: ['{actor.name} takes a narrow mountain ledge beneath an unstable scree slope. Falling stones knock {actor.object} off the path, and the fall is fatal.', '{actor.name} leaves the marked mountain pass to cross a snow-covered gully. The snow bridge collapses, dropping {actor.object} into the ravine. {actor.name} dies on impact.'],
   desert: ['{actor.name} walks across the desert through the midday heat, searching for a water checkpoint. Disoriented, {actor.name} circles the same dune until collapsing. Heatstroke proves fatal before shelter is found.', '{actor.name} descends into a desert service tunnel for shade. Sand pours through the damaged roof and seals the entrance; trapped beneath the collapse, {actor.name} suffocates.'],
   tundra: ['{actor.name} loses the tundra trail in a whiteout and keeps walking instead of digging shelter. Exhaustion forces a stop in the open, and {actor.name} dies of exposure before the storm clears.', '{actor.name} crosses a frozen lake toward a tundra shelter. The ice breaks beneath {actor.object}; repeated attempts to grip the crumbling edge fail, and {actor.name} drowns.'],
-  ruins: ['{actor.name} searches a cracked stairwell in the ruins. The landing tears away from the wall, sending {actor.object} into the basement. The fall is fatal.', '{actor.name} crawls into a ruined storeroom as smoke spills from a damaged generator. The swollen door jams shut behind {actor.object}, and {actor.name} dies from smoke inhalation before breaking it open.'],
+  ruins: ['{actor.name} searches a cracked stairwell in the Center Podium. The landing tears away from the wall, sending {actor.object} into the basement. The fall is fatal.', '{actor.name} crawls into a ruined storeroom as smoke spills from a damaged generator. The swollen door jams shut behind {actor.object}, and {actor.name} dies from smoke inhalation before breaking it open.'],
 };
 const hazard: EventTemplate[] = biomes.flatMap(b => hazards[b.id].map((text, i) => event(`${b.id}-hazard-${i + 1}`, 'hazard', text, [{ kind: 'eliminate', role: 'actor' }], { conditions: [biomeCondition(b.id)], scope: i === 1 ? 'global' : 'local', weight: 0.7 })));
 
 const finaleTexts = finalConfrontations.map(text => `At the last supply cache in {biome}, the finalists meet. ${text}`);
 const finale = finaleTexts.map((text, i) => event(`final-beacon-${i + 1}`, 'finale', text, [{ kind: 'eliminate', role: 'target', credit: 'actor' }], { phases: ['finale'], roles: pair, cooldown: 0 }));
 // Separated finalists travel back to the centre before they can confront one another.
-for (const from of biomes) for (const to of biomes) if (from.id !== to.id) finale.push(event(`final-converge-${from.id}-${to.id}`, 'finale', finalConfrontations.map(text => `{actor.name} advances from ${from.name} while {target.name} approaches from ${to.name}. As the arena closes, they meet at the central supply ground in the ruins. ${text}`), [
+for (const from of biomes) for (const to of biomes) if (from.id !== to.id) finale.push(event(`final-converge-${from.id}-${to.id}`, 'finale', finalConfrontations.map(text => `{actor.name} advances from ${from.name} while {target.name} approaches from ${to.name}. As the arena closes, they meet at the central supply ground in the Center Podium. ${text}`), [
   ...(from.id === 'ruins' ? [] : [{ kind: 'move' as const, role: 'actor', biome: 'ruins' as const }]),
   ...(to.id === 'ruins' ? [] : [{ kind: 'move' as const, role: 'target', biome: 'ruins' as const }]),
   { kind: 'eliminate', role: 'target', credit: 'actor' },
@@ -285,8 +303,9 @@ const confessionals: ConfessionalTemplate[] = reactions.map(([trait, triggers, v
 ].forEach(([trigger, text], i) => confessionals.push({ id: `interview-open-${i + 1}`, traits: [], tones: [...allTones], triggers: [trigger as FactType], speaker: trigger === 'elimination' ? 'eliminated' : 'any', variants: [text], cooldown: 8 }));
 
 export const defaultContentPack: ContentPack = ContentPackSchema.parse({
-  id: 'wild-broadcast', version: '1.5.0', title: 'The Wild Broadcast', biomes, items,
+  id: 'wild-broadcast', version: '1.10.0', title: 'The Wild Broadcast', biomes, items,
   markers: [
+    { id: 'podium-resupply-collected', type: 'boolean', lifetime: 'season', description: 'This tribute collected rations from the Center Podium delivery.' },
     { id: 'stolen-from', type: 'player', lifetime: 'season', description: 'The living player who stole from this participant.' },
     { id: 'confronted', type: 'boolean', lifetime: 'season', description: 'The theft has been confronted.' },
     { id: 'debt-to', type: 'player', lifetime: 'season', description: 'The player who offered shelter.' },
@@ -294,13 +313,13 @@ export const defaultContentPack: ContentPack = ContentPackSchema.parse({
     { id: 'omen', type: 'number', lifetime: 'season', description: 'Progress decoding the trail warning, from one to three.' },
     ...woundMarkers, ...personalityMarkers,
   ],
-  events: [...opening, ...openingEscapes, ...survival, ...survivalCloseCalls, ...sponsorships, ...social, ...crossings, ...conflict, ...injuryEncounters, ...contextualEncounters, ...curse, ...hazard, ...finale, ...arenaScenes, ...multikillScenes, ...personalityScenes], confessionals,
+  events: [...opening, ...openingEscapes, ...survival, ...survivalCloseCalls, ...sponsorships, ...resupply, ...social, ...crossings, ...conflict, ...injuryEncounters, ...contextualEncounters, ...curse, ...hazard, ...finale, ...arenaScenes, ...multikillScenes, ...personalityScenes, ...nightScenes, ...weaponScenes, ...weaponTrapScenes, ...weaponExchangeScenes].map(withSceneVariety), confessionals: confessionals.map(withConfessionalVariety),
 });
 
 /** Small integration/authoring pack. Production uses defaultContentPack. */
 export const starterContentPack: ContentPack = ContentPackSchema.parse({
   ...defaultContentPack, id: 'wild-broadcast-starter',
-  events: [...opening, ...biomes.map(b => survival.find(e => e.id === `${b.id}-life-1`)!), ...social.slice(9, 13), conflict[0], ...finale.slice(0, 2)],
+  events: [...opening, ...biomes.map(b => survival.find(e => e.id === `${b.id}-life-1`)!), ...social.slice(9, 13), conflict[0], ...finale.slice(0, 2)].map(withSceneVariety),
 });
 
 export function contentInventory(pack: ContentPack = defaultContentPack) {

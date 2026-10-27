@@ -64,7 +64,7 @@ const traps: Record<BiomeId, { fatal: string; escape: string; rescue: string }> 
   ruins: {
     fatal: '{actor.name} stretches a cable across a ruined stairwell and bangs on the railing to draw {target.name} into a chase. {target.name} trips over the cable and falls through the missing landing. The fall is fatal.',
     escape: '{actor.name} stretches a cable across a ruined stairwell to trip {target.name}. Spotting the wire, {target.name} steps over it and slams a fire door behind them, breaking the chase.',
-    rescue: 'A stair landing in the ruins gives way beneath {target.name}. {actor.name} drags a fallen door across the gap and steadies it while {target.name} crawls to the corridor.',
+    rescue: 'A stair landing in the Center Podium gives way beneath {target.name}. {actor.name} drags a fallen door across the gap and steadies it while {target.name} crawls to the corridor.',
   },
 };
 
