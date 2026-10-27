@@ -1,0 +1,70 @@
+NIGHT SCENES — AUTHORING EXAMPLES
+
+X, Y, Z and W stand for distinct living tributes. Shared scenes require
+everyone to be in the same region. These are examples of the added scenes;
+night1.txt remains the original reference.
+
+TAKING TURNS
+
+X and Y agree to take turns keeping watch. X takes the first shift while Y
+rests, then quietly wakes Y to trade places.
+
+X, Y and Z decide to take turns through the night. X watches the approach
+while Y and Z rest, then wakes Y for the next shift.
+
+X, Y, Z and W agree on a watch rotation, leaving one person awake while the
+others rest. X takes the first shift and quietly wakes Y to trade places.
+
+Watch rotations require non-hostile attitudes between X and each partner.
+They improve mutual trust; they do not automatically establish an alliance.
+
+PREPARING TO SURVIVE THE NIGHT
+
+Forest: X packs dry leaves beneath a fallen trunk, checks both ends for
+tracks, and hides the entrance with branches before settling down.
+
+Swamp: X builds a bed of reeds on raised ground and checks that the route
+back to the boardwalk stays above the water.
+
+Mountains: X chooses a recess below the exposed ridge and builds a low
+stone windbreak, leaving a gap for a quick escape.
+
+Desert: X makes a sleeping hollow behind a dune and marks the exit with
+stones before darkness hides the landmarks.
+
+Tundra: X digs into the sheltered side of a snowbank, packing snow around
+the hollow to keep the wind off while leaving room to crawl out.
+
+Center Podium: X chooses a recess beneath the steps, checks the nearest
+exit, and scatters gravel across the approach to hear anyone coming.
+
+X makes room for Y behind a low bank. They conceal the entrance together
+and face opposite approaches until it feels safe to rest.
+
+WHEN SOMETHING HAPPENS
+
+X hears footsteps near the sleeping hollow. X stays low until the sound
+fades, then moves the bedding farther from the trail.
+
+Only during active arena weather: the weather announced earlier reaches
+X's region. X leaves an exposed sleeping spot for a sheltered hollow and
+waits near the entrance in case another move becomes necessary.
+
+Only after a closure warning, during the day: X abandons plans to sleep
+in the threatened region, follows the marked exit before nightfall, and
+reaches the Center Podium to look for shelter. This changes X's location.
+The existing evacuation scenes handle tributes still there at closure.
+
+AFTER THE CENTER PODIUM IS RESUPPLIED
+
+The existing Day 3 delivery gives its recipient rations and leaves water
+and a blanket at the podium for others to collect.
+
+Only for a recipient who still holds rations: X checks the sealed rations
+collected from the delivery, then chooses a sleeping spot away from the
+supply lanes. X keeps the food close and watches for anyone following
+the delivery route. The scene uses X's current region, even after moving.
+
+Other tributes can collect the remaining ground supplies through existing
+pickup scenes. A night scene does not trigger a second delivery or claim
+that an unrelated tribute visited the podium.

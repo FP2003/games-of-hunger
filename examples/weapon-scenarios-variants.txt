@@ -1,0 +1,301 @@
+WEAPON AND TRAP SCENARIOS — THREE WORDING VARIANTS EACH
+
+Each numbered paragraph is an alternative telling of the same scenario.
+Names, body parts, ownership changes and outcomes stay the same.
+X attacks or collects; Y is the other tribute. Region is an example location.
+Wounded survivors can use the existing bandaging and assistance scenes.
+
+WEAPON-BOW-OPENING
+1. X reaches the Center Podium weapon rack and claims a bow and a quiver of arrows, then backs away from the scramble.
+2. At the Center Podium weapon rack, X grabs a bow and a quiver of arrows before backing out of the scramble.
+3. X takes a bow and a quiver of arrows from the Center Podium weapon rack and retreats from the scramble.
+
+WEAPON-BOW-FIND
+1. X opens an equipment case in the Forest and finds a bow and a quiver of arrows.
+2. Inside an equipment case in the Forest, X discovers a bow and a quiver of arrows and takes it.
+3. X searches an equipment case in the Forest and retrieves a bow and a quiver of arrows.
+
+WEAPON-BOW-FATAL
+1. X fires an arrow at Y across a clearing in the Forest. It pierces Y's chest. Y collapses and dies before reaching cover.
+2. Across a clearing in the Forest, X sends an arrow into Y's chest. Y falls and dies before making it to cover.
+3. X looses an arrow across a clearing in the Forest, piercing Y's chest. Unable to reach cover, Y collapses and dies.
+
+WEAPON-BOW-THIGH-SURVIVED
+1. X shoots an arrow at Y in the Forest, hitting Y in the thigh. Y forces a supply crate between them and escapes into cover. The thigh wound is bleeding, but Y survives the attack.
+2. An arrow fired by X in the Forest strikes Y in the thigh. Pushing a supply crate into the gap between them, Y reaches cover. Y survives, though the thigh wound keeps bleeding.
+3. X releases an arrow toward Y in the Forest. It hits Y in the thigh. Y shoves a supply crate between them and gets behind cover, alive but bleeding from the thigh wound.
+
+WEAPON-BOW-SHOULDER-SURVIVED
+1. X shoots an arrow at Y in the Forest, hitting Y in the shoulder. Y forces a supply crate between them and escapes into cover. The shoulder wound is bleeding, but Y survives the attack.
+2. An arrow fired by X in the Forest strikes Y in the shoulder. Pushing a supply crate into the gap between them, Y reaches cover. Y survives, though the shoulder wound keeps bleeding.
+3. X releases an arrow toward Y in the Forest. It hits Y in the shoulder. Y shoves a supply crate between them and gets behind cover, alive but bleeding from the shoulder wound.
+
+WEAPON-BOW-SIDE-SURVIVED
+1. X shoots an arrow at Y in the Forest, hitting Y in the side. Y forces a supply crate between them and escapes into cover. The side wound is bleeding, but Y survives the attack.
+2. An arrow fired by X in the Forest strikes Y in the side. Pushing a supply crate into the gap between them, Y reaches cover. Y survives, though the side wound keeps bleeding.
+3. X releases an arrow toward Y in the Forest. It hits Y in the side. Y shoves a supply crate between them and gets behind cover, alive but bleeding from the side wound.
+
+WEAPON-BOW-MISSED
+1. X shoots an arrow at Y in the Forest. Y ducks behind a supply barrier; the arrow strikes the wood, and Y escapes unharmed.
+2. Y ducks behind a supply barrier in the Forest as X fires an arrow. It lodges in the wood, leaving Y free to escape unharmed.
+3. In the Forest, X releases an arrow at Y, who drops behind a supply barrier. The arrow hits the wood; Y gets away without injury.
+
+WEAPON-KNIFE-OPENING
+1. X reaches the Center Podium weapon rack and claims a hunting knife, then backs away from the scramble.
+2. At the Center Podium weapon rack, X grabs a hunting knife before backing out of the scramble.
+3. X takes a hunting knife from the Center Podium weapon rack and retreats from the scramble.
+
+WEAPON-KNIFE-FIND
+1. X opens an equipment case in the Forest and finds a hunting knife.
+2. Inside an equipment case in the Forest, X discovers a hunting knife and takes it.
+3. X searches an equipment case in the Forest and retrieves a hunting knife.
+
+WEAPON-KNIFE-FATAL
+1. X surprises Y at a supply shelter in the Forest and stabs Y in the chest with a hunting knife. Y stumbles through the doorway and dies from the wound.
+2. At a supply shelter in the Forest, X catches Y by surprise and drives a hunting knife into Y's chest. Y staggers through the doorway and dies from the injury.
+3. X ambushes Y beside a supply shelter in the Forest, stabbing Y in the chest with a hunting knife. Y makes it through the doorway but dies from the wound.
+
+WEAPON-KNIFE-THIGH-SURVIVED
+1. X lunges with a hunting knife in the Forest, stabbing Y in the thigh. Y forces a supply crate between them and escapes into cover. The thigh wound is bleeding, but Y survives the attack.
+2. In the Forest, X lunges at Y and drives a hunting knife into the thigh. Pushing a supply crate into the gap between them, Y reaches cover. Y survives, though the thigh wound keeps bleeding.
+3. X makes a sudden lunge in the Forest, catching Y in the thigh with a hunting knife. Y shoves a supply crate between them and gets behind cover, alive but bleeding from the thigh wound.
+
+WEAPON-KNIFE-SHOULDER-SURVIVED
+1. X lunges with a hunting knife in the Forest, stabbing Y in the shoulder. Y forces a supply crate between them and escapes into cover. The shoulder wound is bleeding, but Y survives the attack.
+2. In the Forest, X lunges at Y and drives a hunting knife into the shoulder. Pushing a supply crate into the gap between them, Y reaches cover. Y survives, though the shoulder wound keeps bleeding.
+3. X makes a sudden lunge in the Forest, catching Y in the shoulder with a hunting knife. Y shoves a supply crate between them and gets behind cover, alive but bleeding from the shoulder wound.
+
+WEAPON-KNIFE-SIDE-SURVIVED
+1. X lunges with a hunting knife in the Forest, stabbing Y in the side. Y forces a supply crate between them and escapes into cover. The side wound is bleeding, but Y survives the attack.
+2. In the Forest, X lunges at Y and drives a hunting knife into the side. Pushing a supply crate into the gap between them, Y reaches cover. Y survives, though the side wound keeps bleeding.
+3. X makes a sudden lunge in the Forest, catching Y in the side with a hunting knife. Y shoves a supply crate between them and gets behind cover, alive but bleeding from the side wound.
+
+WEAPON-KNIFE-MISSED
+1. X lunges at Y with a hunting knife in the Forest. Y knocks the attacking arm aside with a branch and retreats beyond reach, escaping unharmed.
+2. Y bats aside X's knife arm with a branch in the Forest. The hunting knife misses, and Y retreats out of reach without injury.
+3. When X lunges with a hunting knife in the Forest, Y uses a branch to knock the attacking arm away. Y gets clear unharmed.
+
+WEAPON-SPEAR-OPENING
+1. X reaches the Center Podium weapon rack and claims a spear, then backs away from the scramble.
+2. At the Center Podium weapon rack, X grabs a spear before backing out of the scramble.
+3. X takes a spear from the Center Podium weapon rack and retreats from the scramble.
+
+WEAPON-SPEAR-FIND
+1. X opens an equipment case in the Forest and finds a spear.
+2. Inside an equipment case in the Forest, X discovers a spear and takes it.
+3. X searches an equipment case in the Forest and retrieves a spear.
+
+WEAPON-SPEAR-FATAL
+1. X braces a spear as Y charges through a narrow gap in the Forest. The point pierces Y's chest. Y collapses beside the gap and dies.
+2. As Y charges through a narrow gap in the Forest, X holds a spear steady. Its point pierces Y's chest; Y falls beside the gap and dies.
+3. Y rushes into a narrow gap in the Forest, where X has braced a spear. The point strikes Y in the chest. Y collapses there and dies.
+
+WEAPON-SPEAR-THIGH-SURVIVED
+1. X thrusts a spear through a gap in a trail barrier in the Forest, piercing Y's thigh. Y forces a supply crate between them and escapes into cover. The thigh wound is bleeding, but Y survives the attack.
+2. From behind a trail barrier in the Forest, X thrusts a spear through a gap and pierces Y's thigh. Pushing a supply crate into the gap between them, Y reaches cover. Y survives, though the thigh wound keeps bleeding.
+3. X jabs a spear through an opening in a trail barrier in the Forest. The point pierces Y's thigh. Y shoves a supply crate between them and gets behind cover, alive but bleeding from the thigh wound.
+
+WEAPON-SPEAR-SHOULDER-SURVIVED
+1. X thrusts a spear through a gap in a trail barrier in the Forest, piercing Y's shoulder. Y forces a supply crate between them and escapes into cover. The shoulder wound is bleeding, but Y survives the attack.
+2. From behind a trail barrier in the Forest, X thrusts a spear through a gap and pierces Y's shoulder. Pushing a supply crate into the gap between them, Y reaches cover. Y survives, though the shoulder wound keeps bleeding.
+3. X jabs a spear through an opening in a trail barrier in the Forest. The point pierces Y's shoulder. Y shoves a supply crate between them and gets behind cover, alive but bleeding from the shoulder wound.
+
+WEAPON-SPEAR-SIDE-SURVIVED
+1. X thrusts a spear through a gap in a trail barrier in the Forest, piercing Y's side. Y forces a supply crate between them and escapes into cover. The side wound is bleeding, but Y survives the attack.
+2. From behind a trail barrier in the Forest, X thrusts a spear through a gap and pierces Y's side. Pushing a supply crate into the gap between them, Y reaches cover. Y survives, though the side wound keeps bleeding.
+3. X jabs a spear through an opening in a trail barrier in the Forest. The point pierces Y's side. Y shoves a supply crate between them and gets behind cover, alive but bleeding from the side wound.
+
+WEAPON-SPEAR-MISSED
+1. X thrusts a spear at Y in the Forest. Y sidesteps the point and slips through a narrow passage before X can turn, escaping unharmed.
+2. Y steps aside from X's spear thrust in the Forest and slips down a narrow passage. Before X can turn, Y is away unharmed.
+3. In the Forest, X lunges with a spear. Y sidesteps the point and escapes uninjured through a narrow passage before X can turn.
+
+WEAPON-AXE-OPENING
+1. X reaches the Center Podium weapon rack and claims a hand axe, then backs away from the scramble.
+2. At the Center Podium weapon rack, X grabs a hand axe before backing out of the scramble.
+3. X takes a hand axe from the Center Podium weapon rack and retreats from the scramble.
+
+WEAPON-AXE-FIND
+1. X opens an equipment case in the Forest and finds a hand axe.
+2. Inside an equipment case in the Forest, X discovers a hand axe and takes it.
+3. X searches an equipment case in the Forest and retrieves a hand axe.
+
+WEAPON-AXE-FATAL
+1. X blocks a shelter exit in the Forest and strikes Y in the head with a hand axe. Y collapses; the injury is fatal.
+2. At a shelter exit in the Forest, X bars Y's way and delivers a blow to the head with a hand axe. Y collapses and dies from the injury.
+3. Y finds the shelter exit in the Forest blocked by X. A strike to the head from X's hand axe brings Y down with a fatal injury.
+
+WEAPON-AXE-THIGH-SURVIVED
+1. X swings a hand axe as Y passes a supply rack in the Forest, cutting Y across the thigh. Y forces a supply crate between them and escapes into cover. The thigh wound is bleeding, but Y survives the attack.
+2. As Y passes a supply rack in the Forest, X swings a hand axe and cuts the thigh. Pushing a supply crate into the gap between them, Y reaches cover. Y survives, though the thigh wound keeps bleeding.
+3. X catches Y beside a supply rack in the Forest with a swing of a hand axe, leaving a cut across the thigh. Y shoves a supply crate between them and gets behind cover, alive but bleeding from the thigh wound.
+
+WEAPON-AXE-SHOULDER-SURVIVED
+1. X swings a hand axe as Y passes a supply rack in the Forest, cutting Y across the shoulder. Y forces a supply crate between them and escapes into cover. The shoulder wound is bleeding, but Y survives the attack.
+2. As Y passes a supply rack in the Forest, X swings a hand axe and cuts the shoulder. Pushing a supply crate into the gap between them, Y reaches cover. Y survives, though the shoulder wound keeps bleeding.
+3. X catches Y beside a supply rack in the Forest with a swing of a hand axe, leaving a cut across the shoulder. Y shoves a supply crate between them and gets behind cover, alive but bleeding from the shoulder wound.
+
+WEAPON-AXE-SIDE-SURVIVED
+1. X swings a hand axe as Y passes a supply rack in the Forest, cutting Y across the side. Y forces a supply crate between them and escapes into cover. The side wound is bleeding, but Y survives the attack.
+2. As Y passes a supply rack in the Forest, X swings a hand axe and cuts the side. Pushing a supply crate into the gap between them, Y reaches cover. Y survives, though the side wound keeps bleeding.
+3. X catches Y beside a supply rack in the Forest with a swing of a hand axe, leaving a cut across the side. Y shoves a supply crate between them and gets behind cover, alive but bleeding from the side wound.
+
+WEAPON-AXE-MISSED
+1. X swings a hand axe at Y in the Forest. Y ducks, and the blade catches in a wooden post. Y escapes unharmed while X pulls it free.
+2. Y ducks beneath X's hand axe in the Forest. The blade sticks in a wooden post, and Y gets away unharmed as X works it loose.
+3. In the Forest, X's hand axe swings over Y, who ducks in time. It catches in a wooden post; Y escapes uninjured while X frees the blade.
+
+WEAPON-CLUB-OPENING
+1. X reaches the Center Podium weapon rack and claims a wooden club, then backs away from the scramble.
+2. At the Center Podium weapon rack, X grabs a wooden club before backing out of the scramble.
+3. X takes a wooden club from the Center Podium weapon rack and retreats from the scramble.
+
+WEAPON-CLUB-FIND
+1. X opens an equipment case in the Forest and finds a wooden club.
+2. Inside an equipment case in the Forest, X discovers a wooden club and takes it.
+3. X searches an equipment case in the Forest and retrieves a wooden club.
+
+WEAPON-CLUB-FATAL
+1. X trips Y beside a trail barrier in the Forest, then strikes Y in the head with a wooden club. Y dies from the blow.
+2. Beside a trail barrier in the Forest, X trips Y and follows with a wooden club to the head. The blow kills Y.
+3. X sends Y sprawling beside a trail barrier in the Forest, then brings a wooden club down on Y's head. Y dies from the impact.
+
+WEAPON-CLUB-THIGH-SURVIVED
+1. X swings a wooden club at Y in the Forest, striking the thigh and opening a bleeding cut against the rough edge of a supply barrier. Y forces a supply crate between them and escapes into cover. The thigh wound is bleeding, but Y survives the attack.
+2. In the Forest, X hits Y in the thigh with a wooden club, driving it against a rough supply barrier edge and opening a bleeding cut. Pushing a supply crate into the gap between them, Y reaches cover. Y survives, though the thigh wound keeps bleeding.
+3. X's wooden club catches Y in the thigh in the Forest. The blow pushes the thigh against the rough edge of a supply barrier, causing a bleeding cut. Y shoves a supply crate between them and gets behind cover, alive but bleeding from the thigh wound.
+
+WEAPON-CLUB-SHOULDER-SURVIVED
+1. X swings a wooden club at Y in the Forest, striking the shoulder and opening a bleeding cut against the rough edge of a supply barrier. Y forces a supply crate between them and escapes into cover. The shoulder wound is bleeding, but Y survives the attack.
+2. In the Forest, X hits Y in the shoulder with a wooden club, driving it against a rough supply barrier edge and opening a bleeding cut. Pushing a supply crate into the gap between them, Y reaches cover. Y survives, though the shoulder wound keeps bleeding.
+3. X's wooden club catches Y in the shoulder in the Forest. The blow pushes the shoulder against the rough edge of a supply barrier, causing a bleeding cut. Y shoves a supply crate between them and gets behind cover, alive but bleeding from the shoulder wound.
+
+WEAPON-CLUB-SIDE-SURVIVED
+1. X swings a wooden club at Y in the Forest, striking the side and opening a bleeding cut against the rough edge of a supply barrier. Y forces a supply crate between them and escapes into cover. The side wound is bleeding, but Y survives the attack.
+2. In the Forest, X hits Y in the side with a wooden club, driving it against a rough supply barrier edge and opening a bleeding cut. Pushing a supply crate into the gap between them, Y reaches cover. Y survives, though the side wound keeps bleeding.
+3. X's wooden club catches Y in the side in the Forest. The blow pushes the side against the rough edge of a supply barrier, causing a bleeding cut. Y shoves a supply crate between them and gets behind cover, alive but bleeding from the side wound.
+
+WEAPON-CLUB-MISSED
+1. X swings a wooden club at Y in the Forest. Y steps back beyond the swing and runs around a supply shelter, escaping unharmed.
+2. Y backs out of range of X's wooden club in the Forest, then runs around a supply shelter and escapes without injury.
+3. In the Forest, X swings a wooden club, but Y steps beyond its reach. Y rounds a supply shelter and gets away unharmed.
+
+TRAP-SNARE-FATAL
+1. X rigs a rope snare beside a steep trail in the Forest and draws Y toward it with a tossed stone. The loop catches Y's ankle and pulls Y off balance over the edge. The fall kills Y; the rope tears loose from its anchor.
+2. X sets a rope snare along a steep trail in the Forest, tossing a stone to lure Y toward the loop. It catches Y's ankle and sends Y over the edge. Y dies in the fall, and the rope rips free of its anchor.
+3. Beside a steep trail in the Forest, X lays a rope snare and throws a stone to draw Y closer. The loop snags Y's ankle, tipping Y over the edge to a fatal fall. The rope pulls loose from its anchor.
+
+TRAP-SNARE-SURVIVED
+1. X rigs a rope snare beside a steep trail in the Forest and draws Y toward it with a tossed stone. The loop catches Y's ankle. Y falls against a sharp rock, cutting the thigh, then tears the loose anchor free and escapes. The thigh is bleeding, but Y survives.
+2. X sets a rope snare along a steep trail in the Forest, tossing a stone to lure Y toward the loop. The snare grips Y's ankle. Falling against a sharp rock cuts the thigh, but Y pulls the loose anchor free and escapes alive with the wound still bleeding.
+3. Beside a steep trail in the Forest, X lays a rope snare and throws a stone to draw Y closer. Y catches an ankle in the loop and falls onto a sharp rock, opening a thigh wound. Tearing the loose anchor out allows Y to escape, surviving with a bleeding thigh.
+
+TRAP-SNARE-ESCAPED
+1. X rigs a rope snare beside a steep trail in the Forest and draws Y toward it with a tossed stone. Y spots the loop and pulls the anchor loose with a branch. The snare falls slack, and Y takes another path, unharmed.
+2. X sets a rope snare along a steep trail in the Forest, tossing a stone to lure Y toward the loop. Y notices the loop and uses a branch to dislodge the anchor. With the snare slack, Y leaves by another path without injury.
+3. Beside a steep trail in the Forest, X lays a rope snare and throws a stone to draw Y closer. Spotting the loop, Y pries the anchor loose with a branch. The rope goes slack, and Y takes a different route unharmed.
+
+TRAP-DEADFALL-FATAL
+1. X uses a rope to rig a falling log above a supply trail in the Forest, then waits for Y to pass beneath it. The released log strikes Y in the head. Y dies from the impact as the log rolls clear and the rope falls slack.
+2. Above a supply trail in the Forest, X rigs a log with a rope and waits for Y to walk underneath. The falling log hits Y in the head, killing Y. It rolls away from the body, leaving the rope slack.
+3. X suspends a falling log over a supply trail in the Forest with a rope, waiting until Y passes below. Released from above, the log strikes Y's head with fatal force. The log rolls clear and leaves the rope hanging slack.
+
+TRAP-DEADFALL-SURVIVED
+1. X uses a rope to rig a falling log above a supply trail in the Forest, then waits for Y to pass beneath it. Y dives as the log drops, but a broken branch cuts the thigh. The log rolls clear and the rope falls slack. Y escapes with a bleeding thigh, surviving the trap.
+2. Above a supply trail in the Forest, X rigs a log with a rope and waits for Y to walk underneath. Y dives away, but a broken branch on the falling log cuts the thigh. The log rolls clear, leaving the rope slack. Y escapes alive with a bleeding thigh.
+3. X suspends a falling log over a supply trail in the Forest with a rope, waiting until Y passes below. As the log falls, Y dives aside and catches the thigh on a broken branch. The log rolls away and the rope goes slack; Y survives and escapes with the thigh still bleeding.
+
+TRAP-DEADFALL-ESCAPED
+1. X uses a rope to rig a falling log above a supply trail in the Forest, then waits for Y to pass beneath it. Y hears the support creak and dives clear before the log hits the trail. The rope falls slack; Y escapes unharmed.
+2. Above a supply trail in the Forest, X rigs a log with a rope and waits for Y to walk underneath. A creak from the support warns Y in time to dive away. The log crashes onto the empty trail, the rope goes slack, and Y escapes uninjured.
+3. X suspends a falling log over a supply trail in the Forest with a rope, waiting until Y passes below. Y hears the support creaking and dives out of the falling log's path. It hits the trail and leaves the rope slack. Y gets away unharmed.
+
+TRAP-TRIPWIRE-FATAL
+1. X stretches a rope across a supply shelter entrance in the Forest, positioning a sharpened stake beyond the threshold. Y trips and falls chest-first onto the stake. The wound kills Y; the rope comes loose and the stake breaks under the fall.
+2. At a supply shelter entrance in the Forest, X lays a rope tripwire with a sharpened stake just past the threshold. Y catches the rope and falls onto the stake, taking a fatal chest wound. The stake snaps under the fall, and the rope pulls loose.
+3. X places a sharpened stake beyond a supply shelter threshold in the Forest and strings a rope across the entrance. Tripping on the rope sends Y chest-first onto the stake. Y dies from the wound as the stake breaks and the rope comes free.
+
+TRAP-TRIPWIRE-SURVIVED
+1. X stretches a rope across a supply shelter entrance in the Forest, positioning a sharpened stake beyond the threshold. Y trips but twists away from the stake, catching the thigh on its edge. The stake breaks and the rope comes loose. Y escapes with a bleeding thigh, surviving the trap.
+2. At a supply shelter entrance in the Forest, X lays a rope tripwire with a sharpened stake just past the threshold. The rope trips Y, who twists aside but cuts the thigh on the stake. The stake snaps and the rope pulls loose. Y survives, escaping with a bleeding thigh.
+3. X places a sharpened stake beyond a supply shelter threshold in the Forest and strings a rope across the entrance. Y stumbles over the rope and turns away from the stake, grazing the thigh on its edge. The stake breaks and the rope comes free; Y escapes alive with a bleeding thigh.
+
+TRAP-TRIPWIRE-ESCAPED
+1. X stretches a rope across a supply shelter entrance in the Forest, positioning a sharpened stake beyond the threshold. Y spots the rope, pulls it loose with a branch, and knocks the stake flat. Y backs away unharmed.
+2. At a supply shelter entrance in the Forest, X lays a rope tripwire with a sharpened stake just past the threshold. Noticing the rope, Y uses a branch to pull it loose and flatten the stake. Y retreats without injury.
+3. X places a sharpened stake beyond a supply shelter threshold in the Forest and strings a rope across the entrance. Y sees the tripwire, dislodges the rope with a branch, and knocks down the stake before backing away unharmed.
+
+WEAPON-BOW-STOLEN
+1. X distracts Y with a stone tossed down the trail in the Forest, then slips behind the shelter and steals Y's bow and arrows. Y returns in time to see X escaping with it.
+2. In the Forest, X throws a stone along the trail to draw Y away, then sneaks behind the shelter and takes Y's bow and arrows. Returning, Y spots X running off with it.
+3. A stone thrown down the trail by X lures Y from a shelter in the Forest. X slips behind it and steals the bow and arrows; Y comes back just in time to see who took it.
+
+WEAPON-BOW-DISARMED
+1. X catches Y's weapon arm against a supply barrier in the Forest and wrests away the bow and arrows. Y breaks free and retreats unharmed; X keeps the weapon.
+2. At a supply barrier in the Forest, X pins Y's weapon arm long enough to pull away the bow and arrows. Y escapes without injury, leaving the weapon with X.
+3. X traps Y's weapon arm against a supply barrier in the Forest and prises the bow and arrows free. Y pulls away uninjured while X holds onto the weapon.
+
+WEAPON-BOW-KILL-AND-LOOT
+1. X trips Y beside a supply barrier in the Forest, then strikes Y in the head with a loose stone. The blow kills Y. X takes the fallen tribute's bow and arrows and leaves.
+2. Beside a supply barrier in the Forest, X sends Y sprawling and delivers a fatal blow to the head with a loose stone. Once Y is dead, X collects Y's bow and arrows and departs.
+3. X knocks Y off balance beside a supply barrier in the Forest and hits Y in the head with a loose stone. Y dies from the blow; X retrieves the bow and arrows left by the body and moves on.
+
+WEAPON-KNIFE-STOLEN
+1. X distracts Y with a stone tossed down the trail in the Forest, then slips behind the shelter and steals Y's hunting knife. Y returns in time to see X escaping with it.
+2. In the Forest, X throws a stone along the trail to draw Y away, then sneaks behind the shelter and takes Y's hunting knife. Returning, Y spots X running off with it.
+3. A stone thrown down the trail by X lures Y from a shelter in the Forest. X slips behind it and steals the hunting knife; Y comes back just in time to see who took it.
+
+WEAPON-KNIFE-DISARMED
+1. X catches Y's weapon arm against a supply barrier in the Forest and wrests away the hunting knife. Y breaks free and retreats unharmed; X keeps the weapon.
+2. At a supply barrier in the Forest, X pins Y's weapon arm long enough to pull away the hunting knife. Y escapes without injury, leaving the weapon with X.
+3. X traps Y's weapon arm against a supply barrier in the Forest and prises the hunting knife free. Y pulls away uninjured while X holds onto the weapon.
+
+WEAPON-KNIFE-KILL-AND-LOOT
+1. X trips Y beside a supply barrier in the Forest, then strikes Y in the head with a loose stone. The blow kills Y. X takes the fallen tribute's hunting knife and leaves.
+2. Beside a supply barrier in the Forest, X sends Y sprawling and delivers a fatal blow to the head with a loose stone. Once Y is dead, X collects Y's hunting knife and departs.
+3. X knocks Y off balance beside a supply barrier in the Forest and hits Y in the head with a loose stone. Y dies from the blow; X retrieves the hunting knife left by the body and moves on.
+
+WEAPON-SPEAR-STOLEN
+1. X distracts Y with a stone tossed down the trail in the Forest, then slips behind the shelter and steals Y's spear. Y returns in time to see X escaping with it.
+2. In the Forest, X throws a stone along the trail to draw Y away, then sneaks behind the shelter and takes Y's spear. Returning, Y spots X running off with it.
+3. A stone thrown down the trail by X lures Y from a shelter in the Forest. X slips behind it and steals the spear; Y comes back just in time to see who took it.
+
+WEAPON-SPEAR-DISARMED
+1. X catches Y's weapon arm against a supply barrier in the Forest and wrests away the spear. Y breaks free and retreats unharmed; X keeps the weapon.
+2. At a supply barrier in the Forest, X pins Y's weapon arm long enough to pull away the spear. Y escapes without injury, leaving the weapon with X.
+3. X traps Y's weapon arm against a supply barrier in the Forest and prises the spear free. Y pulls away uninjured while X holds onto the weapon.
+
+WEAPON-SPEAR-KILL-AND-LOOT
+1. X trips Y beside a supply barrier in the Forest, then strikes Y in the head with a loose stone. The blow kills Y. X takes the fallen tribute's spear and leaves.
+2. Beside a supply barrier in the Forest, X sends Y sprawling and delivers a fatal blow to the head with a loose stone. Once Y is dead, X collects Y's spear and departs.
+3. X knocks Y off balance beside a supply barrier in the Forest and hits Y in the head with a loose stone. Y dies from the blow; X retrieves the spear left by the body and moves on.
+
+WEAPON-AXE-STOLEN
+1. X distracts Y with a stone tossed down the trail in the Forest, then slips behind the shelter and steals Y's hand axe. Y returns in time to see X escaping with it.
+2. In the Forest, X throws a stone along the trail to draw Y away, then sneaks behind the shelter and takes Y's hand axe. Returning, Y spots X running off with it.
+3. A stone thrown down the trail by X lures Y from a shelter in the Forest. X slips behind it and steals the hand axe; Y comes back just in time to see who took it.
+
+WEAPON-AXE-DISARMED
+1. X catches Y's weapon arm against a supply barrier in the Forest and wrests away the hand axe. Y breaks free and retreats unharmed; X keeps the weapon.
+2. At a supply barrier in the Forest, X pins Y's weapon arm long enough to pull away the hand axe. Y escapes without injury, leaving the weapon with X.
+3. X traps Y's weapon arm against a supply barrier in the Forest and prises the hand axe free. Y pulls away uninjured while X holds onto the weapon.
+
+WEAPON-AXE-KILL-AND-LOOT
+1. X trips Y beside a supply barrier in the Forest, then strikes Y in the head with a loose stone. The blow kills Y. X takes the fallen tribute's hand axe and leaves.
+2. Beside a supply barrier in the Forest, X sends Y sprawling and delivers a fatal blow to the head with a loose stone. Once Y is dead, X collects Y's hand axe and departs.
+3. X knocks Y off balance beside a supply barrier in the Forest and hits Y in the head with a loose stone. Y dies from the blow; X retrieves the hand axe left by the body and moves on.
+
+WEAPON-CLUB-STOLEN
+1. X distracts Y with a stone tossed down the trail in the Forest, then slips behind the shelter and steals Y's wooden club. Y returns in time to see X escaping with it.
+2. In the Forest, X throws a stone along the trail to draw Y away, then sneaks behind the shelter and takes Y's wooden club. Returning, Y spots X running off with it.
+3. A stone thrown down the trail by X lures Y from a shelter in the Forest. X slips behind it and steals the wooden club; Y comes back just in time to see who took it.
+
+WEAPON-CLUB-DISARMED
+1. X catches Y's weapon arm against a supply barrier in the Forest and wrests away the wooden club. Y breaks free and retreats unharmed; X keeps the weapon.
+2. At a supply barrier in the Forest, X pins Y's weapon arm long enough to pull away the wooden club. Y escapes without injury, leaving the weapon with X.
+3. X traps Y's weapon arm against a supply barrier in the Forest and prises the wooden club free. Y pulls away uninjured while X holds onto the weapon.
+
+WEAPON-CLUB-KILL-AND-LOOT
+1. X trips Y beside a supply barrier in the Forest, then strikes Y in the head with a loose stone. The blow kills Y. X takes the fallen tribute's wooden club and leaves.
+2. Beside a supply barrier in the Forest, X sends Y sprawling and delivers a fatal blow to the head with a loose stone. Once Y is dead, X collects Y's wooden club and departs.
+3. X knocks Y off balance beside a supply barrier in the Forest and hits Y in the head with a loose stone. Y dies from the blow; X retrieves the wooden club left by the body and moves on.

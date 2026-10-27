@@ -1,0 +1,80 @@
+WEAPONS AND TRAPS — EXAMPLE OUTCOMES
+
+X is the attacker and Y is the target. Both must be alive and in the same
+region. X must actually hold the named weapon, or rope for the new traps.
+Each paragraph is an alternative outcome, rather than consecutive events.
+
+BOW AND ARROWS
+
+X shoots an arrow at Y, hitting Y in the shoulder. Y forces a supply crate
+between them and escapes into cover. The shoulder wound is bleeding, but
+Y survives the attack. Thigh and side wounds are also possible.
+
+X fires an arrow across a clearing. It pierces Y's chest. Y collapses and
+dies before reaching cover.
+
+X shoots an arrow at Y. Y ducks behind a supply barrier; the arrow strikes
+the wood, and Y escapes unharmed.
+
+HUNTING KNIFE
+
+X lunges with a hunting knife, stabbing Y in the thigh. Y forces a crate
+between them and escapes with a bleeding wound, surviving the attack.
+
+X surprises Y at a supply shelter and stabs Y in the chest. Y stumbles
+through the doorway and dies from the wound.
+
+Y knocks X's attacking arm aside with a branch and retreats beyond reach,
+escaping the knife attack unharmed.
+
+SPEAR
+
+X thrusts a spear through a gap in a trail barrier, piercing Y's shoulder.
+Y pushes a crate into the gap and escapes with a bleeding wound.
+
+X braces a spear as Y charges through a narrow gap. The point pierces
+Y's chest. Y collapses beside the gap and dies.
+
+Y sidesteps the spear point and slips through a narrow passage, unharmed.
+
+HAND AXE
+
+X swings a hand axe as Y passes a supply rack, cutting Y across the side.
+Y forces a crate between them and escapes with a bleeding wound.
+
+X blocks a shelter exit and strikes Y in the head with a hand axe.
+Y collapses; the injury is fatal.
+
+Y ducks the swing. The axe catches in a wooden post, giving Y time to
+escape unharmed while X pulls it free.
+
+WOODEN CLUB
+
+X swings a wooden club at Y, striking the thigh and opening a bleeding
+cut against the rough edge of a supply barrier. Y escapes into cover,
+surviving the attack.
+
+X trips Y beside a trail barrier, then strikes Y in the head with a
+wooden club. Y dies from the blow.
+
+Y steps back beyond the swing and runs around a supply shelter, unharmed.
+
+TRAPS
+
+Rope snare: X rigs a snare beside a steep trail. Y catches an ankle in
+the loop and falls over the edge. The fall kills Y and tears the rope
+loose. Alternatively, Y falls against a rock and escapes with a bleeding
+thigh, or spots the loop and pulls the anchor loose without injury.
+
+Falling log: X rigs a log above a supply trail. It can strike Y's head
+with fatal force, catch Y's thigh with a broken branch as Y dives away,
+or miss completely when Y hears the support creak and dives clear.
+
+Tripwire and stake: X rigs a rope across a shelter entrance. Y can trip
+onto the stake and die from a chest wound, twist aside and escape with
+a bleeding thigh, or spot the rope and dismantle the trap unharmed.
+
+Wounds remain available for the existing self-bandaging and assistance
+scenes. Fatal outcomes award the attacker kill credit. Triggered or
+dismantled traps leave the rope on the ground for collection; they do
+not remain active traps or attack an absent tribute later.

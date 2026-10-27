@@ -1,0 +1,496 @@
+EVERYDAY SURVIVAL, NIGHT AND SOCIAL SCENES — THREE VERSIONS EACH
+
+Each numbered line is an alternative telling of the same scene.
+Placeholders keep the actual character names, pronouns, item and region.
+Conditions, items, relationships, injuries and outcomes are unchanged.
+Some night scenes are also social scenes and are listed only once.
+
+FOREST-LIFE-1
+1. {actor.name} waits beneath the canopy until the distant footsteps fade.
+2. Beneath the canopy, {actor.name} waits for the distant footsteps to die away.
+3. {actor.name} stays under the canopy until the sound of footsteps in the distance fades.
+
+FOREST-LIFE-2
+1. {actor.name} follows a break in the trees into {biome}.
+2. A gap in the trees leads {actor.name} into {biome}.
+3. {actor.name} passes through a break in the trees and enters {biome}.
+
+FOREST-LIFE-3
+1. {actor.name} discovers {item} inside a hollow trunk.
+2. Inside a hollow trunk, {actor.name} finds {item}.
+3. {actor.name} searches a hollow trunk and discovers {item} within.
+
+FOREST-LIFE-4
+1. {actor.name} unearths {item} beneath a collapsed bird hide.
+2. Beneath a collapsed bird hide, {actor.name} digs up {item}.
+3. {actor.name} uncovers {item} under the remains of a fallen bird hide.
+
+FOREST-LIFE-5
+1. {actor.name} spots an abandoned {item} between the roots and retrieves it.
+2. Between the roots, {actor.name} notices an abandoned {item} and picks it up.
+3. {actor.name} retrieves an abandoned {item} spotted among the roots.
+
+FOREST-LIFE-6
+1. {actor.name} leaves {item} beneath a fern to travel with less weight.
+2. To lighten the load, {actor.name} puts {item} beneath a fern and leaves it there.
+3. {actor.name} tucks {item} under a fern before continuing with less to carry.
+
+SWAMP-LIFE-1
+1. {actor.name} tests each hummock before committing any dignity to the mud.
+2. {actor.name} checks each hummock before trusting the mud with any dignity.
+3. Before risking a muddy loss of dignity, {actor.name} tests each hummock.
+
+SWAMP-LIFE-2
+1. {actor.name} finds a dry boardwalk leading out into {biome}.
+2. A dry boardwalk gives {actor.name} a way out into {biome}.
+3. {actor.name} discovers a dry boardwalk and follows it out into {biome}.
+
+SWAMP-LIFE-3
+1. {actor.name} hauls {item} from a watertight supply drum.
+2. From a watertight supply drum, {actor.name} pulls {item}.
+3. {actor.name} reaches into a watertight supply drum and lifts out {item}.
+
+SWAMP-LIFE-4
+1. {actor.name} finds {item} hanging from an old survey post.
+2. An old survey post holds {item}, which {actor.name} finds hanging there.
+3. {actor.name} discovers {item} suspended from an old survey post.
+
+SWAMP-LIFE-5
+1. {actor.name} reclaims {item} from a shallow pool.
+2. {actor.name} retrieves {item} from the shallow water.
+3. From a shallow pool, {actor.name} recovers {item}.
+
+SWAMP-LIFE-6
+1. {actor.name} sets {item} on a reed platform and moves on lighter.
+2. {actor.name} leaves {item} on a reed platform before moving on with a lighter load.
+3. With {item} set down on a reed platform, {actor.name} continues carrying less.
+
+MOUNTAINS-LIFE-1
+1. {actor.name} shelters behind a cairn and studies the next ridge.
+2. Behind a cairn, {actor.name} takes shelter and examines the next ridge.
+3. {actor.name} studies the ridge ahead from the shelter of a cairn.
+
+MOUNTAINS-LIFE-2
+1. {actor.name} descends a marked pass into {biome}.
+2. Following a marked pass downhill, {actor.name} enters {biome}.
+3. {actor.name} takes the marked descent into {biome}.
+
+MOUNTAINS-LIFE-3
+1. {actor.name} opens a climbing cache and takes {item}.
+2. Inside a climbing cache, {actor.name} finds {item} and takes it.
+3. {actor.name} retrieves {item} after opening a climbing cache.
+
+MOUNTAINS-LIFE-4
+1. {actor.name} finds {item} tucked into a ranger shelter.
+2. Tucked inside a ranger shelter, {actor.name} discovers {item}.
+3. {actor.name} searches a ranger shelter and finds {item} stowed within.
+
+MOUNTAINS-LIFE-5
+1. {actor.name} retrieves an abandoned {item} from a rock ledge.
+2. On a rock ledge, {actor.name} finds an abandoned {item} and retrieves it.
+3. {actor.name} collects an abandoned {item} from a ledge in the rock.
+
+MOUNTAINS-LIFE-6
+1. {actor.name} leaves {item} at a cairn rather than risk the extra weight.
+2. Rather than carry the extra weight, {actor.name} leaves {item} beside a cairn.
+3. {actor.name} sets {item} at a cairn, deciding the additional weight is not worth the risk.
+
+DESERT-LIFE-1
+1. {actor.name} conserves energy in the narrow shadow of a dune marker.
+2. In a dune marker's narrow shadow, {actor.name} saves energy.
+3. {actor.name} stays in the slim shade of a dune marker to conserve energy.
+
+DESERT-LIFE-2
+1. {actor.name} follows the service-road stakes into {biome}.
+2. Service-road stakes guide {actor.name} into {biome}.
+3. {actor.name} enters {biome} by following the stakes along the service road.
+
+DESERT-LIFE-3
+1. {actor.name} uncovers {item} inside a half-buried supply case.
+2. A half-buried supply case yields {item} when {actor.name} searches it.
+3. {actor.name} finds {item} within a supply case partly covered by sand.
+
+DESERT-LIFE-4
+1. {actor.name} searches a shaded checkpoint and finds {item}.
+2. At a shaded checkpoint, {actor.name} searches and discovers {item}.
+3. {actor.name} finds {item} while looking through a checkpoint in the shade.
+
+DESERT-LIFE-5
+1. {actor.name} picks up {item} beside an abandoned sunshade.
+2. Beside an abandoned sunshade, {actor.name} collects {item}.
+3. {actor.name} retrieves {item} found next to a deserted sunshade.
+
+DESERT-LIFE-6
+1. {actor.name} leaves {item} on a trail marker for the next traveler.
+2. For the next traveler, {actor.name} sets {item} on a trail marker.
+3. {actor.name} places {item} on a trail marker, leaving it for whoever comes next.
+
+TUNDRA-LIFE-1
+1. {actor.name} builds a shallow windbreak and waits out the gusts.
+2. After building a shallow windbreak, {actor.name} waits for the gusts to pass.
+3. {actor.name} puts up a low windbreak and shelters there until the gusts ease.
+
+TUNDRA-LIFE-2
+1. {actor.name} follows the orange trail poles into {biome}.
+2. Orange trail poles guide {actor.name} into {biome}.
+3. {actor.name} enters {biome} along the route marked by orange poles.
+
+TUNDRA-LIFE-3
+1. {actor.name} digs {item} out of a snow-covered emergency box.
+2. From a snow-covered emergency box, {actor.name} digs out {item}.
+3. {actor.name} uncovers {item} inside an emergency box buried under snow.
+
+TUNDRA-LIFE-4
+1. {actor.name} recovers {item} from an insulated weather station.
+2. At an insulated weather station, {actor.name} retrieves {item}.
+3. {actor.name} finds and recovers {item} from an insulated weather station.
+
+TUNDRA-LIFE-5
+1. {actor.name} lifts an abandoned {item} from the snow.
+2. {actor.name} picks an abandoned {item} out of the snow.
+3. In the snow, {actor.name} discovers an abandoned {item} and lifts it free.
+
+TUNDRA-LIFE-6
+1. {actor.name} leaves {item} inside a marked snow shelter.
+2. Inside a marked snow shelter, {actor.name} leaves {item}.
+3. {actor.name} puts {item} down within a snow shelter marked along the route.
+
+RUINS-LIFE-1
+1. {actor.name} rests in the old control room. Every dead monitor feels judgmental.
+2. In the old control room, {actor.name} rests beneath the judgmental gaze of dead monitors.
+3. {actor.name} takes a rest in the old control room, where even the dead monitors seem disapproving.
+
+RUINS-LIFE-2
+1. {actor.name} follows an emergency exit route into {biome}.
+2. An emergency exit route takes {actor.name} into {biome}.
+3. {actor.name} enters {biome} by following the emergency exit route.
+
+RUINS-LIFE-3
+1. {actor.name} finds {item} in the station canteen locker.
+2. A locker in the station canteen holds {item}, which {actor.name} finds.
+3. {actor.name} discovers {item} inside the station canteen locker.
+
+RUINS-LIFE-4
+1. {actor.name} pulls {item} from a surviving equipment drawer.
+2. From an intact equipment drawer, {actor.name} pulls {item}.
+3. {actor.name} retrieves {item} from an equipment drawer that has survived.
+
+RUINS-LIFE-5
+1. {actor.name} retrieves {item} from the dusty broadcast floor.
+2. On the dusty broadcast floor, {actor.name} finds {item} and picks it up.
+3. {actor.name} collects {item} from the dust-covered broadcast floor.
+
+RUINS-LIFE-6
+1. {actor.name} sets {item} beside the station map and travels on.
+2. {actor.name} leaves {item} beside the station map, then continues with less weight.
+3. After setting {item} down next to the station map, {actor.name} travels on with a lighter load.
+
+STOLEN-CACHE
+1. {actor.name} tosses a stone down the trail to draw {target.name} away from a resting place in {biome}, then slips behind the shelter and steals {target.possessive} {item}. {target.name} returns in time to see who is running off with it.
+2. A stone tossed down the trail by {actor.name} draws {target.name} from a resting place in {biome}. {actor.name} slips behind the shelter and steals {target.possessive} {item}, but {target.name} returns in time to see the thief running away.
+3. {actor.name} lures {target.name} away from a resting spot in {biome} by throwing a stone along the trail, then sneaks behind the shelter to take {target.possessive} {item}. Returning, {target.name} catches sight of who is escaping with it.
+
+STOLEN-CONFRONTATION
+1. {actor.name} blocks a narrow path in {biome} and demands that {target.name} answer for the earlier theft. {target.name} refuses and shoulders past. {actor.name} steps aside but makes no promise to forget.
+2. On a narrow path in {biome}, {actor.name} stops {target.name} and demands an explanation for the theft. {target.name} refuses to answer and shoulders past; {actor.name} moves aside without agreeing to forget.
+3. {actor.name} confronts {target.name} about the earlier theft, blocking a narrow path in {biome}. Refusing an answer, {target.name} pushes past with a shoulder. {actor.name} yields the path but not the grievance.
+
+STOLEN-RECLAIMED
+1. {actor.name} takes {item} from {target.name} in repayment. The earlier theft finally has an answer.
+2. Taking {item} from {target.name}, {actor.name} settles the earlier theft by claiming repayment.
+3. {actor.name} claims {item} from {target.name} as repayment for the previous theft, finally answering it.
+
+SHELTER-OFFER
+1. {actor.name} finds {target.name} resting beside an exposed path in {biome} and points out fresh tracks leading toward it. Together they crawl into a hollow behind a trail bank, where {actor.name} keeps watch while {target.name} rests.
+2. Fresh tracks toward an exposed resting spot in {biome} catch {actor.name}'s eye. After warning {target.name}, {actor.name} joins {target.object} in a hollow behind a trail bank and keeps watch while {target.name} rests.
+3. {actor.name} points out fresh tracks approaching where {target.name} is resting beside an exposed path in {biome}. They crawl behind a trail bank into a hollow, leaving {actor.name} watching while {target.name} rests.
+
+SHELTER-REPAID
+1. {actor.name} repays the earlier shelter favor by taking the exposed end of a trail hollow in {biome}. {target.name} rests behind the bank while {actor.name} watches both approaches, waking {target.object} only when it is safe to exchange places.
+2. To repay the earlier shelter favor in {biome}, {actor.name} watches from the exposed end of a trail hollow while {target.name} rests behind the bank. Only when both approaches are safe does {actor.name} wake {target.object} to swap places.
+3. {actor.name} returns the shelter favor by guarding both approaches from the open end of a trail hollow in {biome}. {target.name} rests behind the bank until {actor.name} judges it safe to wake {target.object} and exchange places.
+
+SHELTER-PACT
+1. {actor.name} and {target.name} turn their exchanged favors into a mutual pact.
+2. After helping each other, {actor.name} and {target.name} agree to a mutual pact.
+3. {actor.name} and {target.name} make their exchange of favors the foundation of a pact with each other.
+
+OMEN-FIND
+1. {actor.name} notices three fresh warning scratches beside the trail.
+2. Beside the trail, {actor.name} spots three newly made warning scratches.
+3. Three fresh scratches warning of danger catch {actor.name}'s attention at the trail edge.
+
+OMEN-READ
+1. {actor.name} matches the earlier scratches to a damaged trail marker. The warning has a direction.
+2. The earlier scratches match a damaged trail marker, giving {actor.name} a direction for the warning.
+3. {actor.name} connects the previous scratches with a damaged trail marker and works out which way the warning points.
+
+OMEN-DETOUR
+1. {actor.name} follows the decoded warning and takes a detour into {biome}.
+2. Guided by the warning now decoded, {actor.name} detours into {biome}.
+3. {actor.name} takes the detour to {biome} indicated by the deciphered warning.
+
+SHARED-MAP
+1. {actor.name} draws a route through {biome} in the dirt for {target.name}, marking an exposed crossing and a sheltered way around it. {target.name} memorizes the turns before they wipe the map away.
+2. In the dirt of {biome}, {actor.name} sketches a route for {target.name}, showing an exposed crossing and a sheltered alternative. Once {target.name} has memorized the turns, they erase the map.
+3. {actor.name} marks a way through {biome} in the dirt, pointing out an exposed crossing and a covered route around it to {target.name}. They wipe it away after {target.name} learns the turns.
+
+MUTUAL-WATCH
+1. {actor.name} and {target.name} agree to keep watch for each other.
+2. {actor.name} and {target.name} promise to keep watch on each other's behalf.
+3. An agreement between {actor.name} and {target.name} leaves each watching out for the other.
+
+BROKEN-WATCH
+1. {actor.name} leaves an agreed watch in {biome} without waking {target.name}. Footsteps on the approach finally wake {target.object}; {target.name} hides beneath the shelter floor until they pass, then discovers the lookout is empty.
+2. Without waking {target.name}, {actor.name} abandons the agreed watch in {biome}. Footsteps wake {target.object} instead. {target.name} hides under the shelter floor until they pass, then finds the lookout deserted.
+3. {target.name} wakes to approaching footsteps in {biome} after {actor.name} walks away from an agreed watch without warning. Hiding beneath the shelter floor until the steps fade, {target.name} emerges to discover the empty lookout.
+
+GIFT-SUPPLIES
+1. {actor.name} gives {item} to {target.name} without asking for a promise.
+2. {actor.name} hands {item} to {target.name}, asking for no promise in return.
+3. Without demanding any promise, {actor.name} gives {target.name} {item}.
+
+BAD-DIRECTIONS
+1. {actor.name} tells {target.name} that a supply shelter lies just beyond a trail bend in {biome}. The path ends at an empty concrete footing. When {target.name} doubles back, {actor.name} is laughing beside the signpost.
+2. {actor.name} directs {target.name} toward a supposed supply shelter beyond a trail bend in {biome}. Only an empty concrete footing waits there; returning, {target.name} finds {actor.name} laughing by the signpost.
+3. Following {actor.name}'s claim of a supply shelter around a bend in {biome}, {target.name} reaches an empty concrete footing. {target.name} doubles back to see {actor.name} laughing beside the signpost.
+
+QUIET-APOLOGY
+1. {actor.name} apologizes to {target.name}, who listens without promising forgiveness.
+2. {target.name} hears {actor.name}'s apology without giving any assurance of forgiveness.
+3. {actor.name} offers an apology, and {target.name} listens but makes no promise to forgive.
+
+NEMESIS-STAREDOWN
+1. {actor.name} recognizes {target.name} at a trail shelter in {biome} and plants a foot across the entrance. Neither trusts the other enough to close the distance. After a long silence, {target.name} backs away from the doorway, leaving the grudge unsettled.
+2. Recognizing {target.name} at a trail shelter in {biome}, {actor.name} bars the doorway with a foot. Neither will come closer. A long silence ends with {target.name} backing away and the grudge still unresolved.
+3. {actor.name} sees {target.name} at a shelter on the trail in {biome} and blocks its entrance with a foot. Distrust holds them apart until, after a lengthy silence, {target.name} retreats with nothing settled.
+
+RATION-BARGAIN
+1. {actor.name} trades {item} to {target.name} for an agreement to leave this meeting peacefully.
+2. In exchange for a peaceful end to the meeting, {actor.name} hands {item} to {target.name}.
+3. {target.name} receives {item} from {actor.name} as the price of agreeing to part peacefully.
+
+SNEAKY-DISTRACTION
+1. {actor.name} claims that a painted trail marker in {biome} must be touched before the next horn. {target.name} checks the marker, finds no instruction, and returns to see {actor.name} smirking. The invented rule costs {actor.name} some trust.
+2. {actor.name} invents a rule requiring {target.name} to touch a painted trail marker in {biome} before the next horn. The marker has no such instruction. {target.name} returns to {actor.name}'s smirk with less trust than before.
+3. A painted marker in {biome} supposedly needs touching before the next horn, according to {actor.name}. {target.name} checks it, finds no instruction, and comes back to find {actor.name} smirking, losing trust over the invented rule.
+
+LOYAL-REASSURANCE
+1. {actor.name} makes a sincere promise of support to {target.name}.
+2. {actor.name} sincerely promises {target.name} support.
+3. With a sincere promise, {actor.name} assures {target.name} of support.
+
+DRAMATIC-SPEECH
+1. {actor.name} delivers a speech to an audience of one: {target.name}. It is surprisingly persuasive.
+2. With only {target.name} listening, {actor.name} gives an unexpectedly persuasive speech.
+3. {actor.name}'s speech has an audience of just {target.name}, yet proves surprisingly convincing.
+
+CAUTIOUS-BOUNDARIES
+1. {actor.name} and {target.name} agree on separate resting spots and clearer boundaries.
+2. {actor.name} and {target.name} settle on clearer boundaries and different places to rest.
+3. Separate resting places and firmer boundaries are agreed between {actor.name} and {target.name}.
+
+RECKLESS-DARE
+1. {actor.name} proposes crawling through a cracked drainage pipe in {biome} to bypass an exposed path. {target.name} pushes a branch inside; part of the roof immediately caves in. They take the longer route, and {target.name} stops asking {actor.name} for shortcuts.
+2. To avoid an exposed path in {biome}, {actor.name} suggests a cracked drainage pipe. {target.name} tests it with a branch, immediately bringing down part of the roof. They take the longer way, and {target.name} gives up asking {actor.name} for shortcuts.
+3. {actor.name} recommends crawling through a cracked pipe in {biome} instead of taking an exposed path. A branch pushed inside by {target.name} collapses part of its roof. The longer route wins, and {target.name} stops seeking shortcuts from {actor.name}.
+
+RESOURCEFUL-REPAIR
+1. {actor.name} fixes a strap for {target.name}. Small repairs make useful allies.
+2. A strap repaired by {actor.name} earns {target.name}'s goodwill. Small fixes help make allies.
+3. {actor.name} repairs a strap for {target.name}, finding that a little mending can build a useful friendship.
+
+ITEM-CONFISCATION
+1. {actor.name} takes {item} from {target.name} in a dispute over the camp rules.
+2. During an argument about camp rules, {actor.name} takes {target.name}'s {item}.
+3. A dispute over the camp rules ends with {actor.name} taking {item} from {target.name}.
+
+CROSSING-SOCIAL-FOREST
+1. {actor.name} crosses into The Forest and meets {target.name}. They share a safe route and part on friendly terms.
+2. {actor.name} enters {biome} and encounters {target.name}. They exchange a safe route before leaving on friendly terms.
+3. After crossing into {biome}, {actor.name} meets {target.name}. A safe route is shared, and the meeting ends amicably.
+
+CROSSING-SOCIAL-SWAMP
+1. {actor.name} crosses into The Swamp and meets {target.name}. They share a safe route and part on friendly terms.
+2. {actor.name} enters {biome} and encounters {target.name}. They exchange a safe route before leaving on friendly terms.
+3. After crossing into {biome}, {actor.name} meets {target.name}. A safe route is shared, and the meeting ends amicably.
+
+CROSSING-SOCIAL-MOUNTAINS
+1. {actor.name} crosses into The Mountains and meets {target.name}. They share a safe route and part on friendly terms.
+2. {actor.name} enters {biome} and encounters {target.name}. They exchange a safe route before leaving on friendly terms.
+3. After crossing into {biome}, {actor.name} meets {target.name}. A safe route is shared, and the meeting ends amicably.
+
+CROSSING-SOCIAL-DESERT
+1. {actor.name} crosses into The Desert and meets {target.name}. They share a safe route and part on friendly terms.
+2. {actor.name} enters {biome} and encounters {target.name}. They exchange a safe route before leaving on friendly terms.
+3. After crossing into {biome}, {actor.name} meets {target.name}. A safe route is shared, and the meeting ends amicably.
+
+CROSSING-SOCIAL-TUNDRA
+1. {actor.name} crosses into The Tundra and meets {target.name}. They share a safe route and part on friendly terms.
+2. {actor.name} enters {biome} and encounters {target.name}. They exchange a safe route before leaving on friendly terms.
+3. After crossing into {biome}, {actor.name} meets {target.name}. A safe route is shared, and the meeting ends amicably.
+
+CROSSING-SOCIAL-RUINS
+1. {actor.name} crosses into The Center Podium and meets {target.name}. They share a safe route and part on friendly terms.
+2. {actor.name} enters {biome} and encounters {target.name}. They exchange a safe route before leaving on friendly terms.
+3. After crossing into {biome}, {actor.name} meets {target.name}. A safe route is shared, and the meeting ends amicably.
+
+WOUND-THIGH-ASSISTANCE
+1. {actor.name} finds {target.name} struggling with the earlier thigh wound in {biome}. Keeping watch between knots, {actor.name} binds it with a strip of cloth until the bleeding stops. {target.name} accepts the help despite the risk of staying together.
+2. {actor.name} finds {target.name} having trouble with the earlier thigh wound in {biome}. Watching the surroundings between knots, {actor.name} applies a cloth strip until the bleeding stops. {target.name} accepts the help despite the danger of remaining together.
+3. In {biome}, {actor.name} helps {target.name} with the earlier thigh wound, binding it in cloth and keeping watch between knots until the bleeding stops. Staying together is risky, but {target.name} accepts the assistance.
+
+WOUND-SHOULDER-ASSISTANCE
+1. {actor.name} finds {target.name} struggling with the earlier shoulder wound in {biome}. Keeping watch between knots, {actor.name} binds it with a strip of cloth until the bleeding stops. {target.name} accepts the help despite the risk of staying together.
+2. {actor.name} finds {target.name} having trouble with the earlier shoulder wound in {biome}. Watching the surroundings between knots, {actor.name} applies a cloth strip until the bleeding stops. {target.name} accepts the help despite the danger of remaining together.
+3. In {biome}, {actor.name} helps {target.name} with the earlier shoulder wound, binding it in cloth and keeping watch between knots until the bleeding stops. Staying together is risky, but {target.name} accepts the assistance.
+
+WOUND-SIDE-ASSISTANCE
+1. {actor.name} finds {target.name} struggling with the earlier side wound in {biome}. Keeping watch between knots, {actor.name} binds it with a strip of cloth until the bleeding stops. {target.name} accepts the help despite the risk of staying together.
+2. {actor.name} finds {target.name} having trouble with the earlier side wound in {biome}. Watching the surroundings between knots, {actor.name} applies a cloth strip until the bleeding stops. {target.name} accepts the help despite the danger of remaining together.
+3. In {biome}, {actor.name} helps {target.name} with the earlier side wound, binding it in cloth and keeping watch between knots until the bleeding stops. Staying together is risky, but {target.name} accepts the assistance.
+
+FOREST-RESCUE
+1. {target.name} steps onto a rotten tree platform and breaks through the boards. {actor.name} catches {target.possessive} wrist and braces against the trunk until {target.name} climbs back onto solid wood.
+2. Rotten boards give way as {target.name} steps onto a tree platform. Braced against the trunk, {actor.name} grabs {target.possessive} wrist and holds on until {target.name} climbs back onto solid wood.
+3. {target.name} breaks through a rotten tree platform. {actor.name} braces against its trunk and catches {target.possessive} wrist, helping {target.name} regain solid boards.
+
+SWAMP-RESCUE
+1. {target.name} sinks waist-deep in swamp mud beside the crossing. {actor.name} lies flat on the boards and extends a long branch, pulling {target.name} back to the walkway one careful step at a time.
+2. When {target.name} sinks to the waist in swamp mud beside the crossing, {actor.name} lies flat on the boards and offers a long branch. Step by careful step, {target.name} is pulled back to the walkway.
+3. {actor.name} stretches out on the boards as {target.name} sinks waist-deep in mud near the swamp crossing. Extending a long branch, {actor.name} draws {target.object} back to the walkway a careful step at a time.
+
+MOUNTAINS-RESCUE
+1. A mountain ledge crumbles beneath {target.name}. {actor.name} wedges a branch into a crack for a handhold, then guides {target.name} across the remaining shelf to solid ground.
+2. As a mountain ledge falls away under {target.name}, {actor.name} jams a branch into a crack to make a handhold, then guides {target.object} over the remaining shelf to firm ground.
+3. {actor.name} wedges a branch into a crack when the mountain ledge beneath {target.name} crumbles. Using it as a handhold, {actor.name} helps {target.object} cross the surviving shelf to safety.
+
+DESERT-RESCUE
+1. {actor.name} spots {target.name} stumbling in the desert heat and leads {target.object} into the shade of a supply tank. They wait until the dizziness passes before choosing a route that avoids the exposed dunes.
+2. Seeing {target.name} stagger in the desert heat, {actor.name} guides {target.object} into a supply tank's shade. They let the dizziness subside before picking a route away from the exposed dunes.
+3. {actor.name} brings a stumbling {target.name} out of the desert heat and into shade beside a supply tank. Once the dizziness passes, they choose a way around the exposed dunes.
+
+TUNDRA-RESCUE
+1. {target.name} breaks through lake ice near the tundra bank. {actor.name} pushes a fallen branch across the opening and stays flat on the snow while {target.name} uses it to crawl out.
+2. Lake ice breaks under {target.name} near the tundra bank. Lying flat in the snow, {actor.name} slides a fallen branch over the hole so {target.name} can crawl out.
+3. {actor.name} stays flat on the snow after {target.name} falls through lake ice near the tundra bank. A fallen branch pushed across the opening gives {target.name} a way to crawl free.
+
+RUINS-RESCUE
+1. A stair landing in the Center Podium gives way beneath {target.name}. {actor.name} drags a fallen door across the gap and steadies it while {target.name} crawls to the corridor.
+2. When a stair landing collapses under {target.name} at the Center Podium, {actor.name} lays a fallen door across the gap. Holding it steady, {actor.name} helps {target.object} crawl back to the corridor.
+3. {target.name} loses footing as a Center Podium stair landing gives way. {actor.name} bridges the gap with a fallen door and steadies it until {target.name} crawls to the corridor.
+
+ALLY-DECOY
+1. {actor.name} notices fresh pursuers' tracks near {target.name}'s hiding place in {biome}. Walking loudly down another path, {actor.name} draws the search away while {target.name} stays concealed.
+2. Fresh pursuers' tracks near {target.name}'s hiding spot in {biome} alert {actor.name}. Loud footsteps down a different path draw the search away, allowing {target.name} to remain hidden.
+3. {actor.name} sees recent tracks from pursuers close to {target.name}'s hiding place in {biome}. By walking noisily along another path, {actor.name} diverts the search while {target.name} stays concealed.
+
+ALLY-ABANDONED-HATCH
+1. {actor.name} offers {target.name} a hand out of a supply pit in {biome}, then withdraws it and walks away. {target.name} eventually stacks empty crates to climb out alone, remembering exactly who refused to help.
+2. At a supply pit in {biome}, {actor.name} extends a hand to {target.name}, then pulls it back and leaves. {target.name} eventually climbs out on stacked empty crates, remembering the refusal to help.
+3. {actor.name} starts to help {target.name} from a supply pit in {biome}, only to withdraw the offered hand and walk away. Left alone, {target.name} stacks empty crates to escape and remembers who abandoned the rescue.
+
+RATION-SNATCH-CHASE
+1. {actor.name} waits until {target.name} opens a ration pack in {biome}, snatches {item}, and slides down a steep trail bank. {target.name} stops at the top rather than risk the blind drop.
+2. As {target.name} opens a ration pack in {biome}, {actor.name} grabs {item} and slides down a steep trail bank. Unwilling to chance the blind drop, {target.name} stops above.
+3. {actor.name} snatches {item} when {target.name} opens a ration pack in {biome}, then slides over a steep trail bank. {target.name} stays at the top rather than follow into a blind drop.
+
+ROPE-CROSSING-HELP
+1. {actor.name} anchors {actor.possessive} {item} around a trail post in {biome} and holds the line while {target.name} crosses a collapsed drainage ditch. Once both are across, {actor.name} coils the rope again.
+2. With {actor.possessive} {item} secured around a trail post in {biome}, {actor.name} holds the line for {target.name} to cross a collapsed drainage ditch. After both reach the far side, {actor.name} coils the rope.
+3. {actor.name} ties {actor.possessive} {item} to a trail post in {biome} and keeps it steady while {target.name} crosses a broken drainage ditch. Both make it across, and {actor.name} gathers the rope back into a coil.
+
+WATER-TRUCE
+1. {actor.name} finds {target.name} crouched beside a leaking supply tank in {biome}. They take turns catching the water in their hands while the other keeps watch, then agree to leave by different paths.
+2. At a leaking supply tank in {biome}, {actor.name} finds {target.name} crouching to catch water. They alternate catching water in cupped hands and keeping watch, then agree to go their separate ways.
+3. {actor.name} joins {target.name} beside a leaking supply tank in {biome}. Each catches water in cupped hands while the other watches, before they agree to leave along different paths.
+
+BLANKET-SHARED-NIGHT
+1. {actor.name} finds {target.name} shivering beneath a supply shelter in {biome}. They share {actor.possessive} {item}, sitting back to back so each can watch an approach until dawn.
+2. Beneath a supply shelter in {biome}, {actor.name} comes upon {target.name} shivering. Sharing {actor.possessive} {item}, they sit back to back and watch opposite approaches until dawn.
+3. {actor.name} shares {actor.possessive} {item} with a shivering {target.name} under a supply shelter in {biome}. They stay back to back, each watching an approach through the night.
+
+MIRROR-WARNING
+1. {actor.name} spots movement behind {target.name} on a supply trail in {biome} and flashes {actor.possessive} {item} twice. {target.name} sees the warning and ducks into cover before the distant hunter reaches the trail.
+2. Movement behind {target.name} on a supply trail in {biome} prompts {actor.name} to flash {actor.possessive} {item} twice. Taking the warning, {target.name} ducks into cover before the distant hunter gets to the trail.
+3. {actor.name} gives two flashes with {actor.possessive} {item} after spotting movement behind {target.name} on a supply trail in {biome}. {target.name} sees the signal and hides before the distant hunter reaches the path.
+
+LOVE-HATE-DEVOTION
+1. {actor.name} insists on keeping watch while {target.name} rests in {biome}, declaring that nobody else here deserves that kind of trust.
+2. While {target.name} rests in {biome}, {actor.name} insists on standing watch, saying nobody else here merits that much trust.
+3. {actor.name} refuses to give up watch duty as {target.name} rests in {biome}, declaring that no one else in the arena deserves such trust.
+
+LOVE-HATE-REJECTION
+1. {target.name} suggests sharing a shelter in {biome}. {actor.name} refuses even to sit nearby, choosing an exposed lookout over another minute together.
+2. When {target.name} proposes sharing shelter in {biome}, {actor.name} will not even sit nearby. An exposed lookout seems preferable to another minute together.
+3. {actor.name} rejects {target.name}'s suggestion of a shared shelter in {biome}, choosing an exposed lookout rather than sit close or spend another minute together.
+
+NIGHT-PREPARE-FOREST
+1. {actor.name} packs dry leaves beneath a fallen trunk in {biome}, checks both ends for tracks, and settles into the hollow with the entrance hidden by branches.
+2. Under a fallen trunk in {biome}, {actor.name} lays dry leaves for bedding and checks both ends for tracks. Branches hide the entrance as {actor.name} settles into the hollow.
+3. {actor.name} checks for tracks at either end of a fallen trunk in {biome}, then beds down on dry leaves inside the hollow, screening the entrance with branches.
+
+NIGHT-PREPARE-SWAMP
+1. {actor.name} tests a raised patch of ground in {biome} and lays reeds over the damp soil. Before settling down, {actor.name} checks that the route back to the boardwalk stays above the water.
+2. On a tested patch of raised ground in {biome}, {actor.name} spreads reeds over the wet soil. Before resting, {actor.name} makes sure the way to the boardwalk remains above water.
+3. {actor.name} checks some raised ground in {biome} and covers the damp earth with reeds, making sure the return route to the boardwalk clears the water before settling down.
+
+NIGHT-PREPARE-MOUNTAINS
+1. {actor.name} chooses a shallow recess below the exposed ridge in {biome}. Loose stones form a low windbreak, with a gap left open for a quick escape.
+2. Below the exposed ridge in {biome}, {actor.name} finds a shallow recess and arranges loose stones into a low windbreak. A gap remains for a quick escape.
+3. {actor.name} shelters in a small recess beneath the ridge in {biome}, using loose stones to block the wind without closing off a quick way out.
+
+NIGHT-PREPARE-DESERT
+1. {actor.name} scrapes a sleeping hollow behind a dune in {biome}, away from the open trail. A ring of stones marks the way out before darkness hides the landmarks.
+2. Away from the open trail in {biome}, {actor.name} scrapes out a sleeping hollow behind a dune. Before the landmarks vanish into darkness, stones mark the way out.
+3. {actor.name} prepares a hollow for sleep behind a dune off the open trail in {biome}, ringing the exit with stones while the landmarks are still visible.
+
+NIGHT-PREPARE-TUNDRA
+1. {actor.name} digs a shallow hollow on the sheltered side of a snowbank in {biome}, packing snow around the edges to keep the wind off while leaving room to crawl out.
+2. On the sheltered side of a snowbank in {biome}, {actor.name} digs a shallow sleeping hollow. Packed snow keeps the wind off its edges, while a gap leaves room to crawl out.
+3. {actor.name} hollows out a shallow space behind a snowbank in {biome}, packing the edges against the wind and keeping enough room to crawl free.
+
+NIGHT-PREPARE-RUINS
+1. {actor.name} chooses a recess beneath the Center Podium steps, out of sight of the supply lanes. Before resting, {actor.name} checks the nearest exit and scatters loose gravel across the approach.
+2. Beneath the Center Podium steps, {actor.name} finds a recess hidden from the supply lanes. After checking the closest exit, {actor.name} scatters loose gravel over the approach and prepares to rest.
+3. {actor.name} picks a sleeping recess under the Center Podium steps, where the supply lanes cannot see it. The nearest exit is checked and loose gravel laid across the approach before resting.
+
+NIGHT-WATCH-2
+1. {actor.name} and {target.name} agree to take turns keeping watch in {biome}. {actor.name} takes the first shift while the other rests, then quietly wakes {target.name} to trade places.
+2. In {biome}, {actor.name} and {target.name} arrange to share watch duty. While the other rests, {actor.name} watches first, then gently wakes {target.name} for the handover.
+3. {actor.name} and {target.name} settle on a watch rotation in {biome}. {actor.name} stays awake for the opening shift while the other rests, quietly waking {target.name} when it is time to switch.
+
+NIGHT-WATCH-3
+1. {actor.name}, {target.name}, and {third.name} agree to take turns keeping watch in {biome}. {actor.name} takes the first shift while the others rest, then quietly wakes {target.name} to trade places.
+2. In {biome}, {actor.name}, {target.name}, and {third.name} arrange to share watch duty. While the others rest, {actor.name} watches first, then gently wakes {target.name} for the handover.
+3. {actor.name}, {target.name}, and {third.name} settle on a watch rotation in {biome}. {actor.name} stays awake for the opening shift while the others rest, quietly waking {target.name} when it is time to switch.
+
+NIGHT-WATCH-4
+1. {actor.name}, {target.name}, {third.name}, and {fourth.name} agree to take turns keeping watch in {biome}. {actor.name} takes the first shift while the others rest, then quietly wakes {target.name} to trade places.
+2. In {biome}, {actor.name}, {target.name}, {third.name}, and {fourth.name} arrange to share watch duty. While the others rest, {actor.name} watches first, then gently wakes {target.name} for the handover.
+3. {actor.name}, {target.name}, {third.name}, and {fourth.name} settle on a watch rotation in {biome}. {actor.name} stays awake for the opening shift while the others rest, quietly waking {target.name} when it is time to switch.
+
+NIGHT-SHELTER-SHARED
+1. {actor.name} hears {target.name} searching for cover in {biome} and makes room behind a low bank. They conceal the entrance together and sit facing opposite approaches until it feels safe to rest.
+2. Hearing {target.name} searching for shelter in {biome}, {actor.name} makes space behind a low bank. Together they hide the entrance and watch opposite approaches until resting seems safe.
+3. {actor.name} hears {target.name} looking for cover in {biome} and offers room behind a low bank. With the entrance concealed together, they face opposite directions until they feel able to rest.
+
+NIGHT-NOISE-ON-WATCH
+1. {actor.name} hears footsteps near the sleeping hollow in {biome}. Staying low, {actor.name} watches the approach until the sound fades, then moves the bedding farther from the trail.
+2. Footsteps near the sleeping hollow in {biome} keep {actor.name} low and watching the approach. Once the sound fades, {actor.name} shifts the bedding farther from the trail.
+3. {actor.name} stays low at the sound of footsteps beside the sleeping hollow in {biome}, watching until they fade before moving the bedding away from the trail.
+
+NIGHT-RESUPPLY-PREPARATION
+1. {actor.name} checks the sealed rations collected from the Center Podium delivery, then chooses a sleeping spot away from the supply lanes in {biome}. The food stays tucked close while {actor.name} watches for anyone following the delivery route.
+2. After checking the sealed rations collected from the Center Podium delivery, {actor.name} picks a sleeping place clear of the supply lanes in {biome}. The food stays close while {actor.name} looks for anyone following the delivery route.
+3. {actor.name} chooses somewhere to sleep away from the supply lanes in {biome} after inspecting the sealed rations from the Center Podium delivery. Keeping the food close, {actor.name} watches the delivery route for followers.
+
+NIGHT-WEATHER-SHELTER
+1. The weather announced earlier reaches {biome}. {actor.name} abandons an exposed sleeping spot, crawls into a sheltered hollow, and waits near the entrance in case conditions force another move.
+2. As the announced weather arrives in {biome}, {actor.name} leaves an exposed sleeping place and crawls into a sheltered hollow. The entrance stays close in case another move is needed.
+3. {actor.name} abandons an exposed sleeping spot when the weather forecast earlier reaches {biome}. Crawling into a sheltered hollow, {actor.name} waits by the entrance, ready to move again if necessary.
+
+NIGHT-CLOSURE-PREPARATION
+1. {actor.name} hears the closure warning and gives up plans to sleep in the threatened region. Following the marked exit before nightfall, {actor.name} reaches the Center Podium and checks for shelter away from the supply lanes.
+2. The closure warning changes {actor.name}'s plans to sleep in the threatened region. Before nightfall, {actor.name} follows the marked exit to the Center Podium and looks for shelter clear of the supply lanes.
+3. {actor.name} gives up the threatened region as a sleeping place after hearing the closure warning. Taking the marked exit before nightfall brings {actor.name} to the Center Podium to check for shelter away from the supply lanes.

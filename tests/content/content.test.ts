@@ -20,7 +20,7 @@ describe('release content inventory and references', () => {
     expect(ContentPackSchema.safeParse(defaultContentPack).success).toBe(true);
     const inventory = contentInventory();
     expect(inventory.events).toBeGreaterThanOrEqual(120);
-    expect(inventory.categories).toEqual({ opening: 18, survival: 60, social: 48, conflict: 57, curse: 12, hazard: 18, finale: 36, announcement: 30 });
+    expect(inventory.categories).toEqual({ opening: 23, survival: 77, social: 52, conflict: 106, curse: 12, hazard: 18, finale: 36, announcement: 30 });
     expect(Object.values(inventory.biomes).every(n => n >= 8)).toBe(true);
     expect(inventory.confessionals).toBeGreaterThanOrEqual(40);
     expect(inventory.curses).toBe(3);
@@ -83,6 +83,7 @@ describe('all shipped templates are mechanically reachable', () => {
       };
       for (const role of template.roles) if (role.itemDefinitionId) addItem(binding[role.id], role.itemDefinitionId);
       for (const condition of template.conditions) {
+        if (condition.kind === 'biomeStatus') input.before.arena = [{ biome: input.before.players.find(p => p.id === binding[condition.role])!.biome, status: condition.statuses[0] }];
         if (condition.kind === 'biome') input.before.players.find(p => p.id === binding[condition.role])!.biome = condition.biomes[0];
         if (condition.kind === 'item') addItem(binding[condition.role], condition.definitionId);
         if (condition.kind === 'groundItem') addItem(null, condition.definitionId);

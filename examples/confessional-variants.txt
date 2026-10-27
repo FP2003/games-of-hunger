@@ -1,0 +1,273 @@
+CONFESSIONALS — THREE VERSIONS EACH
+
+Each group keeps the same reaction, personality and factual meaning.
+
+INTERVIEW-DISLOYAL-1
+1. An alliance is useful right up until it is not.
+2. An alliance helps until the moment it stops helping.
+3. An alliance has its uses, right up to the point it does not.
+
+INTERVIEW-GRUDGE-2
+1. I remember who did it. I always will.
+2. I never forget who was responsible.
+3. The person responsible stays in my memory. Always.
+
+INTERVIEW-AGILE-3
+1. One clear landing is all I needed.
+2. All I needed was one clean landing.
+3. One landing without a mistake was enough for me.
+
+INTERVIEW-WEAK-CONSTITUTION-4
+1. I need a moment before I can keep going.
+2. Give me a moment before I carry on.
+3. I need a little time before I can continue.
+
+INTERVIEW-PERCEPTIVE-5
+1. There is usually a warning if you look closely enough.
+2. Look closely and there is usually some warning.
+3. Most things give you a warning if you pay enough attention.
+
+INTERVIEW-LOVE-HATE-6
+1. I know exactly how I feel about them.
+2. There is no doubt in my mind about how I feel about them.
+3. My feelings about them are perfectly clear to me.
+
+INTERVIEW-RECKLESS-7
+1. If there is a path, I am probably already on it.
+2. Show me a path and I am probably already taking it.
+3. If a path exists, chances are I am on it already.
+
+INTERVIEW-RECKLESS-8
+1. An object with a warning label? That counts as equipment.
+2. It has a warning label? I still call that equipment.
+3. A warning on an object does not stop me counting it as equipment.
+
+INTERVIEW-RECKLESS-9
+1. The arena has developed a very flexible lending policy.
+2. The lending rules in this arena seem remarkably flexible.
+3. Apparently the arena takes a generous view of borrowing.
+
+INTERVIEW-RECKLESS-10
+1. I may have confused ominous with useful.
+2. I might have mistaken something ominous for something useful.
+3. Possibly I read useful where I should have read ominous.
+
+INTERVIEW-RECKLESS-11
+1. That was closer than I planned. I did not plan very much.
+2. That came closer than I intended. Admittedly, I barely planned.
+3. Closer than the plan allowed for, though there was not much of a plan.
+
+INTERVIEW-RECKLESS-12
+1. A partner means someone can witness my excellent judgment.
+2. Having a partner gives my excellent judgment a witness.
+3. A partner is someone who gets to see my excellent judgment in action.
+
+INTERVIEW-RECKLESS-13
+1. Apparently actions have sequels.
+2. It turns out actions come with follow-up episodes.
+3. So actions get sequels, apparently.
+
+INTERVIEW-LOYAL-14
+1. I keep looking back for the people I promised to find.
+2. I keep glancing back for those I said I would find.
+3. The people I promised to find keep me looking over my shoulder.
+
+INTERVIEW-LOYAL-15
+1. Useful supplies are better when there is someone worth sharing with.
+2. Good supplies mean more when you have someone worth sharing them with.
+3. Useful supplies are better with someone worth giving a share to.
+
+INTERVIEW-LOYAL-16
+1. Every missing item becomes a question about who I can trust.
+2. Each missing item makes me wonder who deserves my trust.
+3. Whenever something goes missing, I start questioning whom I can trust.
+
+INTERVIEW-LOYAL-17
+1. I would prefer my equipment to keep its promises.
+2. I would rather have equipment that honors its promises.
+3. It would be nice if the equipment kept its word.
+
+INTERVIEW-LOYAL-18
+1. You remember the people behind the scoreboard.
+2. The scoreboard does not make you forget the people behind it.
+3. You keep remembering the people those scores belong to.
+
+INTERVIEW-LOYAL-19
+1. A promise is still a promise inside this place.
+2. Being in this place does not make a promise any less of a promise.
+3. A promise still counts here.
+
+INTERVIEW-LOYAL-20
+1. I will remember how we got here.
+2. How we reached this point is something I will remember.
+3. I am not going to forget what brought us here.
+
+INTERVIEW-SNEAKY-21
+1. The best route has the fewest witnesses.
+2. A good route keeps the witnesses to a minimum.
+3. The fewer witnesses along a route, the better it is.
+
+INTERVIEW-SNEAKY-22
+1. An inventory is just a collection of future options.
+2. Everything in an inventory is an option for later.
+3. I think of an inventory as possibilities saved for the future.
+
+INTERVIEW-SNEAKY-23
+1. I have several theories and intend to share none of them.
+2. I have a few theories. None are being shared.
+3. Several theories come to mind, and I am keeping every one to myself.
+
+INTERVIEW-SNEAKY-24
+1. This feels like equipment with its own agenda.
+2. This equipment seems to have plans of its own.
+3. I get the feeling this equipment has its own agenda.
+
+INTERVIEW-SNEAKY-25
+1. The less I say about that, the better.
+2. I think saying less about that would be best.
+3. That is something I would rather say very little about.
+
+INTERVIEW-SNEAKY-26
+1. Trust is useful. So is reading the small print.
+2. Trust helps, and so does checking the small print.
+3. There is value in trust. There is also value in reading the fine print.
+
+INTERVIEW-SNEAKY-27
+1. People really should keep a better account of old business.
+2. People ought to keep better records of old business.
+3. A better account of past business would do people some good.
+
+INTERVIEW-DRAMATIC-28
+1. Every departure deserves a camera angle.
+2. A departure should always get its own camera angle.
+3. Leaving deserves a proper camera angle every time.
+
+INTERVIEW-DRAMATIC-29
+1. Finally, a prop worthy of the scene.
+2. At last, the scene has a prop that does it justice.
+3. Finally, a suitable prop for a scene like this.
+
+INTERVIEW-DRAMATIC-30
+1. I demand a replay, a hearing, and better lighting.
+2. I want a replay, a hearing, and some improved lighting.
+3. There should be a replay and a hearing, under better lighting.
+
+INTERVIEW-DRAMATIC-31
+1. The soundtrack in my head has become deeply concerning.
+2. My internal soundtrack is starting to worry me deeply.
+3. The music playing in my head has taken a very concerning turn.
+
+INTERVIEW-DRAMATIC-32
+1. Nobody can say this episode lacked tension.
+2. Nobody could accuse this episode of being short on tension.
+3. Whatever else they say, this episode had plenty of tension.
+
+INTERVIEW-DRAMATIC-33
+1. This partnership needs a name and absolutely no rehearsals.
+2. We need a name for this partnership. Rehearsals are out of the question.
+3. Give this partnership a name, and absolutely no rehearsal time.
+
+INTERVIEW-DRAMATIC-34
+1. The editors are going to love this. I may need a minute.
+2. This will delight the editors. I might need a moment.
+3. The editing team will love that. Give me a minute, perhaps.
+
+INTERVIEW-CAUTIOUS-35
+1. I would like the next route to come with a safety inspection.
+2. A safety inspection would be welcome before the next route.
+3. For the next route, I would appreciate an accompanying safety inspection.
+
+INTERVIEW-CAUTIOUS-36
+1. I am checking the label before I celebrate.
+2. First I check the label. Then I celebrate.
+3. The celebration can wait until I have read the label.
+
+INTERVIEW-CAUTIOUS-37
+1. This is why I count everything twice.
+2. This is exactly why I do a second count of everything.
+3. Counting everything twice seems justified by this.
+
+INTERVIEW-CAUTIOUS-38
+1. The warning signs were unusually literal this time.
+2. This time the warning signs meant exactly what they said.
+3. Those warnings were more literal than usual.
+
+INTERVIEW-CAUTIOUS-39
+1. The margins are getting smaller.
+2. There is less and less margin to work with.
+3. The room for error keeps shrinking.
+
+INTERVIEW-CAUTIOUS-40
+1. Clear expectations are an underrated survival tool.
+2. People underestimate clear expectations as a way to survive.
+3. Clear expectations do more for survival than they get credit for.
+
+INTERVIEW-CAUTIOUS-41
+1. I will update my risk assessment.
+2. My risk assessment is due for an update.
+3. I will be revising the risk assessment.
+
+INTERVIEW-RESOURCEFUL-42
+1. Different ground means a different set of options.
+2. A change of ground brings a change of options.
+3. Different terrain gives you different possibilities.
+
+INTERVIEW-RESOURCEFUL-43
+1. Everything has a use. Sometimes it takes a while to admit what it is.
+2. There is a use for everything, even if admitting it takes time.
+3. Everything can be useful. Sometimes I need a while to admit how.
+
+INTERVIEW-RESOURCEFUL-44
+1. I am revising the storage system immediately.
+2. The storage system is getting revised right now.
+3. I am changing how things are stored, immediately.
+
+INTERVIEW-RESOURCEFUL-45
+1. There must be a practical way to make this less terrible.
+2. There has to be a practical way to improve this awful situation.
+3. Surely a practical solution can make this a little less terrible.
+
+INTERVIEW-RESOURCEFUL-46
+1. You work with what the arena leaves you.
+2. Whatever the arena leaves is what you have to work with.
+3. You make use of what remains in the arena.
+
+INTERVIEW-RESOURCEFUL-47
+1. Two people can solve a problem one person keeps walking into.
+2. Two people can solve a problem that one person keeps running into.
+3. Sometimes a second person solves the problem the first keeps running into.
+
+INTERVIEW-RESOURCEFUL-48
+1. The old plan is finished. I am making another.
+2. That plan is over. Time for me to make a new one.
+3. I am putting together another plan now that the old one is finished.
+
+INTERVIEW-OPEN-1
+1. A new location. Same questionable management.
+2. Different location, equally questionable management.
+3. The location has changed. The management is still questionable.
+
+INTERVIEW-OPEN-2
+1. I am calling that a small victory.
+2. I will count that as a little victory.
+3. That qualifies as a small win in my book.
+
+INTERVIEW-OPEN-3
+1. Trust seems to be a limited resource around here.
+2. Trust looks like something in short supply here.
+3. There does not seem to be much trust to go around.
+
+INTERVIEW-OPEN-4
+1. I have some questions about the equipment department.
+2. The equipment department has a few questions to answer for me.
+3. I would like to put some questions to whoever handles the equipment.
+
+INTERVIEW-OPEN-5
+1. For a moment, this almost felt cooperative.
+2. That nearly felt like cooperation for a moment.
+3. For a brief moment there, it almost seemed cooperative.
+
+INTERVIEW-OPEN-6
+1. I would like to thank absolutely nobody responsible for the arena design.
+2. Nobody involved in designing this arena will be getting my thanks.
+3. I have no thanks whatsoever for the people behind this arena design.
