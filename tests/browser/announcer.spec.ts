@@ -18,6 +18,7 @@ for (const width of [1280, 390]) test(`announcer warnings are readable, saved an
   await expect(page.getByLabel('Season title', { exact: true })).toBeVisible();
   await page.locator('input[type=file]').first().setInputFiles({ name: 'announcer.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({ kind: 'run', schemaVersion: 1, run, cursor: warningIndex })) });
   await expect(page.locator('.arena-announcement')).toHaveCount(0);
+  if (phaseReport(run, warningIndex).showFallen) await page.locator('.playback button.primary').click();
   await page.locator('.playback button.primary').click();
   const cursor = phaseEndCursor(run, warningIndex);
   const announcements = phaseReport(run, cursor).events.filter(e => !Object.keys(e.bindings).length);
@@ -37,4 +38,17 @@ for (const width of [1280, 390]) test(`announcer warnings are readable, saved an
   await page.getByRole('button', { name: 'Resume game' }).click();
   await expect(page.locator('.arena-announcement .phase-event-body>p')).toHaveText(announcements.map(e => e.text));
   await expect(page.locator('.broadcast')).toHaveAttribute('data-revealed', String(cursor));
+  await expect(page.getByText('Region closed', { exact: true })).toHaveCount(0);
+  const closure = run.events.find(e => e.effects.some(f => f.kind === 'biomeStatus' && f.status === 'closed'))!;
+  expect(closure).toBeDefined();
+  const regionName = run.input.content.biomes.find(b => b.id === closure.biome)!.name;
+  await page.getByRole('button', { name: 'The cast', exact: true }).click();
+  await page.locator('input[type=file]').first().setInputFiles({ name: 'closure.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({ kind: 'run', schemaVersion: 1, run, cursor: closure.sequence + 1 })) });
+  await expect(page.locator(`.region-roster[data-region="${closure.biome}"]`)).toContainText('Region closed');
+  await page.getByText('Arena routes', { exact: true }).click();
+  for (const biome of run.input.content.biomes) {
+    const row = page.locator('.location-row').filter({ has: page.locator('strong', { hasText: biome.name }) });
+    if (biome.id === closure.biome) await expect(row.locator('small')).toHaveText('Closed');
+    else await expect(row.locator('small')).not.toContainText(regionName);
+  }
 });

@@ -251,14 +251,14 @@ test('grouped cards number players in display order even when the saved cast int
   await expect(akesel.locator('.cast-person-details small')).toHaveCount(0);
   await akesel.getByRole('button', { name: 'Edit Akesel, cast entry 4', exact: true }).click();
   await expect(page.getByRole('dialog').getByLabel('Name', { exact: true })).toHaveValue('Akesel');
-  await page.getByLabel('sneaky', { exact: true }).check();
+  await page.getByLabel('Sneaky', { exact: true }).check();
   await page.getByRole('button', { name: 'Done', exact: true }).click();
-  await expect(akesel.locator('.cast-person-details small')).toHaveText('sneaky');
+  await expect(akesel.locator('.cast-person-details small')).toHaveText('Sneaky');
   await expect(page.getByText('Draft saved', { exact: true })).toBeVisible();
   await page.reload();
   await expect(akesel.locator('.entry-number')).toHaveText('04');
   await expect(gulliver.locator('.entry-number')).toHaveText('05');
-  await expect(akesel.locator('.cast-person-details small')).toHaveText('sneaky');
+  await expect(akesel.locator('.cast-person-details small')).toHaveText('Sneaky');
 });
 
 test('reload restores incomplete draft fields, customization, relationships, pasted names and settings', async ({ page }) => {
@@ -268,7 +268,7 @@ test('reload restores incomplete draft fields, customization, relationships, pas
   await page.getByLabel('Danger', { exact: true }).selectOption('high');
   await page.getByRole('button', { name: 'Back to cast' }).click();
   await page.getByRole('button', { name: 'Edit Alex, cast entry 1', exact: true }).click();
-  await page.getByLabel('sneaky', { exact: true }).check();
+  await page.getByLabel('Sneaky', { exact: true }).check();
   await page.getByRole('button', { name: 'Select Riley, cast entry 2', exact: true }).click();
   await page.getByRole('button', { name: 'Alex toward Riley: Trusted', exact: true }).click();
   await page.getByLabel('Portrait', { exact: true }).selectOption('/assets/fern.svg');
@@ -281,7 +281,7 @@ test('reload restores incomplete draft fields, customization, relationships, pas
   await expect(page.getByLabel('Names, one per line', { exact: true })).toHaveValue('Still waiting\nAnother name');
   await page.getByRole('button', { name: 'Edit character, cast entry 1', exact: true }).click();
   await expect(page.getByLabel('Name', { exact: true })).toHaveValue('');
-  await expect(page.getByLabel('sneaky', { exact: true })).toBeChecked();
+  await expect(page.getByLabel('Sneaky', { exact: true })).toBeChecked();
   await expect(page.getByLabel('Portrait', { exact: true })).toHaveValue('/assets/fern.svg');
   await page.getByRole('button', { name: 'Select Riley, cast entry 2', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Unnamed player toward Riley: Trusted', exact: true })).toHaveAttribute('aria-pressed', 'true');

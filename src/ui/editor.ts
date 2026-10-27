@@ -1,4 +1,13 @@
-import type { CastDefinition, PlayerDefinition, RemovedPlayer } from '../domain';
+import { MAX_POSITIVE_TRAITS, positiveTraitCount, type CastDefinition, type PlayerDefinition, type RemovedPlayer, type Trait } from '../domain';
+
+export function toggleTrait(traits: Trait[], trait: Trait, checked: boolean): Trait[] {
+  if (!checked) return traits.filter(t => t !== trait);
+  if (traits.includes(trait)) return traits;
+  const next = [...traits.filter(t => !((trait === 'loyal' && t === 'disloyal') || (trait === 'disloyal' && t === 'loyal'))), trait];
+  // Existing over-limit drafts can still remove traits or change other traits.
+  if (positiveTraitCount(next) > MAX_POSITIVE_TRAITS && positiveTraitCount(next) > positiveTraitCount(traits)) return traits;
+  return next;
+}
 
 export function groupCastPlayers(players: readonly PlayerDefinition[]) {
   const groups = new Map<string, { team: string; members: PlayerDefinition[] }>();

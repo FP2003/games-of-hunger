@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { CastSchema, EditorDraftSchema, HistoryEnvelopeSchema, PlaybackSaveSchema, RepositoryError, RunRecordSchema, SeasonHistorySchema, canonicalStringify, type CastDefinition, type GameRepository, type PlaybackSave, type PortraitAsset, type RunRecord, type SeasonHistory, type UnfinishedRun } from '../domain';
+import { CastSchema, StoredCastSchema, EditorDraftSchema, HistoryEnvelopeSchema, PlaybackSaveSchema, RepositoryError, RunRecordSchema, SeasonHistorySchema, canonicalStringify, type CastDefinition, type GameRepository, type PlaybackSave, type PortraitAsset, type RunRecord, type SeasonHistory, type UnfinishedRun } from '../domain';
 import { applyCompletedRun, deriveLore } from '../lore';
 
 export const STORE_NAMES = ['casts', 'runs', 'meta', 'portraits'] as const;
@@ -51,9 +51,9 @@ export function createRepository(db: Database): GameRepository {
     try { return await db.transaction(write, fn); } catch (error) { throw storageError(error); }
   };
   return {
-    listCasts: () => execute(false, async tx => (await tx.values('casts')).map(value => validate(CastSchema, value))),
-    listSavedCasts: () => execute(false, async tx => (await tx.entries('casts')).map(([id, value]) => ({ id, cast: validate(CastSchema, value) }))),
-    getCast: id => execute(false, async tx => { const value = await tx.get('casts', id); return value === undefined ? null : validate(CastSchema, value); }),
+    listCasts: () => execute(false, async tx => (await tx.values('casts')).map(value => validate(StoredCastSchema, value))),
+    listSavedCasts: () => execute(false, async tx => (await tx.entries('casts')).map(([id, value]) => ({ id, cast: validate(StoredCastSchema, value) }))),
+    getCast: id => execute(false, async tx => { const value = await tx.get('casts', id); return value === undefined ? null : validate(StoredCastSchema, value); }),
     saveCast: async (id, cast) => { const valid = validate(CastSchema, cast); if (!id.trim()) throw new RepositoryError('invalid', 'The saved cast needs an ID.'); return execute(true, tx => tx.put('casts', id, valid)); },
     deleteCast: id => execute(true, tx => tx.delete('casts', id)),
     getDraft: () => execute(false, async tx => { const value = await tx.get('meta', 'editor-draft'); return value === undefined ? null : validate(EditorDraftSchema, value); }),
@@ -150,7 +150,7 @@ export function createRepository(db: Database): GameRepository {
     collectUnusedPortraits: (protectedAssetIds = []) => execute(true, async tx => {
       const references = new Set(protectedAssetIds);
       const keep = (players: CastDefinition['players']) => players.forEach(p => { if (p.portrait?.startsWith('asset:')) references.add(p.portrait.slice(6)); });
-      for (const cast of await tx.values('casts')) keep(validate(CastSchema, cast).players);
+      for (const cast of await tx.values('casts')) keep(validate(StoredCastSchema, cast).players);
       for (const run of await tx.values('runs')) keep(validate(RunRecordSchema, run).input.cast.players);
       const draft = await tx.get('meta', 'editor-draft');
       if (draft !== undefined) { const valid = validate(EditorDraftSchema, draft); keep(valid.cast.players); valid.undo.forEach(removed => keep([removed.player])); }

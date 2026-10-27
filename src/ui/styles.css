@@ -188,3 +188,9 @@ label.button{position:relative;overflow:hidden}label.button input[type=file]{dis
 .survivors .region-roster article{border:0;padding:6px 0;margin-bottom:4px}
 .presentation .phase-report{min-height:300px}
 @media(max-width:720px){.event-card.phase-report{padding:20px 12px}.phase-heading h1,.fallen-tributes .phase-heading h1{font-size:34px}.region-report{padding:12px 10px 2px}.region-report h2{font-size:21px;gap:6px}.phase-event{gap:9px}.phase-event .event-portraits{flex-basis:30px;flex-direction:column}.phase-event .portrait{width:28px;height:28px;font-size:11px}.phase-event-body>p{font-size:17px}.playback .button-row{flex-wrap:wrap}.fallen-tributes{padding:24px 16px}.fallen-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px 10px}}
+
+.trait-descriptions{padding-left:18px;color:var(--muted);font-size:12px;line-height:1.7;margin:12px 0 0}.trait-descriptions li+li{margin-top:5px}.trait-descriptions strong{color:#d5dfce}
+/* Focusing a node must scroll the editor, without scrolling inside the chart. */
+.network-viewport{overflow:clip}
+
+.trait-picker h4{display:flex;align-items:center;gap:12px;margin:12px 0;color:#d5dfce;font-size:12px}.trait-picker h4 span{font-weight:400;color:var(--muted)}.trait-picker [role=group]+[role=group]{margin-top:18px}.trait-picker .traits label:has(input:disabled){opacity:.5}.trait-picker [role=alert]{color:#f0b3a0;font-size:12px;line-height:1.6}

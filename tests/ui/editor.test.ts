@@ -1,6 +1,6 @@
 import { expect, it } from 'vitest';
-import { swapPlayers, restorePlayer } from '../../src/ui/editor';
-import type { CastDefinition } from '../../src/domain';
+import { swapPlayers, restorePlayer, toggleTrait } from '../../src/ui/editor';
+import { positiveTraitCount, type CastDefinition, type Trait } from '../../src/domain';
 import { seasonRecap } from '../../src/ui/recap';
 import { exampleCast, fixtureRun } from '../fixtures';
 
@@ -11,6 +11,24 @@ const districtCast: CastDefinition = {
   })),
   relationships: [{ from: 'gulliver', to: 'akesel', trust: 60, grudge: 0 }],
 };
+
+it('prevents a third positive trait, frees slots on removal, and keeps other traits available', () => {
+  const selected: Trait[] = ['agile', 'perceptive'];
+  expect(toggleTrait(selected, 'sneaky', true)).toEqual(selected);
+  expect(toggleTrait(selected, 'grudge', true)).toEqual(['agile', 'perceptive', 'grudge']);
+  const freed = toggleTrait(selected, 'agile', false);
+  expect(toggleTrait(freed, 'resourceful', true)).toEqual(['perceptive', 'resourceful']);
+  expect(selected).toEqual(['agile', 'perceptive']);
+});
+
+it('replaces opposing loyalty and allows existing over-limit choices to be repaired without dropping other traits', () => {
+  expect(toggleTrait(['loyal', 'agile'], 'disloyal', true)).toEqual(['agile', 'disloyal']);
+  expect(toggleTrait(['disloyal', 'perceptive'], 'loyal', true)).toEqual(['perceptive', 'loyal']);
+  const old: Trait[] = ['loyal', 'agile', 'perceptive'];
+  expect(positiveTraitCount(toggleTrait(old, 'loyal', false))).toBe(2);
+  expect(toggleTrait(old, 'grudge', true)).toEqual([...old, 'grudge']);
+  expect(toggleTrait(old, 'sneaky', true)).toEqual(old);
+});
 
 it.each([
   { id: 'gulliver', targetId: 'akesel', names: ['Marcos', 'Chaos', 'Joshi', 'Gulliver', 'Akesel', 'Jokin'] },

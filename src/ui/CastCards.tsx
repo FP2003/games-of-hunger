@@ -1,3 +1,4 @@
+import { TRAIT_LABELS } from '../domain';
 import { useCallback, useEffect, useRef, useState, type KeyboardEvent, type PointerEvent, type ReactNode } from 'react';
 import type { PlayerDefinition } from '../domain';
 import { groupCastPlayers } from './editor';
@@ -167,7 +168,7 @@ export function CastCards({ players, selectedId, onEdit, onRemove, onSwap, portr
             <button className="cast-person" aria-label={pickedId ? pickedId === player.id ? `Cancel moving ${label(player)}` : `Swap ${source ? label(source) : 'player'} with ${label(player)}, slot ${number}` : `Edit ${player.name || 'character'}, cast entry ${number}`} aria-haspopup={pickedId ? undefined : 'dialog'} aria-controls={!pickedId && selectedId === player.id ? 'character-editor' : undefined}
               onPointerDown={event => start(event, player.id)} onPointerMove={move} onPointerUp={event => release(event)} onPointerCancel={stop} onLostPointerCapture={() => { if (pointer.current) stop(); }} onDragStart={event => event.preventDefault()}
               onClick={() => { if (!ignoreClick.current) { if (pickedId) choose(player.id); else onEdit(player.id); } }}>
-              {portrait(player)}<span className="cast-person-details"><strong>{label(player)}</strong>{player.traits.length > 0 && <small>{player.traits.join(' · ')}</small>}{duplicate && <small>Cast entry {number}</small>}</span><span className="cast-person-arrow" aria-hidden="true">↗</span>
+              {portrait(player)}<span className="cast-person-details"><strong>{label(player)}</strong>{player.traits.length > 0 && <small>{player.traits.map(trait => TRAIT_LABELS[trait]).join(' · ')}</small>}{duplicate && <small>Cast entry {number}</small>}</span><span className="cast-person-arrow" aria-hidden="true">↗</span>
             </button>
           </article>;
         })}</div>

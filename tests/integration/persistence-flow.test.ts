@@ -52,7 +52,9 @@ describe('real engine, original content, and persistence integration', () => {
         expect(lore.facts.some(l => l.sourceRunId === f.sourceRunId && l.eventSequences.includes(f.sourceEvent!))).toBe(true);
       });
       expect(second.initialState.players.every(p => p.alive && Object.keys(p.markers).length === 0)).toBe(true);
-      expect(second.initialState.relationships).toEqual(renamed.relationships);
+      const ordinary = (from: string) => !renamed.players.find(p => p.id === from)!.traits.includes('love-hate');
+      expect(second.initialState.relationships.filter(r => ordinary(r.from))).toEqual(renamed.relationships.filter(r => ordinary(r.from)));
+      expect(second.initialState.relationships.filter(r => !ordinary(r.from)).every(r => Math.abs(r.trust) === 80)).toBe(true);
       expect(second.initialState.items.every(i => i.definitionId.startsWith('signature:'))).toBe(true);
       const disabled = generateRun({ ...second.input, settings: { ...second.input.settings, loreCarryover: false }, lore }, narrativeAdapter);
       expect(disabled.input.lore.facts).toHaveLength(0);
