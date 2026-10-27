@@ -5,10 +5,19 @@ import { generateRun } from '../../src/engine';
 import { narrativeAdapter } from '../../src/narrative';
 import { phaseEndCursor, phaseReport } from '../../src/ui/playback';
 
-const run = generateRun({
-  cast: { version: 1, title: 'The Evening Programme', relationships: [], players: Array.from({ length: 48 }, (_, i) => ({ id: `p${i}`, name: `Guest ${i}`, traits: [] })) },
-  settings: { ...DEFAULT_SETTINGS, seed: 'arena-63' }, content: defaultContentPack, lore: { facts: [] },
-}, narrativeAdapter);
+function announcerFixture() {
+  // Content additions change scene selection. Select a repeatable fixture that
+  // actually reaches both warning and closure, rather than relying on one seed.
+  for (let seed = 0; seed < 64; seed++) {
+    const run = generateRun({
+      cast: { version: 1, title: 'The Evening Programme', relationships: [], players: Array.from({ length: 48 }, (_, i) => ({ id: `p${i}`, name: `Guest ${i}`, traits: [] })) },
+      settings: { ...DEFAULT_SETTINGS, seed: `arena-${seed}` }, content: defaultContentPack, lore: { facts: [] },
+    }, narrativeAdapter);
+    if (run.events.some(e => e.effects.some(f => f.kind === 'biomeStatus' && f.status === 'closed'))) return run;
+  }
+  throw new Error('No deterministic arena fixture reached a closure.');
+}
+const run = announcerFixture();
 const warningIndex = run.events.findIndex(e => e.effects.some(f => f.kind === 'biomeStatus' && f.status.endsWith('warning')));
 
 for (const width of [1280, 390]) test(`announcer warnings are readable, saved and spoiler-safe at ${width}px`, async ({ page }) => {
@@ -44,7 +53,7 @@ for (const width of [1280, 390]) test(`announcer warnings are readable, saved an
   const regionName = run.input.content.biomes.find(b => b.id === closure.biome)!.name;
   await page.getByRole('button', { name: 'The cast', exact: true }).click();
   await page.locator('input[type=file]').first().setInputFiles({ name: 'closure.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({ kind: 'run', schemaVersion: 1, run, cursor: closure.sequence + 1 })) });
-  await expect(page.locator(`.region-roster[data-region="${closure.biome}"]`)).toContainText('Region closed');
+  await expect(page.locator(`.region-roster[data-region="${closure.biome}"]`)).toHaveCount(0);
   await page.getByText('Arena routes', { exact: true }).click();
   for (const biome of run.input.content.biomes) {
     const row = page.locator('.location-row').filter({ has: page.locator('strong', { hasText: biome.name }) });

@@ -54,6 +54,8 @@ for (const width of [1280, 390]) test(`whole phases, regions, gifts and roll cal
     await expect(page.locator('.phase-event')).toHaveCount(report.events.length);
     await expect(page.locator('.phase-event .character-name').first()).toBeVisible();
     await expect(page.locator('.region-roster article')).toHaveCount(run.events[cursor - 1].state.players.filter(p => p.alive).length);
+    const occupied = new Set(run.events[cursor - 1].state.players.filter(p => p.alive).map(p => p.biome));
+    await expect(page.locator('.region-roster')).toHaveCount(occupied.size);
     for (const region of defaultContentPack.biomes) {
       const regionalEvents = report.events.filter(e => e.biome === region.id);
       if (regionalEvents.length) await expect(page.getByRole('region', { name: `${region.name} events`, exact: true }).locator('.phase-event')).toHaveCount(regionalEvents.length);
@@ -62,7 +64,7 @@ for (const width of [1280, 390]) test(`whole phases, regions, gifts and roll cal
     if (phase.kind === 'night') sawNight = true;
     if (report.events.some(e => e.templateId.startsWith('sponsor-'))) {
       sawGift = true;
-      await expect(page.locator('.gift-tag').first()).toHaveText('Sponsor gift ↓');
+      await expect(page.locator('.gift-tag').first()).toHaveText('Sponsor gift');
     }
     if (phase.index <= 2) await page.screenshot({ path: test.info().outputPath(`phase-${phase.kind}-${width}.png`), fullPage: true });
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);

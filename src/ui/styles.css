@@ -59,7 +59,7 @@ label.button{position:relative;overflow:hidden}label.button input[type=file]{dis
 .character-modal .relationship-row select{flex-shrink:0}
 @media(max-width:720px){.character-modal{width:calc(100% - 24px);max-height:calc(100dvh - 24px);padding:0}.character-modal .character-modal-heading,.character-modal-body{padding:20px}.character-modal-actions{padding:16px 20px}.character-modal-actions .muted{font-size:11px}}
 .unfinished-panel{margin:20px 0;padding:24px}.unfinished-panel h3{margin-top:0}.unfinished-row{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:16px 0;border-top:1px solid var(--line)}.unfinished-row strong,.unfinished-row small{display:block}.unfinished-row small{font-size:11px;color:var(--muted);margin-top:6px}.unfinished-row button{font-size:12px;max-width:55%;overflow-wrap:anywhere}.cast-library{margin-top:24px;padding:20px}.cast-library h3{margin-top:0}.cast-library .full{margin-top:8px}.draft-status{color:var(--muted);font-size:11px}.bottom-bar .button-row{justify-content:flex-end}.save-recovery{padding:20px;margin-bottom:20px}.save-recovery p{font-size:13px}.revealed-log blockquote,.survivor-panel blockquote{margin:12px 0;padding:12px 16px;border-left:2px solid var(--acid);background:#263129}.revealed-log blockquote strong,.survivor-panel blockquote strong{font-size:11px;color:var(--acid)}.revealed-log blockquote p,.survivor-panel blockquote p{font-size:13px;margin-bottom:0}
-.unfinished-row>div:first-child{min-width:0}.unfinished-actions{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:wrap;max-width:60%}.unfinished-actions button{max-width:100%}.unfinished-actions p{flex-basis:100%;font-size:12px;line-height:1.6;margin:0;text-align:right;color:var(--muted)}.unfinished-actions .delete-game{background:#402920;border-color:#9d6550;color:#ffe4d4}
+.unfinished-row>div:first-child{min-width:0}.unfinished-actions{display:flex;align-items:center;justify-content:flex-end;gap:10px;flex-wrap:wrap;max-width:60%}.unfinished-actions button{max-width:100%}.unfinished-actions p{flex-basis:100%;font-size:12px;line-height:1.6;margin:0;text-align:right;color:var(--muted)}.unfinished-actions .delete-game,.season-card .delete-game{background:#402920;border-color:#9d6550;color:#ffe4d4}
 @media(max-width:720px){.unfinished-panel{padding:20px}.unfinished-row{align-items:stretch;flex-direction:column;gap:12px}.unfinished-row button{max-width:100%}.unfinished-actions{max-width:100%;justify-content:flex-start}.unfinished-actions p{text-align:left}.bottom-bar .button-row{display:grid;grid-template-columns:1fr 1fr}.cast-library{margin-top:16px}}
 
 .cast-library{display:flex;align-items:flex-end;gap:20px;margin:0 0 20px;padding:20px 24px}
@@ -176,7 +176,7 @@ label.button{position:relative;overflow:hidden}label.button input[type=file]{dis
 .gift-tag{display:inline-block;border:1px solid #687d4f;border-radius:3px;padding:2px 7px;margin:0 0 10px}
 .fallen-tributes{display:block;min-height:350px;padding:32px;text-align:center}
 .fallen-tributes .phase-heading h1{font-size:42px}
-.fallen-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:24px 14px;padding:20px 0}
+.fallen-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(0,100px));justify-content:start;gap:24px 14px;padding:20px 0}
 .fallen-grid article{display:flex;flex-direction:column;align-items:center;gap:9px;max-width:120px}
 .fallen-grid .portrait{filter:grayscale(1);opacity:.75}
 .fallen-grid strong{font:14px Georgia,serif;overflow-wrap:anywhere}
@@ -187,10 +187,17 @@ label.button{position:relative;overflow:hidden}label.button input[type=file]{dis
 .region-roster>p{font-size:10px;margin:6px 0}
 .survivors .region-roster article{border:0;padding:6px 0;margin-bottom:4px}
 .presentation .phase-report{min-height:300px}
-@media(max-width:720px){.event-card.phase-report{padding:20px 12px}.phase-heading h1,.fallen-tributes .phase-heading h1{font-size:34px}.region-report{padding:12px 10px 2px}.region-report h2{font-size:21px;gap:6px}.phase-event{gap:9px}.phase-event .event-portraits{flex-basis:30px;flex-direction:column}.phase-event .portrait{width:28px;height:28px;font-size:11px}.phase-event-body>p{font-size:17px}.playback .button-row{flex-wrap:wrap}.fallen-tributes{padding:24px 16px}.fallen-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:20px 10px}}
+@media(max-width:720px){.event-card.phase-report{padding:20px 12px}.phase-heading h1,.fallen-tributes .phase-heading h1{font-size:34px}.region-report{padding:12px 10px 2px}.region-report h2{font-size:21px;gap:6px}.phase-event{gap:9px}.phase-event .event-portraits{flex-basis:30px;flex-direction:column}.phase-event .portrait{width:28px;height:28px;font-size:11px}.phase-event-body>p{font-size:17px}.playback .button-row{flex-wrap:wrap}.fallen-tributes{padding:24px 16px}.fallen-grid{grid-template-columns:repeat(auto-fill,minmax(0,80px));gap:20px 10px}}
 
 .trait-descriptions{padding-left:18px;color:var(--muted);font-size:12px;line-height:1.7;margin:12px 0 0}.trait-descriptions li+li{margin-top:5px}.trait-descriptions strong{color:#d5dfce}
 /* Focusing a node must scroll the editor, without scrolling inside the chart. */
 .network-viewport{overflow:clip}
+
+.game-relationships-modal{width:min(1200px,calc(100% - 32px))}
+.game-relationships-modal .relationship-network{margin-top:16px}
+.game-relationships-modal .network-node.eliminated{opacity:.5}
+.game-relationships-modal .network-node.eliminated .network-node-name{text-decoration:line-through}
+.network-status-readout{font-size:11px;line-height:1.7}
+@media(max-width:720px){.game-relationships-modal{width:calc(100% - 24px)}.game-relationships-modal .character-modal-body{padding:16px 12px}}
 
 .trait-picker h4{display:flex;align-items:center;gap:12px;margin:12px 0;color:#d5dfce;font-size:12px}.trait-picker h4 span{font-weight:400;color:var(--muted)}.trait-picker [role=group]+[role=group]{margin-top:18px}.trait-picker .traits label:has(input:disabled){opacity:.5}.trait-picker [role=alert]{color:#f0b3a0;font-size:12px;line-height:1.6}

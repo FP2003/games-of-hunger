@@ -39,6 +39,71 @@ async function writeMeta(page: Page, key: string, value: unknown) {
   }, { key, value });
 }
 
+for (const width of [1280, 390]) test(`completed seasons hide the resume banner and can be deleted at ${width}px`, async ({ page }) => {
+  await page.setViewportSize({ width, height: 900 });
+  await open(page); await upload(page, exampleCast);
+  await upload(page, { kind: 'run', schemaVersion: 1, run: fixtureRun, cursor: fixtureRun.events.length });
+  await expect(page.locator('.results')).toBeVisible();
+  await page.getByRole('button', { name: 'Season archive', exact: false }).click();
+  await expect(page.locator('.season-card')).toHaveCount(1);
+  await page.getByRole('button', { name: 'The cast', exact: true }).click();
+  await expect(page.locator('.resume')).toHaveCount(0);
+  await page.reload();
+  await expect(page.getByLabel('Season title', { exact: true })).toHaveValue(exampleCast.title);
+  await expect(page.locator('.resume')).toHaveCount(0);
+  await page.getByRole('button', { name: 'Season archive', exact: false }).click();
+  const remove = page.getByRole('button', { name: `Delete season ${fixtureRun.input.cast.title}`, exact: true });
+  await remove.click();
+  await expect(page.getByText('Delete this season and its replay? This cannot be undone.', { exact: true })).toBeVisible();
+  await page.getByRole('button', { name: `Cancel deletion of season ${fixtureRun.input.cast.title}`, exact: true }).click();
+  await expect(page.locator('.season-card')).toHaveCount(1);
+  await page.getByRole('button', { name: 'Revisit season', exact: false }).click();
+  await expect(page.locator('.results')).toBeVisible();
+  await page.getByRole('button', { name: 'Season archive', exact: false }).click();
+  await remove.click();
+  await page.getByRole('button', { name: `Confirm deletion of season ${fixtureRun.input.cast.title}`, exact: true }).click();
+  await expect(page.getByRole('heading', { name: 'No completed seasons' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'The arena', exact: true })).toHaveCount(0);
+  await page.reload();
+  await expect(page.getByLabel('Season title', { exact: true })).toHaveValue(exampleCast.title);
+  await expect(page.locator('.resume')).toHaveCount(0);
+  await page.getByRole('button', { name: 'Season archive', exact: false }).click();
+  await expect(page.locator('.season-card')).toHaveCount(0);
+});
+
+test('archive deletion preserves another unfinished game and can retry a storage failure', async ({ page }) => {
+  await open(page);
+  await upload(page, { kind: 'run', schemaVersion: 1, run: fixtureRun, cursor: fixtureRun.events.length });
+  await page.getByRole('button', { name: 'Season archive', exact: false }).click();
+  await expect(page.locator('.season-card')).toHaveCount(1);
+  await page.getByRole('button', { name: 'The cast', exact: true }).click();
+  const second = structuredClone(fixtureRun);
+  second.input.cast.title = 'Unfinished game to keep'; second.input.settings.seed = 'keep-after-archive-deletion'; second.id = canonicalRunId(second.input);
+  await upload(page, { kind: 'run', schemaVersion: 1, run: second, cursor: 0 });
+  await expect(page.locator('footer')).toContainText('Progress saved · 0 events revealed');
+  await page.getByRole('button', { name: 'Season archive', exact: false }).click();
+  await page.getByRole('button', { name: `Delete season ${fixtureRun.input.cast.title}`, exact: true }).click();
+  await page.evaluate(() => {
+    const original = IDBObjectStore.prototype.delete;
+    IDBObjectStore.prototype.delete = function(key: IDBValidKey | IDBKeyRange) {
+      if (this.name === 'runs') { IDBObjectStore.prototype.delete = original; throw new DOMException('Simulated deletion failure', 'UnknownError'); }
+      return original.call(this, key);
+    };
+  });
+  const confirm = page.getByRole('button', { name: `Confirm deletion of season ${fixtureRun.input.cast.title}`, exact: true });
+  await confirm.click();
+  await expect(page.getByRole('alert')).toContainText('Could not delete this season');
+  await expect(page.locator('.season-card')).toHaveCount(1);
+  await confirm.click();
+  await expect(page.getByRole('heading', { name: 'No completed seasons' })).toBeVisible();
+  await page.getByRole('button', { name: 'The cast', exact: true }).click();
+  await expect(page.locator('.resume')).toContainText('Unfinished game to keep');
+  await page.reload();
+  await expect(page.locator('.resume')).toContainText('Unfinished game to keep');
+  await page.getByRole('button', { name: 'Resume game', exact: false }).click();
+  await expect(page.locator('.broadcast')).toHaveAttribute('data-revealed', '0');
+});
+
 for (const viewport of [{ width: 1280, height: 900 }, { width: 390, height: 844 }]) {
   test(`cast chooser and player form work together at ${viewport.width}px`, async ({ page }) => {
     await page.setViewportSize(viewport);
