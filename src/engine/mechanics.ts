@@ -84,7 +84,11 @@ export function applyEffects(before: GameState, effects: readonly Effect[], bind
           state.items.push(instance); record({ type: 'acquire', actorId: p.id, itemId: instance.id, itemDefinitionId: def.id }); break;
         }
         case 'acquireItem': {
-          const p = player(effect.role); const ground = state.items.filter(i => !i.ownerId && !i.destroyed && i.biome === p.biome && (!effect.definitionId || i.definitionId === effect.definitionId)).sort((a,b) => compare(a.id,b.id))[0];
+          const p = player(effect.role);
+          const source = effect.from ? bindings[effect.from] : undefined;
+          if (effect.from && (!source || !facts.some(f => f.type === 'elimination' && f.targetId === source))) throw new Error('Loot requires an elimination in this encounter.');
+          const ground = state.items.filter(i => !i.ownerId && !i.destroyed && i.biome === p.biome && (!effect.definitionId || i.definitionId === effect.definitionId)
+            && (!effect.from || facts.some(f => f.type === 'drop' && f.actorId === source && f.itemId === i.id))).sort((a,b) => compare(a.id,b.id))[0];
           if (!ground) throw new Error('No ground item.'); ground.ownerId = p.id; record({ type: 'acquire', actorId: p.id, itemId: ground.id, itemDefinitionId: ground.definitionId }); break;
         }
         case 'transferItem': {
@@ -164,6 +168,7 @@ function conditionsPass(conditions: Condition[], bindings: Record<string,string>
     const p = 'role' in c ? state.players.find(p => p.id === bindings[c.role]) : undefined;
     switch (c.kind) {
       case 'biome': return !!p && c.biomes.includes(p.biome);
+      case 'biomeStatus': return !!p && c.statuses.includes(biomeStatus(state, p.biome));
       case 'trait': return (cast.players.find(p => p.id === bindings[c.role])?.traits.includes(c.trait) ?? false) && !(c.trait === 'agile' && p?.markers['sprained-ankle'] === true);
       case 'item': return held(bindings[c.role],c.definitionId,c.tag);
       case 'relationship': { const r = state.relationships.find(r => r.from === bindings[c.from] && r.to === bindings[c.to]) ?? { trust:0,grudge:0 }; return (c.minTrust === undefined || r.trust >= c.minTrust) && (c.maxTrust === undefined || r.trust <= c.maxTrust) && (c.minGrudge === undefined || r.grudge >= c.minGrudge); }

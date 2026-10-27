@@ -1,4 +1,4 @@
-import type { Confessional, ConfessionalInput, EventNarrativeInput, NarrativeAdapter, PlayerDefinition } from '../domain';
+import type { ConfessionalSelection, ConfessionalInput, EventNarrativeInput, NarrativeAdapter, PlayerDefinition, RandomSource } from '../domain';
 
 function nameValue(player: PlayerDefinition, field: string): string {
   if (field === 'name') return player.name;
@@ -28,8 +28,14 @@ export function renderTemplate(text: string, input: EventNarrativeInput, speaker
   });
 }
 
-export function renderEvent(input: EventNarrativeInput): { text: string } {
-  let text = renderTemplate(input.random.pick(input.template.variants), input);
+function pickWording(variants: readonly string[], previous: string | undefined, random: RandomSource): string {
+  const alternatives = variants.filter(text => text !== previous);
+  return random.pick(alternatives.length ? alternatives : variants);
+}
+
+export function renderEvent(input: EventNarrativeInput): { text: string; wording: string } {
+  const wording = pickWording(input.template.variants, input.previousWording, input.random);
+  let text = renderTemplate(wording, input);
   const name = (id: string | undefined) => input.cast.players.find(p => p.id === id)?.name;
   for (const fact of input.facts.filter(f => f.type === 'grudge')) {
     text += ` When word of ${name(fact.allyId)}'s death reaches ${name(fact.actorId)}, ${name(fact.actorId)} vows never to forgive ${name(fact.targetId)} for killing an ally.`;
@@ -51,10 +57,10 @@ export function renderEvent(input: EventNarrativeInput): { text: string } {
       text += ` Archive: ${phrases[fact.type]} [Source: ${fact.sourceRunId}, ${callback.sourceEvent !== undefined ? `event ${callback.sourceEvent + 1}` : 'season result'}.]`;
     }
   }
-  return { text };
+  return { text, wording };
 }
 
-export function selectConfessional(input: ConfessionalInput): Confessional | null {
+export function selectConfessional(input: ConfessionalInput): ConfessionalSelection | null {
   const involved = new Set(Object.values(input.bindings));
   const justEliminated = new Set(input.before.players.filter(p => p.alive && !input.after.players.find(a => a.id === p.id)?.alive).map(p => p.id));
   const candidates: { template: typeof input.content.confessionals[number]; player: PlayerDefinition; exit: boolean }[] = [];
@@ -78,7 +84,8 @@ export function selectConfessional(input: ConfessionalInput): Confessional | nul
   // with no traits still has appropriate generic interviews.
   const specific = candidates.filter(c => c.template.traits.length);
   const chosen = input.random.pick(specific.length ? specific : candidates);
-  return { templateId: chosen.template.id, speakerId: chosen.player.id, exit: chosen.exit, text: renderTemplate(input.random.pick(chosen.template.variants), input, chosen.player) };
+  const wording = pickWording(chosen.template.variants, input.lastWording?.[chosen.template.id], input.random);
+  return { templateId: chosen.template.id, speakerId: chosen.player.id, exit: chosen.exit, text: renderTemplate(wording, input, chosen.player), wording };
 }
 
 export const narrativeAdapter: NarrativeAdapter = { renderEvent, selectConfessional };

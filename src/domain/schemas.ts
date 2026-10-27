@@ -68,6 +68,7 @@ export const BiomeDefinitionSchema = z.object({ id: BiomeIdSchema, name: label, 
 export const RoleSchema = z.object({ id, traits: z.array(TraitSchema).optional(), itemDefinitionId: id.optional() }).strict();
 const role = id;
 export const ConditionSchema = z.discriminatedUnion('kind', [
+  z.object({ kind: z.literal('biomeStatus'), role, statuses: z.array(BiomeStatusSchema).min(1) }).strict(),
   z.object({ kind: z.literal('biome'), role, biomes: z.array(BiomeIdSchema).min(1) }).strict(),
   z.object({ kind: z.literal('trait'), role, trait: TraitSchema }).strict(),
   z.object({ kind: z.literal('item'), role, definitionId: id.optional(), tag: id.optional() }).strict(),
@@ -81,7 +82,7 @@ export const EffectSchema = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('biomeStatus'), biome: BiomeIdSchema, status: BiomeStatusSchema }).strict(),
   z.object({ kind: z.literal('move'), role, biome: z.union([BiomeIdSchema, z.literal('adjacent')]) }).strict(),
   z.object({ kind: z.literal('createItem'), role, definitionId: id }).strict(),
-  z.object({ kind: z.literal('acquireItem'), role, definitionId: id.optional() }).strict(),
+  z.object({ kind: z.literal('acquireItem'), role, definitionId: id.optional(), from: role.optional() }).strict(),
   z.object({ kind: z.literal('transferItem'), from: role, to: role, definitionId: id.optional(), fact: z.enum(['transfer', 'theft']).default('transfer') }).strict(),
   z.object({ kind: z.literal('dropItem'), role, definitionId: id.optional() }).strict(),
   z.object({ kind: z.literal('destroyItem'), role, definitionId: id.optional() }).strict(),
@@ -93,6 +94,7 @@ export const EffectSchema = z.discriminatedUnion('kind', [
 ]);
 export const EventTemplateSchema = z.object({
   id, category: z.enum(['opening', 'survival', 'social', 'conflict', 'curse', 'hazard', 'finale', 'announcement']), phases: z.array(PhaseKindSchema).min(1), tones: z.array(ToneSchema).min(1), scope: z.enum(['local', 'global']), roles: z.array(RoleSchema).max(4), conditions: z.array(ConditionSchema).default([]), weight: z.number().finite().positive(), cooldown: z.number().int().nonnegative(), variants: z.array(z.string().min(1).max(2000)).min(1), effects: z.array(EffectSchema), chain: z.object({ id, step: z.number().int().positive() }).optional(), arena: ArenaSceneSchema.optional(), rare: z.boolean().optional(),
+  schedule: z.object({ day: z.number().int().positive(), group: id }).strict().optional(),
 }).strict();
 export const ConfessionalTemplateSchema = z.object({ id, traits: z.array(TraitSchema), tones: z.array(ToneSchema).min(1), triggers: z.array(FactTypeSchema).min(1), speaker: z.enum(['actor', 'target', 'any', 'eliminated']), variants: z.array(z.string().min(1).max(1000)).min(1), cooldown: z.number().int().nonnegative() }).strict();
 export const ContentPackSchema = z.object({ id, version: label, title: label, biomes: z.array(BiomeDefinitionSchema).length(6), items: z.array(ItemDefinitionSchema), markers: z.array(MarkerDefinitionSchema), events: z.array(EventTemplateSchema).min(1), confessionals: z.array(ConfessionalTemplateSchema) }).strict().superRefine((pack, ctx) => {
@@ -112,7 +114,7 @@ export const ContentPackSchema = z.object({ id, version: label, title: label, bi
     if (event.arena) {
       const stages = { 'weather-warning': 'weather-warning', 'weather-start': 'hazardous', 'weather-end': 'open', 'closure-warning': 'closure-warning', 'closure-start': 'evacuating', close: 'closed' } as const;
       const status = stages[event.arena.stage as keyof typeof stages];
-      if (event.arena.biome === 'ruins' || (status ? !announcement || event.effects.length !== 1 || !event.effects.some(e => e.kind === 'biomeStatus' && e.biome === event.arena!.biome && e.status === status) : announcement)) issue(['events', i, 'arena'], 'Arena stages must match their biome transition; the central ruins remain accessible.');
+      if (event.arena.biome === 'ruins' || (status ? !announcement || event.effects.length !== 1 || !event.effects.some(e => e.kind === 'biomeStatus' && e.biome === event.arena!.biome && e.status === status) : announcement)) issue(['events', i, 'arena'], 'Arena stages must match their biome transition; the Center Podium remain accessible.');
     }
     const roles = new Set(event.roles.map(r => r.id));
     if (roles.size !== event.roles.length) issue(['events', i, 'roles'], 'Role IDs must be distinct.');
@@ -161,7 +163,7 @@ export const RunRecordSchema = z.object({ id, engineVersion: id, input: Recorded
   if (!run.input.settings.loreCarryover && run.input.lore.facts.length) add(['input', 'lore'], 'Lore-disabled runs cannot contain historical context.');
   if (!ids.has(run.winnerId)) add(['winnerId'], 'Winner must belong to this cast.');
   const checkState = (state: z.infer<typeof GameStateSchema>, path: (string | number)[]) => {
-    if (new Set(state.arena?.map(b => b.biome)).size !== (state.arena?.length ?? 0) || state.arena?.some(b => b.biome === 'ruins' && b.status !== 'open')) add([...path, 'arena'], 'Biome statuses must be unique and the ruins must remain open.');
+    if (new Set(state.arena?.map(b => b.biome)).size !== (state.arena?.length ?? 0) || state.arena?.some(b => b.biome === 'ruins' && b.status !== 'open')) add([...path, 'arena'], 'Biome statuses must be unique and the Center Podium must remain open.');
     if (state.players.some(p => p.alive && state.arena?.some(b => b.biome === p.biome && b.status === 'closed'))) add([...path, 'arena'], 'A closed biome cannot contain a living contestant.');
     if (state.players.length !== ids.size || new Set(state.players.map(p => p.id)).size !== ids.size || state.players.some(p => !ids.has(p.id))) add([...path, 'players'], 'Snapshots must contain exactly the original cast IDs.');
     if (new Set(state.items.map(i => i.id)).size !== state.items.length) add([...path, 'items'], 'Item instance IDs must be unique.');

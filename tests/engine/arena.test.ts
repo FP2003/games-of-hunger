@@ -17,6 +17,30 @@ describe('warned arena disruptions and rare multikills', () => {
   const runs = Array.from({ length: 64 }, (_, i) => generateRun(input(`arena-${i}`, i < 48 ? 24 : 48), narrativeAdapter));
   const events = runs.flatMap(r => r.events);
 
+  it('resupplies the podium once from Day 3, leaving collectible supplies and using one assignment', () => {
+    let witnessed = 0;
+    for (const run of runs) {
+      const deliveries = run.events.filter(e => e.templateId.startsWith('podium-resupply'));
+      expect(deliveries.length).toBeLessThanOrEqual(1);
+      if (run.events.some(e => e.phase.kind === 'day' && e.phase.day === 3)) expect(deliveries).toHaveLength(1);
+      for (const event of deliveries) {
+        witnessed++;
+        expect(event.phase).toMatchObject({ kind: 'day', day: 3 });
+        expect(event.biome).toBe('ruins');
+        expect(event.state.players.find(p => p.id === event.bindings.actor)?.biome).toBe('ruins');
+        expect(event.facts).toEqual(expect.arrayContaining([
+          expect.objectContaining({ type: 'acquire', actorId: event.bindings.actor, itemDefinitionId: 'ration' }),
+          expect.objectContaining({ type: 'drop', itemDefinitionId: 'flask' }),
+          expect.objectContaining({ type: 'drop', itemDefinitionId: 'blanket' }),
+        ]));
+        const ground = event.state.items.filter(i => i.biome === 'ruins' && !i.ownerId && !i.destroyed);
+        expect(ground.map(i => i.definitionId)).toEqual(expect.arrayContaining(['flask', 'blanket']));
+        expect(run.events.filter(e => e.phase.index === event.phase.index && Object.values(e.bindings).includes(event.bindings.actor))).toHaveLength(1);
+      }
+    }
+    expect(witnessed).toBeGreaterThan(0);
+  });
+
   it('gives a whole phase of warning, persists weather, and closes only evacuated regions', () => {
     const witnessed = new Set<string>();
     for (const run of runs) {

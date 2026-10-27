@@ -17,15 +17,18 @@ export interface EventNarrativeInput {
   sequence: number;
   random: RandomSource;
   lore: LoreContext;
+  previousWording?: string;
 }
-export interface RenderedEvent { text: string }
+export interface RenderedEvent { text: string; wording?: string }
 export interface ConfessionalInput extends EventNarrativeInput {
   usedThisPhase: string[];
   lastUsed: Record<string, number>;
+  lastWording?: Readonly<Record<string, string>>;
 }
+export type ConfessionalSelection = Confessional & { wording?: string };
 export interface NarrativeAdapter {
   renderEvent(input: EventNarrativeInput): RenderedEvent;
-  selectConfessional(input: ConfessionalInput): Confessional | null;
+  selectConfessional(input: ConfessionalInput): ConfessionalSelection | null;
 }
 export type RunGenerator = (input: RunInput, narrative: NarrativeAdapter) => RunRecord;
 export type RepositoryErrorCode = 'invalid' | 'unsupported_version' | 'quota' | 'unavailable' | 'conflict' | 'missing';
@@ -57,6 +60,8 @@ export interface GameRepository {
   clearPlayback(expectedRevision?: number): Promise<void>;
   getHistory(): Promise<SeasonHistory>;
   recordCompleted(run: RunRecord): Promise<SeasonHistory>;
+  /** Removes one archived season, its replay and progress in one transaction. */
+  deleteCompletedRun(runId: string): Promise<{ history: SeasonHistory; playback: PlaybackSave | null }>;
   importHistory(history: SeasonHistory, runs: RunRecord[]): Promise<void>;
   getPortrait(id: string): Promise<Blob | null>;
   savePortrait(asset: PortraitAsset): Promise<void>;

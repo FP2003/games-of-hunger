@@ -62,6 +62,7 @@ export function generateRun(rawInput: RunInput, narrative: NarrativeAdapter): Ru
   if(!input.settings.loreCarryover)input.lore={facts:[]};
   const id=canonicalRunId(input); const mechanics=createRandom(`${input.settings.seed}:mechanics`), wording=createRandom(`${input.settings.seed}:wording`), confessionals=createRandom(`${input.settings.seed}:confessionals`);
   const arenaRandom=createRandom(`${input.settings.seed}:arena`);
+  const lastEventWording: Record<string, string> = {}, lastInterviewWording: Record<string, string> = {};
   let state=initialState(input);const initial=structuredClone(state);const events:EventRecord[]=[];const placements:Placement[]=[];const lastUsed:Record<string,number>={};const lastConfessional:Record<string,number>={};let loreUsed=false;
   const templates=[...input.content.events].sort((a,b)=>a.id<b.id?-1:a.id>b.id?1:0);
   let finaleDay: number | null = null;
@@ -80,10 +81,12 @@ export function generateRun(rawInput: RunInput, narrative: NarrativeAdapter): Ru
         const lore=input.lore.facts.find(f=>f.playerIds.some(p=>Object.values(bindings).includes(p))&&f.playerIds.every(p=>input.cast.players.some(c=>c.id===p))&&(!f.itemDefinitionId||input.content.items.some(i=>i.id===f.itemDefinitionId)));
         if(lore) {result.facts.push({type:'lore',actorId:lore.playerIds.find(p=>Object.values(bindings).includes(p)),sourceRunId:lore.sourceRunId,...(lore.eventSequences.length?{sourceEvent:lore.eventSequences[0]}:{})});loreUsed=true;}
       }
-      const narrativeInput={template,bindings,cast:input.cast,content:input.content,before,after:state,facts:result.facts,phase,sequence,random:wording,lore:input.lore};
-      const rendered=narrative.renderEvent(narrativeInput);const confessional=anchor ? narrative.selectConfessional({...narrativeInput,random:confessionals,usedThisPhase:[...usedSpeakers],lastUsed:{...lastConfessional}}) : null;
+      const narrativeInput={template,bindings,cast:input.cast,content:input.content,before,after:state,facts:result.facts,phase,sequence,random:wording,lore:input.lore,previousWording:lastEventWording[template.id]};
+      const rendered=narrative.renderEvent(narrativeInput);const selection=anchor ? narrative.selectConfessional({...narrativeInput,random:confessionals,usedThisPhase:[...usedSpeakers],lastUsed:{...lastConfessional},lastWording:{...lastInterviewWording}}) : null;
+      if (rendered.wording !== undefined) lastEventWording[template.id] = rendered.wording;
+      const confessional = selection ? (({ wording: _wording, ...saved }) => saved)(selection) : null;
       const validConfessional=confessional && !usedSpeakers.includes(confessional.speakerId) && (state.players.find(p=>p.id===confessional.speakerId)?.alive || (confessional.exit && before.players.find(p=>p.id===confessional.speakerId)?.alive && !state.players.find(p=>p.id===confessional.speakerId)?.alive))?confessional:null;
-      if(validConfessional){usedSpeakers.push(validConfessional.speakerId);lastConfessional[validConfessional.templateId]=sequence;}
+      if(validConfessional){usedSpeakers.push(validConfessional.speakerId);lastConfessional[validConfessional.templateId]=sequence;if(selection?.wording !== undefined)lastInterviewWording[validConfessional.templateId]=selection.wording;}
       const biome=template.arena?.biome ?? state.players.find(p=>p.id===anchor)!.biome;
       events.push({sequence,id:`event-${sequence}`,phase:{...phase},templateId:template.id,bindings,biome,effects:structuredClone(template.effects),facts:result.facts,text:rendered.text,confessional:validConfessional,state:structuredClone(state)});
       const eliminated=before.players.filter(p=>p.alive&&!state.players.find(s=>s.id===p.id)!.alive), rank=state.players.filter(p=>p.alive).length+1;
@@ -103,6 +106,16 @@ export function generateRun(rawInput: RunInput, narrative: NarrativeAdapter): Ru
         if (next) stage(arenaTemplate(input, region.biome, next));
       }
       stage(chooseArenaWarning(input,state,events,phase,arenaRandom));
+      // Scheduled scenes share a group so alternate arrival/resident versions
+      // happen only once and still consume the tribute's normal assignment.
+      for (const template of templates.filter(t => t.schedule && t.schedule.day <= phase.day && t.phases.includes(phase.kind))) {
+        if (events.some(e => input.content.events.find(t => t.id === e.templateId)?.schedule?.group === template.schedule!.group)) continue;
+        const available = state.players.filter(p => p.alive && !assigned.has(p.id) && biomeStatus(state, p.biome) !== 'evacuating').map(p => p.id).sort();
+        for (const anchor of available) {
+          const bindings = findBindings(template, state, input.cast, input.content, available, anchor, arenaRandom, input.settings.personality !== 'off');
+          if (bindings && stage(template, bindings)) break;
+        }
+      }
     }
     while(state.players.filter(p=>p.alive).length>1) {
       const available=state.players.filter(p=>p.alive&&!assigned.has(p.id)).map(p=>p.id).sort();if(!available.length)break;
@@ -122,7 +135,7 @@ export function generateRun(rawInput: RunInput, narrative: NarrativeAdapter): Ru
       let candidates:{value:Candidate;weight:number}[]=[];
       // Relax recent-template suppression, then cooldown, never hard eligibility.
       for(let relaxation=0;relaxation<3&&!candidates.length;relaxation++)for(const template of templates) {
-        if(template.arena || template.category==='announcement' || !template.phases.includes(phase.kind)||(finale&&!template.effects.some(e=>e.kind==='eliminate')))continue;
+        if(template.schedule || template.arena || template.category==='announcement' || !template.phases.includes(phase.kind)||(finale&&!template.effects.some(e=>e.kind==='eliminate')))continue;
         if (template.rare && !allowMultikill) continue;
         if (input.settings.personality === 'off' && (template.roles.some(r => r.traits?.length) || template.conditions.some(c => c.kind === 'trait'))) continue;
         if(relaxation<2&&lastUsed[template.id]!==undefined&&phaseIndex-lastUsed[template.id]<=template.cooldown)continue;
