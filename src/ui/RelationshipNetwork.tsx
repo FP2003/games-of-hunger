@@ -99,7 +99,7 @@ export function RelationshipNetwork({ players, relationships, focalId, onChange,
 
   if (players.length < 2) return <p className="muted">Add another player to start connecting relationships.</p>;
 
-  return <section className={`relationship-network${dense ? ' dense' : ''}${nodeWidth < 52 ? ' text-nodes' : ''}`} style={{ '--network-min-height': `${minimumHeight}px`, '--node-width': `${nodeWidth}px`, '--node-height': `${nodeHeight}px`, '--node-font': `${narrow ? dense ? 11 : 12 : dense ? 12 : 13}px`, '--node-portrait': `${narrow ? dense ? 10 : 16 : dense ? 16 : 22}px` } as CSSProperties} aria-label={focal ? `Starting relationships for ${name(focal)}` : 'Cast relationship network'}>
+  return <section className={`relationship-network${dense ? ' dense' : ''}`} style={{ '--network-min-height': `${minimumHeight}px`, '--node-width': `${nodeWidth}px`, '--node-height': `${nodeHeight}px`, '--node-font': `${narrow ? dense ? 11 : 12 : dense ? 12 : 13}px`, '--node-portrait': `${Math.max(4, nodeWidth - 4)}px`, '--label-width': `${layout.labelWidth}px`, '--label-height': `${layout.labelHeight}px` } as CSSProperties} aria-label={focal ? `Starting relationships for ${name(focal)}` : 'Cast relationship network'}>
     <p id={`${id}-instructions`} className="sr-only">{focal ? `Select a player to edit how ${name(focal)} feels about them.` : 'Select two players to edit their relationship.'} Arrows show direction.</p>
     <div className="network-toolbar"><h4>Relationships</h4><div className="network-legend" aria-label="Relationship colours">{statuses.map(value => <span key={value} style={{ '--relationship-colour': colours[value] } as CSSProperties}><i className={value} />{labels[value]}</span>)}</div>{!focal && <label className="network-neutral-toggle" title="Show neutral connections"><input type="checkbox" checked={showNeutral} onChange={event => setShowNeutral(event.target.checked)} />Neutral lines</label>}</div>
     <div ref={viewport} className="network-viewport" role="group" aria-label="Relationship chart" aria-describedby={`${id}-instructions`}>
@@ -161,8 +161,9 @@ export function RelationshipNetwork({ players, relationships, focalId, onChange,
           const selected = player.id === from?.id || player.id === to?.id;
           const relation = from && from.id !== player.id ? status(from.id, player.id) : 'neutral';
           const contents = <>{portrait(player)}<span className="network-node-name">{caption(player)}</span></>;
-          const rotation = central ? 0 : layout.points[ring.findIndex(other => other.id === player.id)].rotation;
-          const style = { left: point.x, top: point.y, '--node-rotation': `${rotation}deg`, '--relationship-colour': central ? 'var(--acid)' : colours[relation] } as CSSProperties;
+          const label = central ? undefined : layout.points[ring.findIndex(other => other.id === player.id)];
+          const labelAnchor = label?.side === 'left' ? 1 : label?.side === 'right' || !label ? 0 : 0.5;
+          const style = { left: point.x, top: point.y, '--label-x': `${label ? label.labelX + layout.labelWidth * labelAnchor - point.x + nodeWidth / 2 - 1 : 0}px`, '--label-y': `${label ? label.labelY - point.y + nodeHeight / 2 - layout.labelHeight / 2 - 1 : 0}px`, '--label-shift': `${-100 * labelAnchor}%`, '--label-align': label?.side === 'left' ? 'right' : label?.side === 'right' ? 'left' : 'center', '--relationship-colour': central ? 'var(--acid)' : colours[relation] } as CSSProperties;
           return central ? <div key={player.id} className="network-node central" style={style} title={entry(player)}>{contents}</div> : <button key={player.id} className={`network-node${selected ? ' selected' : ''}`} style={style} aria-label={`Select ${entry(player)}`} aria-pressed={selected} title={`${entry(player)}${from && from.id !== player.id ? ` · ${name(from)} → ${name(player)}: ${labels[relation]}` : ''}`} onClick={() => choose(player.id)}>{contents}</button>;
         })}
       </div>

@@ -9,25 +9,34 @@ async function expectReadableNetwork(chart: Locator, minimumFont = 11) {
     const cx = (box.left + box.right) / 2, cy = (box.top + box.bottom) / 2;
     const w = (element as HTMLElement).offsetWidth / 2, h = (element as HTMLElement).offsetHeight / 2;
     const corners = [[-w, -h], [w, -h], [w, h], [-w, h]].map(([x, y]) => ({ x: cx + matrix.a * x + matrix.c * y, y: cy + matrix.b * x + matrix.d * y }));
+    const label = element.querySelector('.network-node-name')!.getBoundingClientRect();
     return { name: element.textContent, x: box.x, y: box.y, right: box.right, bottom: box.bottom,
-      corners,
+      corners, central: element.classList.contains('central'), cx, cy, radius: w,
+      label: { x: label.x, y: label.y, right: label.right, bottom: label.bottom }, horizontal: Math.abs(matrix.b) < 0.001 && Math.abs(matrix.c) < 0.001,
       font: Number.parseFloat(getComputedStyle(element.querySelector('.network-node-name')!).fontSize) };
   }));
   for (const [index, node] of nodes.entries()) {
     expect(node.font, `${node.name} stays readable`).toBeGreaterThanOrEqual(minimumFont);
+    expect(node.horizontal, `${node.name} stays horizontal`).toBe(true);
+    expect(node.label.x).toBeGreaterThanOrEqual(viewport!.x - 0.5);
+    expect(node.label.right).toBeLessThanOrEqual(viewport!.x + viewport!.width + 0.5);
+    expect(node.label.y).toBeGreaterThanOrEqual(viewport!.y - 0.5);
+    expect(node.label.bottom).toBeLessThanOrEqual(viewport!.y + viewport!.height + 0.5);
     expect(node.x).toBeGreaterThanOrEqual(viewport!.x - 0.5);
     expect(node.y).toBeGreaterThanOrEqual(viewport!.y - 0.5);
     expect(node.right).toBeLessThanOrEqual(viewport!.x + viewport!.width + 0.5);
     expect(node.bottom).toBeLessThanOrEqual(viewport!.y + viewport!.height + 0.5);
     for (const other of nodes.slice(index + 1)) {
-      const axes = [node.corners, other.corners].flatMap(corners => corners.map((point, i) => ({ x: -(corners[(i + 1) % 4].y - point.y), y: corners[(i + 1) % 4].x - point.x })));
-      const overlaps = axes.every(axis => {
-        const length = Math.hypot(axis.x, axis.y);
-        const project = (point: { x: number; y: number }) => (point.x * axis.x + point.y * axis.y) / length;
-        const a = node.corners.map(project), b = other.corners.map(project);
-        return Math.min(Math.max(...a), Math.max(...b)) - Math.max(Math.min(...a), Math.min(...b)) > 0.5;
-      });
+      let overlaps: boolean;
+      if (!node.central && !other.central) overlaps = Math.hypot(node.cx - other.cx, node.cy - other.cy) < node.radius + other.radius - 0.5;
+      else {
+        const circle = node.central ? other : node, rectangle = node.central ? node : other;
+        const x = Math.max(rectangle.x, Math.min(circle.cx, rectangle.right)), y = Math.max(rectangle.y, Math.min(circle.cy, rectangle.bottom));
+        overlaps = Math.hypot(circle.cx - x, circle.cy - y) < circle.radius - 0.5;
+      }
       expect(overlaps, `${node.name} and ${other.name} do not overlap`).toBe(false);
+      const labelsOverlap = node.label.x < other.label.right - 0.5 && node.label.right > other.label.x + 0.5 && node.label.y < other.label.bottom - 0.5 && node.label.bottom > other.label.y + 0.5;
+      expect(labelsOverlap, `${node.name} and ${other.name} labels do not overlap`).toBe(false);
     }
   }
 }
@@ -126,7 +135,7 @@ for (const width of [1280, 390]) {
   test(`24-player chart uses the full width with readable names at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/');
-    await page.getByRole('button', { name: 'Load Season 2 cast', exact: true }).click();
+    await page.getByLabel('Saved casts', { exact: true }).selectOption('preset:season2');
     await page.getByRole('button', { name: 'Relationship network', exact: true }).click();
     const chart = page.getByRole('region', { name: 'Cast relationship network', exact: true });
     await expect(chart.locator('.network-node')).toHaveCount(24);

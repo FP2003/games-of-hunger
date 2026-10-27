@@ -16,7 +16,12 @@ describe('regular circular network layout', () => {
           }));
         });
         for (const [i, point] of layout.points.entries()) {
+          expect(point.rotation).toBe(0);
           expect(Math.hypot(point.x - width / 2, point.y - height / 2)).toBeCloseTo(layout.radius, 5);
+          expect(point.labelX).toBeGreaterThanOrEqual(0);
+          expect(point.labelX + layout.labelWidth).toBeLessThanOrEqual(width);
+          expect(point.labelY - layout.labelHeight / 2).toBeGreaterThanOrEqual(0);
+          expect(point.labelY + layout.labelHeight / 2).toBeLessThanOrEqual(height);
           for (const corner of polygons[i]) {
             expect(corner.x).toBeGreaterThanOrEqual(0);
             expect(corner.x).toBeLessThanOrEqual(width);
@@ -24,13 +29,9 @@ describe('regular circular network layout', () => {
             expect(corner.y).toBeLessThanOrEqual(height);
           }
           for (let j = i + 1; j < count; j++) {
-            const axes = [polygons[i], polygons[j]].flatMap(corners => corners.map((corner, k) => ({ x: -(corners[(k + 1) % 4].y - corner.y), y: corners[(k + 1) % 4].x - corner.x })));
-            const separated = axes.some(axis => {
-              const project = (corner: { x: number; y: number }) => (corner.x * axis.x + corner.y * axis.y) / Math.hypot(axis.x, axis.y);
-              const a = polygons[i].map(project), b = polygons[j].map(project);
-              return Math.max(...a) <= Math.min(...b) + 0.01 || Math.max(...b) <= Math.min(...a) + 0.01;
-            });
-            expect(separated, `${count} players: nodes ${i} and ${j}`).toBe(true);
+            const other = layout.points[j];
+            expect(Math.hypot(point.x - other.x, point.y - other.y), `${count} players: round nodes ${i} and ${j}`).toBeGreaterThanOrEqual(layout.nodeWidth - 0.01);
+            if (point.side === other.side) expect(Math.abs(point.labelY - other.labelY), `${count} players: labels ${i} and ${j}`).toBeGreaterThanOrEqual(layout.labelHeight - 0.01);
           }
         }
       }
