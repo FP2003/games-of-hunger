@@ -71,6 +71,7 @@ Completed games produce persistent lore and historical callbacks. Presentation m
 - Random outcomes should still obey the world's rules.
 - A player can have bad luck; a player cannot act after elimination.
 - Curses must have visible consequences, not merely decorative labels.
+- Biome advantages and drawbacks stay subtle and unadvertised. Occasional accurate arena warnings use a casually indifferent announcer whose priorities are entertainment and scheduling. Weather can persist across scenes, later regions can close with time to escape, and rare local encounters can yield double or triple kills.
 - Confessionals may be unreliable opinions, but must not invent contradictory factual outcomes.
 - Lore should provide continuity without making previous seasons mandatory.
 - Watching together on one shared screen is the initial social experience.

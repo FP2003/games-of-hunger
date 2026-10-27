@@ -1,6 +1,6 @@
 # Content authoring
 
-The default pack is `defaultContentPack` in `src/content/index.ts`, ID `wild-broadcast`, version `1.2.0`. Contextual encounters and injury branches live in `src/content/encounters.ts`. It is ordinary serializable data validated by `ContentPackSchema`. The shipped library contains 222 original templates (18 opening, 48 survival, 46 social, 50 conflict, 12 curse, 12 hazard, 36 finale), 48 authored confessional templates, six connected biomes, three mechanical curses, and six story chains. Wording variants do not count as separate events.
+The default pack is `defaultContentPack` in `src/content/index.ts`, ID `wild-broadcast`, version `1.4.0`. Contextual encounters and injury branches live in `src/content/encounters.ts`; broadcasts and evacuations in `src/content/arena.ts`; rare multi-victim encounters in `src/content/multikills.ts`. It is ordinary serializable data validated by `ContentPackSchema`. The shipped library contains 276 original templates (18 opening, 57 survival, 48 social, 57 conflict, 12 curse, 18 hazard, 36 finale, 30 announcement), 54 authored confessional templates, six connected biomes, three mechanical curses, and six story chains. Wording variants do not count as separate events.
 
 Run `npm test -- tests/content` for runtime schema validation, inventory counts, every-template role binding/effect execution, placeholder checks, wound continuity, and narrative tests. `contentInventory()` returns the counts for a pack. `starterContentPack` exports 28 templates for small integrations; the application uses the full pack.
 
@@ -10,13 +10,21 @@ Each event has an ID, one primary category, eligible phases, tone tags, local/gl
 
 `public/examples/custom-pack.json` is a minimal valid custom pack. Load unknown data through `validateContentPack()` before simulation. The current UI uses the default pack; a visual pack editor is deferred. Never place executable expressions in JSON.
 
-Allowed effects are adjacent movement, create/acquire/transfer/drop/destroy item, directed relationship adjustment, typed marker set/remove, elimination, and registered curse activation. `src/domain/schemas.ts` defines the complete vocabulary. New kinds require a coordinated schema/engine change; unknown kinds fail validation.
+Allowed effects are adjacent movement, create/acquire/transfer/drop/destroy item, directed relationship adjustment, typed marker set/remove, elimination, registered curse activation, and biome-status transitions for arena announcements. `src/domain/schemas.ts` defines the complete vocabulary. New kinds require a coordinated schema/engine change; unknown kinds fail validation.
 
 Roles are living players and distinct by default. A local event requires all participants in one biome. Conditions can constrain biome, trait, held item/tag, trust/grudge, marker, survivor count, nemesis, or available ground item. Eligibility never relaxes location, alive status, ownership, or the requirement to retain a survivor.
 
 Narrative placeholders are `{actor.name}` (or another declared role), role `.subject`, `.object`, `.possessive`, `{item}`, and `{biome}`. Confessionals additionally support `{speaker.name}` and its grammatical forms. Names and labels stay literal text, including braces and HTML-like text; React displays them without HTML interpretation. `{item}` resolves from committed item facts. `{biome}` is the first participant's post-event location.
 
 Text must only describe committed effects. A transfer can select any eligible held item, so a revenge scene must not claim it returned the exact original stolen object. Elimination scenes are non-graphic but explicit about the action and cause of death. Explain how an attacker succeeds (trip, shove, ambush, sabotage), what happens to the target, and why the outcome is fatal or survivable. Avoid administrative conclusions such as "is removed" or "wins the contest" as substitutes for action. User-supplied signature items remain ordinary objects; scenes using tracked supplies require an ownership condition.
+
+## Traits and relationships
+
+`src/content/personality.ts` adds nine trait-specific scenes. Role traits and trait conditions are hard gates; ordinary personality weights are soft biases. With Personality Off, trait-only templates are excluded and personality rules and risk modifiers are disabled. Loyal and Disloyal are mutually exclusive in valid casts. Loyal eligibility blocks explicit betrayal and hostile actions against mutual allies; the binding search can choose another eligible target. Disloyal increases the acting betrayer’s weight, not the victim’s.
+
+Love and Hate fills each outgoing attitude with seeded love (+80 trust) or hate (-80 trust, 60 grudge), retaining the direction of nonneutral starting relationships. Changes to that tribute’s opinions double, trust stays outside the neutral band, and attitudes bias friendly/hostile encounters. Grudge records a `grudge` fact with `actorId` (surviving ally), `targetId` (credited killer), and `allyId` (victim). It uses mutual alliances at the start of the elimination event, including multi-victim scenes. Future relationship changes retain 100 grudge and at most -40 trust toward the killer. A later revenge fact can cite that death event; validation checks the killed ally, starting alliance and killer. Uncredited exposure deaths do not invent a killer. Memories reset each game.
+
+Agile and Perceptive unlock relevant scenes and each reduce evacuation death chance by 0.025. Weak Constitution unlocks rest and cold-exposure scenes, biases hazards, and adds 0.05 evacuation risk. Existing risk bounds still apply. These are scene and risk rules, without numeric player attributes or a health system.
 
 ## Arena
 
@@ -25,6 +33,14 @@ The reciprocal connected route is:
 `forest ↔ swamp ↔ desert ↔ ruins ↔ tundra ↔ mountains ↔ forest`
 
 Movement follows one edge and records a visible event. Each biome has six everyday templates and two hazard templates, plus two local conflict templates. Supply types, hazards, and eligibility differ by location.
+
+Biome advantages and drawbacks are deliberately understated selection biases in `src/engine/arena.ts`, without visible stats, explanatory notices, or repeated biome advice. Relevant equipment also reduces environmental risk. Do not turn these biases into player-facing rules or have the announcer explain them.
+
+Arena scene metadata declares a biome and stage. Announcements have category `announcement`, no participant roles or confessionals, and one `biomeStatus` effect. Stages follow `open → weather-warning → hazardous → open` or `open → closure-warning → evacuating → closed`. The engine schedules these scenes separately from ordinary encounters; each warning precedes onset by a full phase. Temporary weather influences encounters for one phase, then clears. Starting on Day 3, warnings can instead schedule permanent nighttime closures. Each run has at most three disruptions, never repeats a warned biome, and always leaves the central ruins open. Every resident still present when closure begins gets an evacuation assignment; injury, relevant supplies and enabled personalities influence the outcome. Closing waits until no living resident remains. Movement, border encounters and compass curses cannot enter evacuating or closed regions.
+
+The announcer is a professional host for whom danger is ordinary production work. Warnings must communicate the location, deadline and consequence accurately, while his attention stays on coverage, timing and entertainment. Avoid sympathy, overt villain speeches, constant quips, or commentary on every death. For example: “Tundra residents, a scheduling note: temperatures will fall beyond habitable levels tonight. Please relocate before nightfall; the next segment takes place elsewhere.” Broadcasts appear in the affected region and remain in saved snapshots and exported recaps.
+
+Rare multi-victim conflicts use `rare: true`, three or four distinct local roles, and separate elimination effects credited to the same actor. They are eligible after Day 1, have minimum survivor requirements, and pass an additional rare-event gate; at most one can occur per default run. Each victim counts toward kill awards, with one evidence event reference and equal placement for simultaneous victims. Natural evacuation deaths carry no kill credit. All outcomes need concrete causes; provide physical setup for sabotage rather than unexplained group deaths.
 
 ## Mechanical curses
 

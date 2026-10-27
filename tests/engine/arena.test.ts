@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { defaultContentPack } from '../../src/content';
-import { DEFAULT_SETTINGS, ENGINE_VERSION, RunRecordSchema, canonicalRunId, type BiomeId, type EventRecord, type RunInput } from '../../src/domain';
+import { DEFAULT_SETTINGS, ENGINE_VERSION, RunRecordSchema, canonicalRunId, type EventRecord, type RunInput } from '../../src/domain';
 import { applyEffects, computeAwards, createRandom, generateRun, initialState } from '../../src/engine';
 import { biomeStatus, environmentWeight, evacuationDeathChance } from '../../src/engine/arena';
 import { narrativeAdapter } from '../../src/narrative';

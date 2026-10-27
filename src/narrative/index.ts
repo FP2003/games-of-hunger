@@ -30,6 +30,10 @@ export function renderTemplate(text: string, input: EventNarrativeInput, speaker
 
 export function renderEvent(input: EventNarrativeInput): { text: string } {
   let text = renderTemplate(input.random.pick(input.template.variants), input);
+  const name = (id: string | undefined) => input.cast.players.find(p => p.id === id)?.name;
+  for (const fact of input.facts.filter(f => f.type === 'grudge')) {
+    text += ` When word of ${name(fact.allyId)}'s death reaches ${name(fact.actorId)}, ${name(fact.actorId)} vows never to forgive ${name(fact.targetId)} for killing an ally.`;
+  }
   const tinTransfer = input.facts.find(f => f.type === 'curse' && f.targetId && input.content.items.find(i => i.id === f.itemDefinitionId)?.curse === 'tin' && input.facts.some(t => (t.type === 'transfer' || t.type === 'theft') && t.itemId === f.itemId));
   if (tinTransfer) {
     const former = input.cast.players.find(p => p.id === tinTransfer.targetId)?.name;

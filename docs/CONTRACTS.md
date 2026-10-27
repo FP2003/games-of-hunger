@@ -34,7 +34,7 @@ WP00 must agree the dependency-injection seam for narrative rendering: the publi
 - Names are required, trimmed, limited to a documented length, and rendered as plain text. Duplicate display names are allowed when IDs differ; the editor should help distinguish them.
 - Cast size is 2–48. Reject invalid casts before simulation starts.
 - Optional fields: portrait reference, pronouns, traits, signature item, team label.
-- Define a finite starter trait vocabulary: `reckless`, `loyal`, `sneaky`, `dramatic`, `cautious`, `resourceful`.
+- Define a finite starter trait vocabulary: `reckless`, `loyal`, `sneaky`, `dramatic`, `cautious`, `resourceful`, `disloyal`, `grudge`, `agile`, `weak-constitution`, `perceptive`, `love-hate`. Loyal and Disloyal cannot coexist.
 - No numeric player statistics are required for the first release. Do not invent a complicated combat system as a prerequisite.
 - Version 1 accepts a signature-item label as a convenience and normalizes it into a unique ordinary item instance. Mechanical curses use registered item definitions, not free-text evaluation.
 - Starting relationships are optional directed records referring to player IDs in the cast.
@@ -93,6 +93,10 @@ Stable IDs: `forest`, `swamp`, `mountains`, `desert`, `tundra`, `ruins`.
 WP02 defines one documented adjacency graph; WP01 enforces it and WP03 displays it. Biomes affect eligible events and available resources/hazards. Ordinary encounters require all participants to share a biome; global arena events must explicitly declare global scope.
 
 Biome effects are represented by event conditions and effects. Decorative biome text alone does not meet the requirement.
+
+Engine 1.4 adds optional `GameState.arena` biome statuses, preserving older snapshots and their engine-version identities. Only authored `announcement` templates may bind zero participants and apply `biomeStatus` effects. These produce matching `arena` facts; biome transitions must follow the warning/weather/closure sequence, and the ruins stay open. Announcements consume no survivor assignment and cannot have confessionals. Evacuation scenes require an active closure. Closed regions contain no living contestants, and movement cannot enter evacuating or closed destinations. Background biome selection biases are intentionally omitted from the player-facing interface and broadcast explanations.
+
+Rare multi-victim encounters use distinct local roles and separate elimination effects. Simultaneous victims share placement. The elimination award counts individual credited victims, rather than unique events, while retaining unique evidence event references. Environmental closure deaths have no credited attacker.
 
 ## Relationships and nemeses
 
@@ -176,3 +180,5 @@ Lore facts include source run ID, involved player IDs, fact type, relevant item-
 Lore selection is bounded, deterministic, and relevant to the current cast. Preserve source history; derive a short context rather than injecting every previous event. Carryover is off or on per game; fresh survival status and inventory always reset. Returning relationship influence must be an explicit, bounded setting/normalization rule, not an accidental mutation of the cast.
 
 Each award includes its definition ID, recipient IDs, title, explanation, and supporting event references. Define deterministic ties and an ineligible result for categories with no evidence. Do not hand out a betrayal award in a season with no betrayal. WP01 computes awards from facts; WP02 supplies titles and wording; WP04 can aggregate completed-season statistics without changing the original result.
+
+Engine 1.5.0 adds personality rules without numeric player attributes. `grudge` facts include an optional `allyId` identifying the killed mutual ally; replay validation requires matching credited elimination and starting alliance evidence. Revenge may cite that recorded ally-death grudge as well as direct hostile acts. Other fact shapes and version-1 save envelopes remain compatible; earlier replays retain their recorded engine identity and states.

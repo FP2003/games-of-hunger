@@ -1,6 +1,8 @@
 import type { CastDefinition, ContentPack, GameState, RunInput, Relationship, Effect, EventFact, RandomSource, EventTemplate, Phase, Condition } from '../domain';
 import { biomeStatus, canEnter } from './arena';
 import { BIOME_TRANSITIONS } from '../domain';
+import { allied, loyaltyAllows } from './personality';
+import { createRandom } from './random';
 
 const clone = <T>(v: T): T => structuredClone(v);
 const compare = (a: string, b: string) => a < b ? -1 : a > b ? 1 : 0;
@@ -13,9 +15,18 @@ export function getAlliances(state: GameState): [string, string][] {
   return state.relationships.filter(r => r.trust >= 40 && compare(r.from, r.to) < 0 && state.players.find(p => p.id === r.from)?.alive && state.players.find(p => p.id === r.to)?.alive && state.relationships.some(s => s.from === r.to && s.to === r.from && s.trust >= 40)).map(r => [r.from, r.to]);
 }
 export function initialState(input: RunInput): GameState {
+  const relationships = clone(input.cast.relationships);
+  if (input.settings.personality !== 'off') for (const p of input.cast.players.filter(p => p.traits.includes('love-hate'))) {
+    for (const other of input.cast.players.filter(other => other.id !== p.id)) {
+      const existing = relationships.find(r => r.from === p.id && r.to === other.id);
+      const love = existing && (existing.trust !== 0 || existing.grudge !== 0) ? existing.trust > 0 && existing.grudge < 40 : createRandom(JSON.stringify([input.settings.seed, 'love-hate', p.id, other.id])).next() < 0.5;
+      if (existing) { existing.trust = love ? 80 : -80; existing.grudge = love ? 0 : 60; }
+      else relationships.push({ from: p.id, to: other.id, trust: love ? 80 : -80, grudge: love ? 0 : 60 });
+    }
+  }
   return {
     players: input.cast.players.map(p => ({ id: p.id, alive: true, biome: 'ruins', markers: {} })),
-    relationships: clone(input.cast.relationships),
+    relationships,
     items: input.cast.players.flatMap((p, index) => p.signatureItem ? [{ id: `signature-${index}`, definitionId: `signature:${index}`, name: p.signatureItem, ownerId: p.id, biome: 'ruins' as const, destroyed: false }] : []),
   };
 }
@@ -29,8 +40,24 @@ function adjust(state: GameState, from: string, to: string, trust: number, grudg
 }
 export interface EffectResult { state: GameState; facts: EventFact[] }
 /** Failed transactions return null and leave the caller's state untouched. */
-export function applyEffects(before: GameState, effects: readonly Effect[], bindings: Record<string, string>, content: ContentPack, random: RandomSource, sequence = 0, history: { sequence: number; facts: EventFact[] }[] = []): EffectResult | null {
+export function applyEffects(before: GameState, effects: readonly Effect[], bindings: Record<string, string>, content: ContentPack, random: RandomSource, sequence = 0, history: { sequence: number; facts: EventFact[] }[] = [], personality?: Pick<RunInput, 'cast' | 'settings'>): EffectResult | null {
+  const enabled = personality && personality.settings.personality !== 'off';
+  if (enabled && !loyaltyAllows(effects, bindings, before, personality.cast)) return null;
   const state = clone(before); const facts: EventFact[] = [];
+  const adjustOpinion = (from: string, to: string, trust: number, grudge: number) => {
+    const extreme = enabled && personality.cast.players.find(p => p.id === from)?.traits.includes('love-hate');
+    adjust(state, from, to, extreme ? trust * 2 : trust, extreme ? grudge * 2 : grudge);
+    if (extreme) {
+      const rel = edge(state, from, to);
+      rel.trust = rel.trust === 0 ? (trust < 0 || grudge > 0 ? -40 : 40) : rel.trust > 0 ? Math.max(40, rel.trust) : Math.min(-40, rel.trust);
+    }
+    if (enabled && personality.cast.players.find(p => p.id === from)?.traits.includes('grudge') && [...history, { facts }].some(e => e.facts.some(f => f.type === 'grudge' && f.actorId === from && f.targetId === to))) {
+      const rel = edge(state, from, to); rel.grudge = 100; rel.trust = Math.min(-40, rel.trust);
+    }
+  };
+  const revengeSource = (actor: string, target: string) => [...history].reverse().find(e => e.facts.some(f =>
+    (['theft','betrayal','elimination'].includes(f.type) && f.actorId === target && f.targetId === actor)
+    || (enabled && f.type === 'grudge' && f.actorId === actor && f.targetId === target)));
   const player = (role: string) => { const p = state.players.find(p => p.id === bindings[role]); if (!p?.alive) throw new Error('Participant is unavailable.'); return p; };
   const item = (role: string, definitionId?: string) => { const p = player(role); const result = state.items.filter(i => i.ownerId === p.id && !i.destroyed && (!definitionId || i.definitionId === definitionId)).sort((a,b) => compare(a.id,b.id))[0]; if (!result) throw new Error('Item is unavailable.'); return result; };
   const record = (fact: EventFact) => facts.push(fact);
@@ -63,8 +90,8 @@ export function applyEffects(before: GameState, effects: readonly Effect[], bind
         case 'transferItem': {
           const held = item(effect.from, effect.definitionId), from = player(effect.from), to = player(effect.to); if (from.id === to.id) throw new Error('Transfer requires distinct players.');
           held.ownerId = to.id; held.biome = to.biome; record({ type: effect.fact, actorId: effect.fact === 'theft' ? to.id : from.id, targetId: effect.fact === 'theft' ? from.id : to.id, itemId: held.id, itemDefinitionId: held.definitionId });
-          if (effect.fact === 'theft') adjust(state, from.id, to.id, -35, 45);
-          if (content.items.find(d => d.id === held.definitionId)?.curse === 'tin') { adjust(state, from.id, to.id, -25, 25); record({ type: 'curse', actorId: to.id, targetId: from.id, itemId: held.id, itemDefinitionId: held.definitionId }); }
+          if (effect.fact === 'theft') adjustOpinion(from.id, to.id, -35, 45);
+          if (content.items.find(d => d.id === held.definitionId)?.curse === 'tin') { adjustOpinion(from.id, to.id, -25, 25); record({ type: 'curse', actorId: to.id, targetId: from.id, itemId: held.id, itemDefinitionId: held.definitionId }); }
           break;
         }
         case 'dropItem': case 'destroyItem': {
@@ -73,10 +100,10 @@ export function applyEffects(before: GameState, effects: readonly Effect[], bind
         }
         case 'relationship': {
           const from = player(effect.from), to = player(effect.to); if (from.id === to.id) throw new Error('Invalid relationship.');
-          adjust(state, from.id, to.id, effect.trust, effect.grudge);
+          adjustOpinion(from.id, to.id, effect.trust, effect.grudge);
           if (effect.fact) {
             if (effect.fact === 'revenge') {
-              const prior = [...history].reverse().find(e => e.facts.some(f => ['theft','betrayal','elimination'].includes(f.type) && f.actorId === to.id && f.targetId === from.id));
+              const prior = revengeSource(from.id, to.id);
               if (!prior) throw new Error('Revenge needs a previous hostile action.'); record({ type: 'revenge', actorId: from.id, targetId: to.id, sourceEvent: prior.sequence });
             } else {
               // Assistance/betrayal updates the affected person's opinion of
@@ -100,20 +127,29 @@ export function applyEffects(before: GameState, effects: readonly Effect[], bind
           p.alive = false; p.markers = {}; record({ type: 'elimination', targetId: p.id, ...(credit ? { actorId: credit } : {}), biome: p.biome });
           for (const held of state.items.filter(i => i.ownerId === p.id)) { held.ownerId = null; held.biome = p.biome; record({ type: 'drop', actorId: p.id, itemId: held.id, itemDefinitionId: held.definitionId }); }
           for (const other of state.players) for (const marker of content.markers.filter(m => m.type === 'player')) if (other.markers[marker.id] === p.id) delete other.markers[marker.id];
-          if (credit) { const prior = [...history].reverse().find(e => e.facts.some(f => ['theft','betrayal'].includes(f.type) && f.actorId === p.id && f.targetId === credit)); if (prior) record({ type: 'revenge', actorId: credit, targetId: p.id, sourceEvent: prior.sequence }); }
+          if (credit) { const prior = revengeSource(credit, p.id); if (prior) record({ type: 'revenge', actorId: credit, targetId: p.id, sourceEvent: prior.sequence }); }
           break;
         }
         case 'curse': {
           const p = player(effect.role), held = item(effect.role, effect.definitionId), def = content.items.find(d => d.id === held.definitionId); if (!def?.curse) throw new Error('Not a registered curse.');
           record({ type: 'curse', actorId: p.id, itemId: held.id, itemDefinitionId: def.id });
           if (def.curse === 'compass') move(effect.role, 'adjacent');
-          if (def.curse === 'tin') { const target = Object.values(bindings).filter(id => id !== p.id).sort(compare)[0]; if (!target || !state.players.find(p => p.id === target)?.alive) throw new Error('Tin curse requires another living participant.'); adjust(state, p.id, target, -30, 30); facts[facts.length - 1].targetId = target; }
+          if (def.curse === 'tin') { const target = Object.values(bindings).filter(id => id !== p.id).sort(compare)[0]; if (!target || !state.players.find(p => p.id === target)?.alive) throw new Error('Tin curse requires another living participant.'); adjustOpinion(p.id, target, -30, 30); facts[facts.length - 1].targetId = target; }
           break;
         }
         default: throw new Error('Unsupported effect.');
       }
     }
     if (!state.players.some(p => p.alive)) return null;
+    // Resolve grief from the event's starting alliances, including multi-victim scenes.
+    if (enabled) for (const death of facts.filter(f => f.type === 'elimination' && f.actorId)) {
+      for (const observer of state.players.filter(p => p.alive && p.id !== death.actorId)) {
+        if (personality.cast.players.find(p => p.id === observer.id)?.traits.includes('grudge') && allied(before, observer.id, death.targetId!)) {
+          record({ type: 'grudge', actorId: observer.id, targetId: death.actorId, allyId: death.targetId });
+          adjustOpinion(observer.id, death.actorId!, -100, 100);
+        }
+      }
+    }
     for (const p of state.players.filter(p => p.alive)) { const nemesis = getNemesis(state, p.id); if (nemesis && nemesis !== getNemesis(before, p.id)) record({ type: 'nemesis', actorId: p.id, targetId: nemesis }); }
     state.relationships.sort((a,b) => compare(a.from,b.from) || compare(a.to,b.to));
     return { state, facts };
@@ -128,7 +164,7 @@ function conditionsPass(conditions: Condition[], bindings: Record<string,string>
     const p = 'role' in c ? state.players.find(p => p.id === bindings[c.role]) : undefined;
     switch (c.kind) {
       case 'biome': return !!p && c.biomes.includes(p.biome);
-      case 'trait': return cast.players.find(p => p.id === bindings[c.role])?.traits.includes(c.trait) ?? false;
+      case 'trait': return (cast.players.find(p => p.id === bindings[c.role])?.traits.includes(c.trait) ?? false) && !(c.trait === 'agile' && p?.markers['sprained-ankle'] === true);
       case 'item': return held(bindings[c.role],c.definitionId,c.tag);
       case 'relationship': { const r = state.relationships.find(r => r.from === bindings[c.from] && r.to === bindings[c.to]) ?? { trust:0,grudge:0 }; return (c.minTrust === undefined || r.trust >= c.minTrust) && (c.maxTrust === undefined || r.trust <= c.maxTrust) && (c.minGrudge === undefined || r.grudge >= c.minGrudge); }
       case 'marker': { if (!p) return false; const exists = c.marker in p.markers; if (exists !== c.exists) return false; if (c.value === undefined || !exists) return true; const def = content.markers.find(m => m.id === c.marker); if (def?.type === 'player' && typeof c.value === 'string' && !bindings[c.value] && partial) return true; return p.markers[c.marker] === (def?.type === 'player' ? bindings[String(c.value)] ?? c.value : c.value); }
@@ -141,15 +177,16 @@ function conditionsPass(conditions: Condition[], bindings: Record<string,string>
 }
 
 /** Bounded DFS with early condition pruning; first role is the phase's chosen unassigned anchor. */
-export function findBindings(template: EventTemplate, state: GameState, cast: CastDefinition, content: ContentPack, available: string[], anchor: string, random: RandomSource): Record<string,string> | null {
+export function findBindings(template: EventTemplate, state: GameState, cast: CastDefinition, content: ContentPack, available: string[], anchor: string, random: RandomSource, personalityEnabled = true): Record<string,string> | null {
   const ids = [...available].sort(compare); const offset = ids.length ? random.int(ids.length) : 0; const ordered = [...ids.slice(offset),...ids.slice(0,offset)]; let visits = 0;
   const visit = (index: number, bindings: Record<string,string>): Record<string,string> | null => {
     if (++visits > 3000) return null;
-    if (index === template.roles.length) return conditionsPass(template.conditions,bindings,state,cast,content,false) ? bindings : null;
+    if (index === template.roles.length) return conditionsPass(template.conditions,bindings,state,cast,content,false) && (!personalityEnabled || loyaltyAllows(template.effects, bindings, state, cast)) ? bindings : null;
     const role = template.roles[index];
     for (const id of index === 0 ? [anchor] : ordered) {
       const p = state.players.find(p => p.id === id), definition = cast.players.find(p => p.id === id);
       if (!p?.alive || Object.values(bindings).includes(id) || role.traits?.some(t => !definition?.traits.includes(t)) || (role.itemDefinitionId && !state.items.some(i => i.ownerId === id && !i.destroyed && i.definitionId === role.itemDefinitionId))) continue;
+      if (role.traits?.includes('agile') && p.markers['sprained-ankle'] === true) continue;
       if (template.scope === 'local' && index && p.biome !== state.players.find(p => p.id === anchor)?.biome) continue;
       const next = { ...bindings,[role.id]:id }; if (!conditionsPass(template.conditions,next,state,cast,content,true)) continue;
       const found = visit(index+1,next); if (found) return found;

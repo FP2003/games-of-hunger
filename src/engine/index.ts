@@ -2,6 +2,7 @@ import { RunInputSchema, RunRecordSchema, ENGINE_VERSION, canonicalRunId, type R
 import { createRandom } from './random';
 import { initialState, applyEffects, findBindings, clearPhaseMarkers } from './mechanics';
 import { computeAwards } from './awards';
+import { allied, hostilePairs } from './personality';
 import { arenaTemplate, biomeStatus, chooseArenaWarning, environmentWeight, evacuationDeathChance } from './arena';
 export { createRandom } from './random';
 export { initialState, applyEffects, findBindings, getNemesis, getAlliances } from './mechanics';
@@ -28,6 +29,21 @@ export function eventWeight(template: EventTemplate, bindings: Record<string,str
       if((trait==='reckless' && lethal)||(trait==='sneaky' && template.effects.some(e=>e.kind==='transferItem'))||(trait==='loyal' && template.effects.some(e=>e.kind==='relationship'&&e.trust>0))||(trait==='cautious' && template.category==='survival')||(trait==='resourceful'&&template.effects.some(e=>e.kind==='createItem'||e.kind==='acquireItem'))||(trait==='dramatic'&&template.category==='social'))boost+=0.2;
     }
     result*=Math.min(input.settings.personality==='strong'?2.2:1.6,1+boost*(input.settings.personality==='strong'?2:1));
+    const strength = input.settings.personality === 'strong' ? 2 : 1;
+    const hostile = hostilePairs(template.effects, bindings);
+    if (hostile.some(([actor, target]) => input.cast.players.find(p => p.id === actor)?.traits.includes('disloyal') && (allied(state, actor, target) || template.effects.some(e => e.kind === 'relationship' && e.fact === 'betrayal' && bindings[e.to] === actor)))) result *= 1 + strength;
+    for (const [actor, target] of hostile) {
+      const traits = input.cast.players.find(p => p.id === actor)?.traits ?? [];
+      const opinion = state.relationships.find(r => r.from === actor && r.to === target);
+      if (traits.includes('grudge') && (opinion?.grudge ?? 0) >= 40) result *= 1 + 0.4 * strength;
+      if (traits.includes('love-hate') && opinion) result *= opinion.trust >= 40 ? 0.35 : 1 + 0.4 * strength;
+    }
+    for (const effect of template.effects) if (effect.kind === 'relationship' && effect.trust > 0 && effect.fact !== 'betrayal') {
+      const actor = bindings[effect.to], target = bindings[effect.from];
+      const opinion = state.relationships.find(r => r.from === actor && r.to === target);
+      if (input.cast.players.find(p => p.id === actor)?.traits.includes('love-hate') && opinion) result *= opinion.trust >= 40 ? 1 + 0.4 * strength : 0.35;
+    }
+    if (Object.values(bindings).some(id => input.cast.players.find(p => p.id === id)?.traits.includes('weak-constitution')) && template.category === 'hazard') result *= 1 + 0.4 * strength;
     if (phase.kind === 'opening') {
       const traits = input.cast.players.find(p => p.id === Object.values(bindings)[0])!.traits;
       const fleeing = template.effects.some(e => e.kind === 'move');
@@ -74,8 +90,8 @@ export function generateRun(rawInput: RunInput, narrative: NarrativeAdapter): Ru
       eliminated.forEach(p=>placements.push({playerId:p.id,rank,eventSequence:sequence}));Object.values(bindings).forEach(p=>assigned.add(p));lastUsed[template.id]=phaseIndex;
     };
     const stage = (template: EventTemplate | undefined, bindings: Record<string,string> = {}) => {
-      if (!template) return false;
-      const result=applyEffects(state,template.effects,bindings,input.content,arenaRandom,events.length,events);
+      if (!template || !template.phases.includes(phase.kind)) return false;
+      const result=applyEffects(state,template.effects,bindings,input.content,arenaRandom,events.length,events,input);
       if (!result) return false;
       record({template,bindings,result}); return true;
     };
@@ -96,7 +112,10 @@ export function generateRun(rawInput: RunInput, narrative: NarrativeAdapter): Ru
       if (evacuating) {
         const resident=state.players.find(p=>p.id===evacuating)!;
         const dies=state.players.filter(p=>p.alive).length>2 && arenaRandom.next()<evacuationDeathChance(input,state,evacuating);
-        if (stage(arenaTemplate(input,resident.biome,dies?'casualty':'escape'),{actor:evacuating})) continue;
+        if (stage(arenaTemplate(input,resident.biome,dies?'casualty':'escape'),{actor:evacuating})) {
+          if (state.players.filter(p=>p.alive).length<=2 && !state.players.some(p=>p.alive&&!assigned.has(p.id)&&biomeStatus(state,p.biome)==='evacuating')) break;
+          continue;
+        }
       }
       const anchor=mechanics.pick(available);const sequence=events.length;
       const allowMultikill=phase.day>=2 && !events.some(e=>e.effects.filter(f=>f.kind==='eliminate').length>1) && arenaRandom.next()<0.06;
@@ -105,16 +124,17 @@ export function generateRun(rawInput: RunInput, narrative: NarrativeAdapter): Ru
       for(let relaxation=0;relaxation<3&&!candidates.length;relaxation++)for(const template of templates) {
         if(template.arena || template.category==='announcement' || !template.phases.includes(phase.kind)||(finale&&!template.effects.some(e=>e.kind==='eliminate')))continue;
         if (template.rare && !allowMultikill) continue;
+        if (input.settings.personality === 'off' && (template.roles.some(r => r.traits?.length) || template.conditions.some(c => c.kind === 'trait'))) continue;
         if(relaxation<2&&lastUsed[template.id]!==undefined&&phaseIndex-lastUsed[template.id]<=template.cooldown)continue;
         if(relaxation===0&&events.slice(-3).some(e=>e.templateId===template.id))continue;
-        const bindings=findBindings(template,state,input.cast,input.content,available,anchor,mechanics);if(!bindings)continue;
+        const bindings=findBindings(template,state,input.cast,input.content,available,anchor,mechanics,input.settings.personality!=='off');if(!bindings)continue;
         const effectRandom=createRandom(`${input.settings.seed}:effects:${sequence}:${template.id}:${Object.values(bindings).join('|')}`);
-        const result=applyEffects(state,template.effects,bindings,input.content,effectRandom,sequence,events);if(!result)continue;
+        const result=applyEffects(state,template.effects,bindings,input.content,effectRandom,sequence,events,input);if(!result)continue;
         candidates.push({value:{template,bindings,result},weight:eventWeight(template,bindings,state,input,phase)});
       }
       let chosen:Candidate;
       if(candidates.length)chosen=weighted(candidates,mechanics);
-      else {const template=fallback(finale);const bindings={actor:anchor};const result=applyEffects(state,template.effects,bindings,input.content,mechanics,sequence,events)!;chosen={template,bindings,result};}
+      else {const template=fallback(finale);const bindings={actor:anchor};const result=applyEffects(state,template.effects,bindings,input.content,mechanics,sequence,events,input)!;chosen={template,bindings,result};}
       record(chosen);
       const pendingEvacuation=state.players.some(p=>p.alive&&!assigned.has(p.id)&&biomeStatus(state,p.biome)==='evacuating');
       if(finale || (state.players.filter(p=>p.alive).length<=2 && !pendingEvacuation))break;

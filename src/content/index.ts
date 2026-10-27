@@ -2,6 +2,7 @@ import { ContentPackSchema, type BiomeId, type ContentPack, type EventTemplate, 
 import { contextualEncounters, finalConfrontations, injuryEncounters, openingEscapes, survivalCloseCalls, woundMarkers } from './encounters';
 import { arenaScenes } from './arena';
 import { multikillScenes } from './multikills';
+import { personalityMarkers, personalityScenes } from './personality';
 
 const ordinary = ['day', 'night'] as const;
 const allTones = ['dramatic', 'absurd', 'mixed'] as const;
@@ -161,7 +162,7 @@ const social: EventTemplate[] = [
   event('broken-watch', 'social', '{actor.name} leaves an agreed watch in {biome} without waking {target.name}. Footsteps on the approach finally wake {target.object}; {target.name} hides beneath the shelter floor until they pass, then discovers the lookout is empty.', [relation('target', 'actor', -80, 60, 'betrayal')], { roles: pair, conditions: [{ kind: 'relationship', from: 'target', to: 'actor', minTrust: 40 }, { kind: 'relationship', from: 'actor', to: 'target', minTrust: 40 }], weight: 1.5 }),
   event('gift-supplies', 'social', '{actor.name} gives {item} to {target.name} without asking for a promise.', [{ kind: 'transferItem', from: 'actor', to: 'target', fact: 'transfer' }, relation('target', 'actor', 25, 0, 'assistance')], { roles: pair, conditions: [holds('actor')] }),
   event('bad-directions', 'social', '{actor.name} tells {target.name} that a supply shelter lies just beyond a trail bend in {biome}. The path ends at an empty concrete footing. When {target.name} doubles back, {actor.name} is laughing beside the signpost.', [relation('target', 'actor', -20, 25)], { roles: pair }),
-  event('quiet-apology', 'social', '{actor.name} apologizes to {target.name}. The grudge shrinks, though it does not necessarily disappear.', [relation('target', 'actor', 15, -25)], { roles: pair, conditions: [{ kind: 'relationship', from: 'target', to: 'actor', minGrudge: 20 }] }),
+  event('quiet-apology', 'social', '{actor.name} apologizes to {target.name}, who listens without promising forgiveness.', [relation('target', 'actor', 15, -25)], { roles: pair, conditions: [{ kind: 'relationship', from: 'target', to: 'actor', minGrudge: 20 }] }),
   event('nemesis-staredown', 'social', '{actor.name} recognizes {target.name} at a trail shelter in {biome} and plants a foot across the entrance. Neither trusts the other enough to close the distance. After a long silence, {target.name} backs away from the doorway, leaving the grudge unsettled.', [relation('actor', 'target', -5, 5)], { roles: pair, conditions: [{ kind: 'nemesis', from: 'actor', to: 'target' }], weight: 2 }),
   event('ration-bargain', 'social', '{actor.name} trades {item} to {target.name} for an agreement to leave this meeting peacefully.', [{ kind: 'transferItem', from: 'actor', to: 'target', definitionId: 'ration', fact: 'transfer' }, relation('actor', 'target', 15), relation('target', 'actor', 15)], { roles: pair, conditions: [holds('actor', 'ration')] }),
   event('sneaky-distraction', 'social', '{actor.name} claims that a painted trail marker in {biome} must be touched before the next horn. {target.name} checks the marker, finds no instruction, and returns to see {actor.name} smirking. The invented rule costs {actor.name} some trust.', [relation('target', 'actor', -15, 15)], { roles: [{ id: 'actor', traits: ['sneaky'] }, { id: 'target' }] }),
@@ -224,6 +225,12 @@ for (const from of biomes) for (const to of biomes) if (from.id !== to.id) final
 ], { phases: ['finale'], scope: 'global', roles: pair, cooldown: 0, conditions: [biomeCondition(from.id), { kind: 'biome', role: 'target', biomes: [to.id] }] }));
 
 const reactions: [Trait, FactType[], string[]][] = [
+  ['disloyal', ['betrayal'], ['An alliance is useful right up until it is not.']],
+  ['grudge', ['grudge', 'revenge'], ['I remember who did it. I always will.']],
+  ['agile', ['move', 'survival'], ['One clear landing is all I needed.']],
+  ['weak-constitution', ['survival'], ['I need a moment before I can keep going.']],
+  ['perceptive', ['acquire', 'survival'], ['There is usually a warning if you look closely enough.']],
+  ['love-hate', ['assistance', 'betrayal'], ['I know exactly how I feel about them.']],
   ['reckless', ['move'], ['If there is a path, I am probably already on it.', 'That looked shorter from the other side.']],
   ['reckless', ['acquire'], ['An object with a warning label? That counts as equipment.', 'Preparation is just improvisation with pockets.']],
   ['reckless', ['theft'], ['The arena has developed a very flexible lending policy.']],
@@ -278,16 +285,16 @@ const confessionals: ConfessionalTemplate[] = reactions.map(([trait, triggers, v
 ].forEach(([trigger, text], i) => confessionals.push({ id: `interview-open-${i + 1}`, traits: [], tones: [...allTones], triggers: [trigger as FactType], speaker: trigger === 'elimination' ? 'eliminated' : 'any', variants: [text], cooldown: 8 }));
 
 export const defaultContentPack: ContentPack = ContentPackSchema.parse({
-  id: 'wild-broadcast', version: '1.3.0', title: 'The Wild Broadcast', biomes, items,
+  id: 'wild-broadcast', version: '1.5.0', title: 'The Wild Broadcast', biomes, items,
   markers: [
     { id: 'stolen-from', type: 'player', lifetime: 'season', description: 'The living player who stole from this participant.' },
     { id: 'confronted', type: 'boolean', lifetime: 'season', description: 'The theft has been confronted.' },
     { id: 'debt-to', type: 'player', lifetime: 'season', description: 'The player who offered shelter.' },
     { id: 'debt-repaid', type: 'boolean', lifetime: 'season', description: 'The shelter favor was repaid.' },
     { id: 'omen', type: 'number', lifetime: 'season', description: 'Progress decoding the trail warning, from one to three.' },
-    ...woundMarkers,
+    ...woundMarkers, ...personalityMarkers,
   ],
-  events: [...opening, ...openingEscapes, ...survival, ...survivalCloseCalls, ...sponsorships, ...social, ...crossings, ...conflict, ...injuryEncounters, ...contextualEncounters, ...curse, ...hazard, ...finale, ...arenaScenes, ...multikillScenes], confessionals,
+  events: [...opening, ...openingEscapes, ...survival, ...survivalCloseCalls, ...sponsorships, ...social, ...crossings, ...conflict, ...injuryEncounters, ...contextualEncounters, ...curse, ...hazard, ...finale, ...arenaScenes, ...multikillScenes, ...personalityScenes], confessionals,
 });
 
 /** Small integration/authoring pack. Production uses defaultContentPack. */

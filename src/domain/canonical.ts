@@ -1,6 +1,6 @@
 import type { RunInput } from './schemas';
 
-export const ENGINE_VERSION = '1.4.0';
+export const ENGINE_VERSION = '1.6.0';
 export const RANDOM_ALGORITHM = 'xmur3-mulberry32-v1';
 export const DEFAULT_SETTINGS = { seed: 'first-season', danger: 'normal', tone: 'mixed', personality: 'normal', loreCarryover: true } as const;
 /** Stable key ordering; array order is meaningful. Canonical values are JSON data. */

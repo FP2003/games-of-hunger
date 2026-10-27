@@ -41,7 +41,8 @@ export function chooseArenaWarning(input: RunInput, state: GameState, events: Ev
   const warnings = events.filter(e => e.effects.some(f => f.kind === 'biomeStatus' && ['weather-warning', 'closure-warning'].includes(f.status)));
   if (warnings.length >= 3 || (warnings.length && phase.index - warnings.at(-1)!.phase.index < 3) || random.next() > 0.7) return;
   const used = new Set(warnings.map(e => e.biome));
-  const eligible = input.content.biomes.filter(b => b.id !== 'ruins' && !used.has(b.id) && state.players.some(p => p.alive && p.biome === b.id) && canEnter(state, b.id) && ['weather-warning', 'weather-start', 'weather-end', 'closure-warning', 'closure-start', 'close', 'escape', 'casualty'].every(stage => arenaTemplate(input, b.id, stage as NonNullable<EventTemplate['arena']>['stage'])));
+  const stages: NonNullable<EventTemplate['arena']>['stage'][] = ['weather-warning', 'weather-start', 'weather-end', 'closure-warning', 'closure-start', 'close', 'escape', 'casualty'];
+  const eligible = input.content.biomes.filter(b => b.id !== 'ruins' && b.adjacent.includes('ruins') && !used.has(b.id) && state.players.some(p => p.alive && p.biome === b.id) && canEnter(state, b.id) && stages.every(stage => arenaTemplate(input, b.id, stage)));
   if (!eligible.length) return;
   const biome = random.pick(eligible).id;
   return arenaTemplate(input, biome, phase.day === 2 ? 'weather-warning' : 'closure-warning');
@@ -54,6 +55,9 @@ export function evacuationDeathChance(input: RunInput, state: GameState, playerI
   let chance = { low: 0.06, normal: 0.1, high: 0.15 }[input.settings.danger];
   if (traits.includes('resourceful') || traits.includes('cautious')) chance -= 0.025;
   if (traits.includes('reckless')) chance += 0.025;
+  if (traits.includes('agile') && player.markers['sprained-ankle'] !== true) chance -= 0.025;
+  if (traits.includes('perceptive')) chance -= 0.025;
+  if (traits.includes('weak-constitution')) chance += 0.05;
   if (state.items.some(i => !i.destroyed && i.ownerId === playerId && i.definitionId === equipment[player.biome])) chance -= 0.04;
   if (Object.keys(player.markers).some(m => m.startsWith('bleeding-'))) chance += 0.05;
   return Math.max(0.02, Math.min(0.25, chance));
