@@ -96,6 +96,26 @@ export function createRepository(db: Database): GameRepository {
       const completed = new Set((await historyIn(tx)).seasons.map(s => s.runId));
       return summaries.filter((s): s is UnfinishedRun => s.cursor < s.eventCount && !completed.has(s.runId)).sort((a, b) => b.updatedAt.localeCompare(a.updatedAt) || a.runId.localeCompare(b.runId));
     }),
+    deleteUnfinishedRun: (runId, expectedRevision) => execute(true, async tx => {
+      if ((await historyIn(tx)).seasons.some(s => s.runId === runId)) throw new RepositoryError('invalid', 'Completed games cannot be deleted from the unfinished games list.');
+      const activeValue = await tx.get('meta', 'playback');
+      const active = activeValue === undefined ? null : validate(PlaybackSaveSchema, activeValue);
+      const summaryValue = await tx.get('meta', `playback:${runId}`);
+      let summary = summaryValue === undefined ? null : validate(SummarySchema, summaryValue);
+      // Original saves may only have the active pointer, without a per-game summary.
+      if (!summary && active?.runId === runId) {
+        const run = await runIn(tx, runId);
+        if (run) summary = { ...active, ...runInfo(run) };
+      }
+      if (!summary) throw new RepositoryError('missing', 'This unfinished game is no longer saved.');
+      if (summary.runId !== runId || summary.revision !== expectedRevision || (active?.runId === runId && active.revision !== expectedRevision)) throw new RepositoryError('conflict', 'This game has changed in another page. Reload before deleting it.');
+      if (summary.cursor >= summary.eventCount) throw new RepositoryError('invalid', 'This game has already finished and cannot be deleted from the unfinished games list.');
+      await tx.delete('runs', runId);
+      await tx.delete('meta', `run-info:${runId}`);
+      await tx.delete('meta', `playback:${runId}`);
+      if (active?.runId === runId) await tx.delete('meta', 'playback');
+      return active?.runId === runId ? null : active;
+    }),
     clearPlayback: expectedRevision => execute(true, async tx => {
       const value = await tx.get('meta', 'playback');
       if (value !== undefined && validate(PlaybackSaveSchema, value).revision !== expectedRevision) throw new RepositoryError('conflict', 'Another page changed this save. Reload before replacing it.');

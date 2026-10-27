@@ -51,6 +51,45 @@ for (const kind of ['memory', 'IndexedDB']) describe(`${kind} workspace improvem
     expect((await repo.listUnfinishedRuns()).map(s => s.runId)).toEqual([second.id]);
     await expect(repo.updatePlayback('missing', 0, final.revision)).rejects.toMatchObject({ code: 'missing' });
   });
+  it('deletes an older unfinished replay without changing the active save, casts or draft', async () => {
+    const repo = await create(); const second = anotherRun(); const originalDraft = draft();
+    await repo.saveDraft(originalDraft); await repo.saveCast('saved-cast', exampleCast);
+    const first = await repo.savePlayback(fixtureRun, 0);
+    const active = await repo.savePlayback(second, 0, first.revision);
+    expect(await repo.deleteUnfinishedRun(fixtureRun.id, first.revision)).toEqual(active);
+    expect(await repo.getRun(fixtureRun.id)).toBeNull();
+    expect(await repo.getPlayback()).toEqual(active);
+    expect((await repo.listUnfinishedRuns()).map(s => s.runId)).toEqual([second.id]);
+    expect(await repo.getRun(second.id)).toEqual(second);
+    expect(await repo.getCast('saved-cast')).toEqual(exampleCast);
+    expect(await repo.getDraft()).toEqual(originalDraft);
+    await expect(repo.updatePlayback(fixtureRun.id, 1, active.revision)).rejects.toMatchObject({ code: 'missing' });
+  });
+  it('deletes the active unfinished replay and allows a new game to be saved immediately', async () => {
+    const repo = await create(); const saved = await repo.savePlayback(fixtureRun, 0);
+    expect(await repo.deleteUnfinishedRun(fixtureRun.id, saved.revision)).toBeNull();
+    expect(await repo.getRun(fixtureRun.id)).toBeNull();
+    expect(await repo.getPlayback()).toBeNull();
+    expect(await repo.listUnfinishedRuns()).toEqual([]);
+    const next = await repo.savePlayback(anotherRun(), 0);
+    expect(next.revision).toBeGreaterThan(saved.revision);
+    expect(await repo.getPlayback()).toEqual(next);
+  });
+  it('rejects stale deletion requests and protects completed replay history', async () => {
+    const repo = await create(); const first = await repo.savePlayback(fixtureRun, 0);
+    const newer = await repo.updatePlayback(fixtureRun.id, 1, first.revision);
+    await expect(repo.deleteUnfinishedRun(fixtureRun.id, first.revision)).rejects.toMatchObject({ code: 'conflict' });
+    expect(await repo.getRun(fixtureRun.id)).toEqual(fixtureRun);
+    expect(await repo.getPlayback()).toEqual(newer);
+    const complete = await repo.updatePlayback(fixtureRun.id, fixtureRun.events.length, newer.revision);
+    await expect(repo.deleteUnfinishedRun(fixtureRun.id, complete.revision)).rejects.toMatchObject({ code: 'invalid' });
+    await repo.recordCompleted(fixtureRun);
+    const replay = await repo.updatePlayback(fixtureRun.id, 0, complete.revision);
+    const history = await repo.getHistory();
+    await expect(repo.deleteUnfinishedRun(fixtureRun.id, replay.revision)).rejects.toMatchObject({ code: 'invalid' });
+    expect(await repo.getHistory()).toEqual(history);
+    expect(await repo.getRun(fixtureRun.id)).toEqual(fixtureRun);
+  });
   it('reclaims old orphan portraits while protecting casts, replays, drafts, undo and recent uploads', async () => {
     const repo = await create(); const clock = vi.spyOn(Date, 'now').mockReturnValue(1_000_000);
     for (const id of ['cast', 'run', 'draft', 'undo', 'orphan', 'open-game']) await repo.savePortrait({ id, blob: new Blob(['image'], { type: 'image/png' }) });
@@ -94,6 +133,20 @@ it('loads and updates original version-1 saves without resetting any data', asyn
   expect(await repo.listUnfinishedRuns()).toMatchObject([{ runId: fixtureRun.id, cursor: 0 }]);
   await repo.updatePlayback(fixtureRun.id, 1, saved.revision);
   expect(await repo.getRun(fixtureRun.id)).toEqual(fixtureRun);
+});
+
+it('deletes legacy unfinished saves that do not have per-game metadata', async () => {
+  const name = `legacy-delete-${sequence++}`; const original = await createIndexedDbRepository(name);
+  const saved = await original.savePlayback(fixtureRun, 0); original.close();
+  const raw = await new Promise<IDBDatabase>((resolve, reject) => { const request = indexedDB.open(name, 1); request.onsuccess = () => resolve(request.result); request.onerror = () => reject(request.error); });
+  const tx = raw.transaction('meta', 'readwrite');
+  tx.objectStore('meta').delete(`run-info:${fixtureRun.id}`); tx.objectStore('meta').delete(`playback:${fixtureRun.id}`);
+  await new Promise<void>((resolve, reject) => { tx.oncomplete = () => resolve(); tx.onabort = () => reject(tx.error); }); raw.close();
+  const repo = await createIndexedDbRepository(name); opened.push(repo);
+  expect(await repo.deleteUnfinishedRun(fixtureRun.id, saved.revision)).toBeNull();
+  expect(await repo.getPlayback()).toBeNull();
+  expect(await repo.listUnfinishedRuns()).toEqual([]);
+  expect(await repo.getRun(fixtureRun.id)).toBeNull();
 });
 
 it('restores an actual exported history larger than the former 30 MB limit', async () => {
