@@ -105,6 +105,66 @@ for (const kind of ['memory', 'IndexedDB']) describe(`${kind} workspace improvem
     expect(await repo.collectUnusedPortraits()).toBe(4);
     expect(await repo.getPortrait('run')).not.toBeNull();
   });
+  it('deletes one completed season and its active replay while preserving other history, casts and draft', async () => {
+    const repo = await create(), second = anotherRun(), originalDraft = draft();
+    await repo.saveDraft(originalDraft); await repo.saveCast('kept-cast', exampleCast);
+    await repo.recordCompleted(second); await repo.recordCompleted(fixtureRun);
+    const saved = await repo.savePlayback(fixtureRun, fixtureRun.events.length);
+    const result = await repo.deleteCompletedRun(fixtureRun.id);
+    expect(result.playback).toBeNull();
+    expect(result.history.seasons.map(s => s.runId)).toEqual([second.id]);
+    expect(await repo.getHistory()).toEqual(result.history);
+    expect(await repo.getRun(fixtureRun.id)).toBeNull();
+    expect(await repo.getRun(second.id)).toEqual(second);
+    expect(await repo.getPlayback()).toBeNull();
+    expect(await repo.listUnfinishedRuns()).toEqual([]);
+    expect(await repo.getDraft()).toEqual(originalDraft);
+    expect(await repo.getCast('kept-cast')).toEqual(exampleCast);
+    const backup = JSON.parse(await exportHistory(repo));
+    expect(backup.runs.map((run: RunRecord) => run.id)).toEqual([second.id]);
+    await expect(repo.updatePlayback(fixtureRun.id, 0, saved.revision)).rejects.toMatchObject({ code: 'missing' });
+    const next = await repo.savePlayback(second, 0);
+    expect(next.revision).toBeGreaterThan(saved.revision);
+  });
+  it('preserves an unrelated active unfinished game when deleting an archived season', async () => {
+    const repo = await create(), second = anotherRun();
+    await repo.recordCompleted(fixtureRun);
+    const active = await repo.savePlayback(second, 0);
+    const result = await repo.deleteCompletedRun(fixtureRun.id);
+    expect(result).toEqual({ history: { version: 1, seasons: [] }, playback: active });
+    expect(await repo.getPlayback()).toEqual(active);
+    expect(await repo.getRun(second.id)).toEqual(second);
+    expect((await repo.listUnfinishedRuns()).map(item => item.runId)).toEqual([second.id]);
+    expect((await repo.updatePlayback(second.id, 1, active.revision)).cursor).toBe(1);
+  });
+  it('rejects archive deletion for an unfinished or already removed game', async () => {
+    const repo = await create();
+    const saved = await repo.savePlayback(fixtureRun, 0);
+    await expect(repo.deleteCompletedRun(fixtureRun.id)).rejects.toMatchObject({ code: 'missing' });
+    expect(await repo.getPlayback()).toEqual(saved);
+    expect(await repo.getRun(fixtureRun.id)).toEqual(fixtureRun);
+    await repo.recordCompleted(fixtureRun);
+    await repo.deleteCompletedRun(fixtureRun.id);
+    await expect(repo.deleteCompletedRun(fixtureRun.id)).rejects.toMatchObject({ code: 'missing' });
+    expect((await repo.getHistory()).seasons).toEqual([]);
+  });
+});
+
+it('rolls back archive, replay and progress deletion together when IndexedDB fails', async () => {
+  const repo = await createIndexedDbRepository(`delete-season-failure-${sequence++}`); opened.push(repo);
+  await repo.recordCompleted(fixtureRun);
+  const active = await repo.savePlayback(fixtureRun, fixtureRun.events.length);
+  const history = await repo.getHistory();
+  const original = IDBObjectStore.prototype.delete;
+  const failure = vi.spyOn(IDBObjectStore.prototype, 'delete').mockImplementation(function(this: IDBObjectStore, key: IDBValidKey | IDBKeyRange) {
+    if (this.name === 'runs') throw new DOMException('Simulated deletion failure', 'UnknownError');
+    return original.call(this, key);
+  });
+  await expect(repo.deleteCompletedRun(fixtureRun.id)).rejects.toMatchObject({ code: 'unavailable' });
+  failure.mockRestore();
+  expect(await repo.getHistory()).toEqual(history);
+  expect(await repo.getRun(fixtureRun.id)).toEqual(fixtureRun);
+  expect(await repo.getPlayback()).toEqual(active);
 });
 
 it('updates progress without reading, writing, validating or comparing full replay data', async () => {

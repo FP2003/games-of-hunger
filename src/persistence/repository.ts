@@ -126,6 +126,19 @@ export function createRepository(db: Database): GameRepository {
       const valid = validate(RunRecordSchema, run);
       return execute(true, async tx => { const history = await historyIn(tx); await putRun(tx, valid); const next = applyCompletedRun(history, valid); await tx.put('meta', 'history', next); return next; });
     },
+    deleteCompletedRun: runId => execute(true, async tx => {
+      const history = await historyIn(tx);
+      if (!history.seasons.some(season => season.runId === runId)) throw new RepositoryError('missing', 'This season is no longer in the archive.');
+      const activeValue = await tx.get('meta', 'playback');
+      const active = activeValue === undefined ? null : validate(PlaybackSaveSchema, activeValue);
+      const next = { ...history, seasons: history.seasons.filter(season => season.runId !== runId) };
+      await tx.put('meta', 'history', next);
+      await tx.delete('runs', runId);
+      await tx.delete('meta', `run-info:${runId}`);
+      await tx.delete('meta', `playback:${runId}`);
+      if (active?.runId === runId) await tx.delete('meta', 'playback');
+      return { history: next, playback: active?.runId === runId ? null : active };
+    }),
     importHistory: async (history, runs) => {
       const envelope = validate(HistoryEnvelopeSchema, { kind: 'history', schemaVersion: 1, history, runs });
       // Never trust imported win/lore summaries over the included structured replay.
