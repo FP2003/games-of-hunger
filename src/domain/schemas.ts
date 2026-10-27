@@ -4,10 +4,13 @@ import { canonicalRunId, canonicalStringify } from './canonical';
 export const BIOME_IDS = ['forest', 'swamp', 'mountains', 'desert', 'tundra', 'ruins'] as const;
 export const TRAITS = ['reckless', 'loyal', 'sneaky', 'dramatic', 'cautious', 'resourceful'] as const;
 export const PHASE_KINDS = ['opening', 'day', 'night', 'finale'] as const;
-export const FACT_TYPES = ['move', 'acquire', 'transfer', 'theft', 'drop', 'destroy', 'assistance', 'alliance', 'betrayal', 'revenge', 'elimination', 'curse', 'chain', 'nemesis', 'survival', 'lore'] as const;
+export const FACT_TYPES = ['move', 'acquire', 'transfer', 'theft', 'drop', 'destroy', 'assistance', 'alliance', 'betrayal', 'revenge', 'elimination', 'curse', 'chain', 'nemesis', 'survival', 'lore', 'arena'] as const;
 const id = z.string().trim().min(1).max(120);
 const label = z.string().trim().min(1).max(120);
 export const BiomeIdSchema = z.enum(BIOME_IDS);
+export const BiomeStatusSchema = z.enum(['open', 'weather-warning', 'hazardous', 'closure-warning', 'evacuating', 'closed']);
+export const BIOME_TRANSITIONS: Record<BiomeStatus, readonly BiomeStatus[]> = { open: ['weather-warning', 'closure-warning'], 'weather-warning': ['hazardous'], hazardous: ['open'], 'closure-warning': ['evacuating'], evacuating: ['closed'], closed: [] };
+export const ArenaSceneSchema = z.object({ biome: BiomeIdSchema, stage: z.enum(['weather-warning', 'weather-start', 'weather-end', 'closure-warning', 'closure-start', 'close', 'escape', 'casualty']) }).strict();
 export const TraitSchema = z.enum(TRAITS);
 export const ToneSchema = z.enum(['dramatic', 'absurd', 'mixed']);
 export const PhaseKindSchema = z.enum(PHASE_KINDS);
@@ -57,6 +60,7 @@ export const ConditionSchema = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('groundItem'), role, definitionId: id.optional() }).strict(),
 ]);
 export const EffectSchema = z.discriminatedUnion('kind', [
+  z.object({ kind: z.literal('biomeStatus'), biome: BiomeIdSchema, status: BiomeStatusSchema }).strict(),
   z.object({ kind: z.literal('move'), role, biome: z.union([BiomeIdSchema, z.literal('adjacent')]) }).strict(),
   z.object({ kind: z.literal('createItem'), role, definitionId: id }).strict(),
   z.object({ kind: z.literal('acquireItem'), role, definitionId: id.optional() }).strict(),
@@ -70,7 +74,7 @@ export const EffectSchema = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('curse'), role, definitionId: id }).strict(),
 ]);
 export const EventTemplateSchema = z.object({
-  id, category: z.enum(['opening', 'survival', 'social', 'conflict', 'curse', 'hazard', 'finale']), phases: z.array(PhaseKindSchema).min(1), tones: z.array(ToneSchema).min(1), scope: z.enum(['local', 'global']), roles: z.array(RoleSchema).min(1).max(4), conditions: z.array(ConditionSchema).default([]), weight: z.number().finite().positive(), cooldown: z.number().int().nonnegative(), variants: z.array(z.string().min(1).max(2000)).min(1), effects: z.array(EffectSchema), chain: z.object({ id, step: z.number().int().positive() }).optional(),
+  id, category: z.enum(['opening', 'survival', 'social', 'conflict', 'curse', 'hazard', 'finale', 'announcement']), phases: z.array(PhaseKindSchema).min(1), tones: z.array(ToneSchema).min(1), scope: z.enum(['local', 'global']), roles: z.array(RoleSchema).max(4), conditions: z.array(ConditionSchema).default([]), weight: z.number().finite().positive(), cooldown: z.number().int().nonnegative(), variants: z.array(z.string().min(1).max(2000)).min(1), effects: z.array(EffectSchema), chain: z.object({ id, step: z.number().int().positive() }).optional(), arena: ArenaSceneSchema.optional(), rare: z.boolean().optional(),
 }).strict();
 export const ConfessionalTemplateSchema = z.object({ id, traits: z.array(TraitSchema), tones: z.array(ToneSchema).min(1), triggers: z.array(FactTypeSchema).min(1), speaker: z.enum(['actor', 'target', 'any', 'eliminated']), variants: z.array(z.string().min(1).max(1000)).min(1), cooldown: z.number().int().nonnegative() }).strict();
 export const ContentPackSchema = z.object({ id, version: label, title: label, biomes: z.array(BiomeDefinitionSchema).length(6), items: z.array(ItemDefinitionSchema), markers: z.array(MarkerDefinitionSchema), events: z.array(EventTemplateSchema).min(1), confessionals: z.array(ConfessionalTemplateSchema) }).strict().superRefine((pack, ctx) => {
@@ -85,6 +89,13 @@ export const ContentPackSchema = z.object({ id, version: label, title: label, bi
   if (reachable.size !== 6) issue(['biomes'], 'The arena graph must connect all six biomes.');
   const itemIds = new Set(pack.items.map(i => i.id)); const markers = new Map(pack.markers.map(m => [m.id, m]));
   pack.events.forEach((event, i) => {
+    const announcement = event.category === 'announcement';
+    if (announcement ? event.roles.length !== 0 || !event.arena || event.effects.some(e => e.kind !== 'biomeStatus') : event.roles.length === 0 || event.effects.some(e => e.kind === 'biomeStatus')) issue(['events', i], 'Only arena announcements have no participants and may change biome status.');
+    if (event.arena) {
+      const stages = { 'weather-warning': 'weather-warning', 'weather-start': 'hazardous', 'weather-end': 'open', 'closure-warning': 'closure-warning', 'closure-start': 'evacuating', close: 'closed' } as const;
+      const status = stages[event.arena.stage as keyof typeof stages];
+      if (event.arena.biome === 'ruins' || (status ? !announcement || event.effects.length !== 1 || !event.effects.some(e => e.kind === 'biomeStatus' && e.biome === event.arena!.biome && e.status === status) : announcement)) issue(['events', i, 'arena'], 'Arena stages must match their biome transition; the central ruins remain accessible.');
+    }
     const roles = new Set(event.roles.map(r => r.id));
     if (roles.size !== event.roles.length) issue(['events', i, 'roles'], 'Role IDs must be distinct.');
     event.roles.forEach((r, j) => { if (r.itemDefinitionId && !itemIds.has(r.itemDefinitionId)) issue(['events', i, 'roles', j], 'Unknown item definition.'); });
@@ -109,8 +120,8 @@ export const ContentPackSchema = z.object({ id, version: label, title: label, bi
 });
 export const PlayerStateSchema = z.object({ id, alive: z.boolean(), biome: BiomeIdSchema, markers: z.record(z.string(), z.union([z.boolean(), z.number().finite(), z.string()])) }).strict();
 export const ItemInstanceSchema = z.object({ id, definitionId: id, name: label, ownerId: id.nullable(), biome: BiomeIdSchema, destroyed: z.boolean() }).strict();
-export const GameStateSchema = z.object({ players: z.array(PlayerStateSchema).min(2).max(48), items: z.array(ItemInstanceSchema), relationships: z.array(RelationshipSchema) }).strict();
-export const EventFactSchema = z.object({ type: FactTypeSchema, actorId: id.optional(), targetId: id.optional(), itemId: id.optional(), itemDefinitionId: id.optional(), biome: BiomeIdSchema.optional(), marker: id.optional(), sourceEvent: z.number().int().nonnegative().optional(), sourceRunId: id.optional() }).strict();
+export const GameStateSchema = z.object({ players: z.array(PlayerStateSchema).min(2).max(48), items: z.array(ItemInstanceSchema), relationships: z.array(RelationshipSchema), arena: z.array(z.object({ biome: BiomeIdSchema, status: BiomeStatusSchema }).strict()).optional() }).strict();
+export const EventFactSchema = z.object({ type: FactTypeSchema, actorId: id.optional(), targetId: id.optional(), itemId: id.optional(), itemDefinitionId: id.optional(), biome: BiomeIdSchema.optional(), biomeStatus: BiomeStatusSchema.optional(), marker: id.optional(), sourceEvent: z.number().int().nonnegative().optional(), sourceRunId: id.optional() }).strict();
 export const ConfessionalSchema = z.object({ templateId: id, speakerId: id, text: z.string(), exit: z.boolean() }).strict();
 export const EventRecordSchema = z.object({ sequence: z.number().int().nonnegative(), id, phase: PhaseSchema, templateId: id, bindings: z.record(z.string(), id), biome: BiomeIdSchema, effects: z.array(EffectSchema), facts: z.array(EventFactSchema), text: z.string(), confessional: ConfessionalSchema.nullable(), state: GameStateSchema }).strict();
 export const LoreFactSchema = z.object({ id, type: z.enum(['win', 'betrayal', 'revenge', 'transfer', 'nemesis', 'curse']), sourceRunId: id, playerIds: z.array(id).min(1), eventSequences: z.array(z.number().int().nonnegative()), itemDefinitionId: id.optional(), detail: z.string() }).strict();
@@ -123,9 +134,12 @@ export const RunRecordSchema = z.object({ id, engineVersion: id, input: RunInput
   const ids = new Set(run.input.cast.players.map(p => p.id));
   if (run.id !== canonicalRunId(run.input, run.engineVersion)) add(['id'], 'Run identity does not match its versioned input snapshot.');
   if (run.initialState.players.some(p => !p.alive)) add(['initialState', 'players'], 'Every contestant must begin the season alive.');
+  if (run.initialState.arena?.some(b => b.status !== 'open')) add(['initialState', 'arena'], 'Every biome must begin open.');
   if (!run.input.settings.loreCarryover && run.input.lore.facts.length) add(['input', 'lore'], 'Lore-disabled runs cannot contain historical context.');
   if (!ids.has(run.winnerId)) add(['winnerId'], 'Winner must belong to this cast.');
   const checkState = (state: z.infer<typeof GameStateSchema>, path: (string | number)[]) => {
+    if (new Set(state.arena?.map(b => b.biome)).size !== (state.arena?.length ?? 0) || state.arena?.some(b => b.biome === 'ruins' && b.status !== 'open')) add([...path, 'arena'], 'Biome statuses must be unique and the ruins must remain open.');
+    if (state.players.some(p => p.alive && state.arena?.some(b => b.biome === p.biome && b.status === 'closed'))) add([...path, 'arena'], 'A closed biome cannot contain a living contestant.');
     if (state.players.length !== ids.size || new Set(state.players.map(p => p.id)).size !== ids.size || state.players.some(p => !ids.has(p.id))) add([...path, 'players'], 'Snapshots must contain exactly the original cast IDs.');
     if (new Set(state.items.map(i => i.id)).size !== state.items.length) add([...path, 'items'], 'Item instance IDs must be unique.');
     state.items.forEach((item, i) => { if (item.ownerId && (!state.players.find(p => p.id === item.ownerId)?.alive || item.destroyed)) add([...path, 'items', i], 'Items may only belong to living players and destroyed items have no owner.'); if (!item.definitionId.startsWith('signature:') && !run.input.content.items.some(d => d.id === item.definitionId)) add([...path, 'items', i, 'definitionId'], 'Unknown item definition.'); });
@@ -150,7 +164,9 @@ export const RunRecordSchema = z.object({ id, engineVersion: id, input: RunInput
     const template = run.input.content.events.find(t => t.id === event.templateId);
     if (!template && !event.templateId.startsWith('fallback:')) add(['events', i, 'templateId'], 'Unknown event template.');
     if (template && (canonicalStringify(Object.keys(event.bindings).sort()) !== canonicalStringify(template.roles.map(r => r.id).sort()) || canonicalStringify(event.effects) !== canonicalStringify(template.effects) || !template.phases.includes(event.phase.kind))) add(['events', i], 'Recorded roles, effects, and phase must agree with the snapshotted template.');
-    if (!participants.length) add(['events', i, 'bindings'], 'Recorded events need an active participant.');
+    if (!participants.length && template?.category !== 'announcement') add(['events', i, 'bindings'], 'Only arena announcements may omit active participants.');
+    if (template?.category === 'announcement' && (event.confessional || event.biome !== template.arena?.biome)) add(['events', i], 'Announcements must use their affected biome and cannot have a confessional.');
+    if (template?.arena && ['escape', 'casualty'].includes(template.arena.stage) && previous.arena?.find(b => b.biome === template.arena!.biome)?.status !== 'evacuating') add(['events', i], 'Evacuation outcomes require an active closure.');
     if (template?.scope === 'local' && new Set(participants.map(id => previous.players.find(p => p.id === id)?.biome)).size > 1) add(['events', i, 'bindings'], 'Local encounters require participants in the same biome.');
     checkState(event.state, ['events', i, 'state']);
     event.state.players.forEach(p => { if (p.alive && !previous.players.find(x => x.id === p.id)?.alive) add(['events', i, 'state'], 'Eliminated players cannot return.'); });
@@ -165,10 +181,17 @@ export const RunRecordSchema = z.object({ id, engineVersion: id, input: RunInput
       const movements = event.facts.filter(f => f.type === 'move' && f.actorId === p.id);
       for (const movement of movements) {
         if (!movement.biome || !run.input.content.biomes.find(b => b.id === position)?.adjacent.includes(movement.biome)) add(['events', i, 'facts'], 'Every movement fact must follow an adjacent route.');
+        if (previous.arena?.some(b => b.biome === movement.biome && ['evacuating', 'closed'].includes(b.status))) add(['events', i, 'facts'], 'Movement cannot enter an evacuating or closed biome.');
         position = movement.biome;
       }
       if (before && p.biome !== position) add(['events', i, 'state', 'players'], 'Location changes must match explicit adjacent movement facts.');
     });
+    for (const biome of BIOME_IDS) {
+      const before = previous.arena?.find(b => b.biome === biome)?.status ?? 'open';
+      const after = event.state.arena?.find(b => b.biome === biome)?.status ?? 'open';
+      if (before !== after && !BIOME_TRANSITIONS[before].includes(after)) add(['events', i, 'state', 'arena'], 'Biome transitions must follow a warning and cannot reopen a closed region.');
+      if (before !== after && (!event.effects.some(e => e.kind === 'biomeStatus' && e.biome === biome && e.status === after) || !event.facts.some(f => f.type === 'arena' && f.biome === biome && f.biomeStatus === after))) add(['events', i, 'state', 'arena'], 'Biome changes require matching committed effects and facts.');
+    }
     previous.items.forEach(item => {
       const after = event.state.items.find(v => v.id === item.id);
       if (!after || after.definitionId !== item.definitionId || (item.destroyed && !after.destroyed)) { add(['events', i, 'state', 'items'], 'Existing item instances cannot disappear, change definition, or return after destruction.'); return; }
@@ -187,6 +210,7 @@ export const RunRecordSchema = z.object({ id, engineVersion: id, input: RunInput
       const item = f.itemId ? event.state.items.find(v => v.id === f.itemId) ?? previous.items.find(v => v.id === f.itemId) : undefined;
       if ((f.itemId && !item) || (f.itemDefinitionId && !f.itemDefinitionId.startsWith('signature:') && !run.input.content.items.some(v => v.id === f.itemDefinitionId)) || (item && f.itemDefinitionId && item.definitionId !== f.itemDefinitionId)) add(['events', i, 'facts', j], 'Fact references an unknown or inconsistent item.');
       if (f.type === 'elimination' && (!f.targetId || !eliminated.some(p => p.id === f.targetId))) add(['events', i, 'facts', j], 'Elimination facts must match a contestant eliminated in this event.');
+      if (f.type === 'arena' && (!f.biome || !f.biomeStatus || !event.effects.some(e => e.kind === 'biomeStatus' && e.biome === f.biome && e.status === f.biomeStatus) || event.state.arena?.find(b => b.biome === f.biome)?.status !== f.biomeStatus)) add(['events', i, 'facts', j], 'Arena facts must match a committed biome transition.');
       if (f.sourceEvent !== undefined && !f.sourceRunId && f.sourceEvent >= i) add(['events', i, 'facts', j, 'sourceEvent'], 'A local callback must cite an earlier event.');
       if (f.type === 'revenge' && (f.sourceEvent === undefined || !run.events[f.sourceEvent]?.facts.some(prior => ['theft', 'betrayal', 'elimination'].includes(prior.type) && prior.actorId === f.targetId && prior.targetId === f.actorId))) add(['events', i, 'facts', j], 'Revenge must cite an actual earlier hostile action against the responding player.');
       if (f.type === 'lore' && !run.input.lore.facts.some(l => l.sourceRunId === f.sourceRunId && (f.sourceEvent === undefined || l.eventSequences.includes(f.sourceEvent)) && (!f.actorId || l.playerIds.includes(f.actorId)))) add(['events', i, 'facts', j], 'A historical callback must cite the snapshotted lore context.');
@@ -216,6 +240,7 @@ export const RunEnvelopeSchema = z.object({ kind: z.literal('run'), schemaVersio
 export const HistoryEnvelopeSchema = z.object({ kind: z.literal('history'), schemaVersion: z.literal(1), history: SeasonHistorySchema, runs: z.array(RunRecordSchema) }).strict().superRefine((v, ctx) => { const ids = new Set(v.runs.map(r => r.id)); if (ids.size !== v.runs.length) ctx.addIssue({ code: 'custom', path: ['runs'], message: 'Backup run IDs must be unique.' }); v.history.seasons.forEach((s, i) => { if (!ids.has(s.runId)) ctx.addIssue({ code: 'custom', path: ['history', 'seasons', i, 'runId'], message: 'History backup is missing a referenced run.' }); }); });
 
 export type BiomeId = z.infer<typeof BiomeIdSchema>;
+export type BiomeStatus = z.infer<typeof BiomeStatusSchema>;
 export type Trait = z.infer<typeof TraitSchema>;
 export type Tone = z.infer<typeof ToneSchema>;
 export type PhaseKind = z.infer<typeof PhaseKindSchema>;

@@ -52,6 +52,8 @@ export interface GameRepository {
   savePlayback(run: RunRecord, cursor: number, expectedRevision?: number): Promise<PlaybackSave>;
   updatePlayback(runId: string, cursor: number, expectedRevision: number): Promise<PlaybackSave>;
   listUnfinishedRuns(): Promise<UnfinishedRun[]>;
+  /** Deletes an unfinished replay at its listed revision and returns the remaining active save. */
+  deleteUnfinishedRun(runId: string, expectedRevision: number): Promise<PlaybackSave | null>;
   clearPlayback(expectedRevision?: number): Promise<void>;
   getHistory(): Promise<SeasonHistory>;
   recordCompleted(run: RunRecord): Promise<SeasonHistory>;

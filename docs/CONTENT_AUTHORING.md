@@ -1,8 +1,8 @@
 # Content authoring
 
-The default pack is `defaultContentPack` in `src/content/index.ts`, ID `wild-broadcast`, version `1.0.0`. It is ordinary serializable data validated by `ContentPackSchema`. The shipped library contains 120 original templates, 48 authored confessional templates, six connected biomes, three mechanical curses, and three story chains. Wording variants do not count as separate events.
+The default pack is `defaultContentPack` in `src/content/index.ts`, ID `wild-broadcast`, version `1.2.0`. Contextual encounters and injury branches live in `src/content/encounters.ts`. It is ordinary serializable data validated by `ContentPackSchema`. The shipped library contains 222 original templates (18 opening, 48 survival, 46 social, 50 conflict, 12 curse, 12 hazard, 36 finale), 48 authored confessional templates, six connected biomes, three mechanical curses, and six story chains. Wording variants do not count as separate events.
 
-Run `npm test -- tests/content` for runtime schema validation, inventory counts, every-template role binding/effect execution, placeholder checks, and narrative tests. `contentInventory()` returns the counts for a pack. `starterContentPack` exports 25 templates for small integrations; the application uses the full pack.
+Run `npm test -- tests/content` for runtime schema validation, inventory counts, every-template role binding/effect execution, placeholder checks, wound continuity, and narrative tests. `contentInventory()` returns the counts for a pack. `starterContentPack` exports 28 templates for small integrations; the application uses the full pack.
 
 ## Editing an event
 
@@ -16,7 +16,7 @@ Roles are living players and distinct by default. A local event requires all par
 
 Narrative placeholders are `{actor.name}` (or another declared role), role `.subject`, `.object`, `.possessive`, `{item}`, and `{biome}`. Confessionals additionally support `{speaker.name}` and its grammatical forms. Names and labels stay literal text, including braces and HTML-like text; React displays them without HTML interpretation. `{item}` resolves from committed item facts. `{biome}` is the first participant's post-event location.
 
-Text must only describe committed effects. A transfer can select any eligible held item, so a revenge scene must not claim it returned the exact original stolen object. Elimination scenes are non-graphic. User-supplied signature items remain ordinary objects.
+Text must only describe committed effects. A transfer can select any eligible held item, so a revenge scene must not claim it returned the exact original stolen object. Elimination scenes are non-graphic but explicit about the action and cause of death. Explain how an attacker succeeds (trip, shove, ambush, sabotage), what happens to the target, and why the outcome is fatal or survivable. Avoid administrative conclusions such as "is removed" or "wins the contest" as substitutes for action. User-supplied signature items remain ordinary objects; scenes using tracked supplies require an ownership condition.
 
 ## Arena
 
@@ -36,15 +36,18 @@ Movement follows one edge and records a visible event. Each biome has six everyd
 
 Each has find, activate, abandon, and destroy templates. Ownership is authoritative on item instances. Unowned and destroyed items do not activate. Transfers of the tin add explicit curse prose derived from the corresponding structured fact.
 
-## Three chains
+## Story chains
 
 | Chain | Progress and interruption |
 | --- | --- |
 | `stolen-cache` | Theft remembers the thief in `stolen-from`; confrontation sets `confronted`; taking an item in repayment qualifies as revenge against that thief and clears progress. |
 | `shelter-debt` | Assistance records `debt-to`; repaid watch duty sets `debt-repaid`; a mutual pact clears progress and establishes reciprocal trust. |
 | `warning-sign` | Numeric `omen` progresses from warning scratches (1), through interpretation (2), to a visible adjacent detour (3). |
+| `wound-thigh`, `wound-shoulder`, `wound-side` | A survived attack (step 1) sets a season-long `bleeding-<site>` marker and changes the victim's trust/grudge toward the attacker. Self-bandaging or local assistance (alternative step 2 branches) removes that marker. Assistance credits the helper and improves the victim's trust. Wounded evasion scenes require the active marker. |
 
 Player markers resolve declared role names to stable player IDs. The engine removes references to eliminated players, so interrupted chains cannot bind a missing active participant. Restarting theft or shelter chains resets its corresponding progress flag. All chain markers last only for the current season.
+
+Wound markers describe ongoing bleeding, not a health score or permanent disability. Treatment stops bleeding without claiming instant healing. Escaped attacks cannot add another bleeding wound while one is active. Fatal attacks record a credited elimination immediately; their cause is preserved in the event's authored text, without an invented delayed-death timer. Eliminations clear all victim markers. Scenes involving hand-to-hand pursuit, rescue or treatment remain local, and references to an earlier wound cannot bind an uninjured or eliminated tribute.
 
 ## Confessionals and archives
 

@@ -20,7 +20,7 @@ export function renderTemplate(text: string, input: EventNarrativeInput, speaker
   const first = input.after.players.find(p => p.id === Object.values(input.bindings)[0]);
   return text.replace(/\{([^{}]+)\}/g, (_match, token: string) => {
     if (token === 'item') return itemLabel(input);
-    if (token === 'biome') return input.content.biomes.find(b => b.id === first?.biome)?.name ?? 'the arena';
+    if (token === 'biome') return input.content.biomes.find(b => b.id === (input.template.category === 'announcement' ? input.template.arena?.biome : first?.biome))?.name ?? 'the arena';
     const [role, field] = token.split('.');
     const player = role === 'speaker' ? speaker : input.cast.players.find(p => p.id === input.bindings[role]);
     if (!player) throw new Error(`Unbound narrative role: ${role}`);
