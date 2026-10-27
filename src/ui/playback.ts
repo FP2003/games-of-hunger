@@ -15,3 +15,27 @@ export function phaseEndCursor(run: RunRecord, cursor: number): number {
   while (next < run.events.length && samePhase(run.events[next], run.events[cursor])) next++;
   return next;
 }
+
+/** Only revealed events belong in the current report, including older partial saves. */
+export function phaseReport(run: RunRecord, cursor: number) {
+  const { event, finished } = visiblePlayback(run, cursor);
+  const events = event ? run.events.slice(0, cursor).filter(e => samePhase(e, event)) : [];
+  const complete = !!event && (finished || !samePhase(event, run.events[cursor]));
+  const showFallen = complete && (event.phase.kind === 'night' || finished);
+  // The first roll call includes the bloodbath; later calls start after the last night.
+  let priorNight = -1;
+  for (let i = 0; i < cursor - events.length; i++) if (run.events[i].phase.kind === 'night') priorNight = i;
+  const fallenIds = showFallen ? [...new Set(run.events.slice(priorNight + 1, cursor).flatMap(e => e.facts.filter(f => f.type === 'elimination' && f.targetId).map(f => f.targetId!)))] : [];
+  return { events, complete, showFallen, fallenIds };
+}
+
+export type BroadcastPage = 'phase' | 'fallen' | 'results';
+
+/** Memorial pages do not reveal any further events or change the saved event cursor. */
+export function nextBroadcastStep(run: RunRecord, cursor: number, page: BroadcastPage): { cursor: number; page: BroadcastPage } {
+  const report = phaseReport(run, cursor);
+  if (page === 'results') return { cursor, page };
+  if (page === 'phase' && report.showFallen) return { cursor, page: 'fallen' };
+  if (cursor === run.events.length) return { cursor, page: 'results' };
+  return { cursor: phaseEndCursor(run, cursor), page: 'phase' };
+}

@@ -3,18 +3,35 @@ import { DEFAULT_SETTINGS, TRAITS, validateCast, validateSettings, validateRunEn
 import type { AppServices } from '../app/services';
 import { loadWorkspace } from '../app/loadWorkspace';
 import './styles.css';
-import { phaseEndCursor, samePhase, visiblePlayback } from './playback';
-import { restorePlayer } from './editor';
+import { nextBroadcastStep, phaseReport, visiblePlayback, type BroadcastPage } from './playback';
+import { swapPlayers, restorePlayer } from './editor';
 import { confessionalLabel, phaseLabel, seasonRecap } from './recap';
 import season2Cast from '../content/casts/season2.json';
 import { CharacterEditorDialog } from './CharacterEditorDialog';
 import { RelationshipNetwork, type RelationshipStatus } from './RelationshipNetwork';
 import { teamStyle } from './teamColours';
+import { CastCards } from './CastCards';
+import { FallenTributes, PhaseReport } from './PhaseReport';
+import { CharacterText } from './CharacterText';
+import { BiomeSymbol } from './BiomeSymbol';
 
 type Screen = 'cast' | 'setup' | 'watch' | 'history';
 const freshCast = (): CastDefinition => ({ version: 1, title: 'The Group Chat Games', players: [], relationships: [] });
 const newPlayer = (name: string): PlayerDefinition => ({ id: crypto.randomUUID(), name, traits: [] });
 const message = (error: unknown) => error instanceof Error ? error.message : 'Something went wrong. Your current game is still available for export.';
+
+function rememberedPage(run: RunRecord | null, cursor: number): BroadcastPage {
+  if (!run) return 'phase';
+  try {
+    const saved = JSON.parse(sessionStorage.getItem(`broadcast-page:${run.id}`) ?? 'null');
+    if (saved?.cursor === cursor) {
+      if (saved.page === 'phase') return 'phase';
+      if (saved.page === 'fallen' && phaseReport(run, cursor).showFallen) return 'fallen';
+      if (saved.page === 'results' && cursor === run.events.length) return 'results';
+    }
+  } catch { /* This optional reading preference must not interrupt saved games. */ }
+  return cursor === run.events.length ? 'results' : 'phase';
+}
 
 function download(name: string, value: unknown, raw = false) {
   const blob = new Blob([raw ? String(value) : JSON.stringify(value, null, 2)], { type: raw && name.endsWith('.txt') ? 'text/plain' : 'application/json' });
@@ -45,12 +62,20 @@ export function App({ services }: { services: AppServices }) {
   const [paste, setPaste] = useState('');
   const [run, setRun] = useState<RunRecord | null>(null);
   const [cursor, setCursor] = useState(0);
+  const [pageSelection, setPageSelection] = useState<{ runId: string; cursor: number; page: BroadcastPage } | null>(null);
+  const broadcastPage = pageSelection?.runId === run?.id && pageSelection?.cursor === cursor ? pageSelection.page : rememberedPage(run, cursor);
+  const selectBroadcastPage = (record: RunRecord, position: number, page: BroadcastPage) => {
+    setPageSelection({ runId: record.id, cursor: position, page });
+    try { sessionStorage.setItem(`broadcast-page:${record.id}`, JSON.stringify({ cursor: position, page })); } catch { /* Optional view preference. */ }
+  };
   const [resume, setResume] = useState<{ run: RunRecord; cursor: number } | null>(null);
   const [history, setHistory] = useState<SeasonHistory>({ version: 1, seasons: [] });
   const [library, setLibrary] = useState<SavedCast[]>([]);
   const [castId, setCastId] = useState<string>();
   const [undo, setUndo] = useState<RemovedPlayer[]>([]);
   const [unfinished, setUnfinished] = useState<UnfinishedRun[]>([]);
+  const [pendingDeletion, setPendingDeletion] = useState<string | null>(null);
+  const [deletingRunId, setDeletingRunId] = useState<string | null>(null);
   const [draftStatus, setDraftStatus] = useState('');
   const [draftReadable, setDraftReadable] = useState(false);
   const [saveFailed, setSaveFailed] = useState(false);
@@ -58,7 +83,7 @@ export function App({ services }: { services: AppServices }) {
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
   const [auto, setAuto] = useState(false);
-  const [speed, setSpeed] = useState(3000);
+  const [speed, setSpeed] = useState(6000);
   const [presentation, setPresentation] = useState(false);
   const [selected, setSelected] = useState<string>();
   const [castView, setCastView] = useState<'cards' | 'network'>('cards');
@@ -72,6 +97,7 @@ export function App({ services }: { services: AppServices }) {
   const activeRunId = useRef<string | null>(null);
   activeRunId.current = run?.id ?? null;
   const revealedLog = useRef<HTMLDetailsElement>(null);
+  const phaseTop = useRef<HTMLElement>(null);
   const portraitReferences = JSON.stringify([...new Set([
     ...cast.players, ...undo.map(removed => removed.player), ...(run?.input.cast.players ?? []),
   ].flatMap(player => player.portrait?.startsWith('asset:') ? [player.portrait.slice(6)] : []))].sort());
@@ -145,15 +171,24 @@ export function App({ services }: { services: AppServices }) {
     if (!run) return;
     const next = Math.min(position, run.events.length); setCursor(next); void save(run, next);
   };
+  const advanceBroadcast = () => {
+    if (!run) return;
+    const next = nextBroadcastStep(run, cursor, broadcastPage);
+    selectBroadcastPage(run, next.cursor, next.page);
+    if (next.cursor !== cursor) reveal(next.cursor);
+  };
   useEffect(() => {
-    if (!auto || screen !== 'watch' || !run || cursor >= run.events.length) { setAuto(false); return; }
-    const timer = window.setTimeout(() => reveal(cursor + 1), speed);
+    if (!auto || screen !== 'watch' || !run || broadcastPage === 'results') { setAuto(false); return; }
+    const timer = window.setTimeout(advanceBroadcast, speed);
     return () => window.clearTimeout(timer);
-  }, [auto, screen, run, cursor, speed]);
+  }, [auto, screen, run, cursor, speed, broadcastPage]);
   useEffect(() => {
     const stop = (event: KeyboardEvent) => { if (event.key === 'Escape') { setAuto(false); setPresentation(false); } };
     window.addEventListener('keydown', stop); return () => window.removeEventListener('keydown', stop);
   }, []);
+  useEffect(() => {
+    if (screen === 'watch') phaseTop.current?.scrollIntoView({ block: 'start', behavior: 'instant' });
+  }, [run?.id, cursor, screen, broadcastPage]);
   useEffect(() => {
     if (!run || cursor !== run.events.length || completedIds.current.has(run.id)) return;
     completedIds.current.add(run.id);
@@ -183,11 +218,22 @@ export function App({ services }: { services: AppServices }) {
     const removed = undo[undo.length - 1]; if (!removed || cast.players.length >= 48) return;
     setCast(current => restorePlayer(current, removed)); setUndo(current => current.slice(0, -1)); setNotice(`${removed.player.name || 'Character'} restored with their relationships.`);
   };
-  const reorder = (index: number, offset: number) => setCast(current => { const players = [...current.players]; [players[index], players[index + offset]] = [players[index + offset], players[index]]; return { ...current, players }; });
+  const swapCastPlayers = (id: string, targetId: string) => setCast(current => swapPlayers(current, id, targetId));
   const addNames = () => {
     const names = paste.split(/\r?\n/).map(n => n.trim()).filter(Boolean);
     if (cast.players.length + names.length > 48 || names.some(n => n.length > 120)) { setError('Use up to 48 players, with names no longer than 120 characters.'); return; }
     setCast(current => ({ ...current, players: [...current.players, ...names.map(newPlayer)] })); setPaste(''); setError('');
+  };
+  const chooseCast = (value: string) => {
+    const saved = library.find(item => item.id === value);
+    if (saved) setCast(saved.cast);
+    else if (value === 'preset:season2') {
+      const checked = validateCast(season2Cast);
+      if (!checked.success) { setError('The Season 2 cast could not be loaded.'); return; }
+      setCast(checked.data);
+      setNotice('Season 2 cast loaded. Save it to keep a named copy.');
+    } else return;
+    setCastId(saved?.id); setUndo([]); setSelected(undefined); setPaste(''); setError('');
   };
   const storeCast = async (asNew = false, announce = true) => {
     const checked = validateCast(cast);
@@ -205,7 +251,7 @@ export function App({ services }: { services: AppServices }) {
       // Yield once so the generation status reaches the screen before synchronous simulation.
       await new Promise(resolve => setTimeout(resolve, 20));
       const record = services.generate({ cast: checked.data, settings: config.data, content, lore: services.lore(seasons, checked.data, config.data.loreCarryover) });
-      setCast(checked.data); setRun(record); setCursor(0); go('watch');
+      setCast(checked.data); setRun(record); setCursor(0); selectBroadcastPage(record, 0, 'phase'); go('watch');
       // Queue the initial cursor before the first reveal can enqueue a later one.
       const initialSave = save(record, 0); await storeCast(false, false); await initialSave;
     } catch (e) { setError(`Could not start the game: ${message(e)}`); }
@@ -221,7 +267,7 @@ export function App({ services }: { services: AppServices }) {
         const checked = validateRunEnvelope(parsed.data); if (!checked.success) throw new Error(checked.errors.map(e => `${e.path}: ${e.message}`).join(' '));
         // Validate and compare imported stories even if their canonical ID is already open.
         storedRuns.current.delete(checked.data.run.id);
-        setRun(checked.data.run); setCursor(checked.data.cursor); go('watch'); await save(checked.data.run, checked.data.cursor, true);
+        setRun(checked.data.run); setCursor(checked.data.cursor); selectBroadcastPage(checked.data.run, checked.data.cursor, checked.data.cursor === checked.data.run.events.length ? 'results' : 'phase'); go('watch'); await save(checked.data.run, checked.data.cursor, true);
       } else if (kind === 'history') {
         await services.importHistory(text); setHistory(await repository.getHistory()); setNotice('History imported. Existing seasons were kept and duplicates counted once.');
       } else {
@@ -236,6 +282,23 @@ export function App({ services }: { services: AppServices }) {
       if (!record) throw new RepositoryError('missing', 'This unfinished replay is missing.');
       storedRuns.current.add(record.id); setRun(record); setCursor(item.cursor); go('watch');
     } catch (e) { setError(`Could not resume this game: ${message(e)}`); }
+  };
+  const deleteUnfinished = (item: UnfinishedRun) => {
+    setDeletingRunId(item.runId); setError('');
+    // A queued progress write must settle before deletion can remove its replay.
+    writes.current = writes.current.then(async () => {
+      try {
+        const active = await repository.deleteUnfinishedRun(item.runId, item.revision);
+        revision.current = active?.revision;
+        storedRuns.current.delete(item.runId);
+        setUnfinished(current => current.filter(saved => saved.runId !== item.runId));
+        setResume(current => current?.run.id === item.runId ? null : current);
+        if (activeRunId.current === item.runId) { setAuto(false); setRun(null); setCursor(0); setPageSelection(null); setSaveFailed(false); }
+        try { sessionStorage.removeItem(`broadcast-page:${item.runId}`); } catch { /* Optional reading preference. */ }
+        setPendingDeletion(null); setNotice(`“${item.title}” deleted.`);
+      } catch (e) { setError(`Could not delete this game: ${message(e)}`); }
+      finally { setDeletingRunId(null); }
+    });
   };
   const reloadProgress = async () => {
     try {
@@ -265,20 +328,20 @@ export function App({ services }: { services: AppServices }) {
   const playback = run ? visiblePlayback(run, cursor) : null;
   const current = playback?.state ?? null;
   const event = playback?.event ?? null;
-  const finished = playback?.finished ?? false;
+  const finished = !!playback?.finished && broadcastPage === 'results';
+  const report = run ? phaseReport(run, cursor) : null;
   const player = cast.players.find(p => p.id === selected);
   const runPlayer = (id: string) => run!.input.cast.players.find(p => p.id === id)!;
   const name = (id: string) => runPlayer(id)?.name || id;
   const alliancePairs = (state: GameState) => state.relationships.filter(r => r.from < r.to && r.trust >= 40 && state.players.find(p => p.id === r.from)?.alive && state.players.find(p => p.id === r.to)?.alive && state.relationships.some(reverse => reverse.from === r.to && reverse.to === r.from && reverse.trust >= 40));
   const nemesis = (id: string, state: GameState) => state.relationships.filter(r => r.from === id && r.grudge >= 40 && state.players.some(p => p.id === r.to && p.alive)).sort((a,b) => b.grudge-a.grudge || (a.to < b.to ? -1 : a.to > b.to ? 1 : 0))[0];
-  const duplicates = cast.players.filter(p => cast.players.filter(other => other.name === p.name).length > 1).map(p => p.id);
 
   return <div className={`app ${presentation ? 'presentation' : ''}`}>
     <header className="topbar">
       <button className="brand" onClick={() => go('cast')} aria-label="Games of Hunger cast editor"><span className="brand-mark">✳</span> GAMES <span className="brand-of">OF</span> HUNGER</button>
       <nav aria-label="Main navigation">
         <button className={screen === 'cast' || screen === 'setup' ? 'active' : ''} onClick={() => go('cast')}>The cast</button>
-        {run && <button className={screen === 'watch' ? 'active' : ''} onClick={() => go('watch')}>The arena</button>}
+        {run && <button className={screen === 'watch' ? 'active' : ''} disabled={deletingRunId !== null} onClick={() => go('watch')}>The arena</button>}
         <button className={screen === 'history' ? 'active' : ''} onClick={() => go('history')}>Season archive <span className="count">{history.seasons.length}</span></button>
       </nav>
       <span className="local-tag"><span /> SAVED IN THIS BROWSER</span>
@@ -287,21 +350,38 @@ export function App({ services }: { services: AppServices }) {
       {error && <div className="error" role="alert">{error}<button aria-label="Dismiss error" onClick={() => setError('')}>×</button></div>}
       {!ready ? <p role="status">Loading saved games…</p> : <>
       {screen === 'cast' && <>
-        <section className="hero"><div><p className="eyebrow">SURVIVAL SIMULATOR</p><h1>Survival <em>games.</em></h1><p className="lede">Create a cast of 2–48 players and follow the game one event at a time.</p></div><div className="arena-preview" aria-label="Six connected locations"><span className="orbit orbit-one" /><span className="orbit orbit-two" /><span className="arena-symbol">✳</span><span className="map-label map-forest">FOREST</span><span className="map-label map-ruins">RUINS</span><span className="map-label map-tundra">TUNDRA</span><span className="map-label map-swamp">SWAMP</span><p>6 LOCATIONS</p></div></section>
-        {resume && <div className="resume"><div><strong>Saved game</strong><p>{resume.run.input.cast.title} · {resume.cursor} events revealed</p></div><button className="primary" onClick={() => { setRun(resume.run); setCursor(resume.cursor); go('watch'); }}>Resume game ↗</button></div>}
-        {unfinished.length > 0 && <section className="panel unfinished-panel" aria-label="Unfinished games"><h3>Unfinished games</h3>{unfinished.map(item => <div className="unfinished-row" key={item.runId}><div><strong>{item.title}</strong><small>{item.cursor} events revealed · {new Date(item.updatedAt).toLocaleString()}</small></div><button onClick={() => void openUnfinished(item)}>Resume {item.title} ↗</button></div>)}</section>}
+        <section className="hero"><div><h1>Survival <em>games.</em></h1></div><div className="arena-preview" aria-label="Six connected locations"><span className="orbit orbit-one" /><span className="orbit orbit-two" /><span className="arena-symbol">✳</span><span className="map-label map-forest">FOREST</span><span className="map-label map-ruins">RUINS</span><span className="map-label map-tundra">TUNDRA</span><span className="map-label map-swamp">SWAMP</span><p>6 LOCATIONS</p></div></section>
+        {resume && <div className="resume"><div><strong>Saved game</strong><p>{resume.run.input.cast.title} · {resume.cursor} events revealed</p></div><button className="primary" disabled={deletingRunId !== null} onClick={() => { setRun(resume.run); setCursor(resume.cursor); go('watch'); }}>Resume game ↗</button></div>}
+        {unfinished.length > 0 && <section className="panel unfinished-panel" aria-label="Unfinished games"><h3>Unfinished games</h3>{unfinished.map(item => <div className="unfinished-row" key={item.runId}><div><strong>{item.title}</strong><small>{item.cursor} events revealed · {new Date(item.updatedAt).toLocaleString()}</small></div><div className="unfinished-actions">
+          {pendingDeletion === item.runId ? <><p>Delete this saved game? This cannot be undone.</p><div className="button-row"><button className="delete-game" aria-label={`Confirm deletion of ${item.title}`} disabled={deletingRunId !== null} onClick={() => deleteUnfinished(item)}>{deletingRunId === item.runId ? 'Deleting…' : 'Delete game'}</button><button className="subtle" aria-label={`Cancel deletion of ${item.title}`} disabled={deletingRunId !== null} onClick={() => setPendingDeletion(null)}>Cancel</button></div></> : <><button disabled={deletingRunId !== null} onClick={() => void openUnfinished(item)}>Resume {item.title} ↗</button><button className="subtle" aria-label={`Delete ${item.title}`} disabled={deletingRunId !== null} onClick={() => setPendingDeletion(item.runId)}>Delete</button></>}
+        </div></div>)}</section>}
         <div className="section-heading"><div><p className="eyebrow">01 / CAST</p><h2>Your cast <span className="count">{cast.players.length} / 48</span></h2></div><div className="button-row"><label className="button subtle">Import JSON<input type="file" accept=".json,application/json" onChange={importFile} /></label><button className="subtle" onClick={() => download('cast.json', { kind: 'cast', schemaVersion: 1, cast })} disabled={!valid}>Export cast</button></div></div>
-        <section className="panel cast-library"><h3>Your casts</h3><label className="field">Saved casts<select aria-label="Saved casts" value={castId ?? ''} onChange={event => { const saved = library.find(item => item.id === event.target.value); if (saved) { setCast(saved.cast); setCastId(saved.id); setUndo([]); setSelected(undefined); setPaste(''); } }}><option value="" disabled>Choose a saved cast</option>{library.map(item => <option key={item.id} value={item.id}>{item.cast.title} · {item.cast.players.length} players</option>)}</select></label><button className="subtle full" onClick={() => { setCast(freshCast()); setCastId(undefined); setUndo([]); setSelected(undefined); setPaste(''); }}>New cast</button>{castId && <button className="subtle full" onClick={() => { repository.deleteCast(castId).then(async () => { setCastId(undefined); setLibrary(await repository.listSavedCasts()); setNotice('Saved cast removed. Your current draft is still available.'); }).catch(e => setError(message(e))); }}>Delete saved cast</button>}<button className="subtle full" onClick={() => void cleanPortraits()}>Free unused portrait space</button></section>
-        <section className="panel"><h3>The Legionairre Games · Season 2</h3><p className="muted">24 players · 12 districts</p><button onClick={() => { const checked = validateCast(season2Cast); if (!checked.success) { setError('The Season 2 cast could not be loaded.'); return; } setCast(checked.data); setCastId(undefined); setUndo([]); setSelected(undefined); setPaste(''); setNotice('Season 2 cast loaded. Save it to keep a named copy.'); }}>Load Season 2 cast</button></section>
-        <aside className="cast-sidebar"><section className="panel add-panel"><span className="panel-icon">＋</span><h3>Add players</h3><p>Enter one name per line.</p><label className="field"><span className="sr-only">Names, one per line</span><textarea aria-label="Names, one per line" placeholder={'Rowan\nCleo\nJules'} rows={3} value={paste} onChange={e => setPaste(e.target.value)} /></label><button className="primary full" onClick={addNames} disabled={!paste.trim() || cast.players.length >= 48}>Add to cast <span>＋</span></button><button className="subtle full" onClick={() => setCast(currentCast => ({ ...currentCast, players: [...currentCast.players, newPlayer('')] }))} disabled={cast.players.length >= 48}>Add a single character</button><p className="tiny">2–48 players. Names can be repeated.</p></section><section className="tip"><span>↳</span><p><strong>Traits and relationships</strong><br />Edit a player to set traits and starting relationships.</p></section><a className="example-link" href={`${import.meta.env.BASE_URL}examples/cast.json`} download>Download example cast JSON ↗</a></aside><div className="cast-layout"><section className="cast-main">
+        <section className="panel cast-library" aria-label="Cast library">
+          <label className="field">Saved casts<select aria-label="Saved casts" value={castId ?? ''} onChange={event => chooseCast(event.target.value)}>
+            <option value="" disabled>{cast.players.length ? 'Current unsaved cast' : 'Choose a saved or built-in cast'}</option>
+            {library.length > 0 && <optgroup label="Your saved casts">{library.map(item => <option key={item.id} value={item.id}>{item.cast.title} · {item.cast.players.length} players</option>)}</optgroup>}
+            <optgroup label="Built-in casts"><option value="preset:season2">The Legionairre Games · Season 2 · 24 players · 12 districts</option></optgroup>
+          </select></label>
+          <div className="cast-library-actions">
+            <button className="subtle" onClick={() => { setCast(freshCast()); setCastId(undefined); setUndo([]); setSelected(undefined); setPaste(''); }}>New cast</button>
+            <details className="cast-tools"><summary>Cast tools</summary><div className="cast-tools-menu">
+              {castId && <button className="subtle" onClick={() => { repository.deleteCast(castId).then(async () => { setCastId(undefined); setLibrary(await repository.listSavedCasts()); setNotice('Saved cast removed. Your current draft is still available.'); }).catch(e => setError(message(e))); }}>Delete saved cast</button>}
+              <button className="subtle" onClick={() => void cleanPortraits()}>Free unused portrait space</button>
+              <a className="example-link" href={`${import.meta.env.BASE_URL}examples/cast.json`} download>Download example cast JSON ↗</a>
+            </div></details>
+          </div>
+        </section>
+        <aside className="cast-sidebar"><section className="panel add-panel" aria-labelledby="add-players-heading">
+          <h3 id="add-players-heading">Add players</h3>
+          <div className="add-panel-form">
+            <label className="field"><span className="sr-only">Names, one per line</span><textarea aria-label="Names, one per line" placeholder="One name per line" rows={3} value={paste} onChange={e => setPaste(e.target.value)} /></label>
+            <div className="add-panel-actions"><div className="button-row"><button className="subtle" onClick={() => setCast(currentCast => ({ ...currentCast, players: [...currentCast.players, newPlayer('')] }))} disabled={cast.players.length >= 48}>Add a single character</button><button className="primary" onClick={addNames} disabled={!paste.trim() || cast.players.length >= 48}>Add to cast</button></div></div>
+          </div>
+        </section></aside><div className="cast-layout"><section className="cast-main">
           <label className="field title-field">Season title<input value={cast.title} maxLength={120} onChange={e => setCast({ ...cast, title: e.target.value })} /></label>
           {cast.players.length > 0 && <div className="cast-view-toggle" role="group" aria-label="Cast view"><button aria-pressed={castView === 'cards'} onClick={() => setCastView('cards')}>Character cards</button><button aria-pressed={castView === 'network'} onClick={() => setCastView('network')}>Relationship network</button></div>}
           {cast.players.length === 0 && <div className="empty"><span>↗</span><h3>No players added</h3><p>Enter player names or use a sample cast.</p><button onClick={() => { setCast({ ...freshCast(), players: ['Rowan', 'Cleo', 'Jules', 'Sage', 'Kit', 'Marlow', 'Rory', 'Wren'].map(newPlayer) }); setCastId(undefined); setUndo([]); }}>Use a sample cast</button></div>}
-          {castView === 'cards' ? <div className="cast-grid">{cast.players.map((p, index) => <article className={`cast-card ${selected === p.id ? 'selected' : ''}`} style={teamStyle(p.team)} key={p.id}>
-            <div className="cast-card-top"><span className="entry-number">{String(index + 1).padStart(2, '0')}</span><div className="mini-actions"><button disabled={index === 0} aria-label={`Move ${p.name || 'player'} up`} onClick={() => reorder(index, -1)}>↑</button><button disabled={index === cast.players.length - 1} aria-label={`Move ${p.name || 'player'} down`} onClick={() => reorder(index, 1)}>↓</button><button aria-label={`Remove ${p.name || 'player'}`} onClick={() => removePlayer(p.id)}>×</button></div></div>
-            <button className="cast-person" aria-haspopup="dialog" onClick={() => setSelected(p.id)}><Portrait player={p} repository={repository} large /><span><strong>{p.name || 'Unnamed player'}</strong>{p.team && <small className="team-label">{p.team}</small>}<small>{p.traits.length ? p.traits.join(' · ') : 'No traits selected'}</small>{duplicates.includes(p.id) && <small>Cast entry {index + 1}</small>}</span></button>
-            <button className="edit-link" aria-label={`Edit ${p.name || 'character'}, cast entry ${index + 1}`} aria-haspopup="dialog" aria-controls={selected === p.id ? 'character-editor' : undefined} onClick={() => setSelected(p.id)}>Edit character <span>↗</span></button>
-          </article>)}</div> : <RelationshipNetwork players={cast.players} relationships={cast.relationships} onChange={editRelationship} portrait={p => <Portrait player={p} repository={repository} />} onEdit={setSelected} />}
+          {castView === 'cards' ? <CastCards players={cast.players} selectedId={selected} onEdit={setSelected} onRemove={removePlayer} onSwap={swapCastPlayers} portrait={p => <Portrait player={p} repository={repository} large />} /> : <RelationshipNetwork players={cast.players} relationships={cast.relationships} onChange={editRelationship} portrait={p => <Portrait player={p} repository={repository} />} onEdit={setSelected} />}
           {player && <CharacterEditorDialog name={player.name} onClose={() => setSelected(undefined)}>{error && <p className="error" role="alert">{error}</p>}<div className="form-grid"><label className="field">Name<input autoFocus value={player.name} maxLength={120} onChange={e => editPlayer(player.id, { name: e.target.value })} /></label><label className="field">Signature item<input placeholder="e.g. an umbrella" value={player.signatureItem || ''} maxLength={120} onChange={e => editPlayer(player.id, { signatureItem: e.target.value || undefined })} /></label><label className="field">Team label<input value={player.team || ''} maxLength={120} onChange={e => editPlayer(player.id, { team: e.target.value || undefined })} /></label><label className="field">Portrait<select aria-label="Portrait" value={player.portrait?.startsWith('/assets/') ? player.portrait : ''} onChange={e => editPlayer(player.id, { portrait: e.target.value || undefined })}><option value="">Initials / uploaded image</option><option value="/assets/fern.svg">Fern emblem</option><option value="/assets/peak.svg">Mountain emblem</option></select></label></div><fieldset><legend>Personality traits</legend><div className="traits">{TRAITS.map(trait => <label key={trait}><input type="checkbox" checked={player.traits.includes(trait)} onChange={e => editPlayer(player.id, { traits: e.target.checked ? [...player.traits, trait] : player.traits.filter(t => t !== trait) })} />{trait}</label>)}</div></fieldset><label className="button subtle">Upload portrait<input type="file" accept="image/png,image/jpeg,image/webp" onChange={e => void portraitUpload(player.id, e)} /></label><p className="muted">PNG, JPEG or WebP, up to 2 MB. Uploaded portraits stay in this browser and are not included in exported files.</p><RelationshipNetwork key={player.id} players={cast.players} relationships={cast.relationships} focalId={player.id} onChange={editRelationship} portrait={p => <Portrait player={p} repository={repository} />} /></CharacterEditorDialog>}
         </section></div>
         <div className="bottom-bar"><div><p className="draft-status" role="status">{draftStatus}</p>{!validation.success && <ul className="muted" aria-label="Cast issues">{validation.errors.map((issue, index) => <li key={index}>{issue.path}: {issue.message}</li>)}</ul>}<p><span className="status-dot" />{valid ? `${cast.players.length} players. Ready to start.` : 'Add 2–48 named players to continue.'}</p></div><div className="button-row">{undo.length > 0 && <button disabled={cast.players.length >= 48} onClick={undoRemoval}>Undo removal ({undo.length})</button>}<button className="subtle" disabled={!valid} onClick={() => void storeCast(true)}>Save as new cast</button><button className="subtle" disabled={!valid} onClick={() => void storeCast()}>Save cast</button><button className="primary" disabled={!valid} onClick={() => go('setup')}>Game settings <span>→</span></button></div></div>
@@ -310,16 +390,25 @@ export function App({ services }: { services: AppServices }) {
       {screen === 'watch' && run && current && <>
         <div className="broadcast-heading"><div><p className="eyebrow"><span className="live-dot" />{finished ? 'GAME COMPLETE' : 'GAME IN PROGRESS'}</p><h2>{run.input.cast.title}</h2></div><div className="button-row"><button className="subtle" onClick={() => download('replay.json', { kind: 'run', schemaVersion: 1, run, cursor })}>Export full replay</button><button className="subtle" onClick={() => setPresentation(!presentation)}>{presentation ? 'Exit presentation' : 'Presentation mode'}</button></div></div>
         {saveFailed && <div className="save-recovery panel"><p>Keep this replay by exporting it, retry saving, or load the progress saved by another page.</p><div className="button-row"><button onClick={() => void save(run, cursor)}>Retry saving progress</button><button onClick={() => void reloadProgress()}>Load saved progress</button></div></div>}
-        <div className="watch-layout"><section className="broadcast"><div className="event-meta"><span>{phaseLabel(event?.phase)}</span><span>{cursor} REVEALED</span></div><article className="event-card" aria-live="polite" aria-atomic="true"><span className="eyebrow">{finished ? 'FINAL EVENT' : event ? `EVENT ${String(cursor).padStart(3,'0')}` : 'READY TO START'}</span>{event ? <><div className="event-portraits">{Object.values(event.bindings).map(id => <Portrait key={id} player={runPlayer(id)} repository={repository} large />)}</div><p className="event-text">{event.text}</p><span className="biome-tag">{run.input.content.biomes.find(b => b.id === event.biome)?.name || event.biome}</span>{event.facts.filter(f => f.type === 'lore').map((fact, i) => <small className="lore-source" key={i}>Past season · {fact.sourceRunId} · {fact.sourceEvent === undefined ? 'season result' : `event ${fact.sourceEvent + 1}`}</small>)}</> : <><div className="gates-symbol">✳</div><h1>Game <em>ready.</em></h1><p className="muted">{current.players.length} players. Select Next event to begin.</p></>}</article>
-        {event?.confessional && <aside className="confessional"><span className="quote-mark">“</span><div><p className="eyebrow">{event.confessional.exit ? 'EXIT INTERVIEW' : 'THE CONFESSIONAL'} / {name(event.confessional.speakerId)}</p><p>{event.confessional.text}</p></div></aside>}
-        {!finished && <div className="playback"><div className="button-row"><button className="primary" onClick={() => reveal(cursor + 1)}>Next event <span>→</span></button><button onClick={() => { reveal(phaseEndCursor(run, cursor)); }}>Reveal phase</button><button aria-pressed={auto} onClick={() => setAuto(!auto)}>{auto ? 'Ⅱ Pause' : '▷ Autoplay'}</button></div><label className="speed">Pace<select aria-label="Autoplay pace" value={speed} onChange={e => setSpeed(Number(e.target.value))}><option value={6000}>Slow · 6s</option><option value={3000}>Normal · 3s</option><option value={1000}>Fast · 1s</option></select></label><small className="muted">Escape pauses autoplay. Full replay exports include future events.</small></div>}
+        <div className="watch-layout"><section className="broadcast" ref={phaseTop} data-revealed={cursor}>
+        {broadcastPage === 'phase' && <PhaseReport run={run} cursor={cursor} portrait={p => <Portrait player={p} repository={repository} />} />}
+        {broadcastPage === 'fallen' && <FallenTributes run={run} cursor={cursor} portrait={p => <Portrait player={p} repository={repository} large />} />}
+        {!finished && <div className="playback"><div className="button-row"><button className="primary" onClick={advanceBroadcast}>{broadcastPage === 'phase' && report?.showFallen ? 'Continue to Fallen tributes' : cursor === run.events.length ? 'View results' : cursor === 0 ? (run.events[0].phase.kind === 'opening' ? 'Start bloodbath' : `Start ${phaseLabel(run.events[0].phase)}`) : `Continue to ${phaseLabel(run.events[cursor].phase)}`} <span>→</span></button>{broadcastPage === 'fallen' && <button onClick={() => selectBroadcastPage(run, cursor, 'phase')}>Back to {phaseLabel(event?.phase)}</button>}<button aria-pressed={auto} onClick={() => setAuto(!auto)}>{auto ? 'Ⅱ Pause' : '▷ Autoplay'}</button></div><label className="speed">Phase pace<select aria-label="Autoplay pace" value={speed} onChange={e => setSpeed(Number(e.target.value))}><option value={15000}>Slow · 15s</option><option value={6000}>Normal · 6s</option><option value={1000}>Fast · 1s</option></select></label></div>}
         {finished && <section className="results panel"><p className="eyebrow">RESULTS</p><h1>{name(run.winnerId)}<br /><em>wins.</em></h1><div className="button-row"><button className="primary" onClick={() => { setCast(run.input.cast); setCastId(undefined); setUndo([]); setSelected(undefined); setSettings({ ...run.input.settings, seed: crypto.randomUUID().slice(0,8) }); go('setup'); }}>Another season →</button><button onClick={() => download('season-recap.txt', seasonRecap(run), true)}>Export recap</button></div>{completionFailureRunId === run.id && <button onClick={() => { repository.recordCompleted(run).then(h => { setHistory(h); setCompletionFailureRunId(current => current === run.id ? null : current); completedIds.current.add(run.id); setNotice('Season history saved.'); }).catch(e => setError(message(e))); }}>Retry saving season</button>}<h3>The season in review</h3>{run.recap.map((line, index) => <p key={index}>{line}</p>)}<h3>The final standings</h3><ol className="placements">{[...run.placements].sort((a,b) => a.rank-b.rank).map(p => <li key={p.playerId}><span>{p.rank}{run.placements.filter(other => other.rank === p.rank).length > 1 ? '=' : ''}</span>{name(p.playerId)}</li>)}</ol><h3>The awards</h3><div className="awards">{run.awards.map(a => <article key={a.id}><span>✧</span><h4>{a.title}</h4><strong>{a.recipientIds.map(name).join(' & ')}</strong><p>{a.explanation}</p><div>{a.eventSequences.map(n => <a key={n} href={`#event-${n}`} onClick={() => { setPresentation(false); if (revealedLog.current) revealedLog.current.open = true; }}>Event {n + 1} ↗ </a>)}</div></article>)}</div></section>}
-        {cursor > 0 && <details className="revealed-log" ref={revealedLog}><summary>Event log · {cursor} events</summary>{run.events.slice(0,cursor).map(e => <article key={e.id} id={`event-${e.sequence}`}><span className="eyebrow">{phaseLabel(e.phase)} · {e.sequence+1}</span><p>{e.text}</p>{e.confessional && <blockquote><strong>{confessionalLabel(run, e)}</strong><p>{e.confessional.text}</p></blockquote>}</article>)}</details>}
-        </section><aside className="survivor-panel"><div className="panel-heading"><span className="eyebrow">PLAYERS REMAINING</span><strong>{current.players.filter(p => p.alive).length}<small> / {current.players.length}</small></strong></div><div className="survivors">{current.players.map(p => <article key={p.id} className={!p.alive ? 'eliminated' : ''}><Portrait player={runPlayer(p.id)} repository={repository} /><div><strong>{name(p.id)}</strong><small>{p.alive ? `${p.biome} · alive` : 'Eliminated'}</small>{p.alive && <><small>{current.items.filter(item => item.ownerId === p.id && !item.destroyed).map(item => item.name).join(' · ') || 'No items'}</small>{nemesis(p.id, current) && <small className="rival">Rival → {name(nemesis(p.id,current)!.to)}</small>}</>}</div></article>)}</div><details open><summary>Arena locations</summary>{run.input.content.biomes.map(b => <div className="location-row" key={b.id}><strong>{b.name}</strong><small>{current.players.filter(p => p.alive && p.biome === b.id).map(p => name(p.id)).join(', ') || 'No players'}</small><small>↔ {b.adjacent.join(', ')}</small></div>)}</details><details><summary>Mutual alliances</summary>{alliancePairs(current).length ? alliancePairs(current).map(r => <p key={`${r.from}:${r.to}`}>{name(r.from)} ↔ {name(r.to)}</p>) : <p className="muted">No mutual alliances yet.</p>}</details>{event && <details><summary>Current phase recap</summary>{run.events.slice(0,cursor).filter(e => samePhase(e,event)).map(e => <div key={e.id}><p>{e.text}</p>{e.confessional && <blockquote><strong>{confessionalLabel(run, e)}</strong><p>{e.confessional.text}</p></blockquote>}</div>)}</details>}</aside></div>
+        {cursor > 0 && <details className="revealed-log" ref={revealedLog}><summary>Event log · {cursor} events</summary>{run.events.slice(0,cursor).map(e => <article key={e.id} id={`event-${e.sequence}`}><span className="eyebrow">{phaseLabel(e.phase)} · {e.sequence+1}</span><p><CharacterText text={e.text} players={run.input.cast.players} /></p>{e.confessional && <blockquote><strong><CharacterText text={confessionalLabel(run, e)} players={run.input.cast.players} /></strong><p><CharacterText text={e.confessional.text} players={run.input.cast.players} /></p></blockquote>}</article>)}</details>}
+        </section><aside className="survivor-panel"><div className="panel-heading"><span className="eyebrow">TRIBUTES REMAINING</span><strong>{current.players.filter(p => p.alive).length}<small> / {current.players.length}</small></strong></div>
+          <div className="survivors">{run.input.content.biomes.map(b => {
+            const residents = current.players.filter(p => p.alive && p.biome === b.id);
+            return <section className="region-roster region-theme" data-region={b.id} key={b.id}><h3><BiomeSymbol biome={b.id} />{b.name}<small>{residents.length}</small></h3>{residents.map(p => <article key={p.id}><Portrait player={runPlayer(p.id)} repository={repository} /><div><strong><CharacterText text={name(p.id)} players={[runPlayer(p.id)]} /></strong><small>{current.items.filter(item => item.ownerId === p.id && !item.destroyed).map(item => item.name).join(' · ') || 'No items'}</small>{nemesis(p.id, current) && <small className="rival">Rival → <CharacterText text={name(nemesis(p.id,current)!.to)} players={run.input.cast.players} /></small>}</div></article>)}{!residents.length && <p className="muted">No tributes here</p>}</section>;
+          })}</div>
+          <details><summary>Eliminated tributes · {current.players.filter(p => !p.alive).length}</summary>{current.players.filter(p => !p.alive).map(p => <p key={p.id}>{name(p.id)}</p>)}</details>
+          <details><summary>Arena routes</summary>{run.input.content.biomes.map(b => <div className="location-row" key={b.id}><strong>{b.name}</strong><small>↔ {b.adjacent.map(id => run.input.content.biomes.find(region => region.id === id)?.name).join(', ')}</small></div>)}</details>
+          <details><summary>Mutual alliances</summary>{alliancePairs(current).length ? alliancePairs(current).map(r => <p key={`${r.from}:${r.to}`}>{name(r.from)} ↔ {name(r.to)}</p>) : <p className="muted">No mutual alliances yet.</p>}</details>
+        </aside></div>
       </>}
-      {screen === 'history' && <><section className="page-intro"><p className="eyebrow">HISTORY</p><h1>Season <em>history.</em></h1><p>Review results and events from completed seasons.</p></section><div className="section-heading"><h2>Season archive <span className="count">{history.seasons.length}</span></h2><div className="button-row"><label className="button subtle">Import backup<input type="file" accept=".json,application/json" onChange={importFile} /></label><button className="subtle" onClick={() => { services.exportHistory().then(text => download('history.json',text,true)).catch(e => setError(message(e))); }}>Export history</button></div></div>{history.seasons.length === 0 ? <section className="empty panel"><h3>No completed seasons</h3><p>Complete a game to see its results here.</p><button className="primary" onClick={() => go(run ? 'watch' : 'cast')}>Back to game →</button></section> : <div className="history-grid">{history.seasons.map((season,index) => <article className="panel season-card" key={season.runId}><p className="eyebrow">SEASON {String(index + 1).padStart(2,'0')}</p><h3>{season.castTitle}</h3><p className="muted">Completed {new Date(season.completedAt).toLocaleDateString()}</p><ul>{season.lore.filter(f => f.type === 'win').map(f => <li key={f.id}>{f.detail}</li>)}</ul><details><summary>Season events · {season.lore.length} facts</summary>{season.lore.map(f => <p key={f.id}>{f.detail}<small className="lore-source">Source: {f.sourceRunId} · events {f.eventSequences.map(n => n+1).join(', ') || 'final result'}</small></p>)}</details><button onClick={() => { repository.getRun(season.runId).then(record => { if (!record) throw new RepositoryError('missing','This season replay is missing.'); storedRuns.current.add(record.id); setRun(record); setCursor(record.events.length); go('watch'); }).catch(e => setError(message(e))); }}>Revisit season ↗</button></article>)}</div>}</>}
+      {screen === 'history' && <><section className="page-intro"><p className="eyebrow">HISTORY</p><h1>Season <em>history.</em></h1><p>Review results and events from completed seasons.</p></section><div className="section-heading"><h2>Season archive <span className="count">{history.seasons.length}</span></h2><div className="button-row"><label className="button subtle">Import backup<input type="file" accept=".json,application/json" onChange={importFile} /></label><button className="subtle" onClick={() => { services.exportHistory().then(text => download('history.json',text,true)).catch(e => setError(message(e))); }}>Export history</button></div></div>{history.seasons.length === 0 ? <section className="empty panel"><h3>No completed seasons</h3><p>Complete a game to see its results here.</p><button className="primary" onClick={() => go(run ? 'watch' : 'cast')}>Back to game →</button></section> : <div className="history-grid">{history.seasons.map((season,index) => <article className="panel season-card" key={season.runId}><p className="eyebrow">SEASON {String(index + 1).padStart(2,'0')}</p><h3>{season.castTitle}</h3><p className="muted">Completed {new Date(season.completedAt).toLocaleDateString()}</p><ul>{season.lore.filter(f => f.type === 'win').map(f => <li key={f.id}>{f.detail}</li>)}</ul><details><summary>Season events · {season.lore.length} facts</summary>{season.lore.map(f => <p key={f.id}>{f.detail}<small className="lore-source">Source: {f.sourceRunId} · events {f.eventSequences.map(n => n+1).join(', ') || 'final result'}</small></p>)}</details><button onClick={() => { repository.getRun(season.runId).then(record => { if (!record) throw new RepositoryError('missing','This season replay is missing.'); storedRuns.current.add(record.id); setRun(record); setCursor(record.events.length); selectBroadcastPage(record, record.events.length, 'results'); go('watch'); }).catch(e => setError(message(e))); }}>Revisit season ↗</button></article>)}</div>}</>}
       </>}
-      <footer><span>GAMES OF HUNGER</span>{notice && <p role="status">{notice}</p>}</footer>
+      {notice && <footer><p role="status">{notice}</p></footer>}
     </main>
   </div>;
 }

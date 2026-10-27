@@ -1,6 +1,6 @@
 import type { RunRecord } from '../domain';
 
-export const phaseLabel = (phase?: RunRecord['events'][number]['phase']) => !phase ? 'Before the opening' : phase.kind === 'opening' ? 'The opening scramble' : phase.kind === 'finale' ? 'The finale' : `${phase.kind === 'day' ? 'Day' : 'Night'} ${phase.day}`;
+export const phaseLabel = (phase?: RunRecord['events'][number]['phase']) => !phase ? 'Before the bloodbath' : phase.kind === 'opening' ? 'Bloodbath' : phase.kind === 'finale' ? 'The finale' : `${phase.kind === 'day' ? 'Day' : 'Night'} ${phase.day}`;
 
 export function confessionalLabel(run: RunRecord, event: RunRecord['events'][number]): string {
   const reaction = event.confessional;
