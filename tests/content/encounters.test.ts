@@ -4,6 +4,7 @@ import { DEFAULT_SETTINGS, type GameState, type RunInput } from '../../src/domai
 import { applyEffects, createRandom, findBindings, generateRun, initialState } from '../../src/engine';
 import { clearPhaseMarkers } from '../../src/engine/mechanics';
 import { narrativeAdapter } from '../../src/narrative';
+import { contextualEncounters, survivalCloseCalls } from '../../src/content/encounters';
 
 const input: RunInput = {
   cast: { version: 1, title: 'Wound stories', players: [{ id: 'a', name: 'AMyriad', traits: [] }, { id: 'b', name: 'Chaos', traits: [], pronouns: { subject: 'she', object: 'her', possessive: 'her' } }, { id: 'c', name: 'Robin', traits: [] }], relationships: [] },
@@ -72,11 +73,23 @@ describe('injury stories and their consequences', () => {
 });
 
 describe('concrete outcomes throughout the library', () => {
+  it('keeps all eight distinct authored scenes for each regional encounter in the playable pack', () => {
+    for (const biome of defaultContentPack.biomes) {
+      for (const outcome of ['trap-fatal', 'trap-escape', 'rescue', 'hazard-escape']) {
+        const id = `${biome.id}-${outcome}`;
+        const authored = [...contextualEncounters, ...survivalCloseCalls].find(template => template.id === id)!;
+        expect(authored.variants, id).toHaveLength(8);
+        expect(new Set(authored.variants).size, id).toBe(8);
+        expect(event(id).variants, id).toEqual(authored.variants);
+      }
+    }
+  });
+
   it('gives every authored lethal variant a physical cause instead of an administrative exit', () => {
     for (const template of defaultContentPack.events.filter(e => e.effects.some(f => f.kind === 'eliminate'))) {
       for (const text of template.variants) {
         expect(text, template.id).not.toMatch(/is eliminated|is out\b|removed from the game|outmaneuvers|concedes|leaves the (?:game|arena|competition)|escorted out/i);
-        expect(text, template.id).toMatch(/dies|die |dying|death|dead|kills|killing|fatal|drowns|suffocates|does not survive/i);
+        expect(text, template.id).toMatch(/\b(?:dies|die|dying|death|dead|kill(?:s|ed|ing)?|fatal(?:ly)?|drown(?:s|ed|ing)?|suffocat(?:e|es|ed|ing|ion))\b|does not survive/i);
       }
     }
     expect(event('arena-contest-4').variants[0]).toContain('ankle');
