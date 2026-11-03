@@ -27,7 +27,7 @@ async function startSample(page: Page, title = 'First broadcast', seed = 'browse
   await page.getByLabel('Game seed', { exact: true }).fill(seed);
   await page.getByRole('button', { name: 'Start game' }).click();
   await expect(page.locator('.broadcast')).toHaveAttribute('data-revealed', '0');
-  await expect(page.locator('footer')).toContainText('Progress saved · 0 events revealed');
+  await expect(page.locator('footer').getByRole('status')).toContainText('Progress saved · 0 events revealed');
 }
 async function writeMeta(page: Page, key: string, value: unknown) {
   await page.evaluate(async ({ key, value }) => {
@@ -80,7 +80,7 @@ test('archive deletion preserves another unfinished game and can retry a storage
   const second = structuredClone(fixtureRun);
   second.input.cast.title = 'Unfinished game to keep'; second.input.settings.seed = 'keep-after-archive-deletion'; second.id = canonicalRunId(second.input);
   await upload(page, { kind: 'run', schemaVersion: 1, run: second, cursor: 0 });
-  await expect(page.locator('footer')).toContainText('Progress saved · 0 events revealed');
+  await expect(page.locator('footer').getByRole('status')).toContainText('Progress saved · 0 events revealed');
   await page.getByRole('button', { name: 'Season archive', exact: false }).click();
   await page.getByRole('button', { name: `Delete season ${fixtureRun.input.cast.title}`, exact: true }).click();
   await page.evaluate(() => {
@@ -123,8 +123,15 @@ for (const viewport of [{ width: 1280, height: 900 }, { width: 390, height: 844 
     await expect(page.getByLabel('Names, one per line', { exact: true })).toHaveValue('');
     await page.getByRole('button', { name: 'Add a single character', exact: true }).click();
     await expect(page.locator('.cast-card')).toHaveCount(3);
+    await expect(page.getByLabel('Saved casts', { exact: true }).locator('optgroup[label="Built-in casts"]')).toHaveCount(0);
+    await upload(page, season2Cast);
+    await expect(page.locator('.cast-card')).toHaveCount(24);
+    await page.getByRole('button', { name: 'Save cast', exact: true }).click();
+    await expect(page.getByLabel('Saved casts', { exact: true })).toHaveValue(/.+/);
+    const savedId = await page.getByLabel('Saved casts', { exact: true }).inputValue();
+    await page.getByRole('button', { name: 'New cast', exact: true }).click();
     await page.getByLabel('Names, one per line', { exact: true }).fill('Pending name');
-    await page.getByLabel('Saved casts', { exact: true }).selectOption('preset:season2');
+    await page.getByLabel('Saved casts', { exact: true }).selectOption(savedId);
     await expect(page.locator('.cast-card')).toHaveCount(24);
     await expect(page.getByLabel('Season title', { exact: true })).toHaveValue(season2Cast.title);
     await expect(page.getByLabel('Names, one per line', { exact: true })).toHaveValue('');
@@ -172,7 +179,7 @@ for (const viewport of [{ width: 1280, height: 900 }, { width: 390, height: 844 
   test(`character modal preserves the cast layout and supports keyboard editing at ${viewport.width}px`, async ({ page }) => {
     await page.setViewportSize(viewport);
     await open(page);
-    await page.getByLabel('Saved casts', { exact: true }).selectOption('preset:season2');
+    await upload(page, season2Cast);
     const edit = page.getByRole('button', { name: /^Edit .+, cast entry 24$/ });
     await edit.scrollIntoViewIfNeeded();
     await edit.focus();
@@ -223,7 +230,7 @@ for (const viewport of [{ width: 1280, height: 900 }, { width: 390, height: 844 
 
 test('keyboard and click selection swap distant slots and Escape cancels', async ({ page }) => {
   await open(page);
-  await page.getByLabel('Saved casts', { exact: true }).selectOption('preset:season2');
+  await upload(page, season2Cast);
   const gulliver = page.getByRole('button', { name: 'Move Gulliver, slot 5', exact: true });
   await gulliver.focus();
   await page.keyboard.press('Space');
@@ -249,7 +256,7 @@ test('keyboard and click selection swap distant slots and Escape cancels', async
 
 test('dragging scrolls the cast and cancelling or dropping outside leaves players unchanged', async ({ page }) => {
   await open(page);
-  await page.getByLabel('Saved casts', { exact: true }).selectOption('preset:season2');
+  await upload(page, season2Cast);
   const grip = page.getByRole('button', { name: 'Move Marcos, slot 1', exact: true });
   await grip.scrollIntoViewIfNeeded();
   const bounds = (await grip.boundingBox())!;
@@ -280,7 +287,7 @@ test('touch dragging swaps players across districts without opening the editor',
   const page = await context.newPage();
   try {
     await page.goto('http://127.0.0.1:4179');
-    await page.getByLabel('Saved casts', { exact: true }).selectOption('preset:season2');
+    await upload(page, season2Cast);
     await page.getByRole('region', { name: 'District 1', exact: true }).scrollIntoViewIfNeeded();
     const source = (await page.getByRole('button', { name: 'Move Marcos, slot 1', exact: true }).boundingBox())!;
     const target = (await page.getByRole('region', { name: 'District 2', exact: true }).locator('.cast-card').last().boundingBox())!;
@@ -362,10 +369,10 @@ test('named cast slots can be saved, selected, updated and deleted independently
   await open(page); await upload(page, exampleCast);
   await page.getByLabel('Season title', { exact: true }).fill('Camp A');
   await page.getByRole('button', { name: 'Save cast', exact: true }).click();
-  await expect(page.getByLabel('Saved casts', { exact: true }).locator('option')).toHaveCount(3);
+  await expect(page.getByLabel('Saved casts', { exact: true }).locator('option')).toHaveCount(2);
   await page.getByLabel('Season title', { exact: true }).fill('Camp B');
   await page.getByRole('button', { name: 'Save as new cast', exact: true }).click();
-  await expect(page.getByLabel('Saved casts', { exact: true }).locator('option')).toHaveCount(4);
+  await expect(page.getByLabel('Saved casts', { exact: true }).locator('option')).toHaveCount(3);
   await page.getByLabel('Season title', { exact: true }).fill('Camp B revised');
   await page.getByRole('button', { name: 'Save cast', exact: true }).click();
   await expect(page.getByLabel('Saved casts', { exact: true })).toContainText('Camp B revised');
@@ -375,7 +382,7 @@ test('named cast slots can be saved, selected, updated and deleted independently
   await page.screenshot({ path: test.info().outputPath('workspace-desktop.png'), fullPage: true });
   await page.getByText('Cast tools', { exact: true }).click();
   await page.getByRole('button', { name: 'Delete saved cast', exact: true }).click();
-  await expect(page.getByLabel('Saved casts', { exact: true }).locator('option')).toHaveCount(3);
+  await expect(page.getByLabel('Saved casts', { exact: true }).locator('option')).toHaveCount(2);
   await expect(page.getByLabel('Season title', { exact: true })).toHaveValue('Camp A');
   await page.reload(); await expect(page.getByLabel('Season title', { exact: true })).toHaveValue('Camp A');
 });
@@ -400,7 +407,7 @@ test('multiple unfinished broadcasts retain their own cursors without replacing 
   await open(page); await startSample(page);
   await page.locator('.playback button.primary').click();
   const firstPosition = await page.locator('.broadcast').getAttribute('data-revealed') as string;
-  await expect(page.locator('footer')).toContainText(`Progress saved · ${parseInt(firstPosition)} events revealed`);
+  await expect(page.locator('footer').getByRole('status')).toContainText(`Progress saved · ${parseInt(firstPosition)} events revealed`);
   await page.getByRole('button', { name: 'The cast', exact: true }).click();
   await page.getByLabel('Season title', { exact: true }).fill('Second broadcast');
   await page.getByRole('button', { name: 'Game settings' }).click();
@@ -409,7 +416,7 @@ test('multiple unfinished broadcasts retain their own cursors without replacing 
   await page.locator('.playback button.primary').click();
   await page.locator('.playback button.primary').click();
   const secondPosition = await page.locator('.broadcast').getAttribute('data-revealed') as string;
-  await expect(page.locator('footer')).toContainText(`Progress saved · ${parseInt(secondPosition)} events revealed`);
+  await expect(page.locator('footer').getByRole('status')).toContainText(`Progress saved · ${parseInt(secondPosition)} events revealed`);
   await page.reload();
   const list = page.getByRole('region', { name: 'Unfinished games', exact: true });
   await expect(list.getByRole('button', { name: /^Resume / })).toHaveCount(2);
@@ -430,7 +437,7 @@ for (const width of [1280, 390]) test(`unfinished games can be cancelled or dele
   const second = structuredClone(first); second.input.cast.title = 'Second deletion test'; second.input.settings.seed = 'second-deletion'; second.id = canonicalRunId(second.input);
   for (const run of [first, second]) {
     await upload(page, { kind: 'run', schemaVersion: 1, run, cursor: 0 });
-    await expect(page.locator('footer')).toContainText('Progress saved · 0 events revealed');
+    await expect(page.locator('footer').getByRole('status')).toContainText('Progress saved · 0 events revealed');
     await page.getByRole('button', { name: 'The cast', exact: true }).click();
   }
   const list = page.getByRole('region', { name: 'Unfinished games', exact: true });
@@ -461,7 +468,7 @@ for (const width of [1280, 390]) test(`unfinished games can be cancelled or dele
   await expect(list).toHaveCount(0);
   await expect(page.locator('.resume')).toHaveCount(0);
   await startSample(page, 'After deletion', 'after-deletion');
-  await expect(page.locator('footer')).toContainText('Progress saved · 0 events revealed');
+  await expect(page.locator('footer').getByRole('status')).toContainText('Progress saved · 0 events revealed');
 });
 
 test('autoplay pauses on Escape and navigation, phase reveals finish the actual game', async ({ page }) => {
@@ -537,7 +544,7 @@ test('a quota failure keeps the replay playable and retry restores progress savi
   await expect(page.getByRole('alert')).toContainText('Browser storage is full');
   await expect(page.getByRole('button', { name: 'Export full replay' })).toBeVisible();
   await page.getByRole('button', { name: 'Retry saving progress', exact: true }).click();
-  await expect(page.locator('footer')).toContainText('Progress saved · 0 events revealed');
+  await expect(page.locator('footer').getByRole('status')).toContainText('Progress saved · 0 events revealed');
   await expect(page.getByRole('alert')).toHaveCount(0);
   await page.reload(); await page.getByRole('button', { name: 'Resume game' }).click();
   await expect(page.locator('.broadcast')).toHaveAttribute('data-revealed', '0');
@@ -546,14 +553,14 @@ test('a quota failure keeps the replay playable and retry restores progress savi
 test('a corrupt playback does not prevent healthy cast and archive recovery', async ({ page }) => {
   await open(page); await upload(page, exampleCast);
   await page.getByRole('button', { name: 'Save cast', exact: true }).click();
-  await expect(page.getByLabel('Saved casts', { exact: true }).locator('option')).toHaveCount(3);
+  await expect(page.getByLabel('Saved casts', { exact: true }).locator('option')).toHaveCount(2);
   await upload(page, { kind: 'run', schemaVersion: 1, run: fixtureRun, cursor: 1 });
   await page.getByRole('button', { name: 'Season archive', exact: false }).click();
   await expect(page.locator('.season-card')).toHaveCount(1);
   await writeMeta(page, 'playback', { runId: fixtureRun.id, cursor: -1, revision: 1, updatedAt: new Date().toISOString() });
   await page.reload(); await expect(page.getByRole('alert')).toContainText('Could not load saved progress');
   await expect(page.getByLabel('Season title', { exact: true })).toHaveValue(exampleCast.title);
-  await expect(page.getByLabel('Saved casts', { exact: true }).locator('option')).toHaveCount(3);
+  await expect(page.getByLabel('Saved casts', { exact: true }).locator('option')).toHaveCount(2);
   await page.getByRole('button', { name: 'Season archive', exact: false }).click();
   await expect(page.locator('.season-card')).toHaveCount(1);
 });
@@ -564,7 +571,7 @@ test('a conflict from another tab can load saved progress and continue safely', 
   await other.getByRole('button', { name: 'Resume game' }).click();
   await page.locator('.playback button.primary').click();
   const firstPosition = await page.locator('.broadcast').getAttribute('data-revealed') as string;
-  await expect(page.locator('footer')).toContainText(`Progress saved · ${parseInt(firstPosition)} events revealed`);
+  await expect(page.locator('footer').getByRole('status')).toContainText(`Progress saved · ${parseInt(firstPosition)} events revealed`);
   await other.locator('.playback button.primary').click();
   await expect(other.getByRole('alert')).toContainText('Another page changed this saved game');
   await other.getByRole('button', { name: 'Load saved progress', exact: true }).click();
@@ -573,13 +580,13 @@ test('a conflict from another tab can load saved progress and continue safely', 
   await other.locator('.playback button.primary').click();
   const secondPosition = await other.locator('.broadcast').getAttribute('data-revealed') as string;
   expect(parseInt(secondPosition)).toBeGreaterThan(parseInt(firstPosition));
-  await expect(other.locator('footer')).toContainText(`Progress saved · ${parseInt(secondPosition)} events revealed`);
+  await expect(other.locator('footer').getByRole('status')).toContainText(`Progress saved · ${parseInt(secondPosition)} events revealed`);
 });
 
 test('an unreadable draft is preserved while healthy named casts remain usable', async ({ page }) => {
   await open(page); await upload(page, exampleCast);
   await page.getByRole('button', { name: 'Save cast', exact: true }).click();
-  await expect(page.getByLabel('Saved casts', { exact: true }).locator('option')).toHaveCount(3);
+  await expect(page.getByLabel('Saved casts', { exact: true }).locator('option')).toHaveCount(2);
   await expect(page.getByText('Draft saved', { exact: true })).toBeVisible();
   await writeMeta(page, 'editor-draft', { version: 9, futureData: 'Preserve this record' });
   await page.reload(); await expect(page.getByRole('alert')).toContainText('Could not load your cast draft');
@@ -609,7 +616,7 @@ test('portrait cleanup removes replaced uploads through the interface', async ({
   await writeMeta(page, `portrait-created:${portraitId}`, 0);
   await page.getByText('Cast tools', { exact: true }).click();
   await page.getByRole('button', { name: 'Free unused portrait space', exact: true }).click();
-  await expect(page.locator('footer')).toContainText('1 unused portrait removed');
+  await expect(page.locator('footer').getByRole('status')).toContainText('1 unused portrait removed');
   expect((await castExport(page)).cast.players[0].portrait).toBe('/assets/fern.svg');
 });
 
@@ -618,7 +625,7 @@ test('the file picker accepts a valid replay larger than 30 MB', async ({ page }
   const run = structuredClone(fixtureRun); run.recap = ['x'.repeat(30_000_001)];
   await upload(page, { kind: 'run', schemaVersion: 1, run, cursor: 0 });
   await expect(page.locator('.broadcast')).toHaveAttribute('data-revealed', '0');
-  await expect(page.locator('footer')).toContainText('Progress saved · 0 events revealed');
+  await expect(page.locator('footer').getByRole('status')).toContainText('Progress saved · 0 events revealed');
   await expect(page.getByRole('alert')).toHaveCount(0);
 });
 
@@ -644,7 +651,7 @@ test('new workspace controls fit a mobile viewport and support keyboard selectio
   await page.setViewportSize({ width: 390, height: 844 });
   await open(page); await upload(page, exampleCast);
   await page.getByRole('button', { name: 'Save cast', exact: true }).click();
-  await expect(page.getByLabel('Saved casts', { exact: true }).locator('option')).toHaveCount(3);
+  await expect(page.getByLabel('Saved casts', { exact: true }).locator('option')).toHaveCount(2);
   await page.getByRole('button', { name: 'New cast', exact: true }).focus(); await page.keyboard.press('Enter');
   await expect(page.getByRole('button', { name: 'Use a sample cast' })).toBeVisible();
   await page.getByLabel('Saved casts', { exact: true }).selectOption({ label: `${exampleCast.title} · 2 players` });

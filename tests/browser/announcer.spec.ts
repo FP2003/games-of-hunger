@@ -42,7 +42,7 @@ for (const width of [1280, 390]) test(`announcer warnings are readable, saved an
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
   await page.locator('.arena-announcement').first().scrollIntoViewIfNeeded();
   await page.screenshot({ path: test.info().outputPath(`announcer-${width}.png`), fullPage: true });
-  await expect(page.locator('footer')).toContainText(`Progress saved · ${cursor} events revealed`);
+  await expect(page.locator('footer').getByRole('status')).toContainText(`Progress saved · ${cursor} events revealed`);
   await page.reload();
   await page.getByRole('button', { name: 'Resume game' }).click();
   await expect(page.locator('.arena-announcement .phase-event-body>p')).toHaveText(announcements.map(e => e.text));

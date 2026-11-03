@@ -201,3 +201,9 @@ label.button{position:relative;overflow:hidden}label.button input[type=file]{dis
 @media(max-width:720px){.game-relationships-modal{width:calc(100% - 24px)}.game-relationships-modal .character-modal-body{padding:16px 12px}}
 
 .trait-picker h4{display:flex;align-items:center;gap:12px;margin:12px 0;color:#d5dfce;font-size:12px}.trait-picker h4 span{font-weight:400;color:var(--muted)}.trait-picker [role=group]+[role=group]{margin-top:18px}.trait-picker .traits label:has(input:disabled){opacity:.5}.trait-picker [role=alert]{color:#f0b3a0;font-size:12px;line-height:1.6}
+.app > .page-footer{display:block;block-size:clamp(48px,6vw,80px);border:0;margin:0;padding:0}
+
+.scene-export-controls{display:flex;align-items:center;flex-wrap:wrap;gap:12px;margin:0 0 14px}
+.scene-export-controls button,.scene-export-controls a{font-size:11px}
+.scene-export-controls [role=status]{font-size:11px;line-height:1.6;color:var(--muted);flex:1;min-width:160px}
+.scene-season-title{font:11px/1.6 monospace;letter-spacing:1.4px;color:var(--acid);margin:0 0 16px;overflow-wrap:anywhere}
