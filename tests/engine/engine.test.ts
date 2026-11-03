@@ -24,6 +24,17 @@ function assertInvariants(run:ReturnType<typeof generateRun>) {
 }
 
 describe('deterministic complete simulation',()=>{
+  it('retries invalid weighted transactions without leaking staged items or losing valid encounters', () => {
+    const setup = input(3, 'invalid-weighted-transaction');
+    setup.content.events.push({ ...setup.content.events[0], id: 'invalid-transaction', category: 'survival', phases: ['opening', 'day', 'night'], weight: 1_000_000,
+      effects: [{ kind: 'createItem', role: 'actor', definitionId: 'bell' }, { kind: 'consumeItem', role: 'target', definitionId: 'bell' }] });
+    const run = generateRun(setup, narrative);
+    expect(run.events.some(event => event.templateId === 'invalid-transaction')).toBe(false);
+    expect(run.events.some(event => event.templateId === 'race')).toBe(true);
+    expect(run.events.every(event => event.state.items.length === 0)).toBe(true);
+    expect(generateRun(setup, narrative)).toEqual(run);
+    assertInvariants(run);
+  });
   it('produces a complete two-player and larger repeatable run',()=>{for(const size of [2,12]){const setup=input(size);expect(generateRun(setup,narrative)).toEqual(generateRun(setup,narrative));assertInvariants(generateRun(setup,narrative));}});
   it('sweeps cast boundaries and every danger with invariant checks',()=>{for(const size of [2,3,12,24,48])for(const danger of ['low','normal','high'] as const)for(let seed=0;seed<4;seed++){const setup=input(size,`sweep-${seed}`);setup.settings.danger=danger;assertInvariants(generateRun(setup,narrative));}});
   it('terminates under empty ordinary eligibility and impossible content',()=>{const setup=input(12);setup.content={...fixturePack,events:[{...fixturePack.events[0],phases:['opening'],conditions:[{kind:'survivors',min:48}]}]};const run=generateRun(setup,narrative);assertInvariants(run);expect(run.events.some(e=>e.templateId==='fallback:boundary')).toBe(true);expect(Math.max(...run.events.filter(e=>e.phase.kind!=='finale').map(e=>e.phase.index))).toBe(14);expect(run.events.at(-1)!.phase.day).toBe(8);});

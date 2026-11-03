@@ -1,3 +1,4 @@
+import { legacyCursedItems } from '../fixtures/legacy-content';
 import { describe, expect, it } from 'vitest';
 import { defaultContentPack } from '../../src/content';
 import { DEFAULT_SETTINGS, ENGINE_VERSION, RunRecordSchema, canonicalRunId, type EventRecord, type RunInput } from '../../src/domain';
@@ -77,7 +78,10 @@ describe('warned arena disruptions and rare multikills', () => {
       expect(new Set(warnings.map(e => e.biome)).size).toBe(warnings.length);
       expect(run.events.at(-1)!.phase.day).toBeLessThanOrEqual(8);
     }
-    expect([...witnessed].sort()).toEqual(['casualty', 'close', 'closure-start', 'closure-warning', 'escape', 'weather-end', 'weather-start', 'weather-warning']);
+    // Prompt departures can leave nobody behind for a fatal evacuation. The
+    // late-resident fixture below covers that branch without requiring deaths
+    // from players who already followed the warning.
+    expect([...witnessed].filter(stage => stage !== 'casualty' && stage !== 'escape').sort()).toEqual(['close', 'closure-start', 'closure-warning', 'weather-end', 'weather-start', 'weather-warning']);
   });
 
   it('keeps announcers separate from survivor assignments, recaps them, and reveals no future warnings', () => {
@@ -115,8 +119,56 @@ describe('warned arena disruptions and rare multikills', () => {
 });
 
 describe('arena rules, credits and replay compatibility', () => {
+  it('retains a sourced fatal evacuation for residents who stay after a warning', () => {
+    let casualties = 0, escapes = 0;
+    for (let seed = 0; seed < 3; seed++) {
+      const setup = input(`late-residents-${seed}`);
+      const opening = { ...setup.content.events.find(scene => scene.id === 'opening-route-6')!, id: 'late-opening', conditions: [], cooldown: 0,
+        variants: ['{actor.name} heads into {biome}.'], effects: [{ kind: 'move' as const, role: 'actor', biome: 'tundra' as const }] };
+      const idle = { ...opening, id: 'late-rest', category: 'survival' as const, phases: ['day' as const, 'night' as const], effects: [], variants: ['{actor.name} stays in {biome}.'] };
+      const warning = structuredClone(setup.content.events.find(scene => scene.id === 'arena-tundra-closure-warning')!);
+      warning.schedule = { day: 1, group: 'late-warning' };
+      setup.content = { ...setup.content, events: [opening, idle, warning,
+        ...setup.content.events.filter(scene => scene.arena?.biome === 'tundra' && scene.arena.stage !== 'closure-warning'),
+        setup.content.events.find(scene => scene.id === 'final-beacon-1')!,
+      ], confessionals: [] };
+      const run = generateRun(setup, narrativeAdapter);
+      expect(RunRecordSchema.safeParse(run).success).toBe(true);
+      const broadcast = run.events.find(event => event.templateId === warning.id)!;
+      for (const event of run.events.filter(event => event.templateId === 'arena-tundra-casualty')) {
+        casualties++;
+        expect(event.phase.index).toBe(broadcast.phase.index + 1);
+        expect(event.facts.find(fact => fact.type === 'elimination')).toEqual({ type: 'elimination', targetId: event.bindings.actor, biome: 'tundra' });
+      }
+      for (const event of run.events.filter(event => event.templateId === 'arena-tundra-escape')) {
+        escapes++;
+        expect(event.phase.index).toBe(broadcast.phase.index + 1);
+        expect(event.facts).toContainEqual({ type: 'move', actorId: event.bindings.actor, biome: 'ruins' });
+      }
+    }
+    expect(casualties).toBeGreaterThan(0);
+    expect(escapes).toBeGreaterThan(0);
+  });
+
+  it('can still select a rare encounter, tie its victims and limit it to once per generated game', () => {
+    const setup = input('staged-multikill', 12);
+    const idle = { ...setup.content.events.find(scene => scene.id === 'forest-life-1')!, id: 'multikill-rest', conditions: [], phases: ['opening' as const, 'day' as const, 'night' as const], cooldown: 0 };
+    const rare = { ...setup.content.events.find(scene => scene.id === 'multikill-shelter-support')!, weight: 100 };
+    setup.content = { ...setup.content, events: [idle, rare, setup.content.events.find(scene => scene.id === 'final-beacon-1')!], confessionals: [] };
+    const run = generateRun(setup, narrativeAdapter);
+    const encounters = run.events.filter(event => event.facts.filter(fact => fact.type === 'elimination').length > 1);
+    expect(encounters).toHaveLength(1);
+    expect(encounters[0].phase.day).toBeGreaterThanOrEqual(2);
+    const victims = encounters[0].facts.filter(fact => fact.type === 'elimination');
+    expect(new Set(victims.map(fact => fact.actorId))).toEqual(new Set([encounters[0].bindings.actor]));
+    expect(new Set(run.placements.filter(place => victims.some(fact => fact.targetId === place.playerId)).map(place => place.rank)).size).toBe(1);
+    expect(RunRecordSchema.safeParse(run).success).toBe(true);
+  });
+
   it('blocks reentry, filters random travel and compass movement, and cannot close occupied ground or the ruins', () => {
-    const setup = input('routes', 4), state = initialState(setup);
+    const setup = input('routes', 4);
+    setup.content = { ...setup.content, items: [...setup.content.items, ...legacyCursedItems] };
+    const state = initialState(setup);
     state.arena = [{ biome: 'forest', status: 'closed' }, { biome: 'tundra', status: 'evacuating' }];
     const bindings = { actor: 'p0' };
     expect(applyEffects(state, [{ kind: 'move', role: 'actor', biome: 'forest' }], bindings, setup.content, createRandom('route'))).toBeNull();
