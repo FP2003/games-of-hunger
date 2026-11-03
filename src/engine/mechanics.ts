@@ -61,11 +61,14 @@ export function applyEffects(before: GameState, effects: readonly Effect[], bind
   const player = (role: string) => { const p = state.players.find(p => p.id === bindings[role]); if (!p?.alive) throw new Error('Participant is unavailable.'); return p; };
   const item = (role: string, definitionId?: string) => { const p = player(role); const result = state.items.filter(i => i.ownerId === p.id && !i.destroyed && (!definitionId || i.definitionId === definitionId)).sort((a,b) => compare(a.id,b.id))[0]; if (!result) throw new Error('Item is unavailable.'); return result; };
   const record = (fact: EventFact) => facts.push(fact);
-  const move = (role: string, destination: 'adjacent' | GameState['players'][number]['biome']) => {
+  const move = (role: string, destination: 'adjacent' | GameState['players'][number]['biome'], avoidDanger = false) => {
     const p = player(role); const adjacent = (content.biomes.find(b => b.id === p.biome)?.adjacent ?? []).filter(b => canEnter(state, b));
-    const next = destination === 'adjacent' ? random.pick([...adjacent].sort(compare)) : destination;
+    const rank = (biome: GameState['players'][number]['biome']) => ({ open: 0, 'weather-warning': 1, hazardous: 2, 'closure-warning': 3, evacuating: 4, closed: 5 })[biomeStatus(state, biome)];
+    const preferred = avoidDanger ? adjacent.filter(biome => rank(biome) === Math.min(...adjacent.map(rank))) : adjacent;
+    const next = destination === 'adjacent' ? random.pick([...preferred].sort(compare)) : destination;
     if (!adjacent.includes(next)) throw new Error('Movement must follow an adjacent route.');
     p.biome = next; state.items.filter(i => i.ownerId === p.id).forEach(i => { i.biome = next; }); record({ type: 'move', actorId: p.id, biome: next });
+    return next;
   };
   try {
     for (const effect of effects) {
@@ -77,7 +80,14 @@ export function applyEffects(before: GameState, effects: readonly Effect[], bind
           record({ type: 'arena', biome: effect.biome, biomeStatus: effect.status });
           break;
         }
-        case 'move': move(effect.role, effect.biome); break;
+        case 'move': move(effect.role, effect.biome, effect.avoidDanger); break;
+        case 'moveGroup': {
+          const participants = effect.roles.map(player);
+          if (new Set(participants.map(player => player.id)).size !== participants.length || participants.some(player => player.biome !== participants[0].biome)) throw new Error('Group travel needs distinct local participants.');
+          const destination = move(effect.roles[0], effect.biome, effect.avoidDanger);
+          effect.roles.slice(1).forEach(role => move(role, destination));
+          break;
+        }
         case 'createItem': {
           const p = player(effect.role); const def = content.items.find(i => i.id === effect.definitionId); if (!def) throw new Error('Unknown item.');
           const instance = { id: `item-${sequence}-${state.items.length}`, definitionId: def.id, name: def.name, ownerId: p.id, biome: p.biome, destroyed: false };
@@ -98,9 +108,9 @@ export function applyEffects(before: GameState, effects: readonly Effect[], bind
           if (content.items.find(d => d.id === held.definitionId)?.curse === 'tin') { adjustOpinion(from.id, to.id, -25, 25); record({ type: 'curse', actorId: to.id, targetId: from.id, itemId: held.id, itemDefinitionId: held.definitionId }); }
           break;
         }
-        case 'dropItem': case 'destroyItem': {
-          const p = player(effect.role), held = item(effect.role, effect.definitionId); held.ownerId = null; held.biome = p.biome; held.destroyed = effect.kind === 'destroyItem';
-          record({ type: effect.kind === 'destroyItem' ? 'destroy' : 'drop', actorId: p.id, itemId: held.id, itemDefinitionId: held.definitionId }); break;
+        case 'dropItem': case 'destroyItem': case 'consumeItem': {
+          const p = player(effect.role), held = item(effect.role, effect.definitionId); held.ownerId = null; held.biome = p.biome; held.destroyed = effect.kind !== 'dropItem';
+          record({ type: effect.kind === 'consumeItem' ? 'consume' : effect.kind === 'destroyItem' ? 'destroy' : 'drop', actorId: p.id, itemId: held.id, itemDefinitionId: held.definitionId }); break;
         }
         case 'relationship': {
           const from = player(effect.from), to = player(effect.to); if (from.id === to.id) throw new Error('Invalid relationship.');
@@ -170,7 +180,7 @@ function conditionsPass(conditions: Condition[], bindings: Record<string,string>
       case 'biome': return !!p && c.biomes.includes(p.biome);
       case 'biomeStatus': return !!p && c.statuses.includes(biomeStatus(state, p.biome));
       case 'trait': return (cast.players.find(p => p.id === bindings[c.role])?.traits.includes(c.trait) ?? false) && !(c.trait === 'agile' && p?.markers['sprained-ankle'] === true);
-      case 'item': return held(bindings[c.role],c.definitionId,c.tag);
+      case 'item': return held(bindings[c.role],c.definitionId,c.tag) === (c.exists ?? true);
       case 'relationship': { const r = state.relationships.find(r => r.from === bindings[c.from] && r.to === bindings[c.to]) ?? { trust:0,grudge:0 }; return (c.minTrust === undefined || r.trust >= c.minTrust) && (c.maxTrust === undefined || r.trust <= c.maxTrust) && (c.minGrudge === undefined || r.grudge >= c.minGrudge); }
       case 'marker': { if (!p) return false; const exists = c.marker in p.markers; if (exists !== c.exists) return false; if (c.value === undefined || !exists) return true; const def = content.markers.find(m => m.id === c.marker); if (def?.type === 'player' && typeof c.value === 'string' && !bindings[c.value] && partial) return true; return p.markers[c.marker] === (def?.type === 'player' ? bindings[String(c.value)] ?? c.value : c.value); }
       case 'survivors': { const n = state.players.filter(p => p.alive).length; return n >= c.min && (c.max === undefined || n <= c.max); }

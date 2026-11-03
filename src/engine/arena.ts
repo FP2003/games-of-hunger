@@ -10,7 +10,7 @@ export function environmentWeight(template: EventTemplate, bindings: Record<stri
   const held = (id: string) => state.items.some(i => i.ownerId === actor.id && !i.destroyed && i.definitionId === id);
   const hazard = template.category === 'hazard';
   const supplies = template.effects.some(e => e.kind === 'createItem' || e.kind === 'acquireItem');
-  const moving = template.effects.some(e => e.kind === 'move');
+  const moving = template.effects.some(e => e.kind === 'move' || e.kind === 'moveGroup');
   let weight = 1;
   switch (actor.biome) {
     case 'forest': if (template.category === 'conflict') weight *= 0.94; if (supplies) weight *= 1.06; break;
@@ -27,7 +27,7 @@ export function environmentWeight(template: EventTemplate, bindings: Record<stri
     if (template.category === 'conflict') weight *= 0.9;
   }
   if (status === 'closure-warning' && moving) weight *= 1.8;
-  for (const effect of template.effects) if (effect.kind === 'move' && effect.biome !== 'adjacent' && biomeStatus(state, effect.biome) === 'closure-warning') weight *= 0.25;
+  for (const effect of template.effects) if ((effect.kind === 'move' || effect.kind === 'moveGroup') && effect.biome !== 'adjacent' && biomeStatus(state, effect.biome) === 'closure-warning') weight *= 0.25;
   return weight;
 }
 
@@ -57,6 +57,8 @@ export function evacuationDeathChance(input: RunInput, state: GameState, playerI
   if (traits.includes('reckless')) chance += 0.025;
   if (traits.includes('agile') && player.markers['sprained-ankle'] !== true) chance -= 0.025;
   if (traits.includes('perceptive')) chance -= 0.025;
+  if (traits.includes('tracker')) chance -= 0.015;
+  if (traits.includes('clumsy')) chance += 0.025;
   if (traits.includes('weak-constitution')) chance += 0.05;
   if (state.items.some(i => !i.destroyed && i.ownerId === playerId && i.definitionId === equipment[player.biome])) chance -= 0.04;
   if (Object.keys(player.markers).some(m => m.startsWith('bleeding-'))) chance += 0.05;
