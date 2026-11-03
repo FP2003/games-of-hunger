@@ -6,145 +6,265 @@
       "id": "legionairre-marcos",
       "name": "Marcos",
       "traits": [],
-      "team": "District 1"
+      "team": "District 1",
+      "pronouns": {
+        "subject": "he",
+        "object": "him",
+        "possessive": "his"
+      }
     },
     {
       "id": "legionairre-chaos",
       "name": "Chaos",
       "traits": [],
-      "team": "District 1"
+      "team": "District 1",
+      "pronouns": {
+        "subject": "she",
+        "object": "her",
+        "possessive": "her"
+      }
     },
     {
       "id": "legionairre-joshi",
       "name": "Joshi",
       "traits": [],
-      "team": "District 2"
+      "team": "District 2",
+      "pronouns": {
+        "subject": "he",
+        "object": "him",
+        "possessive": "his"
+      }
     },
     {
       "id": "legionairre-akesel",
       "name": "Akesel",
       "traits": [],
-      "team": "District 2"
+      "team": "District 2",
+      "pronouns": {
+        "subject": "he",
+        "object": "him",
+        "possessive": "his"
+      }
     },
     {
       "id": "legionairre-gulliver",
       "name": "Gulliver",
       "traits": [],
-      "team": "District 3"
+      "team": "District 3",
+      "pronouns": {
+        "subject": "he",
+        "object": "him",
+        "possessive": "his"
+      }
     },
     {
       "id": "legionairre-jokin",
       "name": "Jokin",
       "traits": [],
-      "team": "District 3"
+      "team": "District 3",
+      "pronouns": {
+        "subject": "he",
+        "object": "him",
+        "possessive": "his"
+      }
     },
     {
       "id": "legionairre-amyriad",
       "name": "AMyriad",
       "traits": [],
-      "team": "District 4"
+      "team": "District 4",
+      "pronouns": {
+        "subject": "he",
+        "object": "him",
+        "possessive": "his"
+      }
     },
     {
       "id": "legionairre-siegfried",
       "name": "Siegfried",
       "traits": [],
-      "team": "District 4"
+      "team": "District 4",
+      "pronouns": {
+        "subject": "he",
+        "object": "him",
+        "possessive": "his"
+      }
     },
     {
       "id": "legionairre-solus",
       "name": "Solus",
       "traits": [],
-      "team": "District 5"
+      "team": "District 5",
+      "pronouns": {
+        "subject": "he",
+        "object": "him",
+        "possessive": "his"
+      }
     },
     {
       "id": "legionairre-kowalik",
       "name": "Kowalik",
       "traits": [],
-      "team": "District 5"
+      "team": "District 5",
+      "pronouns": {
+        "subject": "he",
+        "object": "him",
+        "possessive": "his"
+      }
     },
     {
       "id": "legionairre-suggs",
       "name": "Suggs",
       "traits": [],
-      "team": "District 6"
+      "team": "District 6",
+      "pronouns": {
+        "subject": "she",
+        "object": "her",
+        "possessive": "her"
+      }
     },
     {
       "id": "legionairre-emma",
       "name": "Emma",
       "traits": [],
-      "team": "District 6"
+      "team": "District 6",
+      "pronouns": {
+        "subject": "she",
+        "object": "her",
+        "possessive": "her"
+      }
     },
     {
       "id": "legionairre-deaclaw",
       "name": "Deaclaw",
       "traits": [],
-      "team": "District 7"
+      "team": "District 7",
+      "pronouns": {
+        "subject": "he",
+        "object": "him",
+        "possessive": "his"
+      }
     },
     {
       "id": "legionairre-rick",
       "name": "Rick",
       "traits": [],
-      "team": "District 7"
+      "team": "District 7",
+      "pronouns": {
+        "subject": "he",
+        "object": "him",
+        "possessive": "his"
+      }
     },
     {
       "id": "legionairre-shadz",
       "name": "Shadz",
       "traits": [],
-      "team": "District 8"
+      "team": "District 8",
+      "pronouns": {
+        "subject": "he",
+        "object": "him",
+        "possessive": "his"
+      }
     },
     {
       "id": "legionairre-tobi",
       "name": "Tobi",
       "traits": [],
-      "team": "District 8"
+      "team": "District 8",
+      "pronouns": {
+        "subject": "he",
+        "object": "him",
+        "possessive": "his"
+      }
     },
     {
       "id": "legionairre-skizzo",
       "name": "Skizzo",
       "traits": [],
-      "team": "District 9"
+      "team": "District 9",
+      "pronouns": {
+        "subject": "he",
+        "object": "him",
+        "possessive": "his"
+      }
     },
     {
       "id": "legionairre-luvy",
       "name": "Luvy",
       "traits": [],
-      "team": "District 9"
+      "team": "District 9",
+      "pronouns": {
+        "subject": "he",
+        "object": "him",
+        "possessive": "his"
+      }
     },
     {
       "id": "legionairre-adur",
       "name": "Adur",
       "traits": [],
-      "team": "District 10"
+      "team": "District 10",
+      "pronouns": {
+        "subject": "he",
+        "object": "him",
+        "possessive": "his"
+      }
     },
     {
       "id": "legionairre-ary",
       "name": "Ary",
       "traits": [],
-      "team": "District 10"
+      "team": "District 10",
+      "pronouns": {
+        "subject": "he",
+        "object": "him",
+        "possessive": "his"
+      }
     },
     {
       "id": "legionairre-shield",
       "name": "Shield",
       "traits": [],
-      "team": "District 11"
+      "team": "District 11",
+      "pronouns": {
+        "subject": "he",
+        "object": "him",
+        "possessive": "his"
+      }
     },
     {
       "id": "legionairre-flurris",
       "name": "Flurris",
       "traits": [],
-      "team": "District 11"
+      "team": "District 11",
+      "pronouns": {
+        "subject": "he",
+        "object": "him",
+        "possessive": "his"
+      }
     },
     {
       "id": "legionairre-fauna",
       "name": "Fauna",
       "traits": [],
-      "team": "District 12"
+      "team": "District 12",
+      "pronouns": {
+        "subject": "she",
+        "object": "her",
+        "possessive": "her"
+      }
     },
     {
       "id": "legionairre-hiro",
       "name": "Hiro",
       "traits": [],
-      "team": "District 12"
+      "team": "District 12",
+      "pronouns": {
+        "subject": "he",
+        "object": "him",
+        "possessive": "his"
+      }
     }
   ],
   "relationships": []
