@@ -16,6 +16,7 @@ import { FallenTributes, PhaseReport } from './PhaseReport';
 import { CharacterText } from './CharacterText';
 import { BiomeSymbol } from './BiomeSymbol';
 import { GameRelationshipsDialog } from './GameRelationshipsDialog';
+import { StatsBoard } from './StatsBoard';
 
 type Screen = 'cast' | 'setup' | 'watch' | 'history';
 const freshCast = (): CastDefinition => ({ version: 1, title: 'The Group Chat Games', players: [], relationships: [] });
@@ -429,6 +430,7 @@ export function App({ services }: { services: AppServices }) {
       </>}
       {screen === 'history' && <>
         <section className="page-intro"><h1>Season <em>history.</em></h1></section>
+        <StatsBoard history={history} repository={repository} />
         <div className="section-heading"><h2>Season archive <span className="count">{history.seasons.length}</span></h2><div className="button-row"><label className="button subtle">Import backup<input type="file" accept=".json,application/json" onChange={importFile} /></label><button className="subtle" onClick={() => { services.exportHistory().then(text => download('history.json',text,true)).catch(e => setError(message(e))); }}>Export history</button></div></div>
         {history.seasons.length === 0 ? <section className="empty panel"><h3>No completed seasons</h3><p>Complete a game to see its results here.</p><button className="primary" onClick={() => go(run ? 'watch' : 'cast')}>Back to game →</button></section> : <div className="history-grid">{history.seasons.map((season,index) => <article className="panel season-card" key={season.runId}>
           <p className="eyebrow">SEASON {String(index + 1).padStart(2,'0')}</p><h3>{season.castTitle}</h3><p className="muted">Completed {new Date(season.completedAt).toLocaleDateString()}</p>
