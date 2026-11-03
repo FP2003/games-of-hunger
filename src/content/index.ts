@@ -6,6 +6,18 @@ import { personalityMarkers, personalityScenes } from './personality';
 import { nightScenes } from './night';
 import { weaponExchangeScenes, weaponItems, weaponScenes, weaponTrapScenes } from './weapons';
 import { withConfessionalVariety, withSceneVariety } from './variety';
+import { eventInterviews } from './interview-expansion';
+import { groupCooperation } from './cooperation';
+import { supplyUseScenes, withSupplyBalance } from './supply-use';
+import { siteAccidentScenes, withDeathSite } from './death-sites';
+import { environmentalItems, environmentalScenes } from './environment';
+import { travelScenes } from './travel';
+import { extraEverydayScenes } from './everyday-scenes';
+import { expandedTraitInterviews, expandedTraitScenes } from './trait-expansion';
+import { openingPartyScenes, partyTravelScenes } from './party-travel';
+import { shortTravelWording, withShortTravel } from './short-travel';
+import { withHotspotVariety } from './hotspot-variety';
+import { quirkInterviews, quirkScenes, withQuirkBehaviors } from './quirks';
 
 const ordinary = ['day', 'night'] as const;
 const allTones = ['dramatic', 'absurd', 'mixed'] as const;
@@ -19,24 +31,22 @@ const holds = (role: string, definitionId?: string): Condition => ({ kind: 'item
 const relation = (from: string, to: string, trust: number, grudge = 0, fact?: 'assistance' | 'alliance' | 'betrayal' | 'revenge'): Effect => ({ kind: 'relationship', from, to, trust, grudge, ...(fact ? { fact } : {}) });
 
 export const biomes: ContentPack['biomes'] = [
-  { id: 'forest', name: 'The Forest', description: 'Dense canopy, hidden stores, and very public secrets.', adjacent: ['swamp', 'mountains', 'ruins'] },
-  { id: 'swamp', name: 'The Swamp', description: 'Unsteady ground. Everything listens, including the mud.', adjacent: ['forest', 'desert', 'ruins'] },
-  { id: 'mountains', name: 'The Mountains', description: 'Thin air, exposed ridges, and long views of bad decisions.', adjacent: ['forest', 'tundra', 'ruins'] },
+  { id: 'forest', name: 'The Forest', description: 'Climbable trees, berry patches and boars hidden in dense brush.', adjacent: ['swamp', 'mountains', 'ruins'] },
+  { id: 'swamp', name: 'The Swamp', description: 'Raised boardwalks cross crocodile channels; berry bushes crowd the banks.', adjacent: ['forest', 'desert', 'ruins'] },
+  { id: 'mountains', name: 'The Mountains', description: 'Exposed ridges overlook gullies where wolf packs hunt.', adjacent: ['forest', 'tundra', 'ruins'] },
   { id: 'desert', name: 'The Desert', description: 'Open sand and scarce water put every bargain under pressure.', adjacent: ['swamp', 'ruins'] },
   { id: 'tundra', name: 'The Tundra', description: 'A quiet white expanse where shelter becomes a currency.', adjacent: ['mountains', 'ruins'] },
   { id: 'ruins', name: 'The Center Podium', description: 'The central supply ground, with routes into every outer region.', adjacent: ['forest', 'swamp', 'mountains', 'desert', 'tundra'] },
 ];
 export const items: ContentPack['items'] = [
   ...weaponItems,
+  ...environmentalItems,
   { id: 'ration', name: 'sealed rations', description: 'Food with an optimistically distant expiry date.', tags: ['supplies'] },
   { id: 'rope', name: 'rescue rope', description: 'A sturdy length of rope with a questionable knot diagram.', tags: ['supplies', 'tool'] },
-  { id: 'lantern', name: 'storm lantern', description: 'A small pool of light in an enormous arena.', tags: ['tool'] },
+  { id: 'lantern', name: 'oil lantern', description: 'A small pool of light in an enormous arena.', tags: ['tool'] },
   { id: 'blanket', name: 'emergency blanket', description: 'Warm, reflective, and impossible to fold quietly.', tags: ['supplies'] },
   { id: 'flask', name: 'water flask', description: 'Clean water and a lid that mostly works.', tags: ['supplies'] },
   { id: 'scrap', name: 'signal mirror', description: 'A polished fragment useful for signaling or self-doubt.', tags: ['tool'] },
-  { id: 'crooked-compass', name: 'Crooked Compass', description: 'CURSE: activation drags its owner into a neighboring biome.', tags: ['cursed', 'tool'], curse: 'compass' },
-  { id: 'dinner-bell', name: 'Dinner Bell', description: 'CURSE: carrying it attracts encounters; activation announces danger.', tags: ['cursed'], curse: 'bell' },
-  { id: 'whispering-tin', name: 'Whispering Tin', description: 'CURSE: activation sows resentment toward another participant; theft makes trust worse.', tags: ['cursed', 'supplies'], curse: 'tin' },
 ];
 
 const openingTexts = [
@@ -48,14 +58,17 @@ const openingTexts = [
   ['opening-reflection', '{actor.name} pockets {item}. The broadcast has acquired a lookout.', 'scrap'],
 ];
 const opening: EventTemplate[] = openingTexts.map(([id, text, definitionId]) => event(id, 'opening', text.replace('opening scramble', 'fight for the central supplies'), [{ kind: 'createItem', role: 'actor', definitionId }], { phases: ['opening'] }));
-[
-  '{actor.name} leaves the scramble by a maintenance trail and enters {biome}.',
-  '{actor.name} takes the first open path. The next stop is {biome}.',
-  '{actor.name} follows the breeze away from the starting crowd into {biome}.',
-  '{actor.name} decides an early exit counts as an entrance and moves into {biome}.',
-  '{actor.name} abandons a complicated opening plan for the trail into {biome}.',
-  '{actor.name} ducks the opening commotion and crosses into {biome}.',
-].forEach((text, i) => opening.push(event(`opening-route-${i + 1}`, 'opening', text, [{ kind: 'move', role: 'actor', biome: 'adjacent' }], { phases: ['opening'] })));
+// Shared exits keep the opening crowded without making every encounter lethal.
+const sharedExits: BiomeId[] = ['forest', 'swamp', 'mountains', 'desert', 'tundra'];
+sharedExits.forEach((biome, i) => opening.push(event(`opening-route-${i + 1}`, 'opening', shortTravelWording[`opening-route-${i + 1}`][0], [
+  relation('target', 'actor', 25, 0, 'assistance'),
+  relation('actor', 'target', 25, 0, 'assistance'),
+  { kind: 'move', role: 'actor', biome },
+  { kind: 'move', role: 'target', biome },
+], { phases: ['opening'], roles: pair, conditions: [biomeCondition('ruins')], weight: 2 })));
+opening.push(event('opening-route-6', 'opening', '{actor.name} ducks the opening commotion and crosses into {biome}.', [
+  { kind: 'move', role: 'actor', biome: 'adjacent' },
+], { phases: ['opening'] }));
 
 ['ration', 'rope', 'flask'].forEach((definitionId, i) => opening.push(event(`opening-bloodbath-${i + 1}`, 'opening', [
   '{actor.name} pulls a sharpened scrap from the central food crate and stabs {target.name} in the chest as they reach for the same lid. {target.name} collapses and dies beside the crate; {actor.name} claims {item} and an emergency blanket.',
@@ -92,7 +105,7 @@ const crossings = biomes.flatMap(destination => (['social', 'conflict'] as const
   { scope: 'global', roles: pair, weight: 0.4, conditions: [{ kind: 'biome', role: 'actor', biomes: destination.adjacent }, { kind: 'biome', role: 'target', biomes: [destination.id] }] }
 )));
 
-// Each biome has six distinct everyday situations and two hazards. The shared
+// Each biome has fifteen distinct everyday situations and two hazards. The shared
 // structure keeps the pack editable; the situations and wording are authored.
 const everyday: Record<BiomeId, string[]> = {
   forest: [
@@ -151,6 +164,21 @@ const survival: EventTemplate[] = biomes.flatMap((b, biomeIndex) => everyday[b.i
   return event(`${b.id}-life-${i + 1}`, 'survival', text, effects[i], { conditions: [biomeCondition(b.id), ...(i === 4 ? [{ kind: 'groundItem', role: 'actor' } as Condition] : i === 5 ? [holds('actor')] : [])], weight: i === 1 ? 1.5 : 1 });
 }));
 
+// Extra scenes keep solo options available and bind every named helper locally.
+for (const biome of biomes) extraEverydayScenes[biome.id].forEach((scene, i) => {
+  const effects: Effect[] = scene.roles.flatMap(from => scene.roles.filter(to => to !== from)
+    .map(to => relation(from, to, 5, 0, 'assistance')));
+  survival.push(event(`${biome.id}-life-${i + 7}`, 'survival', scene.variants[0], effects, {
+    roles: scene.roles.map(id => ({ id })), conditions: [biomeCondition(biome.id)],
+    weight: 0.3 / scene.roles.length,
+  }));
+});
+
+// Preserve the original regional weight budget per participant so adding quiet
+// group scenes does not crowd out dangerous encounters or slow the game.
+const everydayWeightScale = 6.5 / (6.5 + 9 * 0.3);
+for (const scene of survival) scene.weight *= everydayWeightScale;
+
 const social: EventTemplate[] = [
   event('stolen-cache', 'social', '{actor.name} tosses a stone down the trail to draw {target.name} away from a resting place in {biome}, then slips behind the shelter and steals {target.possessive} {item}. {target.name} returns in time to see who is running off with it.', [
     { kind: 'transferItem', from: 'target', to: 'actor', fact: 'theft' },
@@ -195,9 +223,9 @@ const social: EventTemplate[] = [
 const conflictLines: Record<BiomeId, [string, string]> = {
   forest: ['{actor.name} ducks through a narrow forest gate, then kicks its rotten support as {target.name} follows. The timber arch collapses onto {target.name}, causing fatal injuries.', '{actor.name} climbs beneath a hidden tree shelter and pulls out its ladder pegs. When {target.name} starts down, the ladder breaks loose. {target.name} falls onto the rocks below and dies.'],
   swamp: ['{actor.name} waits at a swamp boardwalk until {target.name} steps onto a narrow plank, then rams it sideways with a branch. {target.name} falls into the deep channel and drowns beneath the boards.', '{actor.name} catches {target.name} at a reed crossing and strikes {target.object} with a sharpened stake. {target.name} reaches the bank but cannot stop the bleeding and dies among the reeds.'],
-  mountains: ['{actor.name} crouches behind the ridge checkpoint and sweeps a branch across {target.name}\'s ankles. {target.name} tumbles off the exposed mountain path; the fall is fatal.', '{actor.name} shoves the mountain shelter door into {target.name}, knocking {target.object} onto the steps. Before {target.name} can stand, {actor.name} strikes with a heavy stone. {target.name} dies at the shelter entrance.'],
+  mountains: ['{actor.name} crouches behind the ridge checkpoint and sweeps a branch across {target.name}\'s ankles. {target.name} tumbles off the exposed mountain path; the fall is fatal.', '{actor.name} shoves the mountain shelter door into {target.name}, knocking {target.object} onto the steps. Before {target.name} can stand, {actor.name} pins {target.possessive} neck between the door and its frame. {target.name} cannot breathe and dies at the shelter entrance.'],
   desert: ['{actor.name} hides behind a desert checkpoint tank and stabs {target.name} in the abdomen as they round the corner. {target.name} crawls into the shade but dies from blood loss.', '{actor.name} chases {target.name} across a dune toward an abandoned quarry, then throws a stone at {target.possessive} legs. {target.name} loses footing at the quarry lip and falls to a fatal landing below.'],
-  tundra: ['{actor.name} drags a frozen branch across the tundra shelter entrance as {target.name} runs inside. {target.name} trips onto the concrete threshold; {actor.name} follows with a fatal blow from a stone.', '{actor.name} stamps through the thin snow crust spanning a tundra crevasse, then jumps back as {target.name} approaches. The weakened bridge collapses beneath {target.name}, whose fall is fatal.'],
+  tundra: ['{actor.name} drags a frozen branch across the tundra shelter entrance as {target.name} runs inside. {target.name} trips onto the concrete threshold; {actor.name} slams the heavy shelter door onto {target.possessive} head. The injury is fatal.', '{actor.name} stamps through the thin snow crust spanning a tundra crevasse, then jumps back as {target.name} approaches. The weakened bridge collapses beneath {target.name}, whose fall is fatal.'],
   ruins: ['{actor.name} hooks a foot behind {target.name}\'s ankle beneath a closing station gate, then rolls clear. {target.name} cannot rise before the gate drops; the crushing injuries are fatal.', '{actor.name} waits behind the emergency beacon in the Center Podium, then strikes {target.name} with a broken pipe. {target.name} stumbles into a missing floor panel and falls to a fatal landing in the basement.'],
 };
 const conflict: EventTemplate[] = biomes.flatMap(b => conflictLines[b.id].map((text, i) => event(`${b.id}-contest-${i + 1}`, 'conflict', text, [{ kind: 'eliminate', role: 'target', credit: 'actor' }], { roles: pair, conditions: [biomeCondition(b.id)], weight: 1.5 })));
@@ -209,19 +237,6 @@ const conflict: EventTemplate[] = biomes.flatMap(b => conflictLines[b.id].map((t
   '{actor.name} hides a sharpened branch in a supply shelter in {biome}. As {target.name} squeezes through the doorway, {actor.name} stabs {target.object} in the side. {target.name} stumbles outside but bleeds to death on the path.',
   '{actor.name} waits behind a trail barrier in {biome} until {target.name} leans over to search the other side. A shove sends {target.name} headfirst onto a broken concrete footing. {target.name} dies from the injury.',
 ].forEach((text, i) => conflict.push(event(`arena-contest-${i + 1}`, 'conflict', text, [{ kind: 'eliminate', role: 'target', credit: 'actor' }], { roles: pair, weight: 1.3 })));
-
-const curse: EventTemplate[] = [];
-const curseWords = [
-  ['crooked-compass', '{actor.name} finds {item}. Its needle points insistently away from safety.', '{actor.name} follows the Crooked Compass against better judgment and is pulled into {biome}.', '{actor.name} leaves {item} behind. The compass can mislead somebody else.', '{actor.name} breaks {item}, putting an end to its unwanted directions.'],
-  ['dinner-bell', '{actor.name} discovers {item}. It rings once without being touched.', '{actor.name} cannot silence the Dinner Bell. Its call advertises a position to the arena.', '{actor.name} sets {item} down and walks away from the ringing.', '{actor.name} crushes {item}. At last, a little silence.'],
-  ['whispering-tin', '{actor.name} acquires {item}. The lid seems to mutter about the competition.', '{actor.name} hears the Whispering Tin accuse {target.name}. Their trust sours and a grudge grows.', '{actor.name} abandons {item}, tired of its running commentary.', '{actor.name} destroys {item}. The accusations stop with a final metallic sigh.'],
-];
-curseWords.forEach(([definitionId, find, activate, drop, destroy]) => {
-  curse.push(event(`${definitionId}-find`, 'curse', find, [{ kind: 'createItem', role: 'actor', definitionId }], { weight: 0.8, cooldown: 12 }));
-  curse.push(event(`${definitionId}-activate`, 'curse', activate, [{ kind: 'curse', role: 'actor', definitionId }], { roles: definitionId === 'whispering-tin' ? pair : [{ id: 'actor' }], conditions: [holds('actor', definitionId)], weight: 3, cooldown: 2 }));
-  curse.push(event(`${definitionId}-abandon`, 'curse', drop, [{ kind: 'dropItem', role: 'actor', definitionId }], { conditions: [holds('actor', definitionId)] }));
-  curse.push(event(`${definitionId}-break`, 'curse', destroy, [{ kind: 'destroyItem', role: 'actor', definitionId }], { conditions: [holds('actor', definitionId)], weight: 0.7 }));
-});
 
 const hazards: Record<BiomeId, [string, string]> = {
   forest: ['{actor.name} shelters beneath a dead tree as the forest wind rises. A rotten branch breaks overhead and strikes {actor.object}; the impact is fatal.', '{actor.name} cuts across a leaf-covered hollow in the forest. The ground gives way into an old hunting pit, and {actor.name} dies from the fall.'],
@@ -303,7 +318,7 @@ const confessionals: ConfessionalTemplate[] = reactions.map(([trait, triggers, v
 ].forEach(([trigger, text], i) => confessionals.push({ id: `interview-open-${i + 1}`, traits: [], tones: [...allTones], triggers: [trigger as FactType], speaker: trigger === 'elimination' ? 'eliminated' : 'any', variants: [text], cooldown: 8 }));
 
 export const defaultContentPack: ContentPack = ContentPackSchema.parse({
-  id: 'wild-broadcast', version: '1.10.0', title: 'The Wild Broadcast', biomes, items,
+  id: 'wild-broadcast', version: '1.23.0', title: 'The Wild Broadcast', biomes, items,
   markers: [
     { id: 'podium-resupply-collected', type: 'boolean', lifetime: 'season', description: 'This tribute collected rations from the Center Podium delivery.' },
     { id: 'stolen-from', type: 'player', lifetime: 'season', description: 'The living player who stole from this participant.' },
@@ -313,13 +328,14 @@ export const defaultContentPack: ContentPack = ContentPackSchema.parse({
     { id: 'omen', type: 'number', lifetime: 'season', description: 'Progress decoding the trail warning, from one to three.' },
     ...woundMarkers, ...personalityMarkers,
   ],
-  events: [...opening, ...openingEscapes, ...survival, ...survivalCloseCalls, ...sponsorships, ...resupply, ...social, ...crossings, ...conflict, ...injuryEncounters, ...contextualEncounters, ...curse, ...hazard, ...finale, ...arenaScenes, ...multikillScenes, ...personalityScenes, ...nightScenes, ...weaponScenes, ...weaponTrapScenes, ...weaponExchangeScenes].map(withSceneVariety), confessionals: confessionals.map(withConfessionalVariety),
+  events: [...[...opening, ...openingEscapes, ...survival, ...survivalCloseCalls, ...sponsorships, ...resupply, ...social, ...crossings, ...conflict, ...injuryEncounters, ...contextualEncounters, ...hazard, ...finale, ...arenaScenes, ...multikillScenes, ...personalityScenes, ...nightScenes, ...weaponScenes, ...weaponTrapScenes, ...weaponExchangeScenes].map(withSceneVariety), ...groupCooperation, ...supplyUseScenes, ...siteAccidentScenes, ...environmentalScenes, ...travelScenes, ...expandedTraitScenes, ...partyTravelScenes, ...openingPartyScenes, ...quirkScenes].map(withSupplyBalance).map(withDeathSite).map(withShortTravel).map(withHotspotVariety).map(withQuirkBehaviors), confessionals: [...confessionals.map(withConfessionalVariety), ...eventInterviews, ...expandedTraitInterviews, ...quirkInterviews].map(interview => ({ ...interview, triggers: interview.triggers.filter(trigger => trigger !== 'curse') })).filter(interview => interview.triggers.length > 0),
 });
 
 /** Small integration/authoring pack. Production uses defaultContentPack. */
 export const starterContentPack: ContentPack = ContentPackSchema.parse({
   ...defaultContentPack, id: 'wild-broadcast-starter',
-  events: [...opening, ...biomes.map(b => survival.find(e => e.id === `${b.id}-life-1`)!), ...social.slice(9, 13), conflict[0], ...finale.slice(0, 2)].map(withSceneVariety),
+  events: [...opening, ...biomes.map(b => survival.find(e => e.id === `${b.id}-life-1`)!), ...social.slice(9, 13), conflict[0], ...finale.slice(0, 2)].map(withSceneVariety).map(withSupplyBalance).map(withDeathSite).map(withShortTravel).map(withQuirkBehaviors),
+  confessionals: defaultContentPack.confessionals.filter(interview => !interview.eventIds),
 });
 
 export function contentInventory(pack: ContentPack = defaultContentPack) {
