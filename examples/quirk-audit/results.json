@@ -1,0 +1,647 @@
+{
+  "engineVersion": "1.16.0",
+  "contentVersion": "1.23.0",
+  "seedsPerProfile": 30,
+  "players": 8,
+  "inventory": {
+    "events": 579,
+    "categories": {
+      "opening": 38,
+      "survival": 237,
+      "social": 70,
+      "conflict": 134,
+      "curse": 0,
+      "hazard": 34,
+      "finale": 36,
+      "announcement": 30
+    },
+    "biomes": {
+      "forest": 69,
+      "swamp": 66,
+      "mountains": 62,
+      "desert": 59,
+      "tundra": 59,
+      "ruins": 88
+    },
+    "confessionals": 67,
+    "curses": 0,
+    "chains": [
+      "stolen-cache",
+      "shelter-debt",
+      "warning-sign",
+      "wound-thigh",
+      "wound-shoulder",
+      "wound-side"
+    ]
+  },
+  "profiles": [
+    {
+      "danger": "low",
+      "personality": "off",
+      "neutral": {
+        "games": 30,
+        "events": 1539,
+        "moves": 596,
+        "thefts": 14,
+        "meals": 29,
+        "supplies": 156,
+        "wounds": 44,
+        "quirkScenes": 0,
+        "winsByAssignedTrait": {
+          "early-riser": 3,
+          "night-owl": 1,
+          "on-guard": 2,
+          "forest-wise": 5,
+          "kleptomaniac": 6,
+          "curious": 3,
+          "compulsive-eater": 9,
+          "afraid-of-dark": 1
+        }
+      },
+      "quirks": {
+        "games": 30,
+        "events": 1539,
+        "moves": 596,
+        "thefts": 14,
+        "meals": 29,
+        "supplies": 156,
+        "wounds": 44,
+        "quirkScenes": 0,
+        "winsByAssignedTrait": {
+          "early-riser": 3,
+          "night-owl": 1,
+          "on-guard": 2,
+          "forest-wise": 5,
+          "kleptomaniac": 6,
+          "curious": 3,
+          "compulsive-eater": 9,
+          "afraid-of-dark": 1
+        }
+      }
+    },
+    {
+      "danger": "low",
+      "personality": "normal",
+      "neutral": {
+        "games": 30,
+        "events": 1650,
+        "moves": 627,
+        "thefts": 22,
+        "meals": 30,
+        "supplies": 161,
+        "wounds": 49,
+        "quirkScenes": 0,
+        "winsByAssignedTrait": {
+          "early-riser": 5,
+          "night-owl": 6,
+          "on-guard": 2,
+          "forest-wise": 2,
+          "kleptomaniac": 2,
+          "curious": 3,
+          "compulsive-eater": 1,
+          "afraid-of-dark": 9
+        }
+      },
+      "quirks": {
+        "games": 30,
+        "events": 1653,
+        "moves": 644,
+        "thefts": 27,
+        "meals": 32,
+        "supplies": 162,
+        "wounds": 47,
+        "quirkScenes": 43,
+        "winsByAssignedTrait": {
+          "early-riser": 3,
+          "night-owl": 6,
+          "on-guard": 4,
+          "forest-wise": 3,
+          "kleptomaniac": 2,
+          "curious": 5,
+          "compulsive-eater": 5,
+          "afraid-of-dark": 2
+        }
+      }
+    },
+    {
+      "danger": "low",
+      "personality": "strong",
+      "neutral": {
+        "games": 30,
+        "events": 1650,
+        "moves": 627,
+        "thefts": 22,
+        "meals": 30,
+        "supplies": 161,
+        "wounds": 49,
+        "quirkScenes": 0,
+        "winsByAssignedTrait": {
+          "early-riser": 5,
+          "night-owl": 6,
+          "on-guard": 2,
+          "forest-wise": 2,
+          "kleptomaniac": 2,
+          "curious": 3,
+          "compulsive-eater": 1,
+          "afraid-of-dark": 9
+        }
+      },
+      "quirks": {
+        "games": 30,
+        "events": 1616,
+        "moves": 633,
+        "thefts": 19,
+        "meals": 43,
+        "supplies": 169,
+        "wounds": 50,
+        "quirkScenes": 42,
+        "winsByAssignedTrait": {
+          "early-riser": 3,
+          "night-owl": 5,
+          "on-guard": 3,
+          "forest-wise": 1,
+          "kleptomaniac": 7,
+          "curious": 4,
+          "compulsive-eater": 4,
+          "afraid-of-dark": 3
+        }
+      }
+    },
+    {
+      "danger": "normal",
+      "personality": "off",
+      "neutral": {
+        "games": 30,
+        "events": 1089,
+        "moves": 424,
+        "thefts": 7,
+        "meals": 21,
+        "supplies": 139,
+        "wounds": 22,
+        "quirkScenes": 0,
+        "winsByAssignedTrait": {
+          "early-riser": 6,
+          "night-owl": 4,
+          "on-guard": 3,
+          "forest-wise": 2,
+          "kleptomaniac": 3,
+          "curious": 5,
+          "compulsive-eater": 4,
+          "afraid-of-dark": 3
+        }
+      },
+      "quirks": {
+        "games": 30,
+        "events": 1089,
+        "moves": 424,
+        "thefts": 7,
+        "meals": 21,
+        "supplies": 139,
+        "wounds": 22,
+        "quirkScenes": 0,
+        "winsByAssignedTrait": {
+          "early-riser": 6,
+          "night-owl": 4,
+          "on-guard": 3,
+          "forest-wise": 2,
+          "kleptomaniac": 3,
+          "curious": 5,
+          "compulsive-eater": 4,
+          "afraid-of-dark": 3
+        }
+      }
+    },
+    {
+      "danger": "normal",
+      "personality": "normal",
+      "neutral": {
+        "games": 30,
+        "events": 1089,
+        "moves": 418,
+        "thefts": 9,
+        "meals": 23,
+        "supplies": 154,
+        "wounds": 29,
+        "quirkScenes": 0,
+        "winsByAssignedTrait": {
+          "early-riser": 6,
+          "night-owl": 2,
+          "on-guard": 2,
+          "forest-wise": 1,
+          "kleptomaniac": 2,
+          "curious": 5,
+          "compulsive-eater": 5,
+          "afraid-of-dark": 7
+        }
+      },
+      "quirks": {
+        "games": 30,
+        "events": 1186,
+        "moves": 460,
+        "thefts": 14,
+        "meals": 29,
+        "supplies": 152,
+        "wounds": 34,
+        "quirkScenes": 30,
+        "winsByAssignedTrait": {
+          "early-riser": 3,
+          "night-owl": 7,
+          "on-guard": 4,
+          "forest-wise": 3,
+          "kleptomaniac": 3,
+          "curious": 1,
+          "compulsive-eater": 5,
+          "afraid-of-dark": 4
+        }
+      }
+    },
+    {
+      "danger": "normal",
+      "personality": "strong",
+      "neutral": {
+        "games": 30,
+        "events": 1089,
+        "moves": 418,
+        "thefts": 9,
+        "meals": 23,
+        "supplies": 154,
+        "wounds": 29,
+        "quirkScenes": 0,
+        "winsByAssignedTrait": {
+          "early-riser": 6,
+          "night-owl": 2,
+          "on-guard": 2,
+          "forest-wise": 1,
+          "kleptomaniac": 2,
+          "curious": 5,
+          "compulsive-eater": 5,
+          "afraid-of-dark": 7
+        }
+      },
+      "quirks": {
+        "games": 30,
+        "events": 1173,
+        "moves": 458,
+        "thefts": 11,
+        "meals": 28,
+        "supplies": 158,
+        "wounds": 33,
+        "quirkScenes": 34,
+        "winsByAssignedTrait": {
+          "early-riser": 8,
+          "night-owl": 4,
+          "on-guard": 2,
+          "forest-wise": 5,
+          "kleptomaniac": 3,
+          "curious": 3,
+          "compulsive-eater": 4,
+          "afraid-of-dark": 1
+        }
+      }
+    },
+    {
+      "danger": "high",
+      "personality": "off",
+      "neutral": {
+        "games": 30,
+        "events": 614,
+        "moves": 238,
+        "thefts": 3,
+        "meals": 14,
+        "supplies": 117,
+        "wounds": 6,
+        "quirkScenes": 0,
+        "winsByAssignedTrait": {
+          "early-riser": 5,
+          "night-owl": 7,
+          "on-guard": 3,
+          "forest-wise": 2,
+          "kleptomaniac": 2,
+          "curious": 4,
+          "compulsive-eater": 5,
+          "afraid-of-dark": 2
+        }
+      },
+      "quirks": {
+        "games": 30,
+        "events": 614,
+        "moves": 238,
+        "thefts": 3,
+        "meals": 14,
+        "supplies": 117,
+        "wounds": 6,
+        "quirkScenes": 0,
+        "winsByAssignedTrait": {
+          "early-riser": 5,
+          "night-owl": 7,
+          "on-guard": 3,
+          "forest-wise": 2,
+          "kleptomaniac": 2,
+          "curious": 4,
+          "compulsive-eater": 5,
+          "afraid-of-dark": 2
+        }
+      }
+    },
+    {
+      "danger": "high",
+      "personality": "normal",
+      "neutral": {
+        "games": 30,
+        "events": 576,
+        "moves": 241,
+        "thefts": 2,
+        "meals": 7,
+        "supplies": 102,
+        "wounds": 12,
+        "quirkScenes": 0,
+        "winsByAssignedTrait": {
+          "early-riser": 6,
+          "night-owl": 3,
+          "on-guard": 2,
+          "forest-wise": 3,
+          "kleptomaniac": 3,
+          "curious": 6,
+          "compulsive-eater": 4,
+          "afraid-of-dark": 3
+        }
+      },
+      "quirks": {
+        "games": 30,
+        "events": 621,
+        "moves": 242,
+        "thefts": 6,
+        "meals": 9,
+        "supplies": 113,
+        "wounds": 14,
+        "quirkScenes": 13,
+        "winsByAssignedTrait": {
+          "early-riser": 4,
+          "night-owl": 0,
+          "on-guard": 5,
+          "forest-wise": 1,
+          "kleptomaniac": 3,
+          "curious": 4,
+          "compulsive-eater": 8,
+          "afraid-of-dark": 5
+        }
+      }
+    },
+    {
+      "danger": "high",
+      "personality": "strong",
+      "neutral": {
+        "games": 30,
+        "events": 576,
+        "moves": 241,
+        "thefts": 2,
+        "meals": 7,
+        "supplies": 102,
+        "wounds": 12,
+        "quirkScenes": 0,
+        "winsByAssignedTrait": {
+          "early-riser": 6,
+          "night-owl": 3,
+          "on-guard": 2,
+          "forest-wise": 3,
+          "kleptomaniac": 3,
+          "curious": 6,
+          "compulsive-eater": 4,
+          "afraid-of-dark": 3
+        }
+      },
+      "quirks": {
+        "games": 30,
+        "events": 586,
+        "moves": 237,
+        "thefts": 4,
+        "meals": 11,
+        "supplies": 104,
+        "wounds": 7,
+        "quirkScenes": 9,
+        "winsByAssignedTrait": {
+          "early-riser": 4,
+          "night-owl": 5,
+          "on-guard": 1,
+          "forest-wise": 1,
+          "kleptomaniac": 4,
+          "curious": 4,
+          "compulsive-eater": 8,
+          "afraid-of-dark": 3
+        }
+      }
+    }
+  ],
+  "sceneCounts": {
+    "quirk-early-riser-cache": 7,
+    "quirk-on-guard-supplies": 4,
+    "quirk-curious-find": 21,
+    "quirk-curious-empty": 33,
+    "quirk-afraid-dark-wait": 23,
+    "quirk-night-owl-cover": 17,
+    "quirk-on-guard-escape": 2,
+    "quirk-kleptomaniac-spare": 1,
+    "quirk-early-riser-route": 24,
+    "quirk-kleptomaniac-pocket": 7,
+    "quirk-compulsive-eater-delay": 3,
+    "quirk-curious-cut": 11,
+    "quirk-night-owl-route": 14,
+    "quirk-forest-wise-cache": 1,
+    "quirk-afraid-dark-company": 1,
+    "quirk-compulsive-eater-night": 1,
+    "quirk-forest-wise-route": 1
+  },
+  "samples": {
+    "quirk-early-riser-cache": {
+      "text": "Player 1 uses the daylight in The Center Podium to check a roadside supply box and finds sealed rations.",
+      "facts": [
+        {
+          "type": "acquire",
+          "actorId": "p0",
+          "itemId": "item-25-10",
+          "itemDefinitionId": "ration"
+        }
+      ]
+    },
+    "quirk-on-guard-supplies": {
+      "text": "Player 1 waits for the crowd to turn toward the weapon rack, then takes rations from the central food box.",
+      "facts": [
+        {
+          "type": "acquire",
+          "actorId": "p0",
+          "itemId": "item-3-1",
+          "itemDefinitionId": "ration"
+        }
+      ]
+    },
+    "quirk-curious-find": {
+      "text": "Rather than leave a strange cache alone in The Desert, Player 4 opens it and takes the sealed food inside.",
+      "facts": [
+        {
+          "type": "acquire",
+          "actorId": "p3",
+          "itemId": "item-19-3",
+          "itemDefinitionId": "ration"
+        }
+      ]
+    },
+    "quirk-curious-empty": {
+      "text": "A strange box in The Desert keeps Player 4 busy for the whole turn. There is nothing inside to take.",
+      "facts": [
+        {
+          "type": "survival",
+          "actorId": "p3",
+          "biome": "desert"
+        }
+      ]
+    },
+    "quirk-afraid-dark-wait": {
+      "text": "Player 5 waits beside a shelter in The Forest, unwilling to take the unlit trail alone tonight.",
+      "facts": [
+        {
+          "type": "survival",
+          "actorId": "p4",
+          "biome": "forest"
+        }
+      ]
+    },
+    "quirk-night-owl-cover": {
+      "text": "Player 4 spends the night assignment concealed beside a shelter in The Tundra.",
+      "facts": [
+        {
+          "type": "survival",
+          "actorId": "p3",
+          "biome": "tundra"
+        }
+      ]
+    },
+    "quirk-on-guard-escape": {
+      "text": "Watching the nearest contestants, Player 1 ducks the opening fight and reaches The Forest.",
+      "facts": [
+        {
+          "type": "move",
+          "actorId": "p0",
+          "biome": "forest"
+        }
+      ]
+    },
+    "quirk-kleptomaniac-spare": {
+      "text": "Player 4 has possessions of their own in The Mountains, but takes the water flask from Player 2 anyway. The theft is noticed.",
+      "facts": [
+        {
+          "type": "theft",
+          "actorId": "p3",
+          "targetId": "p1",
+          "itemId": "item-7-3",
+          "itemDefinitionId": "flask"
+        },
+        {
+          "type": "nemesis",
+          "actorId": "p1",
+          "targetId": "p3"
+        }
+      ]
+    },
+    "quirk-early-riser-route": {
+      "text": "Player 7 studies the trail markers before setting off into The Forest.",
+      "facts": [
+        {
+          "type": "move",
+          "actorId": "p6",
+          "biome": "forest"
+        }
+      ]
+    },
+    "quirk-kleptomaniac-pocket": {
+      "text": "The meeting in The Forest turns sour when Player 1 takes the emergency blanket and Player 6 realizes what happened.",
+      "facts": [
+        {
+          "type": "theft",
+          "actorId": "p0",
+          "targetId": "p5",
+          "itemId": "item-14-5",
+          "itemDefinitionId": "blanket"
+        },
+        {
+          "type": "nemesis",
+          "actorId": "p5",
+          "targetId": "p0"
+        }
+      ]
+    },
+    "quirk-compulsive-eater-delay": {
+      "text": "At a junction in The Center Podium, Player 2 puts the route decision aside and eats an entire carried ration pack.",
+      "facts": [
+        {
+          "type": "consume",
+          "actorId": "p1",
+          "itemId": "item-25-6",
+          "itemDefinitionId": "ration"
+        }
+      ]
+    },
+    "quirk-curious-cut": {
+      "text": "Player 8 lifts a loose cache panel in The Swamp without checking its hinge. The jagged edge cuts the shoulder, leaving a survivable bleeding wound.",
+      "facts": [
+        {
+          "type": "chain",
+          "actorId": "p7",
+          "marker": "bleeding-shoulder"
+        }
+      ]
+    },
+    "quirk-night-owl-route": {
+      "text": "Moving between covered stretches, Player 4 crosses into The Center Podium.",
+      "facts": [
+        {
+          "type": "move",
+          "actorId": "p3",
+          "biome": "ruins"
+        }
+      ]
+    },
+    "quirk-forest-wise-cache": {
+      "text": "Player 2 reads the forest trail marks and searches beneath a supply board. A ration pack is still there.",
+      "facts": [
+        {
+          "type": "acquire",
+          "actorId": "p1",
+          "itemId": "item-18-2",
+          "itemDefinitionId": "ration"
+        }
+      ]
+    },
+    "quirk-afraid-dark-company": {
+      "text": "Player 3 is reluctant to face the dark trail in The Center Podium alone. Player 7 agrees to share the turn at the shelter.",
+      "facts": [
+        {
+          "type": "survival",
+          "actorId": "p2",
+          "biome": "ruins"
+        }
+      ]
+    },
+    "quirk-compulsive-eater-night": {
+      "text": "Player 3 plans a short food break in The Center Podium after dark. Finishing the entire ration pack takes the assignment.",
+      "facts": [
+        {
+          "type": "consume",
+          "actorId": "p2",
+          "itemId": "item-26-6",
+          "itemDefinitionId": "ration"
+        }
+      ]
+    },
+    "quirk-forest-wise-route": {
+      "text": "Player 8 leaves the forest by a service trail and enters The Swamp.",
+      "facts": [
+        {
+          "type": "move",
+          "actorId": "p7",
+          "biome": "swamp"
+        }
+      ]
+    }
+  },
+  "violations": []
+}

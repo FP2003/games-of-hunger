@@ -1,0 +1,95 @@
+Batch 2: supply use and remembered deaths
+
+Seven variants per new scenario. Meals and drinks consume the carried supply; blanket use retains it. Names and locations below are examples.
+
+supplies-meal
+1. Alex finds cover in the Forest, opens the sealed rations and eats the whole pack before moving on.
+2. At a sheltered stop in the Forest, Alex finishes the rations instead of carrying them through another round.
+3. Alex tears open the ration pack in the Forest and makes a meal of its contents, leaving only the wrapper.
+4. The food in Alex's pack finally gets used in the Forest. Alex eats the rations down to the last crumb.
+5. Alex pauses beside the trail in the Forest and eats the sealed rations. The empty wrapper goes back into the pack.
+6. In the Forest, Alex unwraps the rations and eats slowly, finishing the pack before returning to the trail.
+7. Alex settles out of sight in the Forest and finishes a ration pack. There is one less meal to carry now.
+
+supplies-drink
+1. Alex stops in the Forest and drinks the remaining clean water from the flask, setting the empty container aside.
+2. A quiet corner of the Forest gives Alex time to finish the water in the flask. The empty container is left behind.
+3. Alex unscrews the flask in the Forest and drains its clean water in slow mouthfuls, leaving the empty flask beside the trail.
+4. In the Forest, Alex finally uses the water being carried around. After the last swallow, the empty flask is set aside.
+5. Alex checks the path in the Forest, then drinks the last of the flask's water and leaves the empty container behind.
+6. The water flask comes out during Alex's rest in the Forest. Alex finishes its contents and sets the empty flask down.
+7. Alex takes a drink beside the trail in the Forest, then finishes the remaining water. The empty flask stays at the resting place.
+
+supplies-shared-meal
+1. Alex opens a ration pack in the Forest and splits it with Blair. They finish the food together and part on better terms.
+2. In the Forest, Alex offers Blair half of the carried rations. Between them, they eat the whole pack.
+3. Blair watches the trail in the Forest while Alex divides a ration pack. They each eat a share, leaving no food in the wrapper.
+4. Alex invites Blair to a brief meal in the Forest. The rations are shared and finished, earning a grateful nod.
+5. One ration pack becomes a meal for two in the Forest when Alex shares it with Blair. Nothing remains to put away.
+6. Alex hands half the rations to Blair at a stop in the Forest. They eat both portions and agree the company helped.
+7. At a resting place in the Forest, Alex shares the sealed rations with Blair. They finish the pack and leave a little more willing to cooperate.
+
+supplies-shared-water
+1. Alex offers Blair the water flask in the Forest. They take turns drinking until it is empty, then set the container aside.
+2. At a stop in the Forest, Alex shares the flask's remaining water with Blair. They finish it and leave the empty flask behind.
+3. Blair accepts a drink from Alex in the Forest. They split the remaining water and set down the empty flask, grateful for the truce.
+4. Alex passes the water flask to Blair in the Forest, keeping a final share for the return pass. With both shares drunk, the empty container is left behind.
+5. The last of Alex's water is shared with Blair beside the trail in the Forest. They finish it together and put the empty flask aside.
+6. Alex and Blair take turns with the water flask during a rest in the Forest. When the water is gone, they leave the empty container at the stop.
+7. In the Forest, Alex divides the remaining flask water with Blair. They drink both shares and set the empty flask down before leaving on friendlier terms.
+
+supplies-blanket-windbreak
+1. Alex stretches the emergency blanket between low supports in the Forest, rests behind the windbreak, then folds it away.
+2. In the Forest, Alex anchors the emergency blanket as a low windscreen and rests in its lee before packing it again.
+3. Alex puts the blanket to work in the Forest, pinning its corners into a windbreak. After a sheltered pause, the blanket goes back into the pack.
+4. The breeze in the Forest makes Alex stop and rig the emergency blanket across a low gap. Alex rests behind it, then takes it down.
+5. Alex props the emergency blanket up in the Forest to block the wind at a resting place. The blanket is packed away afterward.
+6. Using the emergency blanket as a windscreen, Alex rests out of the breeze in the Forest. Before leaving, Alex retrieves it.
+7. Alex secures the emergency blanket close to the ground in the Forest and rests behind it. The makeshift windbreak is folded and carried away.
+
+supplies-blanket-night
+1. Alex wraps the emergency blanket around their shoulders in the Forest and settles down for the night with it tucked close.
+2. Night in the Forest gives Alex's emergency blanket a purpose. Alex folds it around their body and rests beneath it.
+3. Alex spreads the emergency blanket over a sheltered sleeping spot in the Forest, then curls beneath it for the night.
+4. In the Forest, Alex tucks the emergency blanket around their sleeping place and rests under its reflective lining.
+5. Alex pulls the emergency blanket from the pack in the Forest and wraps up before settling into a sheltered corner for the night.
+6. A rustle of foil marks Alex's bedtime in the Forest. The emergency blanket is drawn close and used as a cover.
+7. Alex finds a spot out of the wind in the Forest and settles beneath the emergency blanket, keeping it wrapped around their shoulders.
+
+supplies-blanket-shade
+1. Alex rigs the emergency blanket above a resting place in the Desert and waits in its shade, taking it down before leaving.
+2. In the Desert, Alex stretches the emergency blanket between two supports for shade. After resting beneath it, Alex packs it again.
+3. Alex turns the emergency blanket into a low sunshade in the Desert, resting under it before folding it away.
+4. The glare in the Desert sends Alex beneath an awning made from the emergency blanket. When the rest ends, the blanket is retrieved.
+5. Alex props the emergency blanket overhead in the Desert and sits in the patch of shade it casts, then rolls it up for the road.
+6. A blanket becomes a temporary roof in the Desert. Alex rests in its shadow and takes it along when setting out again.
+7. Alex secures the emergency blanket above a hollow in the Desert, using its shade for a pause before packing the blanket away.
+
+drainage-shaft-fall
+1. Alex backs away from a sudden noise in the Forest, missing the open drainage shaft behind them. A backward step sends them over the rim; the fall is fatal.
+2. An unexpected clatter in the Forest makes Alex retreat without checking the ground. Alex steps into the drainage shaft and dies in the fall.
+3. Alex turns toward a noise beside the drainage shaft in the Forest. While edging backward, Alex steps past the open rim and falls to a fatal landing.
+4. Beside an uncovered drainage shaft in the Forest, Alex flinches at a crash and takes one step back too many. The fall into the shaft kills them.
+5. Alex listens for the source of a scraping sound in the Forest, backing toward the drainage shaft instead of watching the path. The next step ends in a fatal fall.
+6. A sharp noise sends Alex stumbling backward in the Forest. There is no cover over the drainage shaft at their heels, and the fall kills them.
+7. Alex recoils from a sudden bang in the Forest and loses footing at the drainage shaft. Unable to catch the rim, Alex falls and dies on impact.
+
+old-well-collapse
+1. Alex leans over the old well in the Desert, searching for water. The crumbling rim gives way; Alex falls down the shaft and dies on impact.
+2. At the old well in the Desert, Alex tests the depth by leaning over the edge. The rim breaks under their weight, causing a fatal fall.
+3. Alex peers into the old well beside the supply tank in the Desert. A loose section of the rim collapses, dropping them into the shaft. The fall is fatal.
+4. The old well in the Desert looks like a chance to find water. Alex leans on its damaged rim, which breaks away and sends them to a fatal landing below.
+5. Alex braces against the old well's edge in the Desert to look inside. The masonry fails beneath their hands, and the fall down the shaft kills them.
+6. Searching for water in the Desert, Alex bends over the old well. Its weakened lip collapses, and Alex dies after falling into the shaft.
+7. Alex approaches the old well in the Desert and leans forward for a better look. The edge crumbles without warning; Alex falls and does not survive the impact.
+
+REMEMBERED SHAFT DEATH
+Earlier event: Alex forces Blair back into the drainage shaft in the Forest; Blair dies in the fall.
+Later event, with seven callback variants:
+1. Casey backs away from a sudden noise in the Forest, missing the open drainage shaft behind them. A backward step sends them over the rim; the fall is fatal. The same drainage shaft where Blair died earlier has now claimed Casey.
+2. An unexpected clatter in the Forest makes Casey retreat without checking the ground. Casey steps into the drainage shaft and dies in the fall. Earlier, Blair died at the drainage shaft. Now Casey has died at that same spot.
+3. Casey turns toward a noise beside the drainage shaft in the Forest. While edging backward, Casey steps past the open rim and falls to a fatal landing. Casey's death adds another name to the drainage shaft, where Blair died before.
+4. Beside an uncovered drainage shaft in the Forest, Casey flinches at a crash and takes one step back too many. The fall into the shaft kills them. This is the drainage shaft that already claimed Blair; Casey is its next victim.
+5. Casey listens for the source of a scraping sound in the Forest, backing toward the drainage shaft instead of watching the path. The next step ends in a fatal fall. Once again, the drainage shaft is the scene of a death. Blair died here earlier; now so has Casey.
+6. A sharp noise sends Casey stumbling backward in the Forest. There is no cover over the drainage shaft at their heels, and the fall kills them. Blair's earlier death and Casey's final moments share the same place: the drainage shaft.
+7. Casey recoils from a sudden bang in the Forest and loses footing at the drainage shaft. Unable to catch the rim, Casey falls and dies on impact. At the drainage shaft, Casey has met an end at the very spot where Blair died earlier.
