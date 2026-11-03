@@ -1,0 +1,3951 @@
+# default: variety-audit-default-0
+
+24 tributes; 118 events; finishes Day 8.
+
+**1. opening 0 — opening-route-5**
+
+Rick and Hiro help each other take the tundra exit into The Tundra.
+
+**2. opening 0 — opening-route-4**
+
+AMyriad and Akesel find an exit together and head into The Desert.
+
+> AMyriad: Depending on someone feels different when walking away is an option.
+
+**3. opening 0 — opening-light**
+
+The toppled crate offers a brief gap in the scramble. Adur rescues storm lantern from a toppled supply crate.
+
+**4. opening 0 — opening-party-4-forest**
+
+Unwilling to risk the scramble, Flurris, Solus, Kowalik and Marcos head into The Forest.
+
+**5. opening 0 — opening-route-2**
+
+Helping each other out of the scramble, Emma and Shadz reach The Swamp.
+
+**6. opening 0 — opening-bloodbath-2**
+
+A loose bar becomes a weapon in Tobi's hands beside the central tools. The strike hits Gulliver in the head and proves fatal. Tobi takes rescue rope and an emergency blanket from the supplies.
+
+> Tobi: I have no idea how long I have been standing here.
+
+**7. opening 0 — opening-party-3-mountains**
+
+Luvy, Skizzo and Ary take the same exit from the bloodbath into The Mountains.
+
+> Ary: I would like the new location to have fewer complications.
+
+**8. opening 0 — weapon-club-opening**
+
+Siegfried takes a wooden club from the Center Podium weapon rack and retreats from the scramble.
+
+**9. opening 0 — opening-party-4-swamp**
+
+Joshi, Chaos, Suggs and Deaclaw leave the opening chaos together and reach The Swamp.
+
+**10. opening 0 — weapon-spear-opening**
+
+The spear lies among the equipment at the crowded center. Jokin reaches the Center Podium weapon rack and claims a spear, then backs away from the scramble.
+
+**11. opening 0 — weapon-axe-opening**
+
+The hand axe occupies a small part of the contested weapon rack. Fauna reaches the Center Podium weapon rack and claims a hand axe, then backs away from the scramble.
+
+> Fauna: I keep expecting useful equipment to come with a catch.
+
+**12. opening 0 — opening-water**
+
+The loudest plans near the supplies do not mention thirst. Shield secures water flask while louder contestants argue about strategy.
+
+**13. day 1 — weapon-bow-find**
+
+At a sighting-panel bracket in The Mountains, Skizzo works bow and arrows upward until its remaining transport tie slips loose, then takes possession of the find.
+
+**14. day 1 — swamp-contest-1**
+
+Suggs breaks a weakened rail above the swamp boardwalk channel and drives Chaos into the gap. The current carries her beneath the decking to drown.
+
+**15. day 1 — group-door-rescue**
+
+Fauna chases Shield toward a supply shelter in The Center Podium. Adur pulls Shield through the doorway and braces a fallen beam against the door. While Fauna forces it open, Adur and Shield escape through the rear gap. Nobody is injured.
+
+> Adur: For a moment, this almost felt cooperative.
+
+**16. day 1 — berries-gather**
+
+Joshi gathers ripe berries beside the trail in The Swamp and saves the handful in a leaf wrapper.
+
+**17. day 1 — desert-trap-escape**
+
+AMyriad rushes Akesel at the lip of an old desert well. Akesel throws a handful of sand into his eyes and ducks around the supply tank, escaping before the next lunge.
+
+> Akesel: This rivalry is exhausting, and I am not even sure who started the latest round.
+
+**18. day 1 — weapon-mace-find**
+
+Hiro looks beneath a raised impact-testing deck in The Tundra and finds spiked mace secured inside a low access frame; undoing the catch releases it to carry away.
+
+**19. day 1 — explosive-find**
+
+In The Tundra, Rick retrieves a sealed arena charge and its matching remote from a closed equipment case.
+
+> Rick: I will take the small advantages when they appear.
+
+**20. day 1 — forest-contest-1**
+
+Solus drops a loose lookout brace onto Kowalik on the forest path below; the head injury kills him.
+
+> Solus: The quiet afterward is worse than I expected.
+
+**21. day 1 — swamp-contest-2**
+
+Deaclaw tips a heavy swamp equipment stand onto Emma; pinned beneath its frame, Emma dies from crushing injuries.
+
+**22. day 1 — weapon-crossbow-find**
+
+A damaged return tray at a bolt-channel testing station in The Center Podium rattles when Jokin checks it; crossbow has lodged behind the tray and is retrieved.
+
+**23. day 1 — pitfall-fatal**
+
+Flurris crosses what looks like leaf-strewn ground in The Forest. The pit beneath gives way, and the fall onto a stake kills him.
+
+**24. day 1 — ally-decoy**
+
+Beside Ary's cover in The Mountains, Luvy spots a revealing drag mark and brushes it aside with a branch. A deliberately noisy departure sends the search along the open lane instead.
+
+**25. day 1 — bad-directions**
+
+In The Center Podium, Siegfried claims the numbered posts form a route to fresh supplies. Tobi follows them back to the same starting post and recognizes the joke when Siegfried asks how the tour went.
+
+**26. day 1 — pitfall-survived**
+
+A hidden pit catches Marcos on a trail in The Forest. A broken stake leaves a bleeding thigh wound, but roots along the wall let him climb out alive.
+
+**27. day 1 — swamp-life-1**
+
+Shadz tests the woven branches along a reinforced swamp bank, then settles on the firm edge for a rest.
+
+**28. night 1 — wound-thigh-bandage**
+
+Marcos finds a broad, level step in The Forest and lies still to deal with the bleeding thigh. The first cloth fold slips, so Marcos starts again and holds it in place until blood no longer seeps through.
+
+**29. night 1 — water-truce**
+
+Skizzo and Ary find water collecting beneath a loose outlet in The Mountains. Together they angle the outlet toward a clean patch of stone and share the small flow.
+
+**30. night 1 — berries-eat**
+
+Joshi takes out the gathered berries in The Swamp and eats them one by one until none remain.
+
+**31. night 1 — weapon-club-fatal**
+
+Tobi tries to climb a steep bank in The Center Podium to avoid a fight, but Siegfried strikes Tobi in the head with the wooden club before the crest is reached; the wooden club attack is fatal.
+
+**32. night 1 — ruins-hazard-escape**
+
+Jokin tests a dark corridor floor with a loose brick, exposing a covered maintenance pit before stepping onto it.
+
+**33. night 1 — crooked-compass-find**
+
+Fauna lifts the Crooked Compass. The needle settles with great confidence on a direction that offers very little safety.
+
+**34. night 1 — omen-find**
+
+Deaclaw kneels to work a pebble out of a boot. On the exposed edge of a nearby paving stone are three fresh warning scratches.
+
+**35. night 1 — travel-roam-mountains**
+
+Luvy takes a longer way around by a disused quarry ramp, arriving in The Center Podium away from the main exit.
+
+> Luvy: I am judging the paths by how easy it would be to turn back.
+
+**36. night 1 — ruins-life-4**
+
+A patch of undisturbed wrapping stands out beside a route post in The Center Podium. Adur checks the hollow below and finds signal mirror to carry away.
+
+**37. night 1 — arena-contest-2**
+
+Shadz crouches to look into the drainage shaft in The Swamp. Suggs approaches from behind and lifts the ankles, tipping Shadz headfirst into a fatal fall.
+
+**38. night 1 — night-prepare-forest**
+
+The hollow has room for leaves without blocking both ends. Solus packs dry leaves beneath a fallen trunk in The Forest, checks both ends for tracks, and settles into the hollow with the entrance hidden by branches.
+
+**39. night 1 — stolen-cache**
+
+While Hiro untangles clothing from a rail in The Tundra, Rick takes spiked mace from within reach. Hiro frees the snag just in time to identify the departing thief.
+
+> Rick: The cameras saw it. I doubt that makes them useful witnesses.
+
+**40. night 1 — desert-hazard-1**
+
+The water checkpoint is not visible from this stretch of desert. AMyriad walks across the desert through the midday heat, searching for a water checkpoint. Disoriented, AMyriad circles the same dune until collapsing. Heatstroke proves fatal before shelter is found.
+
+**41. night 1 — supplies-drink**
+
+Shield stops in The Center Podium and drinks the remaining clean water from the flask, setting the empty container aside.
+
+**42. night 1 — desert-life-4**
+
+Akesel finds signal mirror while looking through a checkpoint in the shade.
+
+**43. day 2 — arena-desert-weather-warning**
+
+Announcer: “A forecast note concerning the desert sandstorm. Desert residents, a sandstorm is due tonight. Please make any necessary introductions before visibility drops. The close-up cameras are ready.”
+
+**44. day 2 — travel-warning-desert**
+
+Akesel takes the warning about the Desert seriously and heads into The Swamp.
+
+> Akesel: The shortest route and the quietest route rarely seem to agree.
+
+**45. day 2 — group-shelter-build**
+
+Jokin brings branches to a low wall in The Center Podium while Siegfried and Fauna position a fallen sheet against it. Fauna secures the base with stones as Siegfried holds it steady. They close the remaining gaps with branches and rest together beside an unobstructed exit.
+
+**46. day 2 — wound-side-fatal**
+
+Solus swings a loose inspection grille into Marcos at waist height in The Forest. Its sharp corner tears the side, and Marcos dies while trying to brace the wound against the grille.
+
+**47. day 2 — arena-contest-1**
+
+Ary hides in a dry culvert in The Mountains while Skizzo watches from its upper bank. Skizzo rolls a discarded concrete pipe down the slope just as Ary emerges; it strikes the exposed head with fatal force.
+
+> Ary: I would like my complaint about the arena entered into the record.
+
+**48. day 2 — swamp-life-2**
+
+Joshi retraces the approach to a narrow levee through the reeds and finds a way across the boundary into The Center Podium.
+
+**49. day 2 — wound-shoulder-fatal**
+
+At a dividing rail in The Swamp, Deaclaw traps Suggs's forearm and drives a sharp scrap into the shoulder. Suggs escapes the grip, but the shoulder wound causes a fatal collapse nearby.
+
+> Deaclaw: I do not know what you expect me to say while my hands are still shaking.
+
+**50. day 2 — tundra-trap-escape**
+
+Rick chases Hiro toward a frozen lake. Hiro notices dark water under the ice, drops flat, and slides back onto the bank. Rick stops at the cracking edge, leaving time for an escape.
+
+**51. day 2 — sponsor-gift-1**
+
+A sponsor parachute drifts into The Center Podium. Adur opens the food parcel to find sealed rations.
+
+**52. day 2 — false-footsteps**
+
+Shield slips through a hanging mesh screen in The Center Podium while Luvy follows the wider path. From behind the mesh, Shield watches the pursuer pass the wrong entrance.
+
+**53. night 2 — arena-desert-weather-start**
+
+Announcer: “Our current coverage includes the desert sandstorm. The desert sandstorm has arrived. We have lost the horizon, but several of you are still providing excellent audio.”
+
+**54. night 2 — travel-roam-mountains**
+
+Following a shallow chimney between boulders, Skizzo avoids the main approach and crosses into The Center Podium.
+
+**55. night 2 — travel-roam-tundra**
+
+Hiro takes a longer way around by a row of exposed dark stones, arriving in The Mountains away from the main exit.
+
+**56. night 2 — travel-roam-4-ruins**
+
+Siegfried, Adur, Shield and Jokin squeeze past the gap behind the loudspeaker tower and reach The Forest.
+
+**57. night 2 — travel-roam-forest**
+
+Solus takes a longer way around by the narrow rim of a fern bed, arriving in The Mountains away from the main exit.
+
+**58. night 2 — travel-roam-ruins**
+
+Fauna uses the walkway around a silent equipment hoist to reach the outward trail into The Swamp.
+
+**59. night 2 — travel-roam-tundra**
+
+Rick checks the way through a packed track beside a frozen ditch before committing to the crossing into The Center Podium.
+
+**60. night 2 — travel-roam-swamp**
+
+Following a raised culvert lip, Deaclaw avoids the main approach and crosses into The Center Podium.
+
+**61. night 2 — tripwire-noticed**
+
+A glint at ankle height stops Akesel in The Swamp. The wire across the trail is left untouched as Akesel goes around it.
+
+> Akesel: I have started measuring plans by how many things I would have to carry.
+
+**62. night 2 — ruins-life-11**
+
+The station walls still divide the old routes. Joshi watches the approaches to a quiet corner behind the supply hall while Luvy rests. Then they exchange places.
+
+**63. day 3 — arena-desert-weather-end**
+
+Announcer: “The weather segment has reached its conclusion. The desert storm has passed. The exit signs may need uncovering. Thank you for your patience with the scenery.”
+
+**64. day 3 — podium-resupply**
+
+Fresh supplies arrive at the central ground by cargo drone. Rick opens the crate on the Center Podium and packs sealed rations for the road, placing a water flask and an emergency blanket beside the crate for the next visitor.
+
+**65. day 3 — crossing-conflict-ruins**
+
+Shield crosses the boundary into The Center Podium and drives a jagged sign bracket into Deaclaw's chest, inflicting a fatal wound.
+
+**66. day 3 — weapon-knife-find**
+
+Jokin slides a warped cover away from a fitted sheath drawer in The Forest, exposing hunting knife and lifting it free to carry.
+
+**67. day 3 — swamp-crocodile-escape**
+
+Akesel catches sight of a crocodile beneath the crossing in The Swamp and retreats onto the high boards. Its lunge reaches only the walkway supports.
+
+**68. day 3 — forest-trap-fatal**
+
+Siegfried hides a sharpened stake beneath leaves on a forest trail, then rattles a branch to draw Adur forward. Adur falls onto the stake and dies before reaching the path again.
+
+> Adur: Is this the part where somebody tells me I did well?
+
+**69. day 3 — swamp-hazard-escape**
+
+Fauna notices a floating reed mat drifting away from the swamp bank and steps back onto firm roots before it separates.
+
+> Fauna: There must be a better way to judge the time than guessing how tired I ought to be.
+
+**70. day 3 — travel-roam-mountains**
+
+Hiro retraces the approach to the inside edge of a switchback and finds a way across the boundary into The Center Podium.
+
+> Hiro: I keep checking behind me. Knowing the way forward is only half the problem.
+
+**71. day 3 — knife-disarmed**
+
+Joshi lunges across a low barrier with a metal sliver in The Center Podium. Skizzo kicks the barrier upward into the forearm; the sliver flies into an inaccessible recess as Skizzo backs away.
+
+> Skizzo: I would love to stop seeing Joshi. The arena clearly has other plans.
+
+**72. day 3 — whispering-tin-find**
+
+The Whispering Tin has the appearance of equipment with an extra complication. Luvy acquires Whispering Tin. The lid seems to mutter about the competition.
+
+**73. day 3 — mountains-life-3**
+
+The rocks conceal a store intended for passing climbers. Solus opens a climbing cache and takes rescue rope.
+
+**74. night 3 — travel-roam-ruins**
+
+Luvy checks the way through a turnstile wedged open with rubble before committing to the crossing into The Tundra.
+
+**75. night 3 — crossing-conflict-forest**
+
+Akesel crosses the boundary into The Forest and jams a sharpened branch through a gap in Siegfried's cover, inflicting a fatal chest wound.
+
+**76. night 3 — weapon-machete-find**
+
+Solus tilts a loose base at a broad-blade tool rack in The Mountains, freeing machete from a jammed retaining clip before taking it along.
+
+> Solus: I am calling that a small victory.
+
+**77. night 3 — wound-shoulder-escape**
+
+Rick reaches across a low wall in The Center Podium and cuts Joshi's shoulder with a sharp offcut. Joshi stays below the wall's edge and crawls along it to a distant gap, escaping with the shoulder still bleeding.
+
+**78. night 3 — crooked-compass-activate**
+
+The Crooked Compass drags Fauna onto the route into The Forest.
+
+> Fauna: The equipment department has a few questions to answer for me.
+
+**79. night 3 — night-noise-on-watch**
+
+A distant cough interrupts the stillness in The Forest. Jokin waits without answering; no second cough comes, and the source remains hidden.
+
+**80. night 3 — ruins-hazard-1**
+
+The Center Podium landing pulls free of its wall beneath Shield. There is no footing left to catch. Shield falls into the basement and dies.
+
+**81. night 3 — wound-side-escape**
+
+Skizzo cuts Hiro's side with a broken sign edge during a close struggle in The Center Podium. Hiro hooks a leg behind the attacker's knee, topples Skizzo, and limps clear with an untreated side wound.
+
+**82. day 4 — arena-tundra-closure-warning**
+
+Announcer: “The tundra departure is tonight's priority shot; complete the pole-marked exit before nightfall brings the fatal temperature drop and closes the region for the rest of the games.”
+
+**83. day 4 — travel-warning-tundra**
+
+Luvy takes the warning about the Tundra seriously and heads into The Mountains.
+
+> Luvy: A sign pointing somewhere is not the same thing as a recommendation.
+
+**84. day 4 — travel-roam-ruins**
+
+Following an empty cable trench, Joshi avoids the main approach and crosses into The Swamp.
+
+**85. day 4 — forest-contest-1**
+
+Jokin slams a fallen branch into Fauna at a forest gate, causing a fatal head injury.
+
+> Jokin: I keep going over the last few seconds. There is no useful reason to.
+
+**86. day 4 — arena-contest-4**
+
+Hiro changes direction through an empty shelter in The Center Podium, then braces the door when Rick follows. Trapped at the neck in the narrowing opening, Rick suffocates before the pressure is released.
+
+**87. day 4 — forest-boar-fatal**
+
+A boar trapped beside the roots in The Forest turns on Akesel. The charge knocks him off balance, and the tusk wounds are fatal.
+
+**88. day 4 — mountains-wolves-escape**
+
+Solus climbs a narrow shelf in The Mountains as wolves close in along the trail. Unable to follow, the pack moves on, leaving Solus unharmed.
+
+**89. day 4 — ruins-life-1**
+
+A sheltered ticket recess gives Skizzo somewhere to lean without facing the main podium approach.
+
+**90. night 4 — arena-tundra-closure-start**
+
+Announcer: “The tundra fatal temperature drop is now active, and our camera view is centered on the pole-marked exit; finish the escape to the Center Podium while it is possible.”
+
+**91. night 4 — travel-roam-ruins**
+
+Keeping low beside a drainage ledge below the supply lanes, Skizzo passes out of sight of the main trail and into The Swamp.
+
+**92. night 4 — travel-roam-forest**
+
+Using a curtain of hanging roots, Jokin emerges in The Mountains beyond the boundary.
+
+**93. night 4 — travel-roam-mountains**
+
+Solus squeezes past a ledge beneath an overhanging slab and reaches The Forest.
+
+**94. night 4 — weapon-axe-find**
+
+Behind a split timber block in The Swamp, Joshi spots the outline of hand axe through a torn panel and reaches around to collect it.
+
+**95. night 4 — mountain-ledge-collapse**
+
+Gravel rolls off the narrow ledge in The Mountains as Luvy steps forward. The weakened edge follows it, dropping him onto the rocks far below. The fall kills him.
+
+**96. night 4 — ruins-life-2**
+
+Hiro follows the old power-relay corridor below the stand and comes out in The Swamp.
+
+**97. night 4 — arena-tundra-close**
+
+Announcer: “The tundra is permanently closed after the fatal temperature drop; the pole-marked exit is no longer an entrance, so please choose an open region.”
+
+**98. day 5 — wound-side-fatal**
+
+During a struggle at a low wall in The Swamp, Hiro forces Skizzo's side against an exposed reinforcement end. The torn wound bleeds fatally after Skizzo drops away from the wall.
+
+**99. day 5 — weapon-bow-find**
+
+At a stringing bench in The Swamp, Joshi notices a fastening loop beneath the work surface and unthreads it to retrieve bow and arrows.
+
+**100. day 5 — forest-hazard-escape**
+
+Solus notices fern fronds sagging over a deep forest hollow and probes the ground with a branch before walking around it.
+
+**101. day 5 — mountains-life-2**
+
+Jokin checks the way through a scree-free strip beside the ridge before committing to the crossing into The Forest.
+
+**102. night 5 — wound-side-bandage**
+
+Hiro shelters beneath an overturned panel in The Swamp. With the entrance in view, Hiro holds a cloth pad firmly over the earlier side wound until the bleeding stops, leaving the panel only after checking the pad.
+
+> Hiro: I am trying to tell ordinary noises apart from the ones that matter.
+
+**103. night 5 — swamp-life-1**
+
+Joshi sits on a broad boardwalk brace and watches ripples cross the swamp channel below.
+
+**104. night 5 — ally-decoy**
+
+In The Forest, Jokin pauses in full view at a distant route post, pretending not to notice the search. While attention settles there, Solus stays tucked behind the near barrier.
+
+**105. day 6 — arena-forest-closure-warning**
+
+Announcer: “The forest departure is tonight's priority shot; complete the marked woodland exits before nightfall brings the controlled burn and closes the region for the rest of the games.”
+
+**106. day 6 — travel-warning-2-forest**
+
+Jokin and Solus both avoid the announced danger and move into The Center Podium.
+
+**107. day 6 — travel-roam-swamp**
+
+Using the upper rail of a sunken boardwalk, Joshi emerges in The Center Podium beyond the boundary.
+
+> Joshi: It is difficult to know what counts as progress here.
+
+**108. day 6 — weapon-knife-find**
+
+At a utensil display bracket in The Swamp, Hiro works hunting knife upward until its remaining transport tie slips loose, then takes possession of the find.
+
+**109. night 6 — arena-forest-closure-start**
+
+Announcer: “Fire is spreading beneath the canopy; our forest coverage now follows the marked woodland exits toward the Center Podium, so anyone still departing should keep moving.”
+
+**110. night 6 — travel-roam-swamp**
+
+Keeping low beside a row of exposed walkway braces, Hiro passes out of sight of the main trail and into The Desert.
+
+**111. night 6 — wound-thigh-fatal**
+
+Joshi slides a sharp grille across Jokin's thigh from beneath a platform in The Center Podium. The severed clothing catches on the frame, leaving Jokin trapped long enough to die from the leg wound.
+
+**112. night 6 — weapon-club-find**
+
+Solus slides a warped cover away from a club-rack alcove in The Center Podium, exposing wooden club and lifting it free to carry.
+
+**113. night 6 — arena-forest-close**
+
+Announcer: “For the rest of this game, the forest is unavailable because of the controlled burn; our coverage has moved to the surviving locations.”
+
+**114. day 7 — travel-roam-desert**
+
+Hiro retraces the approach to an old wheel rut through the sand and finds a way across the boundary into The Swamp.
+
+**115. day 7 — bad-directions**
+
+Solus claims a painted distance line in The Center Podium leads to a water point. Joshi finds only the end of a measuring course and returns to the sound of Solus chuckling.
+
+**116. night 7 — swamp-hazard-escape**
+
+Hiro steps through a rotten boardwalk plank but catches the neighboring boards and pulls free of the gap.
+
+**117. night 7 — ruins-trap-fatal**
+
+Solus knocks a support from a ruined balcony while Joshi crosses, sending him down with the masonry in a fatal collapse. Shield's earlier death and Joshi's final moments share the same place: the ruined stairwell.
+
+> Joshi: I am not ready to hear what the audience thought of it.
+
+**118. finale 8 — final-converge-ruins-swamp**
+
+Solus notices Hiro approaching in the reflection of a camera cover in The Center Podium. Turning before the ambush lands, Solus wrenches a loose cover bracket into Hiro's head; the blow kills him.
+
+---
+
+# low-danger: variety-audit-low-danger-0
+
+24 tributes; 120 events; finishes Day 8.
+
+**1. opening 0 — opening-party-3-tundra**
+
+Fauna, Joshi and Shield leave the fighting behind and move toward The Tundra.
+
+**2. opening 0 — opening-route-3**
+
+Luvy and AMyriad help each other take the mountains exit into The Mountains.
+
+**3. opening 0 — weapon-mace-opening**
+
+The opening scramble leaves a spiked mace within reach on the Center Podium rack. Rick takes it and backs away.
+
+**4. opening 0 — opening-party-4-desert**
+
+Solus, Jokin, Siegfried and Kowalik take the desert exit into The Desert.
+
+**5. opening 0 — opening-route-1**
+
+Adur and Shadz get each other clear of the fighting and cross into The Forest.
+
+**6. opening 0 — opening-route-2**
+
+Helping each other out of the scramble, Tobi and Flurris reach The Swamp.
+
+> Tobi: I hope the next difficult decision leaves room for that again.
+
+**7. opening 0 — weapon-machete-opening**
+
+Gulliver takes a machete from the Center Podium weapon rack and retreats from the scramble.
+
+**8. opening 0 — opening-bloodbath-2**
+
+Marcos reaches the tools as Chaos frees an iron bar from the rack. The blow to the head kills Marcos. Chaos carries off rescue rope and an emergency blanket.
+
+**9. opening 0 — opening-reflection**
+
+The signal mirror lies flat among bulkier equipment. Akesel pockets signal mirror. The broadcast has acquired a lookout.
+
+**10. opening 0 — opening-bloodbath-1**
+
+Emma wins the struggle at the food crate by taking the sharpened scrap inside. A stab to the chest kills Deaclaw. Emma leaves the crate carrying sealed rations and an emergency blanket.
+
+**11. opening 0 — weapon-spear-opening**
+
+The central weapon rack has a spear within reach. Ary reaches the Center Podium weapon rack and claims a spear, then backs away from the scramble.
+
+**12. opening 0 — opening-crate-dodge**
+
+The crates divide the podium into awkward little passages. Hiro swings a sharpened scrap at Suggs over the central supply crates. Suggs ducks beneath the swing and kicks a loose crate into the path, escaping the attack empty-handed.
+
+**13. opening 0 — opening-route-6**
+
+Skizzo slips away from the fighting and reaches The Desert.
+
+> Skizzo: The map leaves out quite a lot of the unpleasant details.
+
+**14. day 1 — mutual-watch**
+
+Siegfried and Jokin divide the approaches to a low recess in The Desert, each trusting the other to call a warning. They agree to keep the arrangement when they rest.
+
+**15. day 1 — ration-snatch-chase**
+
+The open food and the drop share an inconvenient patch of trail. Rick waits until Emma opens a ration pack in The Center Podium, snatches sealed rations, and slides down a steep trail bank. Emma stops at the top rather than risk the blind drop.
+
+**16. day 1 — bad-directions**
+
+Shadz points Adur toward a painted arrow in The Forest, calling it the route to a lookout. The arrow belongs to an old camera alignment guide; Adur returns from a blank wall to find Shadz grinning.
+
+**17. day 1 — tripwire-noticed**
+
+In The Swamp, Tobi pauses at a wire stretched across the path. A careful detour avoids whatever it was meant to trigger.
+
+**18. day 1 — frozen-lake-breakthrough**
+
+Joshi steps around a ridge of ice on the frozen lake in The Tundra. The sheet beyond it fractures under his weight; Joshi falls through and drowns while struggling to climb out.
+
+**19. day 1 — supply-bag-feint**
+
+Ary shoves a stack of empty trays toward Chaos in The Center Podium. Chaos braces against the frame, then lets the trays crash between them and steps away untouched.
+
+**20. day 1 — crooked-compass-find**
+
+Flurris lifts the Crooked Compass. The needle settles with great confidence on a direction that offers very little safety.
+
+**21. day 1 — arena-contest-5**
+
+Kowalik searches an empty delivery sack in The Desert. Solus pulls the sack over the searching head and holds it there through the struggle; Kowalik dies from suffocation.
+
+**22. day 1 — ruins-trap-fatal**
+
+Suggs releases a rusted supply cart at the top of a ruined stairway, striking Hiro and killing him against the lower wall.
+
+> Suggs: I need a moment before I look at the camera.
+
+**23. day 1 — drainage-shaft-fall**
+
+Skizzo stops beside the drainage shaft in The Desert to shake grit from a boot. Hopping on the other foot brings him onto the unsupported cover edge, which tips into the shaft; the fall is fatal.
+
+> Skizzo: There is probably a useful lesson here. Somebody else can find it.
+
+**24. day 1 — mountains-wolves-fatal**
+
+Luvy follows a narrow channel in The Mountains until the walls close off the path. Wolves approaching from behind leave no escape; the attack kills him.
+
+**25. day 1 — ruins-hazard-2**
+
+A ruined storeroom becomes a trap for Akesel when its swollen door jams. Smoke from the damaged generator thickens faster than the door can be broken open. Akesel dies inside.
+
+**26. day 1 — wound-thigh-fatal**
+
+Shield yanks a low screen frame across Fauna's legs in The Tundra; an exposed bolt opens the thigh deeply. Fauna falls behind the screen and bleeds to death before standing again.
+
+**27. day 1 — weapon-axe-find**
+
+AMyriad looks beneath a timber-working platform in The Mountains and finds hand axe secured inside a low access frame; undoing the catch releases it to carry away.
+
+**28. day 1 — whispering-tin-find**
+
+The Whispering Tin draws attention for reasons beyond its usefulness. Gulliver acquires Whispering Tin. The lid seems to mutter about the competition.
+
+> Gulliver: I will take the small advantages when they appear.
+
+**29. night 1 — sponsor-gift-2**
+
+A water delivery floats down to Flurris in The Swamp. The sponsor has left no name, only a water flask inside the parcel.
+
+**30. night 1 — weapon-mace-find**
+
+Solus looks beneath a raised impact-testing deck in The Desert and finds spiked mace secured inside a low access frame; undoing the catch releases it to carry away.
+
+**31. night 1 — whispering-tin-activate**
+
+Gulliver turns the Whispering Tin upside down in The Center Podium to silence it. The lid whispers that Ary would enjoy the struggle, and the irritation settles on the named rival.
+
+**32. night 1 — supplies-blanket-night**
+
+A rustle of foil marks Emma's bedtime in The Center Podium. The emergency blanket is drawn close and used as a cover.
+
+> Emma: It is hard to rest when you have to choose when to close your eyes.
+
+**33. night 1 — omen-find**
+
+An arrow beside the trail has been crossed out. Chaos examines the damaged sign and finds three warning scratches beneath the old direction.
+
+**34. night 1 — crossing-conflict-ruins**
+
+AMyriad crosses the boundary into The Center Podium and drives a jagged sign bracket into Rick's chest, inflicting a fatal wound.
+
+**35. night 1 — dinner-bell-find**
+
+Shadz tries on a pair of rubber-soled boots. A short walk around the crate comes with a squeak at every step.
+
+**36. night 1 — weapon-spear-find**
+
+At a long-handled tool bracket in The Tundra, Shield works spear upward until its remaining transport tie slips loose, then takes possession of the find.
+
+**37. night 1 — desert-contest-2**
+
+The chase leads from soft sand toward a steep excavation. Siegfried chases Jokin across a dune toward an abandoned quarry, then throws a stone at his legs. Jokin loses footing at the quarry lip and falls to a fatal landing below.
+
+**38. night 1 — explosive-find**
+
+In The Center Podium, Suggs retrieves a sealed arena charge and its matching remote from a closed equipment case.
+
+> Suggs: I wonder how much thought went into what they left for us.
+
+**39. night 1 — weapon-crossbow-find**
+
+A damaged return tray at a bolt-channel testing station in The Swamp rattles when Tobi checks it; crossbow has lodged behind the tray and is retrieved.
+
+**40. night 1 — forest-boar-escape**
+
+The brush erupts beside Adur in The Forest. A boar rushes the path, but Adur climbs a fallen tree and escapes after it passes.
+
+**41. day 2 — arena-swamp-weather-warning**
+
+Announcer: “A water-level adjustment is scheduled for the swamp tonight. Do keep an eye on those boardwalks; we would like you in frame.”
+
+**42. day 2 — travel-warning-2-swamp**
+
+Tobi and Flurris take the warning seriously and cross into The Desert.
+
+> Tobi: I am judging the paths by how easy it would be to turn back.
+
+**43. day 2 — ruins-life-9**
+
+AMyriad stays still long enough to identify a loose shutter tapping against a wall, then continues carefully.
+
+**44. day 2 — item-confiscation**
+
+A possession has become the focus of the disagreement. Adur takes Squeaky Boots from Shadz in a dispute over the camp rules.
+
+**45. day 2 — ruins-life-4**
+
+A short length of packing cord protrudes from beneath a ledge in The Center Podium. Suggs follows it to signal mirror tucked behind the support and takes the find.
+
+**46. day 2 — group-shelter-build**
+
+Emma, Chaos, and Gulliver agree to make one shelter in The Center Podium. A sheet supported by Emma forms the roof, stones placed by Chaos keep it upright, and branches gathered by Gulliver screen the opening. They settle beneath it, leaving room to get out.
+
+**47. day 2 — wound-shoulder-escape**
+
+Solus reaches into an inspection hatch in The Desert. Siegfried catches the exposed shoulder with a broken tile, but Solus slams the hatch between them and gets away with a bleeding shoulder wound.
+
+**48. day 2 — tundra-hazard-2**
+
+Shield attempts to retreat when the frozen lake starts cracking. The near edge breaks first, dropping him into water from which there is no climbable ledge; Shield drowns. The same frozen lake where Joshi died earlier has now claimed Shield.
+
+> Shield: I am not ready to hear what the audience thought of it.
+
+**49. day 2 — weapon-machete-find**
+
+Ary eases an end cap off a flat reinforced shipping case in The Center Podium; the packing slides out with machete, which Ary keeps.
+
+**50. night 2 — arena-swamp-weather-start**
+
+Announcer: “Our regional cameras are covering the swamp water levels. The swamp water is rising nicely. Some of the lower paths are already beneath it. Lovely reflections for the night cameras.”
+
+**51. night 2 — travel-roam-forest**
+
+Pausing at a row of cut stumps to check the ground ahead, Shadz then continues into The Mountains.
+
+> Shadz: I can learn the ground. It is the people on it that keep changing.
+
+**52. night 2 — travel-roam-4-ruins**
+
+Keeping low beside a drainage ledge below the supply lanes, Chaos, Gulliver, Suggs and Emma pass out of sight of the main trail and into The Mountains.
+
+**53. night 2 — travel-roam-desert**
+
+Siegfried checks the way through the gravel strip beside a dry channel before committing to the crossing into The Center Podium.
+
+**54. night 2 — travel-roam-desert**
+
+Keeping low beside a breach in a low retaining wall, Solus passes out of sight of the main trail and into The Center Podium.
+
+**55. night 2 — travel-roam-ruins**
+
+Pausing at a service stair with a missing handrail to check the ground ahead, Ary then continues into The Desert.
+
+**56. night 2 — travel-roam-forest**
+
+Using a curtain of hanging roots, Adur emerges in The Center Podium beyond the boundary.
+
+**57. night 2 — weapon-crossbow-side-survived**
+
+Flurris stands at a resting hollow in The Desert when Tobi fires a crossbow bolt into Flurris's side; Flurris kicks its loose bedding across the attacker's footing and flees with a bleeding side wound.
+
+**58. night 2 — night-noise-on-watch**
+
+Settling down in The Center Podium, AMyriad feels something crawl beneath a sleeve. A harmless beetle is shaken free, but getting comfortable again takes much longer.
+
+**59. day 3 — arena-swamp-weather-end**
+
+Announcer: “A final weather note for this location. Water levels in the swamp are returning to normal. The boardwalks are reappearing, which should simplify everyone's entrances.”
+
+**60. day 3 — podium-resupply**
+
+Food, water and blankets arrive beneath a delivery drone. AMyriad opens the crate on the Center Podium, packs sealed rations, and leaves a water flask and an emergency blanket outside the crate for someone else.
+
+**61. day 3 — travel-roam-ruins**
+
+Solus checks the way through a turnstile wedged open with rubble before committing to the crossing into The Tundra.
+
+**62. day 3 — wound-side-escape**
+
+Gulliver corners Shadz beside an empty supply cache in The Mountains and stabs the side with a sharpened scrap. Shadz overturns the cache and scrambles over its lid, getting away with a bleeding side wound.
+
+**63. day 3 — mountains-contest-2**
+
+Suggs shoves the mountain shelter door into Chaos, knocking her onto the steps. Before Chaos can stand, Suggs pins her neck between the door and its frame. Chaos cannot breathe and dies at the shelter entrance.
+
+**64. day 3 — arena-contest-2**
+
+Tobi crawls beneath a loose cover beside the drainage shaft in The Desert. When Ary approaches to investigate, Tobi thrusts the cover upward against the knees, sending Ary into the shaft to die. At the drainage shaft, Ary has met an end at the very spot where Skizzo died earlier.
+
+**65. day 3 — ruins-life-2**
+
+Adur retraces the approach to a narrow passage between concrete barriers and finds a way across the boundary into The Swamp.
+
+> Adur: I would like a route that does not require an explanation afterward.
+
+**66. day 3 — travel-roam-desert**
+
+Flurris takes a longer way around by a row of half-buried route posts, arriving in The Swamp away from the main exit.
+
+**67. day 3 — mountains-hazard-2**
+
+At an abandoned quarry ramp, Emma grips a rotten rail that tears out of the rock. The resulting fall kills her.
+
+**68. day 3 — ruins-life-3**
+
+The locker door conceals more than empty shelving. Siegfried finds sealed rations in the station canteen locker.
+
+**69. night 3 — travel-roam-ruins**
+
+Keeping low beside a drainage ledge below the supply lanes, AMyriad passes out of sight of the main trail and into The Swamp.
+
+**70. night 3 — arena-contest-1**
+
+Flurris hides in a dry culvert in The Swamp while Adur watches from its upper bank. Adur rolls a discarded concrete pipe down the slope just as Flurris emerges; it strikes the exposed head with fatal force.
+
+**71. night 3 — arena-contest-3**
+
+Suggs braces a long shelter beam across an entrance in The Mountains to keep Gulliver out. Gulliver pulls the projecting end sideways; the far end swings into Suggs's head, causing a fatal injury.
+
+> Gulliver: I was watching what was in front of me. I forgot about the cameras.
+
+**72. night 3 — desert-life-2**
+
+Crouching through a gap beneath a sand-scoured fence, Tobi gets clear of the exposed route and into The Swamp.
+
+**73. night 3 — mountains-life-9**
+
+Shadz stays still long enough to identify small stones rattling down a distant gully, then continues carefully.
+
+**74. night 3 — tundra-life-4**
+
+A patch of undisturbed wrapping stands out beside a route post in The Tundra. Solus checks the hollow below and finds storm lantern to carry away.
+
+> Solus: Now I have to decide where to carry this so I can actually reach it.
+
+**75. night 3 — supplies-meal**
+
+Siegfried settles out of sight in The Center Podium and finishes a ration pack. There is one less meal to carry now.
+
+**76. day 4 — arena-mountains-closure-warning**
+
+Announcer: “A route reminder for the mountains: the lower-pass boundary lamps lead toward the Center Podium, and the scheduled rockfall will make this region permanently uninhabitable from tonight.”
+
+**77. day 4 — travel-warning-mountains**
+
+Heeding the broadcast, Shadz leaves the Mountains for The Center Podium.
+
+**78. day 4 — travel-warning-mountains**
+
+Gulliver packs up after the broadcast and moves from the Mountains into The Forest.
+
+**79. day 4 — wound-shoulder-bandage**
+
+At a polished marker plate in The Tundra, Solus uses the reflection to inspect the earlier shoulder wound. A poorly placed cloth binding is adjusted; the renewed pressure finally stops the bleeding.
+
+> Solus: I keep planning what I would do if the next sound were closer.
+
+**80. day 4 — weapon-bow-find**
+
+A damaged return tray at a quiver inspection stand in The Center Podium rattles when Siegfried checks it; bow and arrows has lodged behind the tray and is retrieved.
+
+**81. day 4 — boardwalk-plank-collapse**
+
+Tobi pauses on the boardwalk in The Swamp as the wood cracks. The plank drops into the channel with him; the current pulls him beneath the intact deck, where Tobi drowns.
+
+**82. day 4 — supplies-shared-meal**
+
+Adur watches the trail in The Swamp while AMyriad divides a ration pack. They each eat a share, leaving no food in the wrapper.
+
+> AMyriad: Depending on someone feels different when walking away is an option.
+
+**83. night 4 — arena-mountains-closure-start**
+
+Announcer: “The scheduled rockfall has reached its scheduled start in the mountains; keep the lower-pass boundary lamps in view while finishing your departure to the Center Podium.”
+
+**84. night 4 — travel-roam-ruins**
+
+Crouching through a low opening under the spectator ramp, Siegfried gets clear of the exposed route and into The Forest.
+
+**85. night 4 — weapon-axe-stolen**
+
+A loose panel momentarily separates Adur from AMyriad in The Swamp. Adur takes hand axe through the gap below, but AMyriad looks around its edge before the theft is hidden.
+
+> Adur: I am beginning to understand why nobody puts a bag down.
+
+**86. night 4 — tundra-life-1**
+
+Solus rests beneath the edge of a raised walkway, watching loose snow stream between the supports.
+
+**87. night 4 — explosive-find**
+
+Gulliver lifts the lid of a marked case in The Forest. Inside is one sealed arena charge with a remote, which Gulliver takes.
+
+> Gulliver: I would check the instructions, but I doubt anyone packed any.
+
+**88. night 4 — sponsor-gift-3**
+
+A silver sponsor parachute brings emergency blanket down beside Shadz in The Center Podium. Shadz collects the delivery for the cold ahead.
+
+**89. night 4 — arena-mountains-close**
+
+Announcer: “Our final mountains location notice confirms permanent closure from the scheduled rockfall; the boundary signs mark a region that cannot be entered again.”
+
+**90. day 5 — travel-roam-tundra**
+
+Using a wind-scoured strip of bare ground, Solus emerges in The Center Podium beyond the boundary.
+
+> Solus: The shortest route and the quietest route rarely seem to agree.
+
+**91. day 5 — travel-roam-swamp**
+
+Adur takes a longer way around by a bank reinforced with woven branches, arriving in The Desert away from the main exit.
+
+**92. day 5 — sponsor-gift-1**
+
+Gulliver catches up with a drifting sponsor parachute in The Forest and opens its food parcel, finding sealed rations inside.
+
+**93. day 5 — travel-roam-forest**
+
+Following a dry leaf-filled gully, Siegfried avoids the main approach and crosses into The Swamp.
+
+**94. day 5 — travel-roam-ruins**
+
+A disused delivery ramp behind the podium booths takes Shadz above the cluttered lanes and into The Tundra.
+
+**95. day 5 — weapon-knife-find**
+
+Behind an apron pegboard in The Swamp, AMyriad spots the outline of hunting knife through a torn panel and reaches around to collect it.
+
+**96. night 5 — travel-roam-swamp**
+
+AMyriad squeezes past a chain of firm reed hummocks and reaches The Forest.
+
+**97. night 5 — drainage-shaft-fall**
+
+Gulliver tries to jump the drainage shaft in The Forest instead of circling it. The far edge crumbles under the landing foot, and Gulliver falls to death inside the shaft.
+
+**98. night 5 — weapon-club-find**
+
+A damaged return tray at a grip-wrapping station in The Center Podium rattles when Solus checks it; wooden club has lodged behind the tray and is retrieved.
+
+**99. night 5 — swamp-life-5**
+
+From a shallow pool, Siegfried recovers Crooked Compass.
+
+**100. night 5 — travel-roam-desert**
+
+Following a shallow trench between windbreaks, Adur avoids the main approach and crosses into The Swamp.
+
+**101. night 5 — night-prepare-tundra**
+
+A low conifer in The Tundra has kept a patch of ground clear of snow. Shadz crawls beneath its lower branches, clears the sharp cones, and settles beside the trunk.
+
+> Shadz: I would like to stop counting how many places someone could be hiding.
+
+**102. day 6 — arena-contest-6**
+
+Adur hears Siegfried coughing above a high retaining wall in The Swamp and calls from below as though offering help. When Siegfried leans over to answer, Adur pulls the hanging collar forward; the fall onto the paved footing is fatal.
+
+> Siegfried: I would like to thank absolutely nobody responsible for the arena design.
+
+**103. day 6 — pitfall-survived**
+
+AMyriad drops through loose leaves into a pit in The Forest. The thigh catches a stake on the way down; AMyriad survives and hauls out on the roots with the cut still bleeding.
+
+**104. day 6 — ruins-life-4**
+
+In The Center Podium, a frayed packing strip catches Solus's eye beneath a fixed rack. Following it reveals signal mirror lodged in a shallow compartment; Solus retrieves it.
+
+**105. day 6 — weapon-axe-find**
+
+At a heavy tool mounting bracket in The Tundra, Shadz works hand axe upward until its remaining transport tie slips loose, then takes possession of the find.
+
+**106. night 6 — ruined-stairwell-fall**
+
+Solus leans on a rusted railing in the ruined stairwell in The Center Podium. Its bolts pull free, and Solus tumbles into the open center, dying on impact below. Hiro's earlier death and Solus's final moments share the same place: the ruined stairwell.
+
+**107. night 6 — weapon-mace-find**
+
+At a weighted-head inspection bench in The Swamp, Adur notices a fastening loop beneath the work surface and unthreads it to retrieve spiked mace.
+
+> Adur: That gives me one more option than I had before.
+
+**108. night 6 — weapon-crossbow-find**
+
+At a trigger inspection bench in The Tundra, Shadz notices a fastening loop beneath the work surface and unthreads it to retrieve crossbow.
+
+**109. night 6 — night-prepare-forest**
+
+The low entrance can be screened from the trail. AMyriad packs dry leaves beneath a fallen trunk in The Forest, checks both ends for tracks, and settles into the hollow with the entrance hidden by branches.
+
+**110. day 7 — arena-forest-closure-warning**
+
+Announcer: “A route reminder for the forest: the tree-line boundary lamps lead toward the Center Podium, and the controlled burn will make this region permanently uninhabitable from tonight.”
+
+**111. day 7 — travel-warning-forest**
+
+AMyriad leaves the Forest before the announced danger arrives, reaching The Center Podium.
+
+**112. day 7 — travel-roam-tundra**
+
+Shadz checks the way through a packed track beside a frozen ditch before committing to the crossing into The Center Podium.
+
+**113. day 7 — dinner-bell-activate**
+
+Adur stops behind a panel in The Swamp and carefully shifts weight from heel to toe. The squeaky boots make both halves of the movement audible.
+
+**114. night 7 — arena-forest-closure-start**
+
+Announcer: “The forest controlled burn is now active, and our camera view is centered on the marked woodland exits; finish the escape to the Center Podium while it is possible.”
+
+**115. night 7 — travel-roam-swamp**
+
+Crouching through a dry channel beneath a tilted platform, Adur gets clear of the exposed route and into The Desert.
+
+> Adur: The location has changed. The management is still questionable.
+
+**116. night 7 — sponsor-gift-2**
+
+An unsigned water parcel reaches AMyriad in The Center Podium. AMyriad opens the wrapping and takes the water flask inside.
+
+**117. night 7 — night-noise-on-watch**
+
+In The Center Podium, Shadz watches a moth repeatedly strike a camera housing. Following its tiny circuit makes it harder to keep track of the surrounding dark.
+
+**118. night 7 — arena-forest-close**
+
+Announcer: “For the rest of this game, the forest is unavailable because of the controlled burn; our coverage has moved to the surviving locations.”
+
+**119. finale 8 — final-converge-ruins-desert**
+
+Shadz and Adur circle a sunken rest area in The Center Podium, each trying to force the other down into it. Shadz jumps in first, catches Adur's trailing leg from below, and pulls him headfirst against the concrete rim; the impact kills him.
+
+**120. finale 8 — final-beacon-6**
+
+AMyriad notices Shadz approaching in the reflection of a camera cover in The Center Podium. Turning before the ambush lands, AMyriad wrenches a loose cover bracket into Shadz's head; the blow kills him.
+
+---
+
+# high-danger: variety-audit-high-danger-0
+
+24 tributes; 59 events; finishes Day 5.
+
+**1. opening 0 — opening-route-1**
+
+Hiro and Suggs get each other clear of the fighting and cross into The Forest.
+
+**2. opening 0 — opening-route-2**
+
+Akesel and Shield cover each other's retreat and move into The Swamp.
+
+**3. opening 0 — opening-bloodbath-1**
+
+AMyriad and Marcos converge on the same food crate. A sharpened scrap inside gives AMyriad a weapon: a stab to the chest kills Marcos beside the lid. AMyriad leaves with sealed rations and an emergency blanket.
+
+**4. opening 0 — opening-party-3-desert**
+
+Ary, Tobi and Skizzo leave the fighting behind and move toward The Desert.
+
+**5. opening 0 — opening-rations**
+
+There is barely room to crouch beside the central food stores. Solus slips beneath the fight for the central supplies and claims sealed rations.
+
+**6. opening 0 — opening-route-3**
+
+Helping each other out of the scramble, Jokin and Siegfried reach The Mountains.
+
+**7. opening 0 — opening-bloodbath-2**
+
+Chaos wrenches an iron bar out of the tool rack and turns on Rick. A blow to the head kills Rick at the rack. With rescue rope and an emergency blanket claimed, Chaos moves clear of the body.
+
+**8. opening 0 — opening-party-3-tundra**
+
+Unwilling to risk the scramble, Joshi, Flurris and Fauna head into The Tundra.
+
+**9. opening 0 — opening-party-3-swamp**
+
+Shadz, Gulliver and Kowalik take the swamp exit into The Swamp.
+
+**10. opening 0 — opening-bloodbath-3**
+
+The water cache leaves Emma beside a heavy tank when Luvy trips the approaching tribute. Luvy topples the tank onto Emma, killing Emma, then claims water flask and an emergency blanket.
+
+**11. opening 0 — weapon-club-opening**
+
+The weapon rack offers a wooden club to anyone who can reach it. Adur reaches the Center Podium weapon rack and claims a wooden club, then backs away from the scramble.
+
+**12. opening 0 — weapon-crossbow-opening**
+
+The opening scramble leaves a crossbow within reach on the Center Podium rack. Deaclaw takes it and backs away.
+
+**13. day 1 — berries-gather**
+
+Gulliver stops at a familiar berry patch in The Swamp, gathers a handful and tucks the leaf-wrapped fruit away.
+
+**14. day 1 — drainage-shaft-fall**
+
+Hiro attempts to lower the loose cover across the drainage shaft in The Forest to make a crossing. The cover slips during the lift and drags Hiro over the rim to a fatal landing.
+
+**15. day 1 — crossing-conflict-desert**
+
+Akesel crosses the boundary into The Desert and knocks Tobi into an empty cistern and dislodges the ladder; the second fall kills him.
+
+**16. day 1 — ruins-trap-escape**
+
+Adur releases a heavy shutter above AMyriad, who rolls beneath it and escapes through a side passage in the ruins.
+
+> AMyriad: There is Adur again. This shit is getting predictable.
+
+**17. day 1 — ruins-trap-fatal**
+
+Luvy covers a broken lift shaft with thin paneling in the ruins and draws Solus across it; the plunge onto the shaft floor is fatal.
+
+**18. day 1 — desert-contest-1**
+
+The tank’s side blocks the view around the checkpoint. Ary hides behind a desert checkpoint tank and stabs Skizzo in the abdomen as they round the corner. Skizzo crawls into the shade but dies from blood loss.
+
+**19. day 1 — knife-disarmed**
+
+Shield tries to jab a jagged scrap past a stack of crates in The Swamp. Shadz drops a loose crate lid onto the hand, and the scrap disappears between the stacked bases.
+
+**20. day 1 — forest-life-8**
+
+The undergrowth crowds the space between trees. Suggs studies a fork beneath a split oak and marks a rough route map on the ground.
+
+**21. day 1 — mountains-contest-1**
+
+There is no barrier at ankle height along the mountain path. Siegfried crouches behind the ridge checkpoint and sweeps a branch across Jokin's ankles. Jokin tumbles off the exposed mountain path; the fall is fatal.
+
+**22. day 1 — arena-contest-5**
+
+An empty ration tin in The Tundra becomes the subject of an angry dispute between Fauna and Joshi. Fauna forces its torn edge into Joshi's throat; the wound is fatal, and the tin is left behind.
+
+**23. day 1 — wound-thigh-fatal**
+
+At a narrow inspection step in The Center Podium, Deaclaw hooks Chaos's ankle and forces the thigh onto a jagged support. Chaos cannot pull clear before the bleeding proves fatal.
+
+**24. day 1 — swamp-hazard-2**
+
+The channel’s green edges disguise a softer center. Kowalik follows a reed channel into deep swamp mud. Each attempt to climb out sinks him farther, until the water closes overhead. Kowalik drowns.
+
+**25. day 1 — travel-roam-tundra**
+
+Flurris takes a longer way around by a row of exposed dark stones, arriving in The Center Podium away from the main exit.
+
+**26. night 1 — crossing-social-tundra**
+
+Siegfried meets Fauna in The Tundra and passes on directions after crossing the border.
+
+**27. night 1 — night-watch-2**
+
+A torn screen in The Swamp lets Gulliver and Shadz observe the lane without sitting in it. Gulliver holds the first position by the tear, then nudges Shadz awake to relieve the watch.
+
+> Shadz: Accepting help means letting someone close enough to do damage.
+
+**28. night 1 — arena-contest-2**
+
+AMyriad pelts the only clear path in The Center Podium with stones, driving Deaclaw backward into an open drainage shaft. Deaclaw dies in the fall.
+
+**29. night 1 — arena-contest-3**
+
+Luvy tries to shove Adur through an open fence section in The Center Podium. Adur sidesteps and forces Luvy onto the broken post instead; the resulting wound is fatal.
+
+**30. night 1 — night-prepare-ruins**
+
+Using a corner of the broadcast booth for the night, Flurris traces the exit by touch before lying down.
+
+**31. night 1 — desert-trap-escape**
+
+Akesel kicks sand down a narrow trench toward Ary, but Ary scrambles onto a buried service pipe and runs clear.
+
+**32. night 1 — forest-boar-fatal**
+
+The gap beside a root bank in The Forest is too narrow to dodge the boar Suggs has cornered. Its charge and tusks leave fatal injuries.
+
+**33. night 1 — travel-roam-swamp**
+
+Shield checks the way through a line of old piling tops before committing to the crossing into The Desert.
+
+**34. day 2 — arena-swamp-weather-warning**
+
+Announcer: “Before tonight’s programme, a word about the swamp water levels. A water-level adjustment is scheduled for the swamp tonight. Do keep an eye on those boardwalks; we would like you in frame.”
+
+**35. day 2 — travel-warning-2-swamp**
+
+Gulliver and Shadz take the warning seriously and cross into The Desert.
+
+**36. day 2 — arena-contest-1**
+
+Siegfried pretends to surrender behind a low wall in The Tundra. When Fauna leans over to accept, Siegfried drags her across the edge and into a fatal headfirst fall.
+
+**37. day 2 — arena-contest-4**
+
+Adur feints toward the closing gate in The Center Podium, then catches AMyriad's ankle with an outstretched foot. AMyriad trips beneath the gate. Adur rolls away as it falls, killing AMyriad.
+
+**38. day 2 — desert-contest-2**
+
+The abandoned excavation begins where the sand slopes away. Akesel chases Ary across a dune toward an abandoned quarry, then throws a stone at his legs. Ary loses footing at the quarry lip and falls to a fatal landing below.
+
+**39. day 2 — omen-find**
+
+Beside a shallow puddle, Flurris notices three warning scratches repeated in the reflection of an overhanging marker.
+
+**40. day 2 — old-well-collapse**
+
+Shield peers into the old well beside the supply tank in The Desert. A loose section of the rim collapses, dropping him into the shaft. The fall is fatal.
+
+> Shield: I would like my belongings returned without an inspirational speech.
+
+**41. night 2 — arena-swamp-weather-start**
+
+Announcer: “The swamp water levels has joined the current programme. The swamp water is rising nicely. Some of the lower paths are already beneath it. Lovely reflections for the night cameras.”
+
+**42. night 2 — travel-roam-ruins**
+
+Crouching through a low opening under the spectator ramp, Adur gets clear of the exposed route and into The Tundra.
+
+> Adur: It is difficult to know what counts as progress here.
+
+**43. night 2 — desert-hazard-escape**
+
+Akesel hears a desert cistern lid cracking beneath one foot and steps back onto its stone rim before it falls inward.
+
+**44. night 2 — crossing-conflict-ruins**
+
+Siegfried crosses the boundary into The Center Podium and pushes a loose masonry block from a low wall onto Flurris; the head injury kills him.
+
+**45. night 2 — weapon-club-find**
+
+Shadz slides a warped cover away from a club-rack alcove in The Desert, exposing wooden club and lifting it free to carry.
+
+**46. night 2 — berries-eat**
+
+Gulliver settles out of sight in The Desert, unwraps the saved berries and eats the entire handful.
+
+**47. day 3 — arena-swamp-weather-end**
+
+Announcer: “Our coverage of the swamp water levels is complete. Water levels in the swamp are returning to normal. The boardwalks are reappearing, which should simplify everyone's entrances.”
+
+**48. day 3 — podium-resupply**
+
+A drone brings another crate to the Center Podium. Siegfried opens the crate on the Center Podium and collects sealed rations, leaving a water flask and an emergency blanket on the ground for another tribute.
+
+> Siegfried: Getting supplies is one problem. Looking worth robbing is another.
+
+**49. day 3 — travel-roam-desert**
+
+Akesel takes a longer way around by a row of half-buried route posts, arriving in The Swamp away from the main exit.
+
+**50. day 3 — weapon-machete-find**
+
+At a clearing-tool bracket in The Desert, Shadz works machete upward until its remaining transport tie slips loose, then takes possession of the find.
+
+**51. day 3 — desert-hazard-1**
+
+The water checkpoint is not visible from this stretch of desert. Gulliver walks across the desert through the midday heat, searching for a water checkpoint. Disoriented, Gulliver circles the same dune until collapsing. Heatstroke proves fatal before shelter is found.
+
+**52. day 3 — tundra-hazard-2**
+
+Snow hides an old hole in the frozen lake from Adur. The covering crust collapses, and the smooth ice offers no grip; Adur drowns beside the opening.
+
+**53. night 3 — travel-roam-ruins**
+
+Siegfried passes through an empty ticket-check lane and joins the boundary path into The Swamp.
+
+> Siegfried: I keep checking behind me. Knowing the way forward is only half the problem.
+
+**54. night 3 — desert-life-2**
+
+Following a shallow trench between windbreaks, Shadz avoids the main approach and crosses into The Swamp.
+
+**55. night 3 — tripwire-noticed**
+
+Akesel sees a tripwire just before reaching it in The Swamp, steps back and works around the edge of the trail.
+
+**56. day 4 — ally-decoy**
+
+Siegfried is hidden beside a narrow entry in The Swamp. Shadz bangs a loose sheet against its frame farther along the path, keeping the search away from the entry until it passes.
+
+> Shadz: For a moment, this almost felt cooperative.
+
+**57. day 4 — travel-roam-swamp**
+
+Akesel takes a longer way around by a bank reinforced with woven branches, arriving in The Center Podium away from the main exit.
+
+**58. night 4 — crossing-conflict-swamp**
+
+Akesel crosses the boundary into The Swamp and tips a landing beneath Siegfried, trapping him between the planks and the bank to drown.
+
+> Siegfried: I hope the management is listening. I have feedback.
+
+**59. finale 5 — final-beacon-5**
+
+Shadz pins Akesel to the ground in The Swamp. Akesel reaches a jagged ceramic fragment beside a footing and drives it upward into Shadz's throat, inflicting a fatal wound before rolling free.
+
+> Akesel: I can hear myself breathing now. That is the first thing I noticed.
+
+---
+
+# dramatic: variety-audit-dramatic-0
+
+24 tributes; 109 events; finishes Day 7.
+
+**1. opening 0 — weapon-mace-opening**
+
+A quick reach into the Center Podium rack gives Chaos a spiked mace. Chaos retreats with it.
+
+**2. opening 0 — opening-party-4-swamp**
+
+Flurris, Gulliver, Jokin and AMyriad all take the safe way out toward The Swamp.
+
+**3. opening 0 — opening-pull-to-cover**
+
+The exposed rack leaves the concrete looking unusually welcoming. Fauna sees Adur freeze as a fight breaks out at the central water rack. Grabbing his sleeve, Fauna pulls him behind a concrete supply barrier before a thrown stone hits the rack.
+
+**4. opening 0 — opening-route-2**
+
+Helping each other out of the scramble, Hiro and Akesel reach The Swamp.
+
+> Akesel: There are worse things than finding a reason to trust someone.
+
+**5. opening 0 — opening-bloodbath-3**
+
+The heavy tank above the water cache tips under Shield's shove. Siegfried, tripped by Shield moments before, cannot get clear. The tank lands with fatal force, leaving Shield to claim water flask and an emergency blanket.
+
+**6. opening 0 — opening-route-5**
+
+Solus and Emma help each other take the tundra exit into The Tundra.
+
+**7. opening 0 — weapon-club-opening**
+
+Marcos reaches the Center Podium weapon rack and claims a wooden club, then backs away from the scramble.
+
+**8. opening 0 — opening-crate-dodge**
+
+A low opening remains between the crowded supply boxes. Shadz swings a sharpened scrap at Tobi over the central supply crates. Tobi ducks beneath the swing and kicks a loose crate into the path, escaping the attack empty-handed.
+
+**9. opening 0 — opening-party-4-mountains**
+
+Skizzo, Kowalik, Suggs and Deaclaw take the mountains exit into The Mountains.
+
+**10. opening 0 — weapon-knife-opening**
+
+Joshi takes a hunting knife from the Center Podium weapon rack and retreats from the scramble.
+
+**11. opening 0 — opening-party-3-tundra**
+
+Rick, Luvy and Ary take the same exit from the bloodbath into The Tundra.
+
+**12. day 1 — wound-side-escape**
+
+Marcos is squeezing past a fence post in The Center Podium when Fauna drives a pointed slat into the side. Marcos pulls the loose fence section down between them and escapes while the side keeps bleeding.
+
+**13. day 1 — arena-contest-1**
+
+Akesel deliberately leaves footprints circling an empty recess in The Swamp. Flurris follows the loop and meets Akesel coming the other way with a broken tile; a blow to the temple is fatal.
+
+> Flurris: I assume the exit paperwork is shorter than the entrance paperwork.
+
+**14. day 1 — mountains-wolves-fatal**
+
+Skizzo descends into a dead-end gully in The Mountains. Wolves block the only exit and close in; Skizzo cannot get past them and dies in the attack.
+
+**15. day 1 — wound-thigh-escape**
+
+Ary waits for Luvy to kneel at a boot snag in The Tundra, then stabs the exposed thigh with a broken fitting. Luvy abandons the snagged strip of clothing and crawls away before another strike; the thigh keeps bleeding.
+
+**16. day 1 — weapon-machete-find**
+
+Adur tilts a loose base at a broad-blade tool rack in The Center Podium, freeing machete from a jammed retaining clip before taking it along.
+
+> Adur: It is useful to have something concrete to work with.
+
+**17. day 1 — weapon-knife-fatal**
+
+Joshi lies still in a shallow hollow in The Center Podium, then rises and stabs Chaos in the chest with the hunting knife when Chaos approaches; Chaos dies from the hunting knife injury after mistaking the stillness for safety.
+
+**18. day 1 — mountains-hazard-1**
+
+Kowalik takes a narrow mountain ledge beneath an unstable scree slope. Falling stones knock him off the path, and the fall is fatal.
+
+**19. day 1 — tripwire-noticed**
+
+In The Center Podium, Shadz pauses at a wire stretched across the path. A careful detour avoids whatever it was meant to trigger.
+
+**20. day 1 — arena-contest-4**
+
+Hiro changes direction through an empty shelter in The Swamp, then braces the door when AMyriad follows. Trapped at the neck in the narrowing opening, AMyriad suffocates before the pressure is released.
+
+> Hiro: I keep going over the last few seconds. There is no useful reason to.
+
+**21. day 1 — arena-contest-3**
+
+Suggs tries to shove Deaclaw through an open fence section in The Mountains. Deaclaw sidesteps and forces Suggs onto the broken post instead; the resulting wound is fatal.
+
+**22. day 1 — ruins-trap-escape**
+
+Tobi knocks a support from a ruined balcony, but Shield grips a window frame and climbs into the building before the floor falls.
+
+**23. day 1 — swamp-life-8**
+
+At a swamp route post, Jokin uses reed shadows to work out which walkway loops back to the same bank.
+
+**24. day 1 — weapon-axe-find**
+
+Behind a split timber block in The Tundra, Rick spots the outline of hand axe through a torn panel and reaches around to collect it.
+
+**25. day 1 — tundra-hazard-escape**
+
+Solus drops into a deep tundra drift, packs the snow into steps, and slowly climbs back to the marked path.
+
+**26. day 1 — swamp-life-4**
+
+The post’s dangling contents stand out against the reeds. Gulliver finds rescue rope hanging from an old survey post.
+
+**27. day 1 — tundra-life-7**
+
+Emma tests the footing on a snowdrift hiding uneven ground, then chooses a firm place to rest.
+
+> Emma: There is a difference between being alone and knowing you are alone.
+
+**28. night 1 — tundra-trap-escape**
+
+Emma lunges beside an open tundra melt pool, but Solus slides beneath the outstretched arms and scrambles onto a gravel bank.
+
+**29. night 1 — mountains-life-4**
+
+The little shelter is an obvious place to check for equipment. Deaclaw finds emergency blanket tucked into a ranger shelter.
+
+> Deaclaw: Getting supplies is one problem. Looking worth robbing is another.
+
+**30. night 1 — ruins-contest-2**
+
+Fauna waits behind the emergency beacon in The Center Podium with a broken pipe. A blow sends Adur through a missing floor panel into the basement; the fall is fatal.
+
+**31. night 1 — swamp-hazard-escape**
+
+Hiro feels a swamp railing tear loose and drops to hands and knees before edging back toward a solid support.
+
+**32. night 1 — wound-shoulder-fatal**
+
+Beside a signal frame in The Tundra, Rick twists Luvy into a sharp mounting plate that opens the shoulder. Luvy gets around the frame but dies from the loss of blood.
+
+> Rick: The quiet afterward is worse than I expected.
+
+**33. night 1 — travel-roam-ruins**
+
+Pausing at a service stair with a missing handrail to check the ground ahead, Tobi then continues into The Forest.
+
+**34. night 1 — bad-directions**
+
+Beside a viewing slit in The Center Podium, Marcos promises Shadz a useful sightline from the other side. The slit faces an opaque backing plate; Shadz comes back with less trust in the advice.
+
+**35. night 1 — weapon-knife-find**
+
+Ary tilts a loose base at a leather knife-roll frame in The Tundra, freeing hunting knife from a jammed retaining clip before taking it along.
+
+**36. night 1 — ruins-life-1**
+
+Joshi brushes grit from a concrete step, sits down, and watches dust drift through the abandoned concourse.
+
+> Joshi: I am trying to remember a normal evening. The ordinary details are surprisingly difficult.
+
+**37. night 1 — supplies-blanket-night**
+
+Shield wraps the emergency blanket around his shoulders in The Center Podium and settles down for the night with it tucked close.
+
+**38. night 1 — travel-roam-swamp**
+
+Pausing at the shore beside a grounded punt to check the ground ahead, Akesel then continues into The Desert.
+
+> Akesel: I would like the new location to have fewer complications.
+
+**39. night 1 — wound-side-fatal**
+
+Beside an empty trough in The Swamp, Gulliver pulls Jokin sideways onto a pointed support fitting. The deep side wound keeps bleeding until Jokin dies against the stand.
+
+**40. day 2 — arena-mountains-weather-warning**
+
+Announcer: “Evening plans should account for the mountain rain. Mountain residents, freezing rain is expected tonight. The ridges may become slippery. Our aerial coverage should remain excellent.”
+
+**41. day 2 — travel-warning-mountains**
+
+After the warning, Deaclaw takes an exit from the Mountains into The Center Podium.
+
+**42. day 2 — water-truce**
+
+A shallow runoff channel in The Swamp gives Hiro and Gulliver a reason to pause. They clear a small obstruction together, then take turns drinking from the moving water.
+
+**43. day 2 — wound-side-assistance**
+
+Shadz guides Marcos into the lee of a fixed panel in The Center Podium, where the earlier side wound can be treated without struggling against flapping clothing. The two finish a secure dressing, and the bleeding ceases.
+
+**44. day 2 — crossing-social-ruins**
+
+Entering The Center Podium, Solus shows Joshi a safer route.
+
+> Joshi: I did not expect the practical part to feel quite so personal.
+
+**45. day 2 — tundra-life-6**
+
+The snow shelter has room for more than footprints. Rick leaves hand axe inside a marked snow shelter.
+
+**46. day 2 — ruins-life-4**
+
+Fauna spots a hinge where two panels should meet in The Center Podium. The small inspection pocket behind it contains signal mirror, which Fauna claims.
+
+**47. day 2 — weapon-knife-stolen**
+
+In The Tundra, Emma slides an empty basket toward Ary as a distraction, then seizes hunting knife. Ary looks up quickly enough to identify the thief.
+
+**48. day 2 — forest-hazard-escape**
+
+Tobi hears a boar rooting in the forest undergrowth and waits behind a broad tree until it wanders away.
+
+> Tobi: I keep planning what I would do if the next sound were closer.
+
+**49. day 2 — supplies-blanket-windbreak**
+
+Using the emergency blanket as a windscreen, Shield rests out of the breeze in The Center Podium. Before leaving, Shield retrieves it.
+
+**50. day 2 — drainage-shaft-fall**
+
+Akesel crouches at the drainage shaft in The Desert, checking whether its ladder is usable. The top rung tears free under a testing pull, tipping Akesel forward into the shaft; the fall kills him.
+
+**51. night 2 — arena-mountains-weather-start**
+
+Announcer: “Our regional cameras are covering the mountain rain. Freezing rain has reached the mountains. The paths have acquired quite a shine. A little care with your footing will keep the action moving.”
+
+**52. night 2 — travel-roam-4-ruins**
+
+Shield, Fauna, Shadz and Joshi squeeze past the gap behind the loudspeaker tower and reach The Swamp.
+
+**53. night 2 — travel-roam-2-tundra**
+
+Ary and Rick take a longer way around by a row of exposed dark stones, arriving in The Center Podium away from the main exit.
+
+**54. night 2 — travel-roam-2-swamp**
+
+Using the upper rail of a sunken boardwalk, Gulliver and Hiro emerge in The Forest beyond the boundary.
+
+> Hiro: The map leaves out quite a lot of the unpleasant details.
+
+**55. night 2 — travel-roam-tundra**
+
+Crouching through a gap between two ice-coated barriers, Emma gets clear of the exposed route and into The Center Podium.
+
+**56. night 2 — travel-roam-ruins**
+
+Beside an idle supply conveyor, Marcos follows the loading passage out into The Tundra.
+
+**57. night 2 — forest-life-1**
+
+The trees carry footsteps farther than faces. Tobi waits beneath the canopy until the distant footsteps fade.
+
+**58. night 2 — mutual-watch**
+
+Solus and Deaclaw test how far a soft whistle carries across their resting spot in The Center Podium. Once both can hear it, they adopt it as a shared warning.
+
+**59. day 3 — arena-mountains-weather-end**
+
+Announcer: “We can return this region to its usual conditions. The mountain rain has stopped. We can see the passes again, and a few of you have selected some very ambitious routes.”
+
+**60. day 3 — podium-resupply**
+
+The delivery beacon marks a new shipment of food, water and blankets. Emma opens the crate on the Center Podium and takes sealed rations from the shipment, setting a water flask and an emergency blanket out for another tribute.
+
+**61. day 3 — ruins-life-13**
+
+Wind moves through gaps in the walls. Deaclaw, Ary, and Solus agree to use a chalk arrow on a concrete pillar as a meeting marker if they get separated.
+
+> Solus: Depending on someone feels different when walking away is an option.
+
+**62. day 3 — travel-roam-swamp**
+
+Keeping low beside a row of exposed walkway braces, Fauna passes out of sight of the main trail and into The Center Podium.
+
+**63. day 3 — explosive-find**
+
+Hiro searches a marked case beside a trail in The Forest, finding one sealed arena charge bundled with its remote.
+
+**64. day 3 — weapon-crossbow-find**
+
+A damaged return tray at a bolt-channel testing station in The Swamp rattles when Joshi checks it; crossbow has lodged behind the tray and is retrieved.
+
+**65. day 3 — crossing-conflict-ruins**
+
+Marcos crosses the boundary into The Center Podium and kicks a corroded stair tread loose beneath Rick; the fatal fall breaks his neck.
+
+**66. day 3 — forest-contest-1**
+
+Gulliver releases a bent sapling beside a forest marker, driving its splintered end into Tobi with fatal force.
+
+**67. day 3 — arena-contest-2**
+
+Shadz balances a loose plank across the drainage shaft in The Swamp and invites Shield to cross. Once Shield reaches the middle, Shadz twists the plank sideways; the fall is fatal.
+
+**68. night 3 — crossing-conflict-forest**
+
+Marcos crosses the boundary into The Forest and jams a sharpened branch through a gap in Hiro's cover, inflicting a fatal chest wound.
+
+**69. night 3 — broken-watch**
+
+The agreed watch is the only warning the shelter is supposed to need. Deaclaw leaves an agreed watch in The Center Podium without waking Solus. Footsteps on the approach finally wake him; Solus hides beneath the shelter floor until they pass, then discovers the lookout is empty.
+
+> Solus: The next promise will need a little more behind it.
+
+**70. night 3 — supplies-meal**
+
+The food in Emma's pack finally gets used in The Center Podium. Emma eats the rations down to the last crumb.
+
+**71. night 3 — weapon-mace-find**
+
+Fauna eases an end cap off a deep braced transit box in The Center Podium; the packing slides out with spiked mace, which Fauna keeps.
+
+**72. night 3 — ruins-hazard-2**
+
+The storeroom door closes behind Ary and sticks in its swollen frame. A damaged generator pours smoke into the room. Ary cannot force the exit and dies from smoke inhalation.
+
+**73. night 3 — travel-roam-swamp**
+
+Joshi takes a longer way around by a bank reinforced with woven branches, arriving in The Desert away from the main exit.
+
+> Joshi: The location has changed. The management is still questionable.
+
+**74. night 3 — swamp-crocodile-fatal**
+
+A low crossing in The Swamp forces Shadz into deep water. A crocodile seizes him below the boards; unable to surface, Shadz drowns.
+
+**75. night 3 — forest-hazard-1**
+
+Gulliver tests a hollow forest stump for a resting place. The dead tree leaning above it shifts, and a falling section of trunk kills him.
+
+**76. day 4 — arena-forest-closure-warning**
+
+Announcer: “Our forest cameras will face the marked woodland exits tonight: the controlled burn begins at nightfall, so please leave for the Center Podium before then.”
+
+**77. day 4 — travel-warning-forest**
+
+After the warning, Marcos takes an exit from the Forest into The Center Podium.
+
+**78. day 4 — travel-roam-ruins**
+
+Solus checks the way through a turnstile wedged open with rubble before committing to the crossing into The Desert.
+
+**79. day 4 — travel-roam-ruins**
+
+Deaclaw takes the service bridge behind the scoreboard, reaching The Tundra beyond its far ramp.
+
+**80. day 4 — arena-contest-4**
+
+Emma runs toward a high retaining wall in The Center Podium and suddenly crouches. The pursuing Fauna trips across the lowered back and strikes the wall headfirst, dying from the impact.
+
+**81. day 4 — desert-hazard-escape**
+
+Joshi takes cover behind a buried tank during a desert dust squall and waits for the trail markers to reappear.
+
+**82. night 4 — arena-forest-closure-start**
+
+Announcer: “Fire is spreading beneath the canopy; our forest coverage now follows the marked woodland exits toward the Center Podium, so anyone still departing should keep moving.”
+
+**83. night 4 — travel-roam-ruins**
+
+A disused delivery ramp behind the podium booths takes Emma above the cluttered lanes and into The Swamp.
+
+**84. night 4 — false-footsteps**
+
+A lowered camera hood in The Desert casts a broad shadow across the ground. Joshi waits inside it as Solus searches the brighter passage on the other side.
+
+**85. night 4 — dinner-bell-find**
+
+Deaclaw finds a pair of boots in a supply crate and tries them on. The soles squeak with the first few steps.
+
+> Deaclaw: I would check the instructions, but I doubt anyone packed any.
+
+**86. night 4 — night-noise-on-watch**
+
+Marcos notices that a blinking camera light in The Center Podium briefly reveals the ground around it. Between flashes, even familiar shapes become difficult to place.
+
+**87. night 4 — arena-forest-close**
+
+Announcer: “The forest burn has closed every return trail, which removes the forest from the remaining destination list; the programme continues in open regions.”
+
+**88. day 5 — supplies-blanket-windbreak**
+
+Deaclaw secures the emergency blanket close to the ground in The Tundra and rests behind it. The makeshift windbreak is folded and carried away.
+
+**89. day 5 — swamp-crocodile-escape**
+
+Water breaks around a crocodile at Emma's feet in The Swamp. Emma grabs the raised boardwalk and hauls up, escaping without injury.
+
+> Emma: I would like to stop counting how many places someone could be hiding.
+
+**90. day 5 — arena-contest-1**
+
+Joshi pretends to surrender behind a low wall in The Desert. When Solus leans over to accept, Joshi drags him across the edge and into a fatal headfirst fall.
+
+> Solus: I would like my complaint about the arena entered into the record.
+
+**91. day 5 — tripwire-noticed**
+
+Marcos spots a tripwire beside a trail marker in The Center Podium and backs away, choosing another approach.
+
+**92. night 5 — travel-roam-desert**
+
+Joshi takes a longer way around by a row of half-buried route posts, arriving in The Center Podium away from the main exit.
+
+**93. night 5 — pitfall-survived**
+
+A hidden pit catches Emma on a trail in The Swamp. A broken stake leaves a bleeding thigh wound, but roots along the wall let her climb out alive.
+
+**94. night 5 — ruins-hazard-escape**
+
+Marcos tests a dark corridor floor with a loose brick, exposing a covered maintenance pit before stepping onto it.
+
+**95. night 5 — supplies-blanket-night**
+
+A rustle of foil marks Deaclaw's bedtime in The Tundra. The emergency blanket is drawn close and used as a cover.
+
+**96. day 6 — arena-tundra-closure-warning**
+
+Announcer: “Please finish any tundra arrangements before tonight's fatal temperature drop; the pole-marked exit is the way to the Center Podium, and there will be no return segment here.”
+
+**97. day 6 — travel-warning-tundra**
+
+Heeding the broadcast, Deaclaw leaves the Tundra for The Mountains.
+
+> Deaclaw: A sign pointing somewhere is not the same thing as a recommendation.
+
+**98. day 6 — travel-roam-ruins**
+
+Keeping low beside a drainage ledge below the supply lanes, Marcos passes out of sight of the main trail and into The Swamp.
+
+**99. day 6 — ruins-life-1**
+
+Joshi chooses a patch of intact flooring beside the broadcast booth and spends a quiet stretch loosening cramped fingers.
+
+**100. day 6 — wound-thigh-bandage**
+
+Beneath a fixed camera in The Swamp, Emma ignores the lens and concentrates on the earlier thigh injury. A sleeve becomes a pressure pad; after a long, uncomfortable wait, the wound has stopped bleeding.
+
+**101. night 6 — arena-tundra-closure-start**
+
+Announcer: “We are filming the tundra from the boundary as the fatal temperature drop gets under way; anyone still inside should continue along the pole-marked exit to the Center Podium.”
+
+**102. night 6 — travel-roam-swamp**
+
+Following a raised culvert lip, Emma avoids the main approach and crosses into The Center Podium.
+
+**103. night 6 — weapon-spear-find**
+
+At a spear-shaft inspection bench in The Mountains, Deaclaw notices a fastening loop beneath the work surface and unthreads it to retrieve spear.
+
+**104. night 6 — swamp-hazard-2**
+
+The channel’s green edges disguise a softer center. Marcos follows a reed channel into deep swamp mud. Each attempt to climb out sinks him farther, until the water closes overhead. Marcos drowns.
+
+**105. night 6 — weapon-machete-find**
+
+Behind a brush-cutting test frame in The Center Podium, Joshi spots the outline of machete through a torn panel and reaches around to collect it.
+
+**106. night 6 — arena-tundra-close**
+
+Announcer: “The tundra is permanently closed after the fatal temperature drop; the pole-marked exit is no longer an entrance, so please choose an open region.”
+
+**107. day 7 — weapon-machete-stolen**
+
+Emma offers to steady machete while Joshi crosses a low rail in The Center Podium, then keeps the weapon. From the far side, Joshi has no doubt who stole it.
+
+**108. day 7 — mountains-hazard-2**
+
+Deaclaw skirts a mountain scree fan whose lower edge is unsupported. The whole strip slides into the gully, carrying him to a fatal landing.
+
+> Deaclaw: I would like to thank absolutely nobody responsible for the arena design.
+
+**109. finale 7 — final-beacon-3**
+
+Joshi and Emma struggle beneath a camera turntable in The Center Podium. Joshi releases its damaged catch, swinging the heavy mount into Emma with fatal force.
+
+---
+
+# absurd: variety-audit-absurd-0
+
+24 tributes; 110 events; finishes Day 7.
+
+**1. opening 0 — opening-party-3-desert**
+
+Unwilling to risk the scramble, Emma, AMyriad and Siegfried head into The Desert.
+
+**2. opening 0 — opening-party-4-mountains**
+
+Gulliver, Rick, Shadz and Tobi take the same exit from the bloodbath into The Mountains.
+
+**3. opening 0 — opening-water**
+
+The water rack is quieter than the weapons rack, at least for a moment. Akesel secures water flask while louder contestants argue about strategy.
+
+> Akesel: I will take the small advantages when they appear.
+
+**4. opening 0 — opening-bloodbath-2**
+
+Marcos wrenches an iron bar out of the tool rack and turns on Skizzo. A blow to the head kills Skizzo at the rack. With rescue rope and an emergency blanket claimed, Marcos moves clear of the body.
+
+**5. opening 0 — opening-party-3-swamp**
+
+Luvy, Solus and Kowalik all take the safe way out toward The Swamp.
+
+**6. opening 0 — opening-rations**
+
+The shortest opening plan begins below everyone else’s elbows. Ary slips beneath the fight for the central supplies and claims sealed rations.
+
+**7. opening 0 — opening-route-4**
+
+Deaclaw and Flurris cover each other's retreat and move into The Desert.
+
+> Flurris: For a moment, this almost felt cooperative.
+
+**8. opening 0 — opening-route-3**
+
+Joshi and Jokin help each other take the mountains exit into The Mountains.
+
+**9. opening 0 — weapon-spear-opening**
+
+The spear remains on the rack beside the opening scramble. Shield reaches the Center Podium weapon rack and claims a spear, then backs away from the scramble.
+
+**10. opening 0 — opening-under-table**
+
+The rations draw attention away from the table legs. Hiro reaches across the central ration table to grab Chaos. Chaos slides underneath it, tips the table toward Hiro, and crawls clear of the falling supplies.
+
+**11. opening 0 — opening-route-2**
+
+Adur and Suggs help each other take the swamp exit into The Swamp.
+
+**12. opening 0 — weapon-club-opening**
+
+The weapon rack offers a wooden club to anyone who can reach it. Fauna reaches the Center Podium weapon rack and claims a wooden club, then backs away from the scramble.
+
+> Fauna: That qualifies as a small win in my book.
+
+**13. day 1 — omen-find**
+
+Fauna follows a line of deliberately overturned pebbles to a flat stone bearing three fresh warning scratches.
+
+**14. day 1 — group-food-search**
+
+AMyriad spots a supply locker in The Desert and calls Emma and Siegfried over. With Emma watching the approach, the other two lift the warped lid and retrieve three sealed ration packs. The food is divided equally, one pack each.
+
+**15. day 1 — weapon-club-find**
+
+A damaged return tray at a grip-wrapping station in The Desert rattles when Deaclaw checks it; wooden club has lodged behind the tray and is retrieved.
+
+**16. day 1 — mountains-hazard-2**
+
+Joshi crawls beneath a wedged slab on the mountain path. Grit shifts under the knees, and the slide over the exposed edge is fatal.
+
+**17. day 1 — tripwire-noticed**
+
+A glint at ankle height stops Gulliver in The Mountains. The wire across the trail is left untouched as Gulliver goes around it.
+
+> Gulliver: I cannot tell whether I am being patient or just putting off a decision.
+
+**18. day 1 — group-decoy-rescue**
+
+The search for Ary in The Center Podium turns into a fruitless chase after Chaos. A shouted challenge and conspicuous footsteps lure Shield away from the hiding place. Ary leaves behind the trail bank, and Chaos breaks away through cover without anyone being injured.
+
+> Chaos: For a brief moment there, it almost seemed cooperative.
+
+**19. day 1 — whispering-tin-find**
+
+The Whispering Tin looks portable enough to become someone’s problem. Tobi acquires Whispering Tin. The lid seems to mutter about the competition.
+
+**20. day 1 — supplies-drink**
+
+Akesel stops in The Center Podium and drinks the remaining clean water from the flask, setting the empty container aside.
+
+**21. day 1 — shelter-offer**
+
+At a resting spot in The Mountains, Rick helps Shadz remove the sharp fragments hidden beneath a layer of dust. They check the ground by touch before trusting it again.
+
+**22. day 1 — weapon-bow-find**
+
+At a stringing bench in The Mountains, Jokin notices a fastening loop beneath the work surface and unthreads it to retrieve bow and arrows.
+
+> Jokin: I am calling that a small victory.
+
+**23. day 1 — desert-hazard-2**
+
+While Flurris examines a desert access shaft, the crumbling lip gives way. The fall dislodges its sand-filled cover, burying him and causing fatal suffocation.
+
+> Flurris: Please do not put cheerful music over the replay.
+
+**24. day 1 — mutual-watch**
+
+A reflective panel in The Swamp lets Adur watch behind Solus while Solus covers the open lane. They decide the paired lookout is worth maintaining.
+
+**25. day 1 — swamp-life-4**
+
+Luvy discovers rescue rope suspended from an old survey post.
+
+**26. day 1 — ruins-life-9**
+
+Broken fittings line the edges of the passage. Hiro stops to listen to a loose shutter tapping against a wall, waiting until the source of the noise is clear.
+
+**27. day 1 — ruins-hazard-1**
+
+Marcos reaches the damaged landing in the central stairwell just as it separates from the wall. The collapse drops Marcos into the basement, causing fatal injuries.
+
+**28. day 1 — bad-directions**
+
+Suggs directs Kowalik to a supposed exit concealed by a hanging panel in The Swamp. Behind it is a shallow tool recess, and Kowalik returns while Suggs is still enjoying the trick.
+
+**29. night 1 — swamp-crocodile-fatal**
+
+In The Swamp, Adur lowers into the water beside a damaged walkway. A crocodile takes hold and pulls him under. Adur drowns beneath the boards.
+
+**30. night 1 — wound-side-fatal**
+
+Suggs swings a loose inspection grille into Solus at waist height in The Swamp. Its sharp corner tears the side, and Solus dies while trying to brace the wound against the grille.
+
+**31. night 1 — swamp-trap-escape**
+
+Luvy tears up a plank to cut off Kowalik, but Kowalik uses the next support post to leap the gap and flee.
+
+**32. night 1 — shelter-repaid**
+
+Shelter solves only half the problem of sleeping safely. Shadz repays the earlier shelter favor by taking the exposed end of a trail hollow in The Mountains. Rick rests behind the bank while Shadz watches both approaches, waking him only when it is safe to exchange places.
+
+**33. night 1 — travel-roam-ruins**
+
+Beside an idle supply conveyor, Hiro follows the loading passage out into The Mountains.
+
+**34. night 1 — wound-thigh-escape**
+
+AMyriad refuses to let Deaclaw pass a narrow trail gap in The Desert. A sharpened stick opens the thigh during the struggle; AMyriad abandons the position and retreats, alive but bleeding from the thigh.
+
+**35. night 1 — ruins-trap-escape**
+
+Chaos releases a heavy shutter above Ary, who rolls beneath it and escapes through a side passage in the ruins.
+
+> Ary: Somehow we keep ending up in each other’s story. Damn it. — talking about Chaos.
+
+**36. night 1 — group-door-rescue**
+
+A fallen beam buys Shield and Fauna precious seconds in The Center Podium. After pulling Fauna into a supply shelter away from Akesel, Shield braces the door with it. They squeeze through the rear opening before Akesel gets inside, with nobody hurt.
+
+> Shield: Depending on someone feels different when walking away is an option.
+
+**37. night 1 — item-confiscation**
+
+The camp discussion has begun to threaten personal property. Tobi takes bow and arrows from Jokin in a dispute over the camp rules.
+
+**38. night 1 — supplies-meal**
+
+In The Desert, Emma unwraps the rations and eats slowly, finishing the pack before returning to the trail.
+
+**39. night 1 — night-noise-on-watch**
+
+In The Mountains, Gulliver watches a moth repeatedly strike a camera housing. Following its tiny circuit makes it harder to keep track of the surrounding dark.
+
+**40. night 1 — explosive-find**
+
+Siegfried opens a marked equipment case in The Desert and takes a sealed arena charge with its matching remote.
+
+**41. day 2 — swamp-contest-2**
+
+Suggs shoves Kowalik onto a broken swamp survey fitting; the resulting wound kills him.
+
+**42. day 2 — weapon-axe-find**
+
+Behind a split timber block in The Center Podium, Ary spots the outline of hand axe through a torn panel and reaches around to collect it.
+
+**43. day 2 — travel-roam-mountains**
+
+Using a zigzag of abandoned survey stakes, Hiro emerges in The Forest beyond the boundary.
+
+> Hiro: The location has changed. The management is still questionable.
+
+**44. day 2 — travel-roam-desert**
+
+Keeping low beside a breach in a low retaining wall, Siegfried passes out of sight of the main trail and into The Swamp.
+
+**45. day 2 — arena-contest-3**
+
+Fauna braces a long shelter beam across an entrance in The Center Podium to keep Shield out. Shield pulls the projecting end sideways; the far end swings into Fauna's head, causing a fatal injury.
+
+> Fauna: I would like to thank absolutely nobody responsible for the arena design.
+
+**46. day 2 — shared-map**
+
+A cable running beside the path in The Mountains gives Rick a way to describe the turns ahead to Shadz. They trace its visible course without leaving their meeting place.
+
+**47. day 2 — swamp-life-3**
+
+From a watertight supply drum, Luvy pulls water flask.
+
+**48. day 2 — ally-decoy**
+
+AMyriad is hidden beside a narrow entry in The Desert. Deaclaw bangs a loose sheet against its frame farther along the path, keeping the search away from the entry until it passes.
+
+**49. day 2 — arena-contest-6**
+
+Akesel drapes a discarded sack over a camera lens in The Center Podium and hides on the far side of its post. When Chaos approaches to investigate the conspicuous cover, Akesel attacks with a broken ceramic fitting, causing a fatal chest wound.
+
+**50. day 2 — drainage-shaft-fall**
+
+Emma follows a narrow inspection ledge inside the drainage shaft in The Desert, hoping it connects to another exit. It ends abruptly around the bend, and the next step sends her into a fatal fall.
+
+**51. day 2 — mountains-hazard-escape**
+
+Gulliver feels the mountain path crumble and drops flat, gripping a rock before the ledge falls away. After testing each handhold, Gulliver crawls back to the switchback.
+
+**52. day 2 — whispering-tin-activate**
+
+Tobi turns the Whispering Tin upside down in The Mountains to silence it. The lid whispers that Jokin would enjoy the struggle, and the irritation settles on the named rival.
+
+> Tobi: The equipment comes with more complications than expected.
+
+**53. night 2 — travel-roam-4-mountains**
+
+Using a zigzag of abandoned survey stakes, Gulliver, Rick, Shadz and Tobi emerge in The Forest beyond the boundary.
+
+**54. night 2 — travel-roam-2-ruins**
+
+Pausing at a service stair with a missing handrail to check the ground ahead, Akesel and Ary then continue into The Mountains.
+
+> Ary: A change of scenery gives me something else to worry about.
+
+**55. night 2 — travel-roam-desert**
+
+Deaclaw takes a longer way around by a row of half-buried route posts, arriving in The Swamp away from the main exit.
+
+**56. night 2 — travel-roam-desert**
+
+AMyriad squeezes past a buried service road and reaches The Swamp.
+
+**57. night 2 — travel-roam-mountains**
+
+Jokin takes a longer way around by a disused quarry ramp, arriving in The Tundra away from the main exit.
+
+**58. night 2 — travel-roam-ruins**
+
+A disused delivery ramp behind the podium booths takes Shield above the cluttered lanes and into The Desert.
+
+**59. night 2 — travel-roam-2-swamp**
+
+Suggs and Luvy take a longer way around by a bank reinforced with woven branches, arriving in The Desert away from the main exit.
+
+**60. night 2 — crooked-compass-find**
+
+Hiro takes the Crooked Compass. The needle swings past every sensible route before settling on a troubling alternative.
+
+> Hiro: Getting supplies is one problem. Looking worth robbing is another.
+
+**61. night 2 — dinner-bell-find**
+
+Siegfried tries on a pair of rubber-soled boots. A short walk around the crate comes with a squeak at every step.
+
+**62. day 3 — arena-forest-closure-warning**
+
+Announcer: “We recommend checking the tree-line boundary lamps while the forest route is still available: the controlled burn starts tonight and this region will remain closed afterward.”
+
+**63. day 3 — podium-resupply-arrival**
+
+Fresh supplies arrive at the central ground by cargo drone. Shadz follows the delivery beacon back to the Center Podium and packs sealed rations for the road, placing a water flask and an emergency blanket beside the crate for the next visitor.
+
+**64. day 3 — travel-warning-4-forest**
+
+With trouble announced, Gulliver, Rick, Tobi and Hiro head into The Mountains together.
+
+**65. day 3 — desert-life-2**
+
+Using the shadowed side of a long dune, Luvy emerges in The Swamp beyond the boundary.
+
+**66. day 3 — tundra-hazard-1**
+
+An ice-coated service door will not open for Jokin in the tundra. Repeated attempts waste the remaining strength; Jokin collapses outside and freezes to death.
+
+> Jokin: I have no thanks whatsoever for the people behind this arena design.
+
+**67. day 3 — wound-thigh-assistance**
+
+Deaclaw guides AMyriad into the lee of a fixed panel in The Swamp, where the earlier thigh wound can be treated without struggling against flapping clothing. The two finish a secure dressing, and the bleeding ceases.
+
+**68. day 3 — sponsor-gift-1**
+
+A descending sponsor canopy catches Akesel’s attention in The Mountains. Akesel reaches the food delivery and claims sealed rations.
+
+**69. day 3 — supplies-meal**
+
+Ary pauses beside the trail in The Mountains and eats the sealed rations. The empty wrapper goes back into the pack.
+
+**70. day 3 — desert-rock-arch-collapse**
+
+Seeking cover in The Desert, Shield crouches beneath the rock arch. A heavy section shears away overhead and strikes him; Shield dies on impact.
+
+**71. day 3 — old-well-collapse**
+
+Suggs peers into the old well beside the supply tank in The Desert. A loose section of the rim collapses, dropping her into the shaft. The fall is fatal.
+
+**72. day 3 — travel-roam-swamp**
+
+Keeping low beside a row of exposed walkway braces, Siegfried passes out of sight of the main trail and into The Desert.
+
+> Siegfried: I am judging the paths by how easy it would be to turn back.
+
+**73. night 3 — arena-forest-closure-start**
+
+Announcer: “Fire is spreading beneath the canopy, so the forest boundary is the destination for anyone still crossing; follow the tree-line boundary lamps out toward the Center Podium.”
+
+**74. night 3 — whispering-tin-activate**
+
+A rattle from the Whispering Tin in The Mountains becomes a warning that Rick is planning something. Tobi takes the suggestion badly without learning any actual plan.
+
+**75. night 3 — travel-roam-mountains**
+
+Ary retraces the approach to the inside edge of a switchback and finds a way across the boundary into The Tundra.
+
+**76. night 3 — arena-contest-4**
+
+Deaclaw feints toward the closing gate in The Swamp, then catches Luvy's ankle with an outstretched foot. Luvy trips beneath the gate. Deaclaw rolls away as it falls, killing Luvy.
+
+**77. night 3 — night-watch-2**
+
+A torn screen in The Mountains lets Gulliver and Hiro observe the lane without sitting in it. Gulliver holds the first position by the tear, then nudges Hiro awake to relieve the watch.
+
+**78. night 3 — weapon-machete-find**
+
+Akesel tilts a loose base at a broad-blade tool rack in The Mountains, freeing machete from a jammed retaining clip before taking it along.
+
+> Akesel: I will count that as a little victory.
+
+**79. night 3 — desert-life-8**
+
+The trail dips between banks of loose sand. Siegfried studies a fork beside a faded service-road sign and marks a rough route map on the ground.
+
+**80. night 3 — ruins-hazard-2**
+
+Smoke from the generator reaches Shadz inside a ruined storeroom. The door has jammed in its frame. Unable to get out, Shadz dies from smoke inhalation.
+
+**81. night 3 — swamp-crocodile-escape**
+
+A crocodile surges toward AMyriad at the water's edge in The Swamp. AMyriad scrambles onto a raised walkway before it reaches the bank.
+
+**82. night 3 — arena-forest-close**
+
+Announcer: “For the rest of this game, the forest is unavailable because of the controlled burn; our coverage has moved to the surviving locations.”
+
+**83. day 4 — weapon-crossbow-find**
+
+Behind a bolt-stop target frame in The Desert, Siegfried spots the outline of crossbow through a torn panel and reaches around to collect it.
+
+**84. day 4 — swamp-hazard-2**
+
+The reeds conceal how deep the soft ground becomes. AMyriad follows a reed channel into deep swamp mud. Each attempt to climb out sinks him farther, until the water closes overhead. AMyriad drowns.
+
+**85. day 4 — weapon-club-find**
+
+Ary tilts a loose base at a wooden baton stand in The Tundra, freeing wooden club from a jammed retaining clip before taking it along.
+
+**86. day 4 — multikill-rope-bridge**
+
+The bridge anchors sit within reach of the mountain bank. Rick loosens the anchor of a mountain rope bridge and waits on the bank. When Hiro and Akesel reach its middle, Rick pulls the remaining pin. Both fall into the ravine and die on impact.
+
+**87. day 4 — travel-roam-swamp**
+
+Deaclaw squeezes past a chain of firm reed hummocks and reaches The Desert.
+
+**88. day 4 — mountains-hazard-1**
+
+The exposed path runs directly below loose rock. Tobi takes a narrow mountain ledge beneath an unstable scree slope. Falling stones knock him off the path, and the fall is fatal.
+
+> Tobi: I would prefer a chair to another question.
+
+**89. day 4 — omen-find**
+
+A strip of bark hangs at eye level beside the path. Gulliver lifts it and finds three warning scratches in the wood beneath.
+
+**90. night 4 — wound-side-escape**
+
+Deaclaw corners Siegfried beside an empty supply cache in The Desert and stabs the side with a sharpened scrap. Siegfried overturns the cache and scrambles over its lid, getting away with a bleeding side wound.
+
+**91. night 4 — false-footsteps**
+
+At a fork in The Mountains, Gulliver pulls a loose screen across one branch as if hiding there. Rick circles the screen while Gulliver stays behind the fork marker itself.
+
+**92. night 4 — travel-roam-tundra**
+
+Keeping low beside a cleared passage beneath a raised walkway, Ary passes out of sight of the main trail and into The Mountains.
+
+> Ary: I keep checking behind me. Knowing the way forward is only half the problem.
+
+**93. day 5 — travel-roam-desert**
+
+Pausing at the hard ground around a salt pan to check the ground ahead, Siegfried then continues into The Swamp.
+
+**94. day 5 — travel-roam-2-mountains**
+
+Rick and Gulliver squeeze past a ledge beneath an overhanging slab and reach The Tundra.
+
+**95. day 5 — weapon-mace-find**
+
+Ary looks beneath a raised impact-testing deck in The Mountains and finds spiked mace secured inside a low access frame; undoing the catch releases it to carry away.
+
+**96. day 5 — weapon-knife-find**
+
+Deaclaw slides a warped cover away from a fitted sheath drawer in The Desert, exposing hunting knife and lifting it free to carry.
+
+**97. night 5 — supplies-meal**
+
+Siegfried settles out of sight in The Swamp and finishes a ration pack. There is one less meal to carry now.
+
+**98. night 5 — drainage-shaft-fall**
+
+Deaclaw leans into the drainage shaft in The Desert to inspect a glint below. Loose grit gives way beneath the supporting foot, sending him into a fatal fall. At the drainage shaft, Deaclaw has met an end at the very spot where Emma died earlier.
+
+**99. night 5 — crossing-conflict-tundra**
+
+Ary crosses the boundary into The Tundra and pushes a frozen barrier onto Gulliver, causing fatal crushing injuries.
+
+**100. night 5 — tundra-hazard-escape**
+
+Rick hears a frozen shelter beam splitting and ducks outside before the roof drops onto the empty resting place.
+
+**101. day 6 — arena-tundra-closure-warning**
+
+Announcer: “The next tundra camera angle is from outside the boundary; tonight's fatal temperature drop makes the region permanently unsafe, and the tundra guide lights show the exit to the Center Podium.”
+
+**102. day 6 — travel-warning-2-tundra**
+
+Ary and Rick heed the warning in the Tundra and head into The Mountains.
+
+**103. day 6 — berries-forage**
+
+Siegfried works along a berry bush in The Swamp, picking its ripe fruit and eating it before returning to the path.
+
+**104. night 6 — arena-tundra-closure-start**
+
+Announcer: “We are filming the tundra from the boundary as the fatal temperature drop gets under way; anyone still inside should continue along the pole-marked exit to the Center Podium.”
+
+**105. night 6 — swamp-crocodile-escape**
+
+Siegfried notices eyes above the water in The Swamp and pulls onto the high boardwalk. A crocodile lunges below, missing him.
+
+**106. night 6 — supply-bag-feint**
+
+Beside a sorting table in The Mountains, Rick snaps a length of discarded cord toward Ary. The cord catches the table leg instead, giving Ary room to retreat.
+
+**107. night 6 — arena-tundra-close**
+
+Announcer: “For the rest of this game, the tundra is unavailable because of the fatal temperature drop; our coverage has moved to the surviving locations.”
+
+**108. day 7 — travel-roam-swamp**
+
+Siegfried takes a longer way around by a bank reinforced with woven branches, arriving in The Center Podium away from the main exit.
+
+> Siegfried: I am trying to take this one place at a time.
+
+**109. day 7 — mountains-wolves-fatal**
+
+Ary descends into a dead-end gully in The Mountains. Wolves block the only exit and close in; Ary cannot get past them and dies in the attack.
+
+**110. finale 7 — final-converge-mountains-ruins**
+
+Rick repeatedly gives ground around a low wall in The Center Podium, making Siegfried hurry each turn. When Siegfried finally vaults the wall, Rick catches an ankle and sends him headfirst into its stone base; the injury is fatal.
+
+---
+
+# mixed-traits: variety-audit-mixed-traits-0
+
+24 tributes; 112 events; finishes Day 8.
+
+**1. opening 0 — opening-crate-dodge**
+
+The central supplies offer gaps too low for a standing retreat. Adur swings a sharpened scrap at Kowalik over the central supply crates. Kowalik ducks beneath the swing and kicks a loose crate into the path, escaping the attack empty-handed.
+
+**2. opening 0 — weapon-machete-opening**
+
+Suggs takes a machete from the Center Podium rack before backing out of the crowd.
+
+**3. opening 0 — opening-water**
+
+A small container may matter once the podium is far behind. Fauna secures water flask while louder contestants argue about strategy.
+
+**4. opening 0 — opening-route-2**
+
+Solus and Ary help each other take the swamp exit into The Swamp.
+
+**5. opening 0 — opening-party-3-mountains**
+
+Jokin, Skizzo and Luvy take the same exit from the bloodbath into The Mountains.
+
+> Jokin: I have strong feelings about how that should be edited.
+
+**6. opening 0 — weapon-knife-opening**
+
+There is a hunting knife among the central weapons. Rick reaches the Center Podium weapon rack and claims a hunting knife, then backs away from the scramble.
+
+> Rick: I am checking the label before I celebrate.
+
+**7. opening 0 — opening-party-4-swamp**
+
+Akesel, Joshi, Shield and Flurris all take the safe way out toward The Swamp.
+
+**8. opening 0 — opening-bloodbath-3**
+
+The water cache leaves Deaclaw beside a heavy tank when Emma trips the approaching tribute. Emma topples the tank onto Deaclaw, killing Deaclaw, then claims water flask and an emergency blanket.
+
+**9. opening 0 — opening-pull-to-cover**
+
+The concrete barrier sits just beyond the central water rack. Chaos sees Shadz freeze as a fight breaks out at the central water rack. Grabbing his sleeve, Chaos pulls him behind a concrete supply barrier before a thrown stone hits the rack.
+
+**10. opening 0 — opening-party-3-forest**
+
+Marcos, Gulliver and AMyriad leave the opening chaos together and reach The Forest.
+
+**11. opening 0 — opening-bloodbath-2**
+
+The central tool rack provides Tobi with an iron bar. A swing catches Siegfried in the head with fatal force. Tobi gathers rescue rope and an emergency blanket before leaving.
+
+**12. opening 0 — opening-route-6**
+
+Leaving the scramble behind, Hiro moves toward The Desert.
+
+> Hiro: There is no discreet way to get lost with this many cameras.
+
+**13. day 1 — forest-life-1**
+
+The undergrowth interrupts long views along the path. AMyriad waits beneath the canopy until the distant footsteps fade.
+
+> AMyriad: I keep planning what I would do if the next sound were closer.
+
+**14. day 1 — group-shelter-build**
+
+Joshi, Akesel, and Solus agree to make one shelter in The Swamp. A sheet supported by Joshi forms the roof, stones placed by Akesel keep it upright, and branches gathered by Solus screen the opening. They settle beneath it, leaving room to get out.
+
+**15. day 1 — crossing-social-ruins**
+
+Hiro takes the podium crossing into The Center Podium and shares directions with Rick.
+
+**16. day 1 — travel-roam-ruins**
+
+Adur retraces the approach to a narrow passage between concrete barriers and finds a way across the boundary into The Forest.
+
+**17. day 1 — arena-contest-5**
+
+Skizzo offers Luvy a view into an apparently untouched delivery recess in The Mountains. Once Luvy bends inside, Skizzo wedges the neck against the opening until Luvy dies.
+
+**18. day 1 — false-footsteps**
+
+At a fork in The Center Podium, Tobi pulls a loose screen across one branch as if hiding there. Chaos circles the screen while Tobi stays behind the fork marker itself.
+
+**19. day 1 — whispering-tin-find**
+
+The Whispering Tin draws attention for reasons beyond its usefulness. Kowalik acquires Whispering Tin. The lid seems to mutter about the competition.
+
+**20. day 1 — swamp-life-4**
+
+A dangling shape breaks the upright line of the post. Flurris finds rescue rope hanging from an old survey post.
+
+**21. day 1 — dinner-bell-find**
+
+Ary finds a pair of boots in a supply crate and pulls them on. The first step squeaks against the ground.
+
+> Ary: I would rather people guessed what I have.
+
+**22. day 1 — weapon-machete-kill-and-loot**
+
+Suggs sets the machete beside an empty delivery recess in The Center Podium; Emma reaches it first and strikes Suggs in the neck with the seized machete as Suggs turns back, killing her and keeping the weapon.
+
+**23. day 1 — arena-contest-6**
+
+Marcos stops in The Forest to work a trapped heel out of a fence gap. Gulliver notices the delay and attacks with a loose fence post; the blow kills Marcos before the foot comes free.
+
+**24. day 1 — weapon-mace-find**
+
+Shield looks beneath a raised impact-testing deck in The Swamp and finds spiked mace secured inside a low access frame; undoing the catch releases it to carry away.
+
+**25. day 1 — sponsor-gift-1**
+
+A sponsor parachute drifts into The Mountains. Jokin opens the food parcel to find sealed rations.
+
+**26. day 1 — weapon-club-find**
+
+A damaged return tray at a grip-wrapping station in The Center Podium rattles when Shadz checks it; wooden club has lodged behind the tray and is retrieved.
+
+**27. day 1 — supplies-drink**
+
+The water flask comes out during Fauna's rest in The Center Podium. Fauna finishes its contents and sets the empty flask down.
+
+**28. night 1 — wound-side-escape**
+
+At an empty rest shelter in The Center Podium, Emma drives a pointed brace into Kowalik's side. Kowalik forces the door outward between them and retreats behind it, surviving with the side bleeding.
+
+**29. night 1 — wound-thigh-escape**
+
+Adur stabs Gulliver's thigh beside a shelter in The Forest. Gulliver throws dirt into the attacker's eyes and crawls beneath the wall, escaping with the thigh still bleeding.
+
+**30. night 1 — arena-contest-4**
+
+Shield changes direction through an empty shelter in The Swamp, then braces the door when Flurris follows. Trapped at the neck in the narrowing opening, Flurris suffocates before the pressure is released.
+
+**31. night 1 — arena-contest-1**
+
+Ary hides in a dry culvert in The Swamp while Akesel watches from its upper bank. Akesel rolls a discarded concrete pipe down the slope just as Ary emerges; it strikes the exposed head with fatal force.
+
+**32. night 1 — night-shelter-shared**
+
+A broad camera housing in The Center Podium blocks the glare on one side of a resting spot. Chaos gestures Rick into the darker half and keeps the open approach in view.
+
+**33. night 1 — ally-decoy**
+
+Shadz notices a search moving toward Tobi in The Center Podium and rattles a distant gate. The search turns toward the gate while Tobi stays hidden behind a panel.
+
+> Shadz: Give this partnership a name, and absolutely no rehearsal time.
+
+**34. night 1 — supplies-shared-meal**
+
+Skizzo watches the trail in The Mountains while Jokin divides a ration pack. They each eat a share, leaving no food in the wrapper.
+
+> Jokin: Some people make this place bearable. Some make it worse.
+
+**35. night 1 — ruins-contest-1**
+
+Fauna hooks Hiro's ankle beneath a closing station gate in The Center Podium and rolls clear. The gate crushes Hiro to death.
+
+> Fauna: There is less and less margin to work with.
+
+**36. night 1 — forest-hazard-1**
+
+AMyriad follows a forest path beneath two interlocked dead trees. One slips free and brings the other down; the impact is fatal.
+
+**37. night 1 — swamp-trap-fatal**
+
+Joshi drops a heavy walkway brace onto Solus below the swamp platform, striking his head and killing him.
+
+> Joshi: Preparation would have taken some of the surprise out of it.
+
+**38. day 2 — arena-mountains-weather-warning**
+
+Announcer: “Mountain residents, freezing rain is expected tonight. The ridges may become slippery. Our aerial coverage should remain excellent.”
+
+**39. day 2 — travel-warning-2-mountains**
+
+With trouble announced, Jokin and Skizzo head into The Center Podium together.
+
+**40. day 2 — ruins-life-1**
+
+Kowalik studies faded seat numbers along the ruined stand until the small task becomes an excuse to remain still.
+
+**41. day 2 — perceptive-snare**
+
+Akesel notices a taut cord beneath the leaves in The Swamp. Following it to a weighted snare, Akesel marks the danger with a branch and takes a wide detour.
+
+> Akesel: The small details tend to become large problems if you ignore them.
+
+**42. day 2 — travel-roam-ruins**
+
+Tobi takes a longer way around by the back of a disused camera gantry, arriving in The Tundra away from the main exit.
+
+**43. day 2 — weapon-mace-fatal**
+
+Shield waits inside an empty delivery recess in The Swamp and strikes Joshi in the head with the spiked mace when Joshi reaches in; the spiked mace attack kills him at the opening.
+
+**44. day 2 — wound-shoulder-fatal**
+
+At a dividing rail in The Center Podium, Fauna traps Emma's forearm and drives a sharp scrap into the shoulder. Emma escapes the grip, but the shoulder wound causes a fatal collapse nearby.
+
+> Fauna: I need a moment before I look at the camera.
+
+**45. day 2 — supply-bag-feint**
+
+Beside a sorting table in The Center Podium, Shadz snaps a length of discarded cord toward Rick. The cord catches the table leg instead, giving Rick room to retreat.
+
+**46. day 2 — ruins-hazard-escape**
+
+Chaos hears glass sliding from a ruined window and presses beneath its stone sill until the fragments stop falling.
+
+> Chaos: It is hard to rest when you have to choose when to close your eyes.
+
+**47. day 2 — knife-disarmed**
+
+In The Forest, Gulliver brings a pointed bracket down toward Adur. Adur catches the wrist against an upright post and pulls free as the bracket falls into a narrow footing.
+
+**48. night 2 — arena-mountains-weather-start**
+
+Announcer: “The mountain rain has joined the current programme. Freezing rain has reached the mountains. The paths have acquired quite a shine. A little care with your footing will keep the action moving.”
+
+**49. night 2 — travel-roam-2-swamp**
+
+Pausing at the shore beside a grounded punt to check the ground ahead, Shield and Akesel then continue into The Center Podium.
+
+**50. night 2 — travel-roam-4-ruins**
+
+Pausing at a service stair with a missing handrail to check the ground ahead, Chaos, Kowalik, Rick and Fauna then continue into The Swamp.
+
+**51. night 2 — travel-roam-forest**
+
+Using a curtain of hanging roots, Gulliver emerges in The Center Podium beyond the boundary.
+
+> Gulliver: I would like to see the next few steps before committing to them.
+
+**52. night 2 — travel-roam-ruins**
+
+An exit arrow under a hinged sign guides Shadz through the podium delivery gate into The Desert.
+
+> Shadz: Every departure deserves a camera angle.
+
+**53. night 2 — weapon-machete-find**
+
+Adur slides a warped cover away from a long blade-sheath slot in The Forest, exposing machete and lifting it free to carry.
+
+**54. night 2 — weapon-axe-find**
+
+Behind a split timber block in The Tundra, Tobi spots the outline of hand axe through a torn panel and reaches around to collect it.
+
+**55. night 2 — bad-directions**
+
+A faded equipment label in The Center Podium becomes a fake route marker in Skizzo's account. Jokin follows it into a storage bay with no onward path and doubles back to challenge the invented directions.
+
+**56. day 3 — arena-mountains-weather-end**
+
+Announcer: “That concludes the scheduled mountain rain update. The mountain rain has stopped. We can see the passes again, and a few of you have selected some very ambitious routes.”
+
+**57. day 3 — podium-resupply**
+
+A cargo drone lowers a fresh supply crate onto the podium. Skizzo opens the crate on the Center Podium, claims sealed rations, and leaves a water flask and an emergency blanket on the ground for whoever comes next.
+
+**58. day 3 — travel-roam-forest**
+
+Adur retraces the approach to an abandoned timber-dragging track and finds a way across the boundary into The Center Podium.
+
+**59. day 3 — swamp-crocodile-fatal**
+
+The water beside a broken boardwalk in The Swamp looks still until Rick steps in. A crocodile seizes a leg and drags him under to a fatal drowning.
+
+> Rick: I would like a minute before anyone asks about highlights.
+
+**60. day 3 — swamp-life-2**
+
+Chaos takes a longer way around by a bank reinforced with woven branches, arriving in The Center Podium away from the main exit.
+
+**61. day 3 — travel-roam-ruins**
+
+Shield uses the walkway around a silent equipment hoist to reach the outward trail into The Desert.
+
+**62. day 3 — ruins-hazard-1**
+
+Jokin reaches the damaged landing in the central stairwell just as it separates from the wall. The collapse drops Jokin into the basement, causing fatal injuries.
+
+**63. day 3 — wound-side-fatal**
+
+At a sorting chute in The Swamp, Fauna pushes Kowalik against its broken side flange. The flange opens a deep side wound, killing him before there is room to get clear.
+
+**64. day 3 — ruins-life-2**
+
+Waiting for a podium camera to turn away, Akesel then crosses the exposed exit apron into The Forest.
+
+> Akesel: Different terrain gives you different possibilities.
+
+**65. day 3 — travel-roam-tundra**
+
+Tobi checks the way through a packed track beside a frozen ditch before committing to the crossing into The Center Podium.
+
+**66. day 3 — ruins-life-5**
+
+Gulliver retrieves machete from the dusty broadcast floor.
+
+**67. day 3 — travel-roam-desert**
+
+Using the shadowed side of a long dune, Shadz emerges in The Swamp beyond the boundary.
+
+**68. night 3 — night-prepare-forest**
+
+Both ends of the hollow open onto the forest floor. Akesel packs dry leaves beneath a fallen trunk in The Forest, checks both ends for tracks, and settles into the hollow with the entrance hidden by branches.
+
+**69. night 3 — supplies-meal**
+
+The food in Skizzo's pack finally gets used in The Center Podium. Skizzo eats the rations down to the last crumb.
+
+**70. night 3 — weapon-machete-thigh-survived**
+
+Adur cuts Chaos across the thigh with the machete from behind an embankment in The Center Podium; Chaos stays low, crawls along the far side of the bank, and escapes the encounter with the thigh wound untreated.
+
+**71. night 3 — weapon-club-thigh-survived**
+
+Shadz strikes Fauna's thigh with the wooden club, tearing the skin against a jagged edge during a sudden encounter at a rubble heap in The Swamp; Fauna rolls down its loose side, putting the mound between them while the thigh wound remains untreated.
+
+**72. night 3 — weapon-machete-shoulder-survived**
+
+Tobi climbs a low mound in The Center Podium for a better view when Gulliver cuts Tobi across the shoulder with the machete; Tobi scatters loose gravel down the approach and escapes along the crest while Gulliver struggles for footing, leaving the shoulder bleeding.
+
+> Tobi: We keep circling back to each other, and I am sick of this damn loop.
+
+**73. night 3 — desert-life-7**
+
+Low ripples run across the dune faces. Shield tests the footing on a steep bank of shifting sand, then chooses a firm place to rest.
+
+**74. day 4 — arena-desert-closure-warning**
+
+Announcer: “The desert departure is tonight's priority shot; complete the service-road exit before nightfall brings the permanent cooling shutdown and closes the region for the rest of the games.”
+
+**75. day 4 — travel-warning-desert**
+
+Heeding the broadcast, Shield leaves the Desert for The Center Podium.
+
+**76. day 4 — travel-roam-ruins**
+
+Through a removable panel in the podium queue fence, Skizzo reaches a clear path into The Swamp.
+
+**77. day 4 — nemesis-staredown**
+
+Recognizing Gulliver at a trail shelter in The Center Podium, Adur bars the doorway with a foot. Neither will come closer. A long silence ends with Gulliver backing away and the grudge still unresolved.
+
+**78. day 4 — ruins-trap-escape**
+
+Chaos pushes a cracked pillar toward Tobi, who slips through a gap in the ruined hall and disappears behind the rubble.
+
+**79. day 4 — tripwire-noticed**
+
+In The Forest, Akesel pauses at a wire stretched across the path. A careful detour avoids whatever it was meant to trigger.
+
+> Akesel: Most things give you a warning if you pay enough attention.
+
+**80. day 4 — wound-shoulder-escape**
+
+Fauna grabs Shadz's collar in The Swamp and drives a jagged fragment into the shoulder. Shadz ducks out of the loose outer layer, leaving it in Fauna's grip while escaping with an untreated shoulder wound.
+
+> Shadz: I can feel the old argument warming up already. Fantastic. Just fantastic.
+
+**81. night 4 — arena-desert-closure-start**
+
+Announcer: “The desert exit sequence is in progress because the permanent cooling shutdown has begun; the service-road exit is the remaining direction of travel toward the Center Podium.”
+
+**82. night 4 — travel-roam-ruins**
+
+Gulliver squeezes past the gap behind the loudspeaker tower and reaches The Forest.
+
+**83. night 4 — travel-roam-swamp**
+
+Fauna squeezes past a chain of firm reed hummocks and reaches The Center Podium.
+
+**84. night 4 — night-prepare-swamp**
+
+Reeds provide a layer between the resting place and wet soil. Shadz tests a raised patch of ground in The Swamp and lays reeds over the damp soil. Before settling down, Shadz checks that the route back to the boardwalk stays above the water.
+
+> Shadz: I catch myself rehearsing explanations for decisions I have not made yet.
+
+**85. night 4 — crossing-conflict-forest**
+
+Adur crosses the boundary into The Forest and cuts a strained vine holding a dead trunk above Akesel; the falling timber kills him.
+
+**86. night 4 — omen-find**
+
+Skizzo brushes grit from a boundary post in The Swamp. Three warning scratches interrupt the painted route number.
+
+**87. night 4 — weapon-crossbow-find**
+
+Tobi follows a faded equipment tag to a padded stock cover in The Center Podium, unfolding the material to find and claim crossbow.
+
+> Tobi: Now I have to decide where to carry this so I can actually reach it.
+
+**88. night 4 — ruins-contest-2**
+
+Chaos wedges a foot beneath a loose floor slab in The Center Podium as Shield approaches. The tilted edge trips Shield, allowing Chaos to deliver a fatal blow with the detached slab.
+
+> Chaos: Some moments do not improve with an explanation.
+
+**89. night 4 — arena-desert-close**
+
+Announcer: “Fatal heat has closed the desert after the cooling shutdown, which removes the desert from the remaining destination list; the programme continues in open regions.”
+
+**90. day 5 — travel-roam-ruins**
+
+Beside an idle supply conveyor, Chaos follows the loading passage out into The Swamp.
+
+**91. day 5 — travel-roam-swamp**
+
+Shadz retraces the approach to a narrow levee through the reeds and finds a way across the boundary into The Center Podium.
+
+**92. day 5 — travel-roam-ruins**
+
+A disused delivery ramp behind the podium booths takes Tobi above the cluttered lanes and into The Swamp.
+
+**93. day 5 — pitfall-fatal**
+
+In The Forest, a thin covering of leaves gives way under Gulliver. A sharpened stake at the bottom of the pit causes a fatal chest injury.
+
+**94. day 5 — forest-boar-escape**
+
+Adur pulls onto a fallen tree in The Forest just before a boar reaches the trail. Waiting above its reach lets Adur get away without injury.
+
+**95. day 5 — swamp-hazard-1**
+
+Skizzo tries to clear driftwood from a swamp boardwalk gap. The jam breaks suddenly, pulling him into the channel and beneath the supports to drown. Earlier, Solus died at the channel beneath the boardwalk. Now Skizzo has died at that same spot.
+
+**96. day 5 — wound-thigh-bandage**
+
+Fauna shelters beneath an overturned panel in The Center Podium. With the entrance in view, Fauna holds a cloth pad firmly over the earlier thigh wound until the bleeding stops, leaving the panel only after checking the pad.
+
+> Fauna: I need a moment before I can keep going.
+
+**97. night 5 — trait-loud-challenge**
+
+Chaos spots Tobi in The Swamp before getting close: the challenge is already echoing down the trail. Chaos keeps a wary distance.
+
+**98. night 5 — weapon-club-fatal**
+
+Shadz calls Fauna toward a supposedly safe meeting place in The Center Podium, then strikes Fauna in the head with the wooden club; the invitation ends in a fatal wooden club wound.
+
+> Shadz: I am going to need a quiet moment after that scene.
+
+**99. night 5 — weapon-machete-find**
+
+At a clearing-tool bracket in The Forest, Adur works machete upward until its remaining transport tie slips loose, then takes possession of the find.
+
+**100. day 6 — arena-forest-closure-warning**
+
+Announcer: “Our wide view of the forest will replace the close coverage after tonight's controlled burn; please reach the Center Podium by nightfall using the marked woodland exits.”
+
+**101. day 6 — travel-warning-forest**
+
+The announcement sends Adur out of the Forest and into The Swamp.
+
+**102. day 6 — travel-roam-ruins**
+
+Following an empty cable trench, Shadz avoids the main approach and crosses into The Mountains.
+
+> Shadz: A change of location deserves at least a little atmosphere.
+
+**103. day 6 — arena-contest-6**
+
+Chaos offers a hand when Tobi struggles up a steep bank in The Swamp. The offered grip becomes a hard shove toward the exposed foundation below, and Tobi dies on impact.
+
+**104. night 6 — arena-forest-closure-start**
+
+Announcer: “Our forest microphones remain live during the controlled burn, but the available movement is outward along the marked woodland exits; please reach the Center Podium promptly.”
+
+**105. night 6 — shared-map**
+
+Adur arranges small stones on a flat ledge in The Swamp to explain a staggered series of barriers to Chaos. The model is scattered once the route is understood.
+
+**106. night 6 — weapon-axe-find**
+
+Shadz follows a faded equipment tag to a canvas head wrapping in The Mountains, unfolding the material to find and claim hand axe.
+
+**107. night 6 — arena-forest-close**
+
+Announcer: “The controlled burn has permanently retired the forest from play; the marked woodland exits now marks the edge of a closed region.”
+
+**108. day 7 — travel-roam-swamp**
+
+Using the upper rail of a sunken boardwalk, Chaos emerges in The Center Podium beyond the boundary.
+
+**109. day 7 — sponsor-gift-1**
+
+Silver fabric settles beside the trail in The Swamp. Adur checks the sponsor’s food parcel underneath and takes sealed rations.
+
+> Adur: There are things worth keeping close besides equipment.
+
+**110. day 7 — weapon-mace-find**
+
+A damaged return tray at a grip inspection station in The Mountains rattles when Shadz checks it; spiked mace has lodged behind the tray and is retrieved.
+
+**111. night 7 — mountains-hazard-1**
+
+The narrow footing leaves few choices when stones begin to move. Shadz takes a narrow mountain ledge beneath an unstable scree slope. Falling stones knock him off the path, and the fall is fatal.
+
+**112. finale 8 — final-converge-swamp-ruins**
+
+Chaos corners Adur inside a cramped shelter in The Center Podium. Adur kicks out its loose rear slats and climbs onto the low roof; when Chaos runs outside to follow, Adur jumps onto the shoulders, driving Chaos headfirst into the foundation with fatal force.
+
+---
+
+# small-cast: variety-audit-small-cast-0
+
+8 tributes; 38 events; finishes Day 5.
+
+**1. opening 0 — opening-rope**
+
+Coils of rope lie beside the more impressive-looking equipment. Gulliver chooses rescue rope over a dramatic entrance. Sensible television.
+
+> Gulliver: That qualifies as a small win in my book.
+
+**2. opening 0 — opening-bloodbath-1**
+
+A sharpened scrap lies inside the central food crate. Jokin grabs it as AMyriad reaches for the lid and stabs AMyriad in the chest. After the fatal attack, Jokin takes sealed rations and an emergency blanket.
+
+**3. opening 0 — opening-party-4-desert**
+
+Marcos, Joshi, Akesel and Siegfried all take the safe way out toward The Desert.
+
+**4. opening 0 — opening-rations**
+
+Most eyes are on the weapons; the food lies lower down. Chaos slips beneath the fight for the central supplies and claims sealed rations.
+
+**5. day 1 — supplies-meal**
+
+At a sheltered stop in The Center Podium, Chaos finishes the rations instead of carrying them through another round.
+
+**6. day 1 — desert-contest-1**
+
+The checkpoint has a blind side beside the tank. Siegfried hides behind a desert checkpoint tank and stabs Joshi in the abdomen as they round the corner. Joshi crawls into the shade but dies from blood loss.
+
+> Joshi: Please do not put cheerful music over the replay.
+
+**7. day 1 — desert-life-11**
+
+The service markers cast narrow shadows. Akesel watches the approaches to a patch of shade behind a sandstone outcrop while Marcos rests. Then they exchange places.
+
+**8. day 1 — wound-side-fatal**
+
+At a sorting chute in The Center Podium, Gulliver pushes Jokin against its broken side flange. The flange opens a deep side wound, killing him before there is room to get clear.
+
+> Gulliver: I would rather not watch that back.
+
+**9. night 1 — night-watch-2**
+
+A torn screen in The Center Podium lets Chaos and Gulliver observe the lane without sitting in it. Chaos holds the first position by the tear, then nudges Gulliver awake to relieve the watch.
+
+> Chaos: There are worse things than finding a reason to trust someone.
+
+**10. night 1 — sponsor-gift-3**
+
+The sponsor delivery settling into The Desert offers warmth rather than food. Marcos detaches an emergency blanket from the parachute.
+
+> Marcos: I am resisting the urge to show the camera exactly where I keep everything.
+
+**11. night 1 — travel-roam-desert**
+
+Siegfried retraces the approach to an old wheel rut through the sand and finds a way across the boundary into The Swamp.
+
+**12. night 1 — desert-hazard-1**
+
+The water stop is beyond the visible landmarks. Akesel walks across the desert through the midday heat, searching for a water checkpoint. Disoriented, Akesel circles the same dune until collapsing. Heatstroke proves fatal before shelter is found.
+
+**13. day 2 — arena-swamp-weather-warning**
+
+Announcer: “Before tonight’s programme, a word about the swamp water levels. A water-level adjustment is scheduled for the swamp tonight. Do keep an eye on those boardwalks; we would like you in frame.”
+
+**14. day 2 — travel-warning-swamp**
+
+Siegfried packs up after the broadcast and moves from the Swamp into The Desert.
+
+**15. day 2 — false-footsteps**
+
+Chaos ducks under a fixed platform in The Center Podium as Gulliver reaches its steps. From below, Chaos can follow the moving feet until the search leaves the platform empty.
+
+> Chaos: The small discomforts take turns being the only thing I can think about.
+
+**16. day 2 — supplies-blanket-shade**
+
+In The Desert, Marcos stretches the emergency blanket between two supports for shade. After resting beneath it, Marcos packs it again.
+
+**17. night 2 — arena-swamp-weather-start**
+
+Announcer: “The forecast is now visible on location. The swamp water is rising nicely. Some of the lower paths are already beneath it. Lovely reflections for the night cameras.”
+
+**18. night 2 — travel-roam-desert**
+
+Marcos takes a longer way around by a row of half-buried route posts, arriving in The Center Podium away from the main exit.
+
+**19. night 2 — travel-roam-2-ruins**
+
+Following an empty cable trench, Chaos and Gulliver avoid the main approach and cross into The Mountains.
+
+> Chaos: I keep checking behind me. Knowing the way forward is only half the problem.
+
+**20. night 2 — sponsor-gift-2**
+
+Someone watching has sent water to Siegfried. The parcel arrives in The Desert without a signature, and Siegfried takes the water flask inside.
+
+**21. day 3 — arena-swamp-weather-end**
+
+Announcer: “That ends this round of weather coverage. Water levels in the swamp are returning to normal. The boardwalks are reappearing, which should simplify everyone's entrances.”
+
+**22. day 3 — podium-resupply**
+
+The delivery beacon marks a new shipment of food, water and blankets. Marcos opens the crate on the Center Podium and takes sealed rations from the shipment, setting a water flask and an emergency blanket out for another tribute.
+
+> Marcos: Getting supplies is one problem. Looking worth robbing is another.
+
+**23. day 3 — weapon-bow-find**
+
+Chaos follows a faded equipment tag to a canvas bow sleeve in The Mountains, unfolding the material to find and claim bow and arrows.
+
+**24. day 3 — weapon-mace-find**
+
+Siegfried slides a warped cover away from a reinforced mace cradle in The Desert, exposing spiked mace and lifting it free to carry.
+
+**25. day 3 — mountains-wolves-escape**
+
+Gulliver climbs a narrow shelf in The Mountains as wolves close in along the trail. Unable to follow, the pack moves on, leaving Gulliver unharmed.
+
+**26. night 3 — supplies-meal**
+
+The food in Marcos's pack finally gets used in The Center Podium. Marcos eats the rations down to the last crumb.
+
+**27. night 3 — supplies-drink**
+
+A quiet corner of The Desert gives Siegfried time to finish the water in the flask. The empty container is left behind.
+
+**28. night 3 — mountains-life-1**
+
+The stones offer a better place to pause than the skyline. Chaos shelters behind a cairn and studies the next ridge.
+
+> Chaos: I am trying to tell ordinary noises apart from the ones that matter.
+
+**29. night 3 — omen-find**
+
+Gulliver follows a line of deliberately overturned pebbles to a flat stone bearing three fresh warning scratches.
+
+**30. day 4 — travel-roam-desert**
+
+Using the shadowed side of a long dune, Siegfried emerges in The Center Podium beyond the boundary.
+
+**31. day 4 — mountains-life-6**
+
+Chaos sets bow and arrows at a cairn, deciding the additional weight is not worth the risk.
+
+**32. day 4 — travel-roam-mountains**
+
+Gulliver retraces the approach to the inside edge of a switchback and finds a way across the boundary into The Forest.
+
+**33. day 4 — supplies-blanket-windbreak**
+
+Using the emergency blanket as a windscreen, Marcos rests out of the breeze in The Center Podium. Before leaving, Marcos retrieves it.
+
+**34. night 4 — travel-roam-mountains**
+
+Crouching through a saddle behind a broken cairn, Chaos gets clear of the exposed route and into The Center Podium.
+
+**35. night 4 — travel-roam-ruins**
+
+Keeping low beside a drainage ledge below the supply lanes, Marcos passes out of sight of the main trail and into The Forest.
+
+> Marcos: There is no discreet way to get lost with this many cameras.
+
+**36. night 4 — forest-rope-bridge-collapse**
+
+Gulliver tests the first planks of the rope bridge in The Forest, then ventures out. A rotten crosspiece breaks beneath his feet; the fall into the ravine kills him.
+
+**37. night 4 — ruins-hazard-1**
+
+Siegfried reaches the damaged landing in the central stairwell just as it separates from the wall. The collapse drops Siegfried into the basement, causing fatal injuries.
+
+**38. finale 5 — final-converge-forest-ruins**
+
+Chaos rushes Marcos across the open ground in The Center Podium. Marcos drops beneath the reaching arms, takes the back, and holds a choke until Chaos dies.
+
+---
+
+# large-cast: variety-audit-large-cast-0
+
+48 tributes; 224 events; finishes Day 8.
+
+**1. opening 0 — opening-bloodbath-1**
+
+Guest 42 and Akesel converge on the same food crate. A sharpened scrap inside gives Guest 42 a weapon: a stab to the chest kills Akesel beside the lid. Guest 42 leaves with sealed rations and an emergency blanket.
+
+> Guest 42: I do not know what you expect me to say while my hands are still shaking.
+
+**2. opening 0 — opening-bloodbath-3**
+
+A heavy tank stands over Joshi after Guest 45 trips the approaching tribute at the water cache. Guest 45 tips it from the stand, fatally crushing Joshi, then gathers water flask and an emergency blanket.
+
+> Joshi: Please give the equipment department my least sincere regards.
+
+**3. opening 0 — opening-party-4-forest**
+
+Guest 37, Guest 47, Guest 48 and Jokin leave the fighting behind and move toward The Forest.
+
+> Guest 48: I am trying to take this one place at a time.
+
+**4. opening 0 — weapon-knife-opening**
+
+The weapon rack offers a hunting knife to anyone who can reach it. Guest 41 reaches the Center Podium weapon rack and claims a hunting knife, then backs away from the scramble.
+
+**5. opening 0 — opening-party-4-tundra**
+
+Unwilling to risk the scramble, Tobi, Chaos, Suggs and Emma head into The Tundra.
+
+**6. opening 0 — opening-rations**
+
+The central food crates are wedged beneath the reaching crowd. Guest 40 slips beneath the fight for the central supplies and claims sealed rations.
+
+> Guest 40: I wonder how much thought went into what they left for us.
+
+**7. opening 0 — opening-crate-dodge**
+
+The crate pile interrupts the space beneath the fight. Skizzo swings a sharpened scrap at Fauna over the central supply crates. Fauna ducks beneath the swing and kicks a loose crate into the path, escaping the attack empty-handed.
+
+**8. opening 0 — opening-route-3**
+
+Guest 32 and Guest 33 make it out together and move toward The Mountains.
+
+**9. opening 0 — opening-warmth**
+
+The central rack includes a modest defense against a long night. Flurris grabs emergency blanket, already planning for the first cold night.
+
+**10. opening 0 — weapon-bow-opening**
+
+At the Center Podium weapon rack, Marcos grabs a bow and a quiver of arrows before backing out of the scramble.
+
+**11. opening 0 — opening-party-4-desert**
+
+Guest 28, Guest 26, Guest 27 and Guest 29 all take the safe way out toward The Desert.
+
+**12. opening 0 — opening-party-3-mountains**
+
+Solus, Kowalik and Deaclaw leave the opening chaos together and reach The Mountains.
+
+**13. opening 0 — opening-party-3-desert**
+
+Guest 46, Shield and Hiro all take the safe way out toward The Desert.
+
+**14. opening 0 — opening-route-6**
+
+Rick chooses an early exit into The Tundra.
+
+**15. opening 0 — weapon-mace-opening**
+
+At the Center Podium, Guest 39 grabs a spiked mace from the rack and slips away from the fighting.
+
+**16. opening 0 — weapon-machete-opening**
+
+At the Center Podium, Guest 43 grabs a machete from the rack and slips away from the fighting.
+
+**17. opening 0 — opening-party-4-mountains**
+
+Guest 44, Luvy, Adur and Ary take the mountains exit into The Mountains.
+
+**18. opening 0 — opening-route-2**
+
+Helping each other out of the scramble, Guest 25 and Guest 30 reach The Swamp.
+
+**19. opening 0 — opening-under-table**
+
+The central table offers little room to step backward. Gulliver reaches across the central ration table to grab Siegfried. Siegfried slides underneath it, tips the table toward Gulliver, and crawls clear of the falling supplies.
+
+**20. opening 0 — opening-light**
+
+The lantern has ended up away from the main pile. Guest 31 rescues storm lantern from a toppled supply crate.
+
+**21. opening 0 — weapon-crossbow-opening**
+
+Guest 38 reaches past the scramble, claims a crossbow from the Center Podium rack and withdraws.
+
+**22. opening 0 — opening-reflection**
+
+A polished edge catches the light among the tools. Shadz pockets signal mirror. The broadcast has acquired a lookout.
+
+**23. opening 0 — weapon-axe-opening**
+
+The opening rack still holds a reachable hand axe. AMyriad reaches the Center Podium weapon rack and claims a hand axe, then backs away from the scramble.
+
+**24. opening 0 — opening-party-3-swamp**
+
+Guest 34, Guest 36 and Guest 35 take the same exit from the bloodbath into The Swamp.
+
+**25. day 1 — ruins-life-4**
+
+A patch of undisturbed wrapping stands out beside a route post in The Center Podium. Shadz checks the hollow below and finds signal mirror to carry away.
+
+**26. day 1 — wound-thigh-escape**
+
+Chaos is halfway over a boundary fence in The Tundra when Suggs jabs a sharpened slat into the thigh. Chaos drops onto the far side and limps beyond reach with the wound bleeding.
+
+**27. day 1 — travel-roam-desert**
+
+Pausing at the hard ground around a salt pan to check the ground ahead, Hiro then continues into The Center Podium.
+
+**28. day 1 — supply-bag-feint**
+
+An empty drum stands between Guest 29 and Guest 26 in The Desert. Guest 29 rolls it forward, but Guest 26 sidesteps and sends it clattering back with a shove.
+
+**29. day 1 — shelter-offer**
+
+A shallow runnel leads straight toward Flurris's sleeping place in The Center Podium. Guest 31 helps scrape a diversion around the hollow so runoff will pass it by.
+
+**30. day 1 — false-footsteps**
+
+Marcos follows AMyriad toward a revolving access gate in The Center Podium. AMyriad lets the gate turn once, then steps sideways behind its fixed housing instead of taking the exit.
+
+**31. day 1 — tundra-trap-escape**
+
+Rick stamps above a tundra snow shelf, but Emma hears it settling and scrambles clear before it collapses.
+
+**32. day 1 — mountains-life-3**
+
+Luvy opens a climbing cache and takes rescue rope.
+
+> Luvy: Now I have to decide where to carry this so I can actually reach it.
+
+**33. day 1 — crooked-compass-find**
+
+The Crooked Compass joins Guest 36's possessions. Its needle promptly recommends the least reassuring direction in sight.
+
+**34. day 1 — arena-contest-4**
+
+Guest 44 tries to cut off Solus by climbing a loose rubble heap in The Mountains. Solus rushes its base and pushes Guest 44 backward into a deep excavation; the fall is fatal.
+
+> Guest 44: I would like a minute before anyone asks about highlights.
+
+**35. day 1 — swamp-rescue**
+
+Guest 35 pulls a fallen reed screen aside so Guest 25 can crawl out of a collapsed swamp shelter.
+
+**36. day 1 — bad-directions**
+
+A faded equipment label in The Desert becomes a fake route marker in Shield's account. Guest 27 follows it into a storage bay with no onward path and doubles back to challenge the invented directions.
+
+**37. day 1 — travel-roam-ruins**
+
+Gulliver takes the service bridge behind the scoreboard, reaching The Forest beyond its far ramp.
+
+**38. day 1 — supplies-shared-water**
+
+The last of Guest 45's water is shared with Skizzo beside the trail in The Center Podium. They finish it together and put the empty flask aside.
+
+**39. day 1 — weapon-machete-disarmed**
+
+Guest 43 slides the machete through a fence gap in The Center Podium before trying to squeeze through; Guest 39 takes it from the far side, and Guest 43 abandons the crossing without injury.
+
+> Guest 43: I see Guest 39, and I already know this is going to be a pain in the arse.
+
+**40. day 1 — ruins-life-1**
+
+Guest 41 tests the back of an old fixed bench, then stretches out where the camera tower blocks the glare.
+
+**41. day 1 — desert-life-3**
+
+The dune has not quite swallowed the supply container. Guest 46 uncovers water flask inside a half-buried supply case.
+
+> Guest 46: That qualifies as a small win in my book.
+
+**42. day 1 — forest-life-2**
+
+Jokin takes a longer way around by the narrow rim of a fern bed, arriving in The Swamp away from the main exit.
+
+**43. day 1 — drainage-shaft-fall**
+
+A discarded sack hangs from a fitting inside the drainage shaft in The Mountains. Kowalik climbs down to inspect it, but the fitting breaks away; the fall to the bottom kills him.
+
+**44. day 1 — swamp-life-4**
+
+Guest 34 finds rescue rope hanging from an old survey post.
+
+**45. day 1 — group-decoy-rescue**
+
+Seeing Guest 37 approach the bank where Guest 48 is hiding in The Forest, Guest 47 makes a show of fleeing along a different route. Guest 37 takes the bait. Guest 48 escapes in the other direction while Guest 47 circles through cover and gets clear; all three remain unharmed.
+
+**46. day 1 — swamp-hazard-escape**
+
+Guest 30 sees a crocodile sliding beneath the swamp walkway and freezes on a high platform until the ripples move away.
+
+**47. day 1 — tripwire-noticed**
+
+Guest 32 notices a wire across a service trail in The Mountains, steps over it and takes the longer path around the trap.
+
+**48. day 1 — arena-contest-1**
+
+Guest 33 tries to climb a steep cut bank in The Mountains rather than face Ary. Ary stamps on the reaching fingers; the fall onto the hard footing below kills Guest 33.
+
+**49. day 1 — knife-disarmed**
+
+Deaclaw notices Adur approaching with a sharpened offcut in The Mountains. A hard shove on a hanging mesh screen traps the attacking hand; Deaclaw escapes while the offcut falls on the far side.
+
+**50. day 1 — tundra-hazard-escape**
+
+Tobi sees a dark melt channel crossing the tundra trail and follows its bank until a narrow gravel ridge offers a dry crossing.
+
+**51. day 1 — supplies-meal**
+
+At a sheltered stop in The Center Podium, Guest 40 finishes the rations instead of carrying them through another round.
+
+**52. day 1 — wound-side-escape**
+
+Guest 38 corners Guest 42 beside an empty supply cache in The Center Podium and stabs the side with a sharpened scrap. Guest 42 overturns the cache and scrambles over its lid, getting away with a bleeding side wound.
+
+**53. day 1 — ruins-hazard-escape**
+
+Siegfried hears metal groaning above a ruined corridor and dives through a doorway. A ceiling beam crashes into the spot just vacated. Siegfried climbs out through the room's broken window.
+
+**54. day 1 — ruins-life-2**
+
+Fauna takes a longer way around by the back of a disused camera gantry, arriving in The Desert away from the main exit.
+
+**55. day 1 — desert-life-2**
+
+Following a shallow trench between windbreaks, Guest 28 avoids the main approach and crosses into The Center Podium.
+
+**56. night 1 — arena-contest-2**
+
+Guest 25 reaches for Guest 35's offered hand across the drainage shaft in The Swamp. Guest 35 pulls hard and releases the grip over the opening; Guest 25 falls to death inside the shaft.
+
+> Guest 25: I would like to thank absolutely nobody responsible for the arena design.
+
+**57. night 1 — weapon-bow-find**
+
+Behind an archery target backing in The Tundra, Tobi spots the outline of bow and arrows through a torn panel and reaches around to collect it.
+
+**58. night 1 — travel-roam-ruins**
+
+A disused delivery ramp behind the podium booths takes Guest 31 above the cluttered lanes and into The Desert.
+
+**59. night 1 — whispering-tin-find**
+
+Guest 32 acquires Whispering Tin. The lid seems to mutter about the competition.
+
+> Guest 32: I will count that as a little victory.
+
+**60. night 1 — arena-contest-3**
+
+Solus tries to shove Ary through an open fence section in The Mountains. Ary sidesteps and forces Solus onto the broken post instead; the resulting wound is fatal.
+
+**61. night 1 — night-watch-3**
+
+Guest 27, Fauna and Guest 26 settle beside a narrow inspection lane in The Desert. Guest 27 watches through a gap in the frame while the others rest, then wakes Fauna to take the same position.
+
+> Guest 27: You cannot tell from the cameras who will actually lend a hand.
+
+**62. night 1 — ruins-contest-2**
+
+AMyriad studies a silent public address speaker in The Center Podium. Guest 28 reaches through its empty housing and drives a loose metal fitting into the exposed neck; the wound kills him.
+
+**63. night 1 — swamp-contest-2**
+
+Guest 30 pulls a reed-screen frame down onto Guest 34, driving a broken support into his chest and killing him.
+
+> Guest 30: I can hear myself breathing now. That is the first thing I noticed.
+
+**64. night 1 — night-shelter-shared**
+
+At a low alcove in The Desert, Guest 29 moves aside to let Shield sit out of the open lane. They arrange their positions to leave the entrance visible.
+
+**65. night 1 — crossing-conflict-swamp**
+
+Guest 43 crosses the boundary into The Swamp and shoves Jokin beneath a low boardwalk and pins him under the water until Jokin drowns.
+
+**66. night 1 — ruined-stairwell-fall**
+
+A landing in the ruined stairwell in The Center Podium crumbles as Hiro steps onto it. Hiro reaches for a missing railing and falls to a fatal landing below.
+
+**67. night 1 — sponsor-gift-2**
+
+The water delivery reaching Guest 37 in The Forest carries no signature. Guest 37 unwraps it and claims the water flask.
+
+**68. night 1 — night-prepare-tundra**
+
+A disused trail hut in The Tundra has a noisy door hanging by one hinge. Emma lifts it off and props it across the open window before settling below the sill.
+
+**69. night 1 — dinner-bell-find**
+
+Guest 41 finds a pair of boots in a supply crate and pulls them on. The first step squeaks against the ground.
+
+**70. night 1 — swamp-life-8**
+
+Guest 36 studies how the swamp current passes beneath a boardwalk fork, using the visible supports to place the unseen bend on a rough map.
+
+**71. night 1 — wound-shoulder-escape**
+
+A dispute over a resting spot in The Mountains brings Luvy close enough to cut Deaclaw's shoulder with a sharp fitting. Deaclaw rolls downhill and keeps moving out of reach; the shoulder remains untreated.
+
+**72. night 1 — wound-side-assistance**
+
+Guest 42 cannot keep the dressing on the earlier side wound from slipping in The Center Podium. Flurris supports the loose end while Guest 42 tightens the binding, then checks that the bleeding really has stopped.
+
+**73. night 1 — forest-hazard-1**
+
+Guest 47 squeezes between a dead trunk and a steep forest bank. The trunk rolls into the gap, crushing her to death.
+
+**74. night 1 — tundra-trap-fatal**
+
+Chaos loosens a snow shelf above a tundra hollow and stamps until it collapses onto Suggs, burying her until Suggs suffocates.
+
+**75. night 1 — weapon-axe-find**
+
+Behind a split timber block in The Mountains, Adur spots the outline of hand axe through a torn panel and reaches around to collect it.
+
+**76. night 1 — weapon-machete-fatal**
+
+Skizzo tries to climb a steep bank in The Center Podium to avoid a fight, but Guest 39 strikes Skizzo in the neck with the machete before the crest is reached; the machete attack is fatal.
+
+**77. night 1 — night-noise-on-watch**
+
+Unable to sleep in The Center Podium, Guest 38 quietly works a knot out of a bootlace. The small task occupies the hands long after it stops needing attention.
+
+**78. night 1 — weapon-spear-find**
+
+Gulliver looks beneath a raised pole-storage deck in The Forest and finds spear secured inside a low access frame; undoing the catch releases it to carry away.
+
+**79. night 1 — group-door-rescue**
+
+Marcos chases Siegfried toward a supply shelter in The Center Podium. Shadz pulls Siegfried through the doorway and braces a fallen beam against the door. While Marcos forces it open, Shadz and Siegfried escape through the rear gap. Nobody is injured.
+
+**80. night 1 — weapon-knife-find**
+
+Guest 46 tilts a loose base at a leather knife-roll frame in The Desert, freeing hunting knife from a jammed retaining clip before taking it along.
+
+**81. night 1 — night-watch-2**
+
+A torn screen in The Center Podium lets Guest 40 and Guest 45 observe the lane without sitting in it. Guest 40 holds the first position by the tear, then nudges Guest 45 awake to relieve the watch.
+
+**82. night 1 — forest-life-4**
+
+Beneath a collapsed bird hide, Guest 48 digs up storm lantern.
+
+**83. night 1 — tundra-life-2**
+
+Rick retraces the approach to the firm edge of an old sled track and finds a way across the boundary into The Center Podium.
+
+**84. day 2 — arena-mountains-weather-warning**
+
+Announcer: “Tonight’s location notes include the mountain rain. Mountain residents, freezing rain is expected tonight. The ridges may become slippery. Our aerial coverage should remain excellent.”
+
+**85. day 2 — travel-warning-4-mountains**
+
+With trouble announced, Adur, Ary, Guest 32 and Luvy head into The Forest together.
+
+**86. day 2 — travel-warning-mountains**
+
+With trouble announced for the Mountains, Deaclaw relocates to The Tundra.
+
+> Deaclaw: The shortest route and the quietest route rarely seem to agree.
+
+**87. day 2 — berries-gather**
+
+Guest 30 fills a folded leaf with a handful of berries from a familiar bush in The Swamp, saving them for later.
+
+**88. day 2 — arena-contest-6**
+
+Shield notices Fauna watching a distant camera in The Desert instead of the path. A discarded sign bracket supplies a sharp edge for a fatal attack from behind.
+
+> Fauna: Is this the part where somebody tells me I did well?
+
+**89. day 2 — shared-map**
+
+Beside a fixed camera in The Center Podium, Siegfried points out the strip of ground hidden by its mounting frame. Guest 28 checks the angle and memorizes the sheltered approach.
+
+> Guest 28: I hope the next difficult decision leaves room for that again.
+
+**90. day 2 — mutual-watch**
+
+Guest 26 shows Guest 46 a blind corner in The Desert; Guest 46 points out a second approach. They choose positions that cover both and promise to keep checking each other.
+
+**91. day 2 — weapon-mace-side-survived**
+
+Guest 39 strikes Flurris's side with the spiked mace, opening a cut while Flurris circles an abandoned sign base in The Center Podium; Flurris abandons the circle and vaults its low footing, surviving with the side still bleeding.
+
+**92. day 2 — travel-roam-forest**
+
+Following a dry leaf-filled gully, Gulliver avoids the main approach and crosses into The Center Podium.
+
+**93. day 2 — travel-roam-desert**
+
+Guest 31 squeezes past a buried service road and reaches The Swamp.
+
+**94. day 2 — ration-snatch-chase**
+
+As Guest 42 opens a ration pack in The Center Podium, Guest 40 grabs sealed rations and slides down a steep trail bank. Unwilling to chance the blind drop, Guest 42 stops above.
+
+**95. day 2 — weapon-mace-find**
+
+A damaged return tray at a grip inspection station in The Desert rattles when Guest 29 checks it; spiked mace has lodged behind the tray and is retrieved.
+
+> Guest 29: I am calling that a small victory.
+
+**96. day 2 — wound-thigh-pursuit**
+
+Tobi checks the broad route through The Tundra, expecting Chaos to run. The earlier thigh wound makes running impossible, so Chaos stays flat behind a low retaining lip and lets the search pass overhead.
+
+**97. day 2 — weapon-crossbow-find**
+
+Guest 38 eases an end cap off a deep foam-lined transit chest in The Center Podium; the packing slides out with crossbow, which Guest 38 keeps.
+
+**98. day 2 — tundra-life-1**
+
+Emma sits on the sheltered side of a low snow ridge and brushes ice crystals from the cuffs.
+
+**99. day 2 — travel-roam-swamp**
+
+Crouching through a dry channel beneath a tilted platform, Guest 35 gets clear of the exposed route and into The Forest.
+
+**100. day 2 — swamp-hazard-1**
+
+The swamp boardwalk sags while Guest 43 reaches for a stable post. It folds into the channel around him, trapping Guest 43 under the deck until drowning proves fatal.
+
+**101. day 2 — weapon-knife-disarmed**
+
+Marcos feigns a lunge at Guest 41's feet in The Center Podium, then catches the raised weapon wrist; a turn of the elbow loosens the hunting knife, which Marcos keeps as Guest 41 gets away unharmed.
+
+**102. day 2 — forest-contest-1**
+
+Guest 37 slams a fallen branch into Guest 48 at a forest gate, causing a fatal head injury.
+
+**103. day 2 — ally-decoy**
+
+Fresh tracks point toward Rick's cover in The Center Podium. Guest 45 scuffs a more obvious trail in another direction, giving the search a false route while Rick remains concealed.
+
+**104. day 2 — old-well-collapse**
+
+At the old well in The Desert, Guest 27 tests the depth by leaning over the edge. The rim breaks under his weight, causing a fatal fall.
+
+**105. day 2 — travel-roam-ruins**
+
+Shadz follows the old power-relay corridor below the stand and comes out in The Tundra.
+
+**106. day 2 — swamp-crocodile-fatal**
+
+Guest 36 enters a channel in The Swamp to bypass a missing plank. A crocodile drags her beneath the crossing, where Guest 36 drowns.
+
+**107. night 2 — arena-mountains-weather-start**
+
+Announcer: “Freezing rain has reached the mountains. The paths have acquired quite a shine. A little care with your footing will keep the action moving.”
+
+**108. night 2 — travel-roam-forest**
+
+Pausing at a row of cut stumps to check the ground ahead, Guest 37 then continues into The Center Podium.
+
+> Guest 37: I would like the new location to have fewer complications.
+
+**109. night 2 — travel-roam-4-ruins**
+
+Siegfried, Flurris, Guest 38 and Guest 40 use the walkway around a silent equipment hoist to reach the outward trail into The Swamp.
+
+**110. night 2 — travel-roam-4-ruins**
+
+Guest 42, Guest 39, Guest 41 and Guest 45 take the service bridge behind the scoreboard, reaching The Swamp beyond its far ramp.
+
+**111. night 2 — travel-roam-3-desert**
+
+Guest 46, Shield and Guest 26 squeeze past a buried service road and reach The Swamp.
+
+**112. night 2 — travel-roam-3-tundra**
+
+Tobi, Emma and Chaos retrace the approach to the firm edge of an old sled track and find a way across the boundary into The Center Podium.
+
+**113. night 2 — travel-roam-ruins**
+
+An exit arrow under a hinged sign guides Marcos through the podium delivery gate into The Desert.
+
+**114. night 2 — travel-roam-swamp**
+
+Guest 30 takes a longer way around by a bank reinforced with woven branches, arriving in The Forest away from the main exit.
+
+**115. night 2 — travel-roam-desert**
+
+Guest 29 retraces the approach to an old wheel rut through the sand and finds a way across the boundary into The Swamp.
+
+**116. night 2 — trap-snare-survived**
+
+Luvy rigs a rope snare beside a steep trail in The Forest and draws Adur toward it with a tossed stone. The loop catches his ankle. Adur falls against a sharp rock, cutting the thigh, then tears the loose anchor free and escapes. The thigh is bleeding, but Adur survives.
+
+> Adur: I would call it a coincidence if it had only happened once. Hell, it keeps happening.
+
+**117. night 2 — tundra-contest-2**
+
+Shadz strikes Deaclaw with a pointed tundra survey fitting; the chest wound is fatal.
+
+**118. night 2 — ruins-contest-1**
+
+Rick calls Gulliver toward a supposed message on a public notice board in The Center Podium. Reaching from behind the board, Rick pulls a loose cable tight around the neck until Gulliver dies.
+
+> Gulliver: I have no thanks whatsoever for the people behind this arena design.
+
+**119. night 2 — explosive-find**
+
+An equipment case in The Center Podium holds a sealed arena charge and remote. Guest 28 claims the pair.
+
+> Guest 28: I will take the small advantages when they appear.
+
+**120. night 2 — pitfall-survived**
+
+In The Forest, Guest 35 breaks through a pit's leaf cover and lands against a stake, cutting the thigh. Gripping the exposed roots, Guest 35 escapes with the thigh still bleeding.
+
+**121. night 2 — forest-hazard-2**
+
+The leaf-covered ground looks continuous from above. Guest 32 cuts across a leaf-covered hollow in the forest. The ground gives way into an old hunting pit, and Guest 32 dies from the fall.
+
+**122. night 2 — weapon-club-find**
+
+At a training-gear bracket in The Swamp, Guest 31 works wooden club upward until its remaining transport tie slips loose, then takes possession of the find.
+
+**123. night 2 — forest-boar-escape**
+
+A boar forces Ary off the trail in The Forest. Ary scrambles up a fallen trunk, lets it charge past and retreats unharmed.
+
+**124. day 3 — arena-mountains-weather-end**
+
+Announcer: “The mountain rain has stopped. We can see the passes again, and a few of you have selected some very ambitious routes.”
+
+**125. day 3 — podium-resupply**
+
+A cargo drone completes its delivery at the center. Rick opens the crate on the Center Podium and takes sealed rations, setting a water flask and an emergency blanket on the ground for whoever follows.
+
+**126. day 3 — travel-roam-ruins**
+
+Guest 28 retraces the approach to a narrow passage between concrete barriers and finds a way across the boundary into The Tundra.
+
+> Guest 28: I keep checking behind me. Knowing the way forward is only half the problem.
+
+**127. day 3 — berries-eat**
+
+Guest 30 opens the leaf-wrapped berries beside the trail in The Forest and finishes the fruit.
+
+**128. day 3 — wound-thigh-assistance**
+
+A level platform in The Forest lets Guest 35 settle without pulling at the earlier thigh wound. Adur adjusts the cloth binding and keeps a steady hand on the pad until Guest 35 can take over without renewed bleeding.
+
+**129. day 3 — shelter-repaid**
+
+Flurris returns the shelter favor by guarding both approaches from the open end of a trail hollow in The Swamp. Guest 31 rests behind the bank until Flurris judges it safe to wake him and exchange places.
+
+> Guest 31: I will remember the help longer than whatever was said about it.
+
+**130. day 3 — wound-side-fatal**
+
+During a struggle at a low wall in The Swamp, Guest 26 forces Shield's side against an exposed reinforcement end. The torn wound bleeds fatally after Shield drops away from the wall.
+
+**131. day 3 — swamp-life-15**
+
+Small insects hover above the water. Siegfried checks a narrow boardwalk above the mud with Guest 40, while Guest 41 and Guest 42 watch behind. All four continue together.
+
+**132. day 3 — berries-forage**
+
+Luvy recognizes a ripe berry bush in The Forest, picks a few handfuls and eats them beside the trail.
+
+> Luvy: The small discomforts take turns being the only thing I can think about.
+
+**133. day 3 — crossing-conflict-ruins**
+
+Marcos crosses the boundary into The Center Podium and drives a jagged sign bracket into Tobi's chest, inflicting a fatal wound.
+
+> Marcos: I keep going over the last few seconds. There is no useful reason to.
+
+**134. day 3 — travel-roam-forest**
+
+Ary retraces the approach to an abandoned timber-dragging track and finds a way across the boundary into The Mountains.
+
+**135. day 3 — supplies-drink**
+
+Guest 37 takes a drink beside the trail in The Center Podium, then finishes the remaining water. The empty flask stays at the resting place.
+
+**136. day 3 — ruins-trap-escape**
+
+Emma pulls a wire across a ruined maintenance corridor, but Chaos steps into an alcove and escapes through a broken service hatch.
+
+**137. day 3 — weapon-mace-kill-and-loot**
+
+Guest 39 sets the spiked mace beside an empty delivery recess in The Swamp; Guest 45 reaches it first and strikes Guest 39 in the head with the seized spiked mace as Guest 39 turns back, killing him and keeping the weapon.
+
+**138. day 3 — swamp-trap-escape**
+
+Guest 29 rocks a floating swamp platform beneath Guest 38, but Guest 38 jumps onto a solid landing and escapes into the reeds.
+
+**139. day 3 — omen-find**
+
+Guest 46 follows a line of deliberately overturned pebbles to a flat stone bearing three fresh warning scratches.
+
+**140. day 3 — tundra-life-8**
+
+The route markers stand above shallow drifts. Shadz studies a fork beside a bent orange trail pole and marks a rough route map on the ground.
+
+**141. night 3 — travel-roam-ruins**
+
+Rick uses the walkway around a silent equipment hoist to reach the outward trail into The Desert.
+
+**142. night 3 — ruins-rescue**
+
+Marcos holds a loose stair rail against the wall while Guest 37 descends the broken steps in the ruins.
+
+**143. night 3 — night-prepare-swamp**
+
+Reeds provide a layer between the resting place and wet soil. Siegfried tests a raised patch of ground in The Swamp and lays reeds over the damp soil. Before settling down, Siegfried checks that the route back to the boardwalk stays above the water.
+
+**144. night 3 — weapon-machete-find**
+
+Ary follows a faded equipment tag to a waxed blade wrapping in The Mountains, unfolding the material to find and claim machete.
+
+> Ary: I keep expecting useful equipment to come with a catch.
+
+**145. night 3 — arena-contest-5**
+
+Guest 28 conceals a sharpened branch inside a supply shelter in The Tundra. When Shadz enters, a stab to the side leaves Shadz bleeding to death outside the doorway.
+
+> Guest 28: You can ask me about the next decision when I can think about one.
+
+**146. night 3 — swamp-life-6**
+
+The next swamp crossing makes spare weight less attractive. Flurris sets emergency blanket on a reed platform and moves on lighter.
+
+**147. night 3 — travel-roam-swamp**
+
+Guest 31 retraces the approach to a narrow levee through the reeds and finds a way across the boundary into The Forest.
+
+**148. night 3 — group-night-fire**
+
+Guest 40 suggests sharing the work of a small fire in The Swamp. Guest 38 stacks stones to hide its light, Guest 26 adds fallen wood, and Guest 40 takes first watch. By swapping duties, all three get time to rest near the embers.
+
+**149. night 3 — travel-roam-forest**
+
+Guest 35 checks the way through a line of old forester blazes before committing to the crossing into The Mountains.
+
+> Guest 35: The map leaves out quite a lot of the unpleasant details.
+
+**150. night 3 — weapon-mace-missed**
+
+Guest 29 swings the spiked mace toward Guest 41 as Guest 41 reaches a sharp trail bend in The Swamp; Guest 41 takes the inside of the bend, keeping its earthen bank between body and spiked mace, and escapes unhurt.
+
+**151. night 3 — swamp-hazard-2**
+
+The reeds conceal how deep the soft ground becomes. Guest 45 follows a reed channel into deep swamp mud. Each attempt to climb out sinks him farther, until the water closes overhead. Guest 45 drowns.
+
+**152. night 3 — crossing-social-ruins**
+
+Guest 42 enters The Center Podium, meeting Chaos to exchange directions.
+
+**153. night 3 — forest-rope-bridge-collapse**
+
+A plank splits beneath Luvy on the rope bridge in The Forest. The neighboring boards tear loose as Luvy reaches for them, and the drop to the rocks is fatal.
+
+> Luvy: I had imagined a rather longer time before this interview.
+
+**154. night 3 — wound-thigh-bandage**
+
+A loose clothing seam gives Adur enough fabric to bind the bleeding thigh in The Forest. Seated with both approaches visible, Adur reties the dressing until it holds pressure and the bleeding ceases.
+
+**155. night 3 — night-prepare-ruins**
+
+At the shadow behind a camera tower, Emma studies the nearest approach before choosing which way to face while resting.
+
+**156. night 3 — tripwire-noticed**
+
+In The Swamp, Guest 46 pauses at a wire stretched across the path. A careful detour avoids whatever it was meant to trigger.
+
+**157. night 3 — forest-life-8**
+
+Light falls in scattered patches through the leaves. Guest 30 studies a fork beneath a split oak and marks a rough route map on the ground.
+
+**158. day 4 — travel-roam-forest**
+
+Crouching through a bramble gap beneath a fallen trunk, Adur gets clear of the exposed route and into The Swamp.
+
+**159. day 4 — supplies-meal**
+
+Guest 40 tears open the ration pack in The Swamp and makes a meal of its contents, leaving only the wrapper.
+
+**160. day 4 — desert-life-2**
+
+Crouching through a gap beneath a sand-scoured fence, Rick gets clear of the exposed route and into The Swamp.
+
+**161. day 4 — group-shelter-build**
+
+Guest 26, Guest 38, and Guest 41 agree to make one shelter in The Swamp. A sheet supported by Guest 26 forms the roof, stones placed by Guest 38 keep it upright, and branches gathered by Guest 41 screen the opening. They settle beneath it, leaving room to get out.
+
+> Guest 26: That nearly felt like cooperation for a moment.
+
+**162. day 4 — stolen-cache**
+
+While Guest 42 untangles clothing from a rail in The Center Podium, Emma takes emergency blanket from within reach. Guest 42 frees the snag just in time to identify the departing thief.
+
+> Emma: There is a difference between sharing and finding out afterward.
+
+**163. day 4 — ruins-life-2**
+
+Beside an idle supply conveyor, Chaos follows the loading passage out into The Swamp.
+
+**164. day 4 — mountains-hazard-1**
+
+The ledge leaves little shelter from a fall of rock. Guest 35 takes a narrow mountain ledge beneath an unstable scree slope. Falling stones knock her off the path, and the fall is fatal.
+
+> Guest 35: Please do not put cheerful music over the replay.
+
+**165. day 4 — knife-disarmed**
+
+In The Center Podium, Marcos brings a pointed bracket down toward Guest 37. Guest 37 catches the wrist against an upright post and pulls free as the bracket falls into a narrow footing.
+
+> Guest 37: I was hoping for one quiet day without Marcos showing up. No such luck.
+
+**166. day 4 — mountains-wolves-escape**
+
+Ary spots wolves approaching in The Mountains and scrambles onto a steep shelf. The pack cannot reach the ledge and eventually leaves.
+
+**167. day 4 — wound-thigh-escape**
+
+At a steep cut bank in The Forest, Guest 30 lunges upward and cuts Guest 31's thigh with a metal scrap. Guest 31 slides down the far slope rather than attempt a fight, surviving with a bleeding thigh.
+
+**168. day 4 — travel-roam-swamp**
+
+Flurris checks the way through a line of old piling tops before committing to the crossing into The Forest.
+
+**169. day 4 — sponsor-gift-1**
+
+A descending sponsor canopy catches Guest 28’s attention in The Tundra. Guest 28 reaches the food delivery and claims sealed rations.
+
+**170. day 4 — swamp-trap-fatal**
+
+Guest 46 drops a heavy walkway brace onto Siegfried below the swamp platform, striking his head and killing him. The same channel beneath the boardwalk where Guest 43 died earlier has now claimed Siegfried.
+
+**171. day 4 — swamp-crocodile-escape**
+
+Guest 29 abandons a low crossing in The Swamp when a crocodile surfaces. A scramble onto the higher walkway leaves the animal behind.
+
+**172. night 4 — travel-roam-4-swamp**
+
+Guest 26, Guest 38, Guest 40 and Guest 41 squeeze past a chain of firm reed hummocks and reach The Center Podium.
+
+**173. night 4 — travel-roam-forest**
+
+Guest 30 squeezes past an uprooted tree arch and reaches The Center Podium.
+
+> Guest 30: It is difficult to know what counts as progress here.
+
+**174. night 4 — travel-roam-2-ruins**
+
+Emma and Guest 37 take the service bridge behind the scoreboard, reaching The Swamp beyond its far ramp.
+
+**175. night 4 — travel-roam-2-swamp**
+
+Guest 29 and Guest 46 check the way through a line of old piling tops before committing to the crossing into The Forest.
+
+**176. night 4 — night-noise-on-watch**
+
+In The Swamp, Adur watches a moth repeatedly strike a camera housing. Following its tiny circuit makes it harder to keep track of the surrounding dark.
+
+**177. night 4 — weapon-bow-find**
+
+Guest 42 eases an end cap off a long padded shipping tube in The Center Podium; the packing slides out with bow and arrows, which Guest 42 keeps.
+
+**178. night 4 — tundra-life-6**
+
+The snow shelter has room for more than footprints. Guest 28 leaves sealed arena charge inside a marked snow shelter.
+
+**179. night 4 — supplies-shared-meal**
+
+Rick hands half the rations to Chaos at a stop in The Swamp. They eat both portions and agree the company helped.
+
+**180. night 4 — shelter-offer**
+
+Guest 31 notices the narrow entrance beside Flurris's resting place in The Forest could trap a sleeper. Together they clear a second way out before settling back.
+
+**181. night 4 — travel-roam-mountains**
+
+Keeping low beside a line of weathered stone steps, Ary passes out of sight of the main trail and into The Forest.
+
+**182. night 4 — ruins-hazard-escape**
+
+Marcos hears glass sliding from a ruined window and presses beneath its stone sill until the fragments stop falling.
+
+> Marcos: I have started measuring plans by how many things I would have to carry.
+
+**183. day 5 — travel-roam-tundra**
+
+Keeping low beside a cleared passage beneath a raised walkway, Guest 28 passes out of sight of the main trail and into The Center Podium.
+
+**184. day 5 — travel-roam-ruins**
+
+Waiting for a podium camera to turn away, Marcos then crosses the exposed exit apron into The Tundra.
+
+> Marcos: A new location. Same questionable management.
+
+**185. day 5 — group-decoy-rescue**
+
+Footsteps tell Guest 41 that Guest 30 is about to find Guest 26's hiding place in The Center Podium. Guest 41 makes a conspicuous dash down the far trail. Guest 30 follows the decoy, letting Guest 26 escape; Guest 41 then loses the chase in cover without injury.
+
+**186. day 5 — pitfall-fatal**
+
+A leaf-covered trap on a trail in The Forest catches Flurris. The fall onto a sharpened stake leaves a chest wound that Flurris does not survive.
+
+**187. day 5 — travel-roam-swamp**
+
+Following a raised culvert lip, Guest 37 avoids the main approach and crosses into The Center Podium.
+
+**188. day 5 — swamp-contest-2**
+
+Chaos strikes Emma with a sharpened reed-bank stake; the deep chest wound is fatal.
+
+**189. day 5 — swamp-life-1**
+
+Beside a leaning survey post, Rick studies how the reflection changes when the swamp water moves.
+
+**190. day 5 — arena-contest-6**
+
+Guest 46 waits behind a trail barrier in The Forest until Ary leans over it. A shove sends Ary headfirst onto a broken concrete footing, causing a fatal injury.
+
+**191. day 5 — ruined-stairwell-fall**
+
+Guest 42 climbs the ruined stairwell in The Center Podium for a better view. A concrete tread breaks beneath his feet, sending him through the open center. The fall is fatal. The same ruined stairwell where Hiro died earlier has now claimed Guest 42.
+
+**192. day 5 — bad-directions**
+
+Guest 29 directs Guest 31 to a supposed exit concealed by a hanging panel in The Forest. Behind it is a shallow tool recess, and Guest 31 returns while Guest 29 is still enjoying the trick.
+
+**193. day 5 — weapon-spear-find**
+
+Behind a training dummy backing in The Swamp, Adur spots the outline of spear through a torn panel and reaches around to collect it.
+
+**194. day 5 — arena-contest-3**
+
+Guest 40 challenges Guest 38 to settle their dispute without weapons in The Center Podium. The first exchange becomes a chokehold that Guest 40 refuses to release; Guest 38 dies in the grip.
+
+**195. night 5 — travel-roam-forest**
+
+Using a curtain of hanging roots, Guest 31 emerges in The Mountains beyond the boundary.
+
+**196. night 5 — group-door-rescue**
+
+A shelter doorway in The Swamp becomes Rick's only clear exit from Adur. Chaos waves Rick inside, wedges the door shut with a beam, then leads the way out through a gap at the back. Adur gets the door open too late; all three remain unharmed.
+
+**197. night 5 — mutual-watch**
+
+Guest 29 and Guest 46 divide the approaches to a low recess in The Forest, each trusting the other to call a warning. They agree to keep the arrangement when they rest.
+
+**198. night 5 — night-prepare-tundra**
+
+A low conifer in The Tundra has kept a patch of ground clear of snow. Marcos crawls beneath its lower branches, clears the sharp cones, and settles beside the trunk.
+
+**199. night 5 — ruins-hazard-1**
+
+Cracks widen around the stair landing as Guest 26 searches it in the Center Podium. The whole section gives way. Guest 26 dies in the fall to the basement. This is the ruined stairwell that already claimed Guest 42; Guest 26 is its next victim.
+
+> Guest 26: I am not ready to hear what the audience thought of it.
+
+**200. night 5 — night-shelter-shared**
+
+A broad camera housing in The Center Podium blocks the glare on one side of a resting spot. Guest 30 gestures Guest 41 into the darker half and keeps the open approach in view.
+
+**201. night 5 — supplies-meal**
+
+Guest 28 pauses beside the trail in The Center Podium and eats the sealed rations. The empty wrapper goes back into the pack.
+
+**202. night 5 — ruins-contest-2**
+
+Beside the beacon in The Center Podium, Guest 40 proposes a pause in the fighting. Guest 37 steps close as though accepting and drives a broken ceramic insulator into the chest; the injury is fatal.
+
+**203. day 6 — travel-roam-2-swamp**
+
+Rick and Chaos take a longer way around by a bank reinforced with woven branches, arriving in The Forest away from the main exit.
+
+> Rick: I would like a route that does not require an explanation afterward.
+
+**204. day 6 — travel-roam-swamp**
+
+Keeping low beside a row of exposed walkway braces, Adur passes out of sight of the main trail and into The Center Podium.
+
+**205. day 6 — ruins-trap-fatal**
+
+Guest 30 covers a broken lift shaft with thin paneling in the ruins and draws Guest 41 across it; the plunge onto the shaft floor is fatal. At the ruined stairwell, Guest 41 has met an end at the very spot where Guest 26 died earlier.
+
+**206. day 6 — mountain-ledge-collapse**
+
+Guest 31 presses against the cliff while crossing the narrow ledge in The Mountains. A slab shifts beneath him and slides into the gully, carrying him down. Guest 31 dies on impact. Guest 31's death adds another name to the narrow ledge, where Guest 35 died before.
+
+**207. day 6 — arena-contest-1**
+
+At a fence gap in The Center Podium, Guest 37 offers to hold the wire aside for Guest 28. Once the head is through, Guest 37 twists the loose wire tight against the neck; Guest 28 dies before breaking free.
+
+**208. day 6 — tundra-hazard-escape**
+
+Marcos notices a snow shelf bending over the tundra path and crawls away before its outer edge collapses.
+
+**209. day 6 — wound-thigh-fatal**
+
+Guest 29 yanks a low screen frame across Guest 46's legs in The Forest; an exposed bolt opens the thigh deeply. Guest 46 falls behind the screen and bleeds to death before standing again.
+
+**210. night 6 — travel-roam-ruins**
+
+Guest 30 passes through an empty ticket-check lane and joins the boundary path into The Forest.
+
+**211. night 6 — travel-roam-forest**
+
+Keeping low beside a notch between two split trunks, Guest 29 passes out of sight of the main trail and into The Center Podium.
+
+**212. night 6 — wound-shoulder-fatal**
+
+Adur pushes Guest 37's raised arm into a jagged inspection opening in The Center Podium, then drives a metal offcut into the exposed shoulder. Pinned against the opening, Guest 37 dies from the bleeding shoulder wound.
+
+**213. night 6 — arena-contest-5**
+
+Rick searches an empty delivery sack in The Forest. Chaos pulls the sack over the searching head and holds it there through the struggle; Rick dies from suffocation.
+
+> Rick: I would prefer a chair to another question.
+
+**214. night 6 — travel-roam-tundra**
+
+Marcos takes a longer way around by a row of exposed dark stones, arriving in The Center Podium away from the main exit.
+
+> Marcos: I am judging the paths by how easy it would be to turn back.
+
+**215. day 7 — arena-forest-closure-warning**
+
+Announcer: “The forest departure is tonight's priority shot; complete the marked woodland exits before nightfall brings the controlled burn and closes the region for the rest of the games.”
+
+**216. day 7 — travel-warning-2-forest**
+
+With trouble announced, Chaos and Guest 30 head into The Mountains together.
+
+**217. day 7 — false-footsteps**
+
+Adur doubles back through a shallow service recess in The Center Podium. Guest 29 keeps following the visible trail and misses the moment Adur returns to the entrance behind it.
+
+**218. day 7 — ruins-hazard-2**
+
+A jammed door leaves Marcos trapped in a ruined storeroom beside a damaged generator. Smoke thickens with no escape available. Marcos dies from smoke inhalation.
+
+**219. night 7 — arena-forest-closure-start**
+
+Announcer: “The forest exit sequence is in progress because the controlled burn has begun; the marked woodland exits is the remaining direction of travel toward the Center Podium.”
+
+**220. night 7 — ally-decoy**
+
+Guest 30 notices a search moving toward Chaos in The Mountains and rattles a distant gate. The search turns toward the gate while Chaos stays hidden behind a panel.
+
+> Guest 30: I did not expect the practical part to feel quite so personal.
+
+**221. night 7 — arena-contest-4**
+
+Guest 29 changes direction through an empty shelter in The Center Podium, then braces the door when Adur follows. Trapped at the neck in the narrowing opening, Adur suffocates before the pressure is released.
+
+**222. night 7 — arena-forest-close**
+
+Announcer: “The forest burn has closed every return trail, which removes the forest from the remaining destination list; the programme continues in open regions.”
+
+**223. finale 8 — final-beacon-3**
+
+Chaos rushes Guest 30 across the open ground in The Mountains. Guest 30 drops beneath the reaching arms, takes the back, and holds a choke until Chaos dies.
+
+> Chaos: There is probably a useful lesson here. Somebody else can find it.
+
+**224. finale 8 — final-converge-ruins-mountains**
+
+Guest 29 and Guest 30 grapple for the higher end of a rubble ridge in The Center Podium. Guest 29 gives up the height to pull Guest 30 down onto an exposed reinforcement spike, causing a fatal chest wound.
