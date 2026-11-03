@@ -1,0 +1,33 @@
+import { test, expect } from '@playwright/test';
+import { readFile } from 'node:fs/promises';
+
+for (const width of [1280, 390]) test(`new traits respect positive slots and persist at ${width}px`, async ({ page }) => {
+  await page.setViewportSize({ width, height: 900 });
+  await page.goto('/');
+  await page.getByLabel('Names, one per line', { exact: true }).fill('Rowan\nCleo');
+  await page.getByRole('button', { name: 'Add to cast', exact: true }).click();
+  await page.locator('.cast-person').first().click();
+  const dialog = page.getByRole('dialog');
+  await dialog.getByRole('checkbox', { name: 'Tracker', exact: true }).check();
+  await dialog.getByRole('checkbox', { name: 'Medic', exact: true }).check();
+  await expect(dialog.getByRole('checkbox', { name: 'Patient', exact: true })).toBeDisabled();
+  for (const name of ['Loud', 'Clumsy', 'Gullible']) await dialog.getByRole('checkbox', { name, exact: true }).check();
+  await expect(dialog.getByRole('status', { name: 'Positive trait count' })).toHaveText('2 / 2');
+  await expect(dialog.locator('.trait-descriptions')).toContainText('Treatment stops bleeding');
+  await expect(dialog.locator('.trait-descriptions')).toContainText('false directions');
+  expect(await dialog.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
+  await dialog.getByRole('button', { name: 'Done', exact: true }).click();
+  await expect(page.getByText('Draft saved', { exact: true })).toBeVisible();
+  await page.reload();
+  await page.locator('.cast-person').first().click();
+  for (const name of ['Tracker', 'Medic', 'Loud', 'Clumsy', 'Gullible']) await expect(page.getByRole('dialog').getByRole('checkbox', { name, exact: true })).toBeChecked();
+  await page.getByRole('dialog').getByRole('checkbox', { name: 'Medic', exact: true }).uncheck();
+  await page.getByRole('dialog').getByRole('checkbox', { name: 'Patient', exact: true }).check();
+  await page.getByRole('dialog').getByRole('button', { name: 'Done', exact: true }).click();
+  const pending = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Export cast', exact: true }).click();
+  const path = await (await pending).path();
+  const exported = JSON.parse(await readFile(path!, 'utf8'));
+  expect(exported.cast.players[0].traits).toEqual(expect.arrayContaining(['tracker', 'patient', 'loud', 'clumsy', 'gullible']));
+  expect(exported.cast.players[0].traits).not.toContain('medic');
+});
