@@ -1,3 +1,4 @@
+import { legacyCursedItems } from '../fixtures/legacy-content';
 import { describe, expect, it } from 'vitest';
 import { defaultContentPack } from '../../src/content';
 import { narrativeAdapter } from '../../src/narrative';
@@ -13,8 +14,8 @@ describe('full authored pack integration',()=>{
     for(const size of [2,24,48]){const started=performance.now(),run=generateRun(setup(size,'benchmark'),narrativeAdapter);measurements.push({players:size,milliseconds:Math.round((performance.now()-started)*10)/10,events:run.events.length,bytes:new TextEncoder().encode(JSON.stringify(run)).length});expect(run.events.at(-1)!.state.players.filter(p=>p.alive)).toHaveLength(1);}
     console.info('Generation measurements:',JSON.stringify(measurements));
   });
-  it('generates real stories across boundary casts, dangers and seeds',()=>{
-    for(const size of [2,3,12,24,48])for(const danger of ['low','normal','high'] as const)for(let seed=0;seed<3;seed++){
+  it.each([2,3,12,24,48].flatMap(size => (['low','normal','high'] as const).map(danger => ({size,danger}))))('generates real stories for $size players at $danger danger across seeds',({size,danger})=>{
+    for(let seed=0;seed<3;seed++){
       const input=setup(size,`full-pack-${seed}`);input.settings.danger=danger;const run=generateRun(input,narrativeAdapter);
       expect(RunRecordSchema.safeParse(run).success).toBe(true);expect(run.events.at(-1)!.state.players.filter(p=>p.alive).map(p=>p.id)).toEqual([run.winnerId]);expect(run.events.every(e=>e.text.length>0)).toBe(true);
     }
@@ -45,5 +46,5 @@ describe('full authored pack integration',()=>{
     // A new favor can be interrupted: dead participants cannot become active chain targets.
     step('shelter-offer','p0','p1');state=applyEffects(state,[{kind:'eliminate',role:'target'}],{actor:'p1',target:'p0'},input.content,createRandom('interrupt'),sequence,history)!.state;expect(state.players[1].markers['debt-to']).toBeUndefined();const template=input.content.events.find(e=>e.id==='shelter-repaid')!;expect(findBindings(template,state,input.cast,input.content,['p1','p2'],'p1',createRandom('interrupted'))).toBeNull();
   });
-  it('bell possession increases actual encounter weighting and destruction removes it',()=>{const input=setup(),before=initialState(input),template=input.content.events.find(e=>e.id==='stolen-cache')!,bindings={actor:'p0',target:'p1'},phase={kind:'day' as const,index:1,day:1};const plain=eventWeight(template,bindings,before,input,phase);const cursed=applyEffects(before,[{kind:'createItem',role:'actor',definitionId:'dinner-bell'}],bindings,input.content,createRandom('bell'))!.state;expect(eventWeight(template,bindings,cursed,input,phase)).toBeCloseTo(plain*1.8);const broken=applyEffects(cursed,[{kind:'destroyItem',role:'actor',definitionId:'dinner-bell'}],bindings,input.content,createRandom('bell'))!.state;expect(eventWeight(template,bindings,broken,input,phase)).toBe(plain);});
+  it('legacy bell possession increases actual encounter weighting and destruction removes it',()=>{const input=setup();input.content={...input.content,items:[...input.content.items,...legacyCursedItems]};const before=initialState(input),template=input.content.events.find(e=>e.id==='stolen-cache')!,bindings={actor:'p0',target:'p1'},phase={kind:'day' as const,index:1,day:1};const plain=eventWeight(template,bindings,before,input,phase);const cursed=applyEffects(before,[{kind:'createItem',role:'actor',definitionId:'dinner-bell'}],bindings,input.content,createRandom('bell'))!.state;expect(eventWeight(template,bindings,cursed,input,phase)).toBeCloseTo(plain*1.8);const broken=applyEffects(cursed,[{kind:'destroyItem',role:'actor',definitionId:'dinner-bell'}],bindings,input.content,createRandom('bell'))!.state;expect(eventWeight(template,bindings,broken,input,phase)).toBe(plain);});
 });

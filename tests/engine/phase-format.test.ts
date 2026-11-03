@@ -25,6 +25,29 @@ describe('bloodbath, travel and sponsors', () => {
       }
     }
   });
+  it('involves most opening contestants in shared scenes without repeating assignments', () => {
+    let participants = 0, interacting = 0;
+    for (const run of runs) {
+      const assigned = new Set<string>();
+      for (const event of run.events.filter(e => e.phase.kind === 'opening')) {
+        const ids = Object.values(event.bindings);
+        participants += ids.length;
+        if (ids.length > 1) interacting += ids.length;
+        for (const id of ids) {
+          expect(assigned.has(id)).toBe(false);
+          assigned.add(id);
+        }
+        if (event.templateId.startsWith('opening-route-') && ids.length > 1) {
+          expect(event.facts.filter(f => f.type === 'assistance')).toHaveLength(2);
+          expect(event.facts.filter(f => f.type === 'move')).toHaveLength(2);
+          expect(new Set(ids.map(id => event.state.players.find(p => p.id === id)!.biome)).size).toBe(1);
+          expect(ids.every(id => event.state.players.find(p => p.id === id)!.alive)).toBe(true);
+          for (const id of ids) expect(event.text).toContain(run.input.cast.players.find(p => p.id === id)!.name);
+        }
+      }
+    }
+    expect(interacting / participants).toBeGreaterThan(0.6);
+  });
   it('requires physical travel before participants from different regions interact', () => {
     let crossRegionEncounters = 0;
     for (const run of runs) {
