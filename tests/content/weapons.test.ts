@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { defaultContentPack } from '../../src/content';
+import { actionWording } from '../../src/content/action-wording';
+import { hotspotWording } from '../../src/content/hotspot-variety';
 import { weaponExchangeScenes, weaponItems, weaponScenes, weaponTrapScenes } from '../../src/content/weapons';
 import { DEFAULT_SETTINGS, type EventTemplate, type GameState, type RunInput } from '../../src/domain';
 import { applyEffects, createRandom, findBindings, initialState } from '../../src/engine';
@@ -10,6 +12,29 @@ const bind = (template: EventTemplate, state: GameState) => findBindings(templat
 const equip = (definitionId: string) => applyEffects(initialState(input), [{ kind: 'createItem', role: 'actor', definitionId }], { actor: 'a' }, defaultContentPack, random())!.state;
 
 describe('weapon and trap outcomes', () => {
+  it('ships eight tracked weapons with all authored variants per weapon scenario', () => {
+    expect(weaponItems.map(item => item.id)).toEqual(['bow', 'knife', 'spear', 'axe', 'club', 'crossbow', 'machete', 'mace']);
+    for (const raw of [...weaponScenes, ...weaponExchangeScenes]) {
+      const template = defaultContentPack.events.find(event => event.id === raw.id)!;
+      const expected = hotspotWording[raw.id]?.length ?? raw.variants.length + (actionWording[raw.id]?.length ?? 8);
+      expect(template.variants, template.id).toHaveLength(expected);
+      expect(new Set(template.variants).size, template.id).toBe(expected);
+    }
+  });
+
+  it('uses the seized weapon for kills and removes repeated stone finishes', () => {
+    for (const item of weaponItems) {
+      const template = defaultContentPack.events.find(event => event.id === `weapon-${item.id}-kill-and-loot`)!;
+      for (const text of template.variants) {
+        expect(text).toContain(item.name);
+        expect(text).not.toMatch(/stone|rock/);
+      }
+    }
+    for (const id of ['mountains-contest-2', 'tundra-contest-1']) {
+      for (const text of defaultContentPack.events.find(event => event.id === id)!.variants) expect(text).not.toMatch(/stone/);
+    }
+  });
+
   it('provides three distinct wording variants for every weapon, trap and exchange scenario', () => {
     for (const template of [...weaponScenes, ...weaponTrapScenes, ...weaponExchangeScenes]) {
       expect(template.variants, template.id).toHaveLength(3);
