@@ -2,20 +2,34 @@ import { z } from 'zod';
 import { canonicalRunId, canonicalStringify } from './canonical';
 
 export const BIOME_IDS = ['forest', 'swamp', 'mountains', 'desert', 'tundra', 'ruins'] as const;
-export const TRAITS = ['reckless', 'loyal', 'sneaky', 'dramatic', 'cautious', 'resourceful', 'disloyal', 'grudge', 'agile', 'weak-constitution', 'perceptive', 'love-hate'] as const;
-export const POSITIVE_TRAITS: readonly Trait[] = ['loyal', 'sneaky', 'cautious', 'resourceful', 'agile', 'perceptive'];
+export const TRAITS = ['reckless', 'loyal', 'sneaky', 'dramatic', 'cautious', 'resourceful', 'disloyal', 'grudge', 'agile', 'weak-constitution', 'perceptive', 'love-hate', 'tracker', 'medic', 'patient', 'loud', 'clumsy', 'gullible', 'early-riser', 'night-owl', 'on-guard', 'forest-wise', 'kleptomaniac', 'curious', 'compulsive-eater', 'afraid-of-dark'] as const;
+export const POSITIVE_TRAITS: readonly Trait[] = ['loyal', 'sneaky', 'cautious', 'resourceful', 'agile', 'perceptive', 'tracker', 'medic', 'patient', 'early-riser', 'night-owl', 'on-guard', 'forest-wise'];
 export const MAX_POSITIVE_TRAITS = 2;
 export const positiveTraitCount = (traits: readonly Trait[]) => new Set(traits.filter(trait => POSITIVE_TRAITS.includes(trait))).size;
-export const TRAIT_LABELS: Record<Trait, string> = { reckless: 'Reckless', loyal: 'Loyal', sneaky: 'Sneaky', dramatic: 'Dramatic', cautious: 'Cautious', resourceful: 'Resourceful', disloyal: 'Disloyal', grudge: 'Grudge', agile: 'Agile', 'weak-constitution': 'Weak Constitution', perceptive: 'Perceptive', 'love-hate': 'Love and Hate' };
+export const TRAIT_LABELS: Record<Trait, string> = { reckless: 'Reckless', loyal: 'Loyal', sneaky: 'Sneaky', dramatic: 'Dramatic', cautious: 'Cautious', resourceful: 'Resourceful', disloyal: 'Disloyal', grudge: 'Grudge', agile: 'Agile', 'weak-constitution': 'Weak Constitution', perceptive: 'Perceptive', 'love-hate': 'Love and Hate', tracker: 'Tracker', medic: 'Medic', patient: 'Patient', loud: 'Loud', clumsy: 'Clumsy', gullible: 'Gullible', 'early-riser': 'Early Riser', 'night-owl': 'Night Owl', 'on-guard': 'On Guard', 'forest-wise': 'Forest-wise', kleptomaniac: 'Kleptomaniac', curious: 'Curious', 'compulsive-eater': 'Compulsive Eater', 'afraid-of-dark': 'Afraid of the Dark' };
 export const TRAIT_DESCRIPTIONS: Record<Trait, string> = {
   reckless: 'Favors dangerous encounters and the central opening supplies.', loyal: 'Will not betray, steal from, or attack a mutual ally.',
   sneaky: 'Favors theft and unlocks deceptive encounters.', dramatic: 'Favors social encounters.', cautious: 'Favors survival scenes and safer opening routes.', resourceful: 'Favors finding supplies and repairing equipment.',
   disloyal: 'More likely to betray an ally. Choosing this replaces Loyal.', grudge: 'Remembers anyone who kills a mutual ally and can seek revenge.',
   agile: 'Unlocks nimble escapes and reduces evacuation risk. Risky shortcuts can sprain an ankle, suspending these benefits until a rest scene.', 'weak-constitution': 'Unlocks exhaustion scenes and increases exposure and evacuation risk.', perceptive: 'Unlocks spotting traps and hidden supplies, and reduces evacuation risk. Investigations can use a phase without movement or supplies.',
   'love-hate': 'Starts with love or hate toward each person, decided by the game seed, and reacts strongly to relationship changes.',
+  tracker: 'Favors travel and unlocks following tracks. Reduces evacuation risk, but a confusing trail can waste a turn.',
+  medic: 'Favors treating bleeding wounds and unlocks additional ways to help injured players. Treatment stops bleeding; it does not erase the injury.',
+  patient: 'Favors quiet survival over ordinary conflict, while unlocking a carefully timed ambush.',
+  loud: 'Draws more encounters when present and unlocks noisy challenges.',
+  clumsy: 'Favors hazards and increases evacuation risk. Can stumble into a wound or drop a carried item.',
+  gullible: 'More susceptible to theft and betrayal, and can be tricked into paying for false directions.',
+  'early-riser': 'Favors supply searches and useful travel during the day. Unlocks daylight preparation scenes; no automatic night penalty.',
+  'night-owl': 'Favors quiet travel, scouting and concealment at night. Does not favor theft or grant extra turns.',
+  'on-guard': 'Favors escape and guarded supplies during the opening bloodbath. This advantage ends after the opening.',
+  'forest-wise': 'Favors forest foraging and safer routes while in the forest. Unlocks finding supplies and reading forest trails.',
+  kleptomaniac: 'Favors opportunistic theft even when already equipped. Petty theft costs trust; Loyal still protects mutual allies.',
+  curious: 'Investigates unfamiliar caches and mechanisms. Can find supplies, waste a turn or suffer a survivable wound.',
+  'compulsive-eater': 'Can eat carried rations instead of taking another useful action. The food is consumed without granting healing or protection.',
+  'afraid-of-dark': 'At night without a held oil lantern, favors waiting or company over ordinary solo travel. Required departures and evacuations still happen.',
 };
 export const PHASE_KINDS = ['opening', 'day', 'night', 'finale'] as const;
-export const FACT_TYPES = ['move', 'acquire', 'transfer', 'theft', 'drop', 'destroy', 'assistance', 'alliance', 'betrayal', 'revenge', 'elimination', 'curse', 'chain', 'nemesis', 'survival', 'lore', 'arena', 'grudge'] as const;
+export const FACT_TYPES = ['move', 'acquire', 'transfer', 'theft', 'drop', 'destroy', 'consume', 'assistance', 'alliance', 'betrayal', 'revenge', 'elimination', 'curse', 'chain', 'nemesis', 'survival', 'lore', 'arena', 'grudge', 'site-revisit'] as const;
 const id = z.string().trim().min(1).max(120);
 const label = z.string().trim().min(1).max(120);
 export const BiomeIdSchema = z.enum(BIOME_IDS);
@@ -46,7 +60,7 @@ export const StoredCastSchema = z.object({ version: z.literal(1), title: label, 
 });
 export const CastSchema = StoredCastSchema.superRefine((cast, ctx) => {
   cast.players.forEach((player, i) => {
-    if (positiveTraitCount(player.traits) > MAX_POSITIVE_TRAITS) ctx.addIssue({ code: 'custom', path: ['players', i, 'traits'], message: `${player.name}: choose at most two positive traits (Loyal, Sneaky, Cautious, Resourceful, Agile or Perceptive).` });
+    if (positiveTraitCount(player.traits) > MAX_POSITIVE_TRAITS) ctx.addIssue({ code: 'custom', path: ['players', i, 'traits'], message: `${player.name}: choose at most two positive traits (${POSITIVE_TRAITS.map(trait => TRAIT_LABELS[trait]).join(', ')}).` });
   });
 });
 export const GameSettingsSchema = z.object({ seed: z.string().trim().min(1).max(200), danger: z.enum(['low', 'normal', 'high']), tone: ToneSchema, personality: z.enum(['off', 'normal', 'strong']), loreCarryover: z.boolean() }).strict();
@@ -71,7 +85,7 @@ export const ConditionSchema = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('biomeStatus'), role, statuses: z.array(BiomeStatusSchema).min(1) }).strict(),
   z.object({ kind: z.literal('biome'), role, biomes: z.array(BiomeIdSchema).min(1) }).strict(),
   z.object({ kind: z.literal('trait'), role, trait: TraitSchema }).strict(),
-  z.object({ kind: z.literal('item'), role, definitionId: id.optional(), tag: id.optional() }).strict(),
+  z.object({ kind: z.literal('item'), role, definitionId: id.optional(), tag: id.optional(), exists: z.boolean().optional() }).strict(),
   z.object({ kind: z.literal('relationship'), from: role, to: role, minTrust: z.number().min(-100).max(100).optional(), maxTrust: z.number().min(-100).max(100).optional(), minGrudge: z.number().min(0).max(100).optional() }).strict(),
   z.object({ kind: z.literal('marker'), role, marker: id, exists: z.boolean(), value: z.union([z.boolean(), z.number(), z.string()]).optional() }).strict(),
   z.object({ kind: z.literal('survivors'), min: z.number().int().min(2), max: z.number().int().min(2).optional() }).strict(),
@@ -80,12 +94,14 @@ export const ConditionSchema = z.discriminatedUnion('kind', [
 ]);
 export const EffectSchema = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('biomeStatus'), biome: BiomeIdSchema, status: BiomeStatusSchema }).strict(),
-  z.object({ kind: z.literal('move'), role, biome: z.union([BiomeIdSchema, z.literal('adjacent')]) }).strict(),
+  z.object({ kind: z.literal('move'), role, biome: z.union([BiomeIdSchema, z.literal('adjacent')]), avoidDanger: z.boolean().optional() }).strict(),
+  z.object({ kind: z.literal('moveGroup'), roles: z.array(role).min(2).max(4), biome: z.union([BiomeIdSchema, z.literal('adjacent')]), avoidDanger: z.boolean().optional() }).strict(),
   z.object({ kind: z.literal('createItem'), role, definitionId: id }).strict(),
   z.object({ kind: z.literal('acquireItem'), role, definitionId: id.optional(), from: role.optional() }).strict(),
   z.object({ kind: z.literal('transferItem'), from: role, to: role, definitionId: id.optional(), fact: z.enum(['transfer', 'theft']).default('transfer') }).strict(),
   z.object({ kind: z.literal('dropItem'), role, definitionId: id.optional() }).strict(),
   z.object({ kind: z.literal('destroyItem'), role, definitionId: id.optional() }).strict(),
+  z.object({ kind: z.literal('consumeItem'), role, definitionId: id }).strict(),
   z.object({ kind: z.literal('relationship'), from: role, to: role, trust: z.number().int().min(-200).max(200).default(0), grudge: z.number().int().min(-100).max(100).default(0), fact: z.enum(['assistance', 'alliance', 'betrayal', 'revenge']).optional() }).strict(),
   z.object({ kind: z.literal('setMarker'), role, marker: id, value: z.union([z.boolean(), z.number(), z.string()]) }).strict(),
   z.object({ kind: z.literal('removeMarker'), role, marker: id }).strict(),
@@ -95,8 +111,11 @@ export const EffectSchema = z.discriminatedUnion('kind', [
 export const EventTemplateSchema = z.object({
   id, category: z.enum(['opening', 'survival', 'social', 'conflict', 'curse', 'hazard', 'finale', 'announcement']), phases: z.array(PhaseKindSchema).min(1), tones: z.array(ToneSchema).min(1), scope: z.enum(['local', 'global']), roles: z.array(RoleSchema).max(4), conditions: z.array(ConditionSchema).default([]), weight: z.number().finite().positive(), cooldown: z.number().int().nonnegative(), variants: z.array(z.string().min(1).max(2000)).min(1), effects: z.array(EffectSchema), chain: z.object({ id, step: z.number().int().positive() }).optional(), arena: ArenaSceneSchema.optional(), rare: z.boolean().optional(),
   schedule: z.object({ day: z.number().int().positive(), group: id }).strict().optional(),
+  site: z.object({ id, name: label }).strict().optional(),
+  travel: z.enum(['roam', 'warning', 'weather']).optional(),
+  behaviors: z.array(z.object({ role, kind: z.enum(['forage', 'scout', 'conceal', 'safe-travel', 'guarded-opening', 'wait', 'company', 'theft', 'eat', 'risky-inspection']) }).strict()).optional(),
 }).strict();
-export const ConfessionalTemplateSchema = z.object({ id, traits: z.array(TraitSchema), tones: z.array(ToneSchema).min(1), triggers: z.array(FactTypeSchema).min(1), speaker: z.enum(['actor', 'target', 'any', 'eliminated']), variants: z.array(z.string().min(1).max(1000)).min(1), cooldown: z.number().int().nonnegative() }).strict();
+export const ConfessionalTemplateSchema = z.object({ id, traits: z.array(TraitSchema), tones: z.array(ToneSchema).min(1), triggers: z.array(FactTypeSchema).min(1), speaker: z.enum(['actor', 'target', 'any', 'eliminated']), variants: z.array(z.string().min(1).max(1000)).min(1), cooldown: z.number().int().nonnegative(), eventIds: z.array(id).min(1).optional() }).strict();
 export const ContentPackSchema = z.object({ id, version: label, title: label, biomes: z.array(BiomeDefinitionSchema).length(6), items: z.array(ItemDefinitionSchema), markers: z.array(MarkerDefinitionSchema), events: z.array(EventTemplateSchema).min(1), confessionals: z.array(ConfessionalTemplateSchema) }).strict().superRefine((pack, ctx) => {
   const issue = (path: (string | number)[], message: string) => ctx.addIssue({ code: 'custom', path, message });
   for (const key of ['biomes', 'items', 'markers', 'events', 'confessionals'] as const) {
@@ -109,6 +128,11 @@ export const ContentPackSchema = z.object({ id, version: label, title: label, bi
   if (reachable.size !== 6) issue(['biomes'], 'The arena graph must connect all six biomes.');
   const itemIds = new Set(pack.items.map(i => i.id)); const markers = new Map(pack.markers.map(m => [m.id, m]));
   pack.events.forEach((event, i) => {
+    if (event.travel) {
+      const movement = event.effects[0];
+      const movers = movement?.kind === 'move' ? [movement.role] : movement?.kind === 'moveGroup' ? movement.roles : [];
+      if (event.category !== 'survival' || event.scope !== 'local' || event.effects.length !== 1 || canonicalStringify([...movers].sort()) !== canonicalStringify(event.roles.map(role => role.id).sort()) || event.phases.some(phase => phase === 'opening' || phase === 'finale')) issue(['events', i, 'travel'], 'Travel policy scenes must move all participants in one ordinary local survival assignment.');
+    }
     const announcement = event.category === 'announcement';
     if (announcement ? event.roles.length !== 0 || !event.arena || event.effects.some(e => e.kind !== 'biomeStatus') : event.roles.length === 0 || event.effects.some(e => e.kind === 'biomeStatus')) issue(['events', i], 'Only arena announcements have no participants and may change biome status.');
     if (event.arena) {
@@ -118,8 +142,10 @@ export const ContentPackSchema = z.object({ id, version: label, title: label, bi
     }
     const roles = new Set(event.roles.map(r => r.id));
     if (roles.size !== event.roles.length) issue(['events', i, 'roles'], 'Role IDs must be distinct.');
+    event.behaviors?.forEach((behavior, j) => { if (!roles.has(behavior.role)) issue(['events', i, 'behaviors', j, 'role'], 'Unknown behavior participant role.'); });
     event.roles.forEach((r, j) => { if (r.itemDefinitionId && !itemIds.has(r.itemDefinitionId)) issue(['events', i, 'roles', j], 'Unknown item definition.'); });
     [...event.conditions, ...event.effects].forEach((entry, j) => {
+      if (entry.kind === 'moveGroup' && (new Set(entry.roles).size !== entry.roles.length || entry.roles.some(role => !roles.has(role)))) issue(['events', i, 'references', j], 'Group movement must name distinct declared roles.');
       for (const field of ['role', 'from', 'to', 'credit'] as const) if (field in entry && !roles.has((entry as unknown as Record<string, string>)[field])) issue(['events', i, 'references', j, field], 'Unknown participant role.');
       if ('definitionId' in entry && entry.definitionId && !itemIds.has(entry.definitionId)) issue(['events', i, 'references', j, 'definitionId'], 'Unknown item definition.');
       if ('marker' in entry) {
@@ -135,13 +161,13 @@ export const ContentPackSchema = z.object({ id, version: label, title: label, bi
     });
   });
   pack.confessionals.forEach((c, i) => c.variants.forEach((text, j) => {
-    for (const match of text.matchAll(/\{([^{}]+)\}/g)) if (!['speaker.name', 'speaker.subject', 'speaker.object', 'speaker.possessive', 'biome', 'item'].includes(match[1])) issue(['confessionals', i, 'variants', j], `Unknown confessional placeholder: {${match[1]}}.`);
+    for (const match of text.matchAll(/\{([^{}]+)\}/g)) if (!['speaker.name', 'speaker.subject', 'speaker.object', 'speaker.possessive', 'rival.name', 'rival.subject', 'rival.object', 'rival.possessive', 'biome', 'item'].includes(match[1])) issue(['confessionals', i, 'variants', j], `Unknown confessional placeholder: {${match[1]}}.`);
   }));
 });
 export const PlayerStateSchema = z.object({ id, alive: z.boolean(), biome: BiomeIdSchema, markers: z.record(z.string(), z.union([z.boolean(), z.number().finite(), z.string()])) }).strict();
 export const ItemInstanceSchema = z.object({ id, definitionId: id, name: label, ownerId: id.nullable(), biome: BiomeIdSchema, destroyed: z.boolean() }).strict();
 export const GameStateSchema = z.object({ players: z.array(PlayerStateSchema).min(2).max(48), items: z.array(ItemInstanceSchema), relationships: z.array(RelationshipSchema), arena: z.array(z.object({ biome: BiomeIdSchema, status: BiomeStatusSchema }).strict()).optional() }).strict();
-export const EventFactSchema = z.object({ type: FactTypeSchema, actorId: id.optional(), targetId: id.optional(), allyId: id.optional(), itemId: id.optional(), itemDefinitionId: id.optional(), biome: BiomeIdSchema.optional(), biomeStatus: BiomeStatusSchema.optional(), marker: id.optional(), sourceEvent: z.number().int().nonnegative().optional(), sourceRunId: id.optional() }).strict();
+export const EventFactSchema = z.object({ type: FactTypeSchema, actorId: id.optional(), targetId: id.optional(), allyId: id.optional(), itemId: id.optional(), itemDefinitionId: id.optional(), biome: BiomeIdSchema.optional(), biomeStatus: BiomeStatusSchema.optional(), marker: id.optional(), siteId: id.optional(), sourceEvent: z.number().int().nonnegative().optional(), sourceRunId: id.optional() }).strict();
 export const ConfessionalSchema = z.object({ templateId: id, speakerId: id, text: z.string(), exit: z.boolean() }).strict();
 export const EventRecordSchema = z.object({ sequence: z.number().int().nonnegative(), id, phase: PhaseSchema, templateId: id, bindings: z.record(z.string(), id), biome: BiomeIdSchema, effects: z.array(EffectSchema), facts: z.array(EventFactSchema), text: z.string(), confessional: ConfessionalSchema.nullable(), state: GameStateSchema }).strict();
 export const LoreFactSchema = z.object({ id, type: z.enum(['win', 'betrayal', 'revenge', 'transfer', 'nemesis', 'curse']), sourceRunId: id, playerIds: z.array(id).min(1), eventSequences: z.array(z.number().int().nonnegative()), itemDefinitionId: id.optional(), detail: z.string() }).strict();
@@ -196,6 +222,12 @@ export const RunRecordSchema = z.object({ id, engineVersion: id, input: Recorded
     checkState(event.state, ['events', i, 'state']);
     event.state.players.forEach(p => { if (p.alive && !previous.players.find(x => x.id === p.id)?.alive) add(['events', i, 'state'], 'Eliminated players cannot return.'); });
     const eliminated = previous.players.filter(p => p.alive && !event.state.players.find(v => v.id === p.id)?.alive);
+    for (const effect of event.effects.filter(effect => effect.kind === 'consumeItem')) {
+      const actor = event.bindings[effect.role];
+      const expected = event.effects.filter(other => other.kind === 'consumeItem' && event.bindings[other.role] === actor && other.definitionId === effect.definitionId).length;
+      const consumed = event.facts.filter(fact => fact.type === 'consume' && fact.actorId === actor && fact.itemDefinitionId === effect.definitionId);
+      if (consumed.length !== expected || new Set(consumed.map(fact => fact.itemId)).size !== expected) add(['events', i, 'facts'], 'Every consume effect must record the distinct item actually used up.');
+    }
     eliminated.forEach(p => {
       eliminatedAt.set(p.id, { sequence: i, rank: event.state.players.filter(v => v.alive).length + 1 });
       if (!event.facts.some(f => f.type === 'elimination' && f.targetId === p.id) || !event.effects.some(e => e.kind === 'eliminate' && event.bindings[e.role] === p.id)) add(['events', i, 'facts'], 'Every elimination must have a matching committed effect and fact.');
@@ -221,10 +253,10 @@ export const RunRecordSchema = z.object({ id, engineVersion: id, input: Recorded
       const after = event.state.items.find(v => v.id === item.id);
       if (!after || after.definitionId !== item.definitionId || (item.destroyed && !after.destroyed)) { add(['events', i, 'state', 'items'], 'Existing item instances cannot disappear, change definition, or return after destruction.'); return; }
       const facts = event.facts.filter(f => f.itemId === item.id);
-      if (!item.destroyed && after.destroyed && !facts.some(f => f.type === 'destroy')) add(['events', i, 'facts'], 'Item destruction requires a matching recorded fact.');
+      if (!item.destroyed && after.destroyed && !facts.some(f => f.type === 'destroy' || f.type === 'consume')) add(['events', i, 'facts'], 'Item destruction or consumption requires a matching recorded fact.');
       if (item.ownerId !== after.ownerId) {
         const transfer = item.ownerId && after.ownerId && facts.some(f => (f.type === 'transfer' && f.actorId === item.ownerId && f.targetId === after.ownerId) || (f.type === 'theft' && f.actorId === after.ownerId && f.targetId === item.ownerId));
-        const release = !item.ownerId || facts.some(f => (f.type === 'drop' || f.type === 'destroy') && f.actorId === item.ownerId);
+        const release = !item.ownerId || facts.some(f => (f.type === 'drop' || f.type === 'destroy' || f.type === 'consume') && f.actorId === item.ownerId);
         const acquire = !after.ownerId || facts.some(f => f.type === 'acquire' && f.actorId === after.ownerId);
         if (!transfer && !(release && acquire)) add(['events', i, 'facts'], 'Item ownership changes require acquisition, transfer, theft, or loss facts.');
       }
@@ -235,6 +267,22 @@ export const RunRecordSchema = z.object({ id, engineVersion: id, input: Recorded
       const item = f.itemId ? event.state.items.find(v => v.id === f.itemId) ?? previous.items.find(v => v.id === f.itemId) : undefined;
       if ((f.itemId && !item) || (f.itemDefinitionId && !f.itemDefinitionId.startsWith('signature:') && !run.input.content.items.some(v => v.id === f.itemDefinitionId)) || (item && f.itemDefinitionId && item.definitionId !== f.itemDefinitionId)) add(['events', i, 'facts', j], 'Fact references an unknown or inconsistent item.');
       if (f.type === 'elimination' && (!f.targetId || !eliminated.some(p => p.id === f.targetId))) add(['events', i, 'facts', j], 'Elimination facts must match a contestant eliminated in this event.');
+      if (f.type === 'consume') {
+        const beforeItem = previous.items.find(item => item.id === f.itemId);
+        let owner = beforeItem?.ownerId ?? null, depleted = beforeItem?.destroyed ?? false;
+        for (const earlier of event.facts.slice(0, j).filter(earlier => earlier.itemId === f.itemId)) {
+          if (earlier.type === 'acquire' || earlier.type === 'theft') owner = earlier.actorId ?? null;
+          if (earlier.type === 'transfer') owner = earlier.targetId ?? null;
+          if (earlier.type === 'drop' || earlier.type === 'destroy' || earlier.type === 'consume') owner = null;
+          if (earlier.type === 'destroy' || earlier.type === 'consume') depleted = true;
+        }
+        if (!f.actorId || !f.itemId || !item || item.ownerId !== null || !item.destroyed || depleted || owner !== f.actorId || !event.effects.some(e => e.kind === 'consumeItem' && event.bindings[e.role] === f.actorId && e.definitionId === item.definitionId)) add(['events', i, 'facts', j], 'Consumption must use up an actual held item through a committed consume effect.');
+      }
+      if (f.type === 'site-revisit') {
+        const prior = f.sourceEvent === undefined ? undefined : run.events[f.sourceEvent];
+        const priorTemplate = run.input.content.events.find(t => t.id === prior?.templateId);
+        if (!template?.site || f.siteId !== template.site.id || f.biome !== event.biome || !prior || prior.sequence >= i || prior.biome !== event.biome || priorTemplate?.site?.id !== template.site.id || !f.actorId || !f.targetId || f.sourceRunId || !event.facts.some(d => d.type === 'elimination' && d.targetId === f.actorId && d.biome === event.biome) || !prior.facts.some(d => d.type === 'elimination' && d.targetId === f.targetId && d.biome === event.biome)) add(['events', i, 'facts', j], 'A site callback must cite an earlier death at the same landmark in the same region.');
+      }
       if (f.type === 'grudge' && (!f.actorId || !f.targetId || !f.allyId || f.actorId === f.targetId || run.input.settings.personality === 'off' || !run.input.cast.players.find(p => p.id === f.actorId)?.traits.includes('grudge') || !event.state.players.find(p => p.id === f.actorId)?.alive || !event.facts.some(d => d.type === 'elimination' && d.actorId === f.targetId && d.targetId === f.allyId) || !previous.relationships.some(r => r.from === f.actorId && r.to === f.allyId && r.trust >= 40) || !previous.relationships.some(r => r.from === f.allyId && r.to === f.actorId && r.trust >= 40))) add(['events', i, 'facts', j], 'A grudge must record a living tribute remembering the credited killer of a mutual ally.');
       if (f.type === 'arena' && (!f.biome || !f.biomeStatus || !event.effects.some(e => e.kind === 'biomeStatus' && e.biome === f.biome && e.status === f.biomeStatus) || event.state.arena?.find(b => b.biome === f.biome)?.status !== f.biomeStatus)) add(['events', i, 'facts', j], 'Arena facts must match a committed biome transition.');
       if (f.sourceEvent !== undefined && !f.sourceRunId && f.sourceEvent >= i) add(['events', i, 'facts', j, 'sourceEvent'], 'A local callback must cite an earlier event.');

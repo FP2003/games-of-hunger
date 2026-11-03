@@ -1,5 +1,6 @@
 import type { Condition, ContentPack, Effect, EventTemplate } from '../domain';
 import { trapWording, weaponWording, woundedEscapeWording } from './weapon-wording';
+import { additionalWeapons, additionalWeaponWording, killAndLootWording } from './weapon-expansion';
 
 type Weapon = { id: string; name: string; description: string; fatal: string[]; hit: (site: string) => string; miss: string };
 const weapons: Weapon[] = [
@@ -27,6 +28,11 @@ const weapons: Weapon[] = [
     miss: '{actor.name} swings a wooden club at {target.name} in {biome}. {target.name} steps back beyond the swing and runs around a supply shelter, escaping unharmed.' },
 ];
 
+for (const weapon of additionalWeapons) {
+  const wording = additionalWeaponWording[weapon.id];
+  weapons.push({ ...weapon, fatal: wording.fatal.slice(0, 1), hit: site => wording.hit(site)[0], miss: wording.missed[0] });
+}
+
 export const weaponItems: ContentPack['items'] = weapons.map(({ id, name, description }) => ({ id, name, description, tags: ['weapon'] }));
 const sites = ['thigh', 'shoulder', 'side'] as const;
 const unwounded: Condition[] = sites.map(site => ({ kind: 'marker', role: 'target', marker: `bleeding-${site}`, exists: false }));
@@ -38,7 +44,8 @@ function scene(id: string, variants: string | string[], effects: Effect[], condi
 export const weaponScenes: EventTemplate[] = weapons.flatMap(weapon => {
   const held: Condition[] = [{ kind: 'item', role: 'actor', definitionId: weapon.id }];
   const equipment = weapon.id === 'bow' ? 'a bow and a quiver of arrows' : `a ${weapon.name}`;
-  const wording = weaponWording[weapon.id];
+  const expanded = additionalWeaponWording[weapon.id];
+  const wording = expanded ? { fatal: expanded.fatal.slice(1, 3), hit: (site: string) => expanded.hit(site).slice(1, 3), missed: expanded.missed.slice(1, 3) } : weaponWording[weapon.id];
   return [
     scene(`weapon-${weapon.id}-opening`, [
       `{actor.name} reaches the Center Podium weapon rack and claims ${equipment}, then backs away from the scramble.`,
@@ -97,10 +104,6 @@ export const weaponExchangeScenes: EventTemplate[] = weapons.flatMap(weapon => {
       `At a supply barrier in {biome}, {actor.name} pins {target.name}'s weapon arm long enough to pull away the ${name}. {target.name} escapes without injury, leaving the weapon with {actor.name}.`,
       `{actor.name} traps {target.name}'s weapon arm against a supply barrier in {biome} and prises the ${name} free. {target.name} pulls away uninjured while {actor.name} holds onto the weapon.`,
     ], [{ kind: 'transferItem', from: 'target', to: 'actor', definitionId: weapon.id, fact: 'transfer' }, hostility], held),
-    scene(`weapon-${weapon.id}-kill-and-loot`, [
-      `{actor.name} trips {target.name} beside a supply barrier in {biome}, then strikes {target.object} in the head with a loose stone. The blow kills {target.name}. {actor.name} takes the fallen tribute's ${name} and leaves.`,
-      `Beside a supply barrier in {biome}, {actor.name} sends {target.name} sprawling and delivers a fatal blow to the head with a loose stone. Once {target.name} is dead, {actor.name} collects {target.possessive} ${name} and departs.`,
-      `{actor.name} knocks {target.name} off balance beside a supply barrier in {biome} and hits {target.object} in the head with a loose stone. {target.name} dies from the blow; {actor.name} retrieves the ${name} left by the body and moves on.`,
-    ], [{ kind: 'eliminate', role: 'target', credit: 'actor' }, { kind: 'acquireItem', role: 'actor', definitionId: weapon.id, from: 'target' }], held, { weight: 0.65 }),
+    scene(`weapon-${weapon.id}-kill-and-loot`, killAndLootWording(weapon.id).slice(0, 3), [{ kind: 'eliminate', role: 'target', credit: 'actor' }, { kind: 'acquireItem', role: 'actor', definitionId: weapon.id, from: 'target' }], held, { weight: 0.65 }),
   ];
 });

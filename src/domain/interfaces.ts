@@ -1,4 +1,4 @@
-import type { CastDefinition, ContentPack, Confessional, EditorDraft, EventFact, EventTemplate, GameState, LoreContext, PlaybackSave, RunInput, RunRecord, SeasonHistory, Phase, ConfessionalTemplate } from './schemas';
+import type { CastDefinition, ContentPack, Confessional, EditorDraft, EventFact, EventRecord, EventTemplate, GameState, LoreContext, PlaybackSave, RunInput, RunRecord, SeasonHistory, Phase, ConfessionalTemplate } from './schemas';
 
 export interface RandomSource {
   next(): number;
@@ -17,13 +17,20 @@ export interface EventNarrativeInput {
   sequence: number;
   random: RandomSource;
   lore: LoreContext;
+  /** False disables trait-specific interviews as well as mechanical personality rules. */
+  personalityEnabled?: boolean;
   previousWording?: string;
+  /** Per-run raw event wording counts, shared across template IDs and bindings. */
+  wordingUses?: Readonly<Record<string, number>>;
+  history?: readonly Pick<EventRecord, 'sequence' | 'templateId' | 'biome' | 'facts'>[];
 }
 export interface RenderedEvent { text: string; wording?: string }
 export interface ConfessionalInput extends EventNarrativeInput {
   usedThisPhase: string[];
   lastUsed: Record<string, number>;
   lastWording?: Readonly<Record<string, string>>;
+  /** Rendered interviews already spoken in this run, shared across speakers. */
+  usedTexts?: readonly string[];
 }
 export type ConfessionalSelection = Confessional & { wording?: string };
 export interface NarrativeAdapter {
