@@ -1,3 +1,4 @@
+import season2Cast from '../../src/content/casts/season2.json' with { type: 'json' };
 import { test, expect, type Locator } from '@playwright/test';
 import { exampleCast } from '../fixtures';
 
@@ -135,7 +136,7 @@ for (const width of [1280, 390]) {
   test(`24-player chart uses the full width with readable names at ${width}px`, async ({ page }) => {
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/');
-    await page.getByLabel('Saved casts', { exact: true }).selectOption('preset:season2');
+    await page.locator('input[type=file]').first().setInputFiles({ name: 'cast.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(season2Cast)) });
     await page.getByRole('button', { name: 'Relationship network', exact: true }).click();
     const chart = page.getByRole('region', { name: 'Cast relationship network', exact: true });
     await expect(chart.locator('.network-node')).toHaveCount(24);

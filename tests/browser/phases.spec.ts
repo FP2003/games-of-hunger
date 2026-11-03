@@ -6,10 +6,18 @@ import { narrativeAdapter } from '../../src/narrative';
 import { phaseEndCursor, phaseReport } from '../../src/ui/playback';
 import { phaseLabel } from '../../src/ui/recap';
 
-const run = generateRun({
-  cast: { version: 1, title: 'The Regional Games', relationships: [], players: Array.from({ length: 24 }, (_, i) => ({ id: `p${i}`, name: `Tribute ${i}`, traits: [] })) },
-  settings: { ...DEFAULT_SETTINGS, seed: 'regional-0' }, content: defaultContentPack, lore: { facts: [] },
-}, narrativeAdapter);
+function regionalFixture() {
+  for (let seed = 0; seed < 32; seed++) {
+    const run = generateRun({
+      cast: { version: 1, title: 'The Regional Games', relationships: [], players: Array.from({ length: 24 }, (_, i) => ({ id: `p${i}`, name: `Tribute ${i}`, traits: [] })) },
+      settings: { ...DEFAULT_SETTINGS, seed: `regional-${seed}` }, content: defaultContentPack, lore: { facts: [] },
+    }, narrativeAdapter);
+    const firstNight = run.events.findIndex((event, index) => event.phase.kind === 'night' && run.events[index + 1]?.phase.kind !== 'night') + 1;
+    if (firstNight > 0 && phaseReport(run, firstNight).fallenIds.length && run.events.some(event => event.templateId.startsWith('sponsor-'))) return run;
+  }
+  throw new Error('No seeded regional fixture includes both a sponsor gift and a first-night roll call.');
+}
+const run = regionalFixture();
 
 test('autoplay gives fallen tributes a separate step before revealing the next day', async ({ page }) => {
   const cursor = run.events.findIndex((e, i) => e.phase.kind === 'night' && run.events[i + 1]?.phase.kind !== 'night') + 1;
@@ -79,7 +87,7 @@ for (const width of [1280, 390]) test(`whole phases, regions, gifts and roll cal
         await page.getByRole('button', { name: 'Back to Night 1', exact: true }).click();
         await expect(page.locator('.phase-heading h1')).toHaveText('Night 1');
         await page.getByRole('button', { name: 'Continue to Fallen tributes' }).click();
-        await expect(page.locator('footer')).toContainText(`Progress saved · ${cursor} events revealed`);
+        await expect(page.locator('footer').getByRole('status')).toContainText(`Progress saved · ${cursor} events revealed`);
         await page.reload();
         await page.getByRole('button', { name: 'Resume game' }).click();
         await expect(page.locator('.phase-heading h1')).toHaveText('Fallen tributes');
