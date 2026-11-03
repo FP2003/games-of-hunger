@@ -1,0 +1,142 @@
+{
+  "contentVersion": "1.18.0",
+  "engineVersion": "1.14.0",
+  "inventory": {
+    "events": 574,
+    "categories": {
+      "opening": 36,
+      "survival": 226,
+      "social": 67,
+      "conflict": 134,
+      "curse": 12,
+      "hazard": 33,
+      "finale": 36,
+      "announcement": 30
+    },
+    "biomes": {
+      "forest": 67,
+      "swamp": 66,
+      "mountains": 62,
+      "desert": 59,
+      "tundra": 59,
+      "ruins": 88
+    },
+    "confessionals": 66,
+    "curses": 3,
+    "chains": [
+      "stolen-cache",
+      "shelter-debt",
+      "warning-sign",
+      "wound-thigh",
+      "wound-shoulder",
+      "wound-side"
+    ]
+  },
+  "regions": [
+    {
+      "id": "forest",
+      "adjacent": [
+        "swamp",
+        "mountains",
+        "ruins"
+      ]
+    },
+    {
+      "id": "swamp",
+      "adjacent": [
+        "forest",
+        "desert",
+        "ruins"
+      ]
+    },
+    {
+      "id": "mountains",
+      "adjacent": [
+        "forest",
+        "tundra",
+        "ruins"
+      ]
+    },
+    {
+      "id": "desert",
+      "adjacent": [
+        "swamp",
+        "ruins"
+      ]
+    },
+    {
+      "id": "tundra",
+      "adjacent": [
+        "mountains",
+        "ruins"
+      ]
+    },
+    {
+      "id": "ruins",
+      "adjacent": [
+        "forest",
+        "swamp",
+        "mountains",
+        "desert",
+        "tundra"
+      ]
+    }
+  ],
+  "traits": [
+    "reckless",
+    "loyal",
+    "sneaky",
+    "dramatic",
+    "cautious",
+    "resourceful",
+    "disloyal",
+    "grudge",
+    "agile",
+    "weak-constitution",
+    "perceptive",
+    "love-hate",
+    "tracker",
+    "medic",
+    "patient",
+    "loud",
+    "clumsy",
+    "gullible"
+  ],
+  "games": 16,
+  "simpleDepartures": 323,
+  "groupedDepartures": 133,
+  "groupedOpeningDepartures": 75,
+  "maximumSimpleTravelWords": 21,
+  "stapleAcquisitions": 154,
+  "rationAndWaterConsumptions": 38,
+  "blanketUses": 23,
+  "sourcedDeathCallbacks": 14,
+  "fatalEvents": 368,
+  "fatalEventsMentioningRockOrStone": 31,
+  "traitSceneCounts": {
+    "trait-tracker-route": 5,
+    "trait-loud-challenge": 3,
+    "trait-tracker-loop": 3,
+    "trait-patient-watch": 5,
+    "trait-patient-ambush": 1,
+    "trait-clumsy-drop": 2,
+    "trait-clumsy-stumble": 1,
+    "trait-medic-shoulder": 1,
+    "trait-medic-side": 1
+  },
+  "examples": [
+    "Unwilling to risk the scramble, Player 21, Player 9 and Player 0 head into The Tundra.",
+    "Player 15, Player 18, Player 19 and Player 2 leave the opening chaos together and reach The Tundra.",
+    "Unwilling to risk the scramble, Player 6, Player 14 and Player 22 head into The Swamp.",
+    "Player 8 and Player 5 find an exit together and head into The Tundra.",
+    "Player 17, Player 16, Player 23 and Player 4 head out of the Center Podium and reach The Desert.",
+    "Ready to move on, Player 0, Player 5, Player 9 and Player 15 take the trail into The Mountains.",
+    "Player 3, Player 7 and Player 12 take the same exit and head into The Desert.",
+    "Player 21 and Player 19 head out of the Tundra and reach The Mountains.",
+    "Player 0 and Player 19 head out of the Mountains and reach The Forest.",
+    "Player 3 and Player 4 leave the Desert together for The Center Podium.",
+    "Player 1 and Player 4 heed the warning in the Desert and head into The Center Podium.",
+    "Player 12 and Player 23 get each other clear of the fighting and cross into The Tundra."
+  ],
+  "violations": []
+}

@@ -1,0 +1,327 @@
+Batch 3: environment and regional movement
+
+The arena keeps its existing six regions. Each of the 36 new scenarios has seven complete wording variants. Berries and charges use tracked inventory; wildlife outcomes and pit wounds are committed state changes.
+
+tree-scout
+1. Alex climbs a sturdy tree in the Forest, studies the trails from a fork in the branches, then climbs down before being spotted.
+2. A low branch gives Alex a way up in the Forest. From the canopy, Alex surveys the paths before returning to the ground.
+3. Alex scales a tree in the Forest and pauses above the undergrowth to check for movement. With a route in mind, Alex climbs back down.
+4. In the Forest, Alex climbs into a broad tree fork for a better view. After watching the nearby paths, Alex descends carefully.
+5. Alex pulls up through the lower branches of a tree in the Forest, scouts the trail below, and comes down on the sheltered side.
+6. The view from the ground is poor in the Forest, so Alex climbs a tree. A few quiet minutes above the brush reveal the nearby trails before the descent.
+7. Alex tests the branches of a tree in the Forest and climbs high enough to see over the brush. After checking the approaches, Alex returns to the trail.
+
+tree-pursuit-escape
+1. Alex pursues Blair through the Forest. Blair climbs a leaning tree, crosses a thick branch and drops behind a fallen trunk, escaping the chase.
+2. With Alex closing in through the Forest, Blair scrambles up a leaning tree and along a low branch. A drop behind a fallen trunk breaks the pursuit.
+3. Blair climbs above Alex's reach in the Forest, then follows a branch over a fallen trunk. Landing out of sight, Blair escapes unharmed.
+4. Alex follows Blair to a leaning tree in the Forest. Blair climbs into its fork, crosses a low branch and drops into cover beyond a fallen trunk.
+5. A leaning tree offers Blair a way out of Alex's chase in the Forest. Blair climbs over a fallen trunk on its branches and lands safely out of sight.
+6. Blair hauls up a sloping trunk in the Forest as Alex approaches. Crossing the branches and dropping behind a fallen tree gives Blair time to escape.
+7. The chase in the Forest ends at a leaning tree. Blair climbs, moves along a sturdy branch and drops behind a fallen trunk before Alex can follow.
+
+berries-forage
+1. Alex recognizes a ripe berry bush in the Forest, picks a few handfuls and eats them beside the trail.
+2. In the Forest, Alex finds familiar berries among the brush and stops to pick and eat a small meal.
+3. Alex checks a familiar berry bush in the Forest, chooses the ripe fruit and eats it before moving on.
+4. A patch of ripe berries gives Alex a reason to pause in the Forest. Alex picks enough for a meal and eats them there.
+5. Alex spots familiar fruit on a bush in the Forest and gathers the ripe berries, eating each handful at the patch.
+6. Rather than search another supply case in the Forest, Alex picks ripe berries from a familiar bush and eats them.
+7. Alex works along a berry bush in the Forest, picking its ripe fruit and eating it before returning to the path.
+
+berries-gather
+1. Alex picks a handful of ripe berries in the Forest and wraps them in a broad leaf to carry along.
+2. A familiar berry bush in the Forest yields a small handful for Alex, who packs the fruit in a folded leaf.
+3. Alex gathers ripe berries beside the trail in the Forest and saves the handful in a leaf wrapper.
+4. In the Forest, Alex carefully picks the ripe fruit from a familiar bush and carries it away in a leaf.
+5. Alex fills a folded leaf with a handful of berries from a familiar bush in the Forest, saving them for later.
+6. The brush in the Forest holds ripe berries. Alex picks a small handful and folds a leaf around them for the road.
+7. Alex stops at a familiar berry patch in the Forest, gathers a handful and tucks the leaf-wrapped fruit away.
+
+berries-eat
+1. Alex unwraps the berries carried into the Center Podium and eats the whole handful during a rest.
+2. At a quiet stop in the Center Podium, Alex finishes the saved berries and folds away the empty leaf.
+3. Alex takes out the gathered berries in the Center Podium and eats them one by one until none remain.
+4. The saved berries become a small meal in the Center Podium. Alex eats the last of them before setting out again.
+5. Alex opens the leaf-wrapped berries beside the trail in the Center Podium and finishes the fruit.
+6. In the Center Podium, Alex pauses to eat the berries being carried around. Only the leaf wrapper remains.
+7. Alex settles out of sight in the Center Podium, unwraps the saved berries and eats the entire handful.
+
+forest-boar-escape
+1. A boar charges from the brush in the Forest. Alex climbs onto a fallen tree and waits until it crashes past, then slips away unharmed.
+2. Alex hears a grunt in the Forest and scrambles onto a fallen trunk as a boar charges. The animal passes beneath, leaving time to escape.
+3. In the Forest, Alex steps too close to a boar in the undergrowth. A quick climb onto a fallen tree keeps the tusks out of reach until it moves on.
+4. Alex meets a charging boar on a narrow trail in the Forest, climbs a fallen trunk and stays above it until the animal loses interest.
+5. The brush erupts beside Alex in the Forest. A boar rushes the path, but Alex climbs a fallen tree and escapes after it passes.
+6. Alex pulls onto a fallen tree in the Forest just before a boar reaches the trail. Waiting above its reach lets Alex get away without injury.
+7. A boar forces Alex off the trail in the Forest. Alex scrambles up a fallen trunk, lets it charge past and retreats unharmed.
+
+forest-boar-fatal
+1. Alex corners a boar between roots in the Forest. It charges, knocks them down and strikes with its tusks. Alex dies from the injuries.
+2. A boar trapped beside the roots in the Forest turns on Alex. The charge knocks them off balance, and the tusk wounds are fatal.
+3. Alex pushes through brush in the Forest and blocks a boar's way out. It charges through them; Alex falls and dies from the wounds.
+4. In the Forest, Alex gets between a boar and its escape through the roots. The animal knocks them down and inflicts fatal injuries.
+5. Alex mistakes the rustling beside a tree in the Forest for another contestant. A cornered boar charges out, and Alex does not survive the attack.
+6. The gap beside a root bank in the Forest is too narrow to dodge the boar Alex has cornered. Its charge and tusks leave fatal injuries.
+7. Alex enters a pocket of brush in the Forest with a boar inside. With its escape blocked, it charges and knocks them down. The injuries kill Alex.
+
+mountains-wolves-escape
+1. Wolves appear below Alex on a trail in the Mountains. Alex climbs a narrow rock shelf and waits beyond their reach until the pack moves on.
+2. Alex spots wolves approaching in the Mountains and scrambles onto a steep shelf. The pack cannot reach the ledge and eventually leaves.
+3. A pack of wolves cuts across Alex's path in the Mountains. A climb onto a narrow shelf keeps them out of reach until the trail clears.
+4. In the Mountains, Alex hears wolves on the lower trail and climbs to a steep ledge. Waiting there lets the pack pass without an attack.
+5. Alex backs toward a rock shelf as wolves approach through the Mountains, then climbs above their reach and stays still until they leave.
+6. The lower path in the Mountains fills with wolves. Alex scrambles up a steep shelf and waits safely above the pack before climbing down.
+7. Alex climbs a narrow shelf in the Mountains as wolves close in along the trail. Unable to follow, the pack moves on, leaving Alex unharmed.
+
+mountains-wolves-fatal
+1. Alex descends into a dead-end gully in the Mountains. Wolves block the only exit and close in; Alex cannot get past them and dies in the attack.
+2. Wolves follow Alex into a narrow gully in the Mountains. With sheer walls on either side, Alex has no way out and is killed by the pack.
+3. Alex takes a gully for a shortcut in the Mountains and reaches a sheer wall. Wolves fill the route behind, trapping them. The attack is fatal.
+4. In the Mountains, Alex retreats from wolves down a gully that ends at a cliff face. The pack catches up before Alex can climb out and kills them.
+5. Alex finds wolves between the gully and the trail in the Mountains. The walls offer no handholds, and the pack's attack leaves fatal injuries.
+6. A pack of wolves corners Alex beneath a steep gully wall in the Mountains. Alex tries to force a way past but does not survive the attack.
+7. Alex follows a narrow channel in the Mountains until the walls close off the path. Wolves approaching from behind leave no escape; the attack kills them.
+
+swamp-crocodile-escape
+1. Alex spots a crocodile beside the crossing in the Swamp and climbs onto the raised boardwalk. The jaws snap below the boards as Alex retreats unharmed.
+2. A crocodile surges toward Alex at the water's edge in the Swamp. Alex scrambles onto a raised walkway before it reaches the bank.
+3. Alex notices eyes above the water in the Swamp and pulls onto the high boardwalk. A crocodile lunges below, missing them.
+4. In the Swamp, the shape beside the crossing moves before Alex steps into the water. Alex climbs onto the raised boards as a crocodile snaps beneath them.
+5. Alex abandons a low crossing in the Swamp when a crocodile surfaces. A scramble onto the higher walkway leaves the animal behind.
+6. Water breaks around a crocodile at Alex's feet in the Swamp. Alex grabs the raised boardwalk and hauls up, escaping without injury.
+7. Alex catches sight of a crocodile beneath the crossing in the Swamp and retreats onto the high boards. Its lunge reaches only the walkway supports.
+
+swamp-crocodile-fatal
+1. Alex wades below a broken crossing in the Swamp. A crocodile catches their leg and pulls them under; Alex drowns.
+2. A low crossing in the Swamp forces Alex into deep water. A crocodile seizes them below the boards; unable to surface, Alex drowns.
+3. Alex enters a channel in the Swamp to bypass a missing plank. A crocodile drags them beneath the crossing, where Alex drowns.
+4. In the Swamp, Alex lowers into the water beside a damaged walkway. A crocodile takes hold and pulls them under. Alex drowns beneath the boards.
+5. Alex tries to swim the gap beneath a crossing in the Swamp. A crocodile catches them before the far support, and Alex dies underwater.
+6. The water beside a broken boardwalk in the Swamp looks still until Alex steps in. A crocodile seizes a leg and drags them under to a fatal drowning.
+7. Alex leaves the boards to cross a channel in the Swamp. A crocodile strikes from beneath the walkway and pulls them down. Alex does not survive.
+
+pitfall-survived
+1. Alex steps through a leaf-covered pit on a trail in the Forest. A broken stake cuts the thigh, but exposed roots offer a way out. Alex climbs free, alive with a bleeding thigh.
+2. The leaves beneath Alex give way in the Forest. Falling into a hidden pit opens a thigh wound on a stake; Alex uses the roots to climb out, still bleeding.
+3. Alex falls into a concealed trail pit in the Forest, catching the thigh on a broken stake. A climb up the exposed roots gets them out alive with the wound bleeding.
+4. In the Forest, Alex breaks through a pit's leaf cover and lands against a stake, cutting the thigh. Gripping the exposed roots, Alex escapes with the thigh still bleeding.
+5. A hidden pit catches Alex on a trail in the Forest. A broken stake leaves a bleeding thigh wound, but roots along the wall let them climb out alive.
+6. Alex drops through loose leaves into a pit in the Forest. The thigh catches a stake on the way down; Alex survives and hauls out on the roots with the cut still bleeding.
+7. The trail collapses into a covered pit beneath Alex in the Forest. A stake cuts the thigh, but Alex reaches exposed roots and climbs free, surviving with a bleeding wound.
+
+pitfall-fatal
+1. Alex breaks through a leaf-covered pit on a trail in the Forest. The fall drives a sharpened stake into their chest, and the wound is fatal.
+2. A concealed pit opens beneath Alex in the Forest. Landing on a sharpened stake leaves a fatal chest wound.
+3. Alex steps onto loose leaves in the Forest and falls into a hidden trail pit. A stake strikes the chest; Alex dies from the wound.
+4. In the Forest, a thin covering of leaves gives way under Alex. A sharpened stake at the bottom of the pit causes a fatal chest injury.
+5. The trail in the Forest hides a stake-lined pit. Alex falls through its cover and dies from a chest wound at the bottom.
+6. Alex crosses what looks like leaf-strewn ground in the Forest. The pit beneath gives way, and the fall onto a stake kills them.
+7. A leaf-covered trap on a trail in the Forest catches Alex. The fall onto a sharpened stake leaves a chest wound that Alex does not survive.
+
+tripwire-noticed
+1. Alex notices a wire across a service trail in the Center Podium, steps over it and takes the longer path around the trap.
+2. A glint at ankle height stops Alex in the Center Podium. The wire across the trail is left untouched as Alex goes around it.
+3. Alex spots a tripwire beside a trail marker in the Center Podium and backs away, choosing another approach.
+4. In the Center Podium, Alex pauses at a wire stretched across the path. A careful detour avoids whatever it was meant to trigger.
+5. Alex catches sight of a wire across the service path in the Center Podium and skirts its anchor, leaving the trap alone.
+6. An ankle-high wire blocks Alex's path in the Center Podium. Alex stops in time and walks around the trapped stretch.
+7. Alex sees a tripwire just before reaching it in the Center Podium, steps back and works around the edge of the trail.
+
+explosive-find
+1. Alex opens a marked equipment case in the Center Podium and takes a sealed arena charge with its matching remote.
+2. An equipment case in the Center Podium holds a sealed arena charge and remote. Alex claims the pair.
+3. Alex searches a marked case beside a trail in the Center Podium, finding one sealed arena charge bundled with its remote.
+4. In the Center Podium, Alex retrieves a sealed arena charge and its matching remote from a closed equipment case.
+5. Alex checks an equipment case in the Center Podium and leaves carrying a sealed arena charge with its remote.
+6. A marked case beside the path in the Center Podium gives Alex a sealed arena charge and a matching remote to take along.
+7. Alex lifts the lid of a marked case in the Center Podium. Inside is one sealed arena charge with a remote, which Alex takes.
+
+explosive-fatal
+1. Alex leaves an arena charge beside a service barrier in the Center Podium and retreats behind a concrete wall. When Blair reaches the barrier, Alex detonates it. The blast kills Blair.
+2. From behind a concrete wall in the Center Podium, Alex watches Blair approach the arena charge left beside a barrier. Alex presses the remote, and the explosion kills Blair.
+3. Blair passes a service barrier in the Center Podium where Alex has left an arena charge. Sheltered behind concrete, Alex triggers the blast. Blair dies in the explosion.
+4. In the Center Podium, Alex draws back behind concrete after leaving an arena charge at a barrier. Blair reaches it, and Alex detonates the charge, causing fatal injuries.
+5. Alex waits behind a concrete wall in the Center Podium with the remote to a charge left at the service barrier. Blair steps beside it; the triggered explosion is fatal.
+6. A service barrier in the Center Podium hides the arena charge Alex has left behind. From concrete cover, Alex detonates it as Blair approaches. The blast kills them.
+7. Alex takes cover behind concrete in the Center Podium after placing an arena charge beside a barrier. As Blair passes, Alex triggers it. Blair does not survive the blast.
+
+explosive-escaped
+1. Alex triggers an arena charge beside a barrier in the Center Podium from concrete cover. Blair dives behind another wall before the blast and escapes unharmed.
+2. A charge detonated by Alex bursts beside a service barrier in the Center Podium. Blair spots it in time to dive behind concrete, surviving without injury.
+3. Blair sees the arena charge beside a barrier in the Center Podium and dives behind a wall. Alex detonates it from cover, but Blair escapes the blast unharmed.
+4. In the Center Podium, Alex sets off an arena charge from behind concrete. Blair drops behind a wall before it explodes and gets away uninjured.
+5. Alex detonates an arena charge beside a barrier in the Center Podium, safely behind a concrete wall. A second wall shields Blair, who retreats without injury.
+6. The charge Alex triggers in the Center Podium explodes beside an empty barrier: Blair has already dived behind concrete and escapes unharmed.
+7. Blair scrambles behind a wall in the Center Podium just before Alex detonates an arena charge at the barrier. The concrete takes the blast, and Blair escapes unhurt.
+
+explosive-backfire
+1. Alex triggers the arena charge in the Center Podium before reaching the concrete shelter. Caught in the open, Alex dies in the blast.
+2. In the Center Podium, Alex detonates the carried arena charge too soon. The shelter is still out of reach, and the explosion is fatal.
+3. Alex leaves an arena charge beside a barrier in the Center Podium but presses the remote before reaching cover. The blast kills them.
+4. The charge Alex sets off in the Center Podium explodes before Alex reaches the wall. With nothing between the blast and the path, Alex is killed.
+5. Alex tries to retreat behind concrete in the Center Podium while triggering an arena charge. The explosion comes before the shelter, causing fatal injuries.
+6. An arena charge detonates at Alex's command in the Center Podium, but Alex has not yet reached cover. The blast is fatal.
+7. Alex sets off the arena charge while crossing open ground in the Center Podium. The concrete barrier is still ahead, and Alex does not survive the explosion.
+
+travel-roam-forest
+1. Alex leaves the Forest and heads into the Center Podium.
+2. Ready to move on, Alex takes the trail from the Forest into the Center Podium.
+3. Alex trades the Forest for the Center Podium.
+4. Leaving the Forest behind, Alex crosses into the Center Podium.
+5. Alex follows an exit from the Forest and reaches the Center Podium.
+6. Alex moves out of the Forest, choosing the Center Podium next.
+7. After a stay in the Forest, Alex sets off into the Center Podium.
+
+travel-warning-forest
+1. Heeding the broadcast, Alex leaves the Forest for the Center Podium.
+2. Alex takes the warning about the Forest seriously and heads into the Center Podium.
+3. The announcement sends Alex out of the Forest and into the Center Podium.
+4. Alex leaves the Forest before the announced danger arrives, reaching the Center Podium.
+5. After the warning, Alex takes an exit from the Forest into the Center Podium.
+6. Alex packs up after the broadcast and moves from the Forest into the Center Podium.
+7. With trouble announced for the Forest, Alex relocates to the Center Podium.
+
+travel-weather-forest
+1. Alex leaves the worsening weather in the Forest and reaches the Center Podium.
+2. Conditions in the Forest drive Alex onto the trail into the Center Podium.
+3. Alex abandons the Forest during the bad weather and moves into the Center Podium.
+4. Rather than wait out the weather in the Forest, Alex heads into the Center Podium.
+5. Alex follows an exit out of the bad weather in the Forest, reaching the Center Podium.
+6. The weather has turned in the Forest; Alex crosses into the Center Podium.
+7. Alex packs up in the Forest and escapes the weather by moving into the Center Podium.
+
+travel-roam-swamp
+1. Alex leaves the Swamp and heads into the Center Podium.
+2. Ready to move on, Alex takes the trail from the Swamp into the Center Podium.
+3. Alex trades the Swamp for the Center Podium.
+4. Leaving the Swamp behind, Alex crosses into the Center Podium.
+5. Alex follows an exit from the Swamp and reaches the Center Podium.
+6. Alex moves out of the Swamp, choosing the Center Podium next.
+7. After a stay in the Swamp, Alex sets off into the Center Podium.
+
+travel-warning-swamp
+1. Heeding the broadcast, Alex leaves the Swamp for the Center Podium.
+2. Alex takes the warning about the Swamp seriously and heads into the Center Podium.
+3. The announcement sends Alex out of the Swamp and into the Center Podium.
+4. Alex leaves the Swamp before the announced danger arrives, reaching the Center Podium.
+5. After the warning, Alex takes an exit from the Swamp into the Center Podium.
+6. Alex packs up after the broadcast and moves from the Swamp into the Center Podium.
+7. With trouble announced for the Swamp, Alex relocates to the Center Podium.
+
+travel-weather-swamp
+1. Alex leaves the worsening weather in the Swamp and reaches the Center Podium.
+2. Conditions in the Swamp drive Alex onto the trail into the Center Podium.
+3. Alex abandons the Swamp during the bad weather and moves into the Center Podium.
+4. Rather than wait out the weather in the Swamp, Alex heads into the Center Podium.
+5. Alex follows an exit out of the bad weather in the Swamp, reaching the Center Podium.
+6. The weather has turned in the Swamp; Alex crosses into the Center Podium.
+7. Alex packs up in the Swamp and escapes the weather by moving into the Center Podium.
+
+travel-roam-mountains
+1. Alex leaves the Mountains and heads into the Center Podium.
+2. Ready to move on, Alex takes the trail from the Mountains into the Center Podium.
+3. Alex trades the Mountains for the Center Podium.
+4. Leaving the Mountains behind, Alex crosses into the Center Podium.
+5. Alex follows an exit from the Mountains and reaches the Center Podium.
+6. Alex moves out of the Mountains, choosing the Center Podium next.
+7. After a stay in the Mountains, Alex sets off into the Center Podium.
+
+travel-warning-mountains
+1. Heeding the broadcast, Alex leaves the Mountains for the Center Podium.
+2. Alex takes the warning about the Mountains seriously and heads into the Center Podium.
+3. The announcement sends Alex out of the Mountains and into the Center Podium.
+4. Alex leaves the Mountains before the announced danger arrives, reaching the Center Podium.
+5. After the warning, Alex takes an exit from the Mountains into the Center Podium.
+6. Alex packs up after the broadcast and moves from the Mountains into the Center Podium.
+7. With trouble announced for the Mountains, Alex relocates to the Center Podium.
+
+travel-weather-mountains
+1. Alex leaves the worsening weather in the Mountains and reaches the Center Podium.
+2. Conditions in the Mountains drive Alex onto the trail into the Center Podium.
+3. Alex abandons the Mountains during the bad weather and moves into the Center Podium.
+4. Rather than wait out the weather in the Mountains, Alex heads into the Center Podium.
+5. Alex follows an exit out of the bad weather in the Mountains, reaching the Center Podium.
+6. The weather has turned in the Mountains; Alex crosses into the Center Podium.
+7. Alex packs up in the Mountains and escapes the weather by moving into the Center Podium.
+
+travel-roam-desert
+1. Alex leaves the Desert and heads into the Center Podium.
+2. Ready to move on, Alex takes the trail from the Desert into the Center Podium.
+3. Alex trades the Desert for the Center Podium.
+4. Leaving the Desert behind, Alex crosses into the Center Podium.
+5. Alex follows an exit from the Desert and reaches the Center Podium.
+6. Alex moves out of the Desert, choosing the Center Podium next.
+7. After a stay in the Desert, Alex sets off into the Center Podium.
+
+travel-warning-desert
+1. Heeding the broadcast, Alex leaves the Desert for the Center Podium.
+2. Alex takes the warning about the Desert seriously and heads into the Center Podium.
+3. The announcement sends Alex out of the Desert and into the Center Podium.
+4. Alex leaves the Desert before the announced danger arrives, reaching the Center Podium.
+5. After the warning, Alex takes an exit from the Desert into the Center Podium.
+6. Alex packs up after the broadcast and moves from the Desert into the Center Podium.
+7. With trouble announced for the Desert, Alex relocates to the Center Podium.
+
+travel-weather-desert
+1. Alex leaves the worsening weather in the Desert and reaches the Center Podium.
+2. Conditions in the Desert drive Alex onto the trail into the Center Podium.
+3. Alex abandons the Desert during the bad weather and moves into the Center Podium.
+4. Rather than wait out the weather in the Desert, Alex heads into the Center Podium.
+5. Alex follows an exit out of the bad weather in the Desert, reaching the Center Podium.
+6. The weather has turned in the Desert; Alex crosses into the Center Podium.
+7. Alex packs up in the Desert and escapes the weather by moving into the Center Podium.
+
+travel-roam-tundra
+1. Alex leaves the Tundra and heads into the Center Podium.
+2. Ready to move on, Alex takes the trail from the Tundra into the Center Podium.
+3. Alex trades the Tundra for the Center Podium.
+4. Leaving the Tundra behind, Alex crosses into the Center Podium.
+5. Alex follows an exit from the Tundra and reaches the Center Podium.
+6. Alex moves out of the Tundra, choosing the Center Podium next.
+7. After a stay in the Tundra, Alex sets off into the Center Podium.
+
+travel-warning-tundra
+1. Heeding the broadcast, Alex leaves the Tundra for the Center Podium.
+2. Alex takes the warning about the Tundra seriously and heads into the Center Podium.
+3. The announcement sends Alex out of the Tundra and into the Center Podium.
+4. Alex leaves the Tundra before the announced danger arrives, reaching the Center Podium.
+5. After the warning, Alex takes an exit from the Tundra into the Center Podium.
+6. Alex packs up after the broadcast and moves from the Tundra into the Center Podium.
+7. With trouble announced for the Tundra, Alex relocates to the Center Podium.
+
+travel-weather-tundra
+1. Alex leaves the worsening weather in the Tundra and reaches the Center Podium.
+2. Conditions in the Tundra drive Alex onto the trail into the Center Podium.
+3. Alex abandons the Tundra during the bad weather and moves into the Center Podium.
+4. Rather than wait out the weather in the Tundra, Alex heads into the Center Podium.
+5. Alex follows an exit out of the bad weather in the Tundra, reaching the Center Podium.
+6. The weather has turned in the Tundra; Alex crosses into the Center Podium.
+7. Alex packs up in the Tundra and escapes the weather by moving into the Center Podium.
+
+travel-roam-ruins
+1. Alex leaves the Center Podium and heads into the Forest.
+2. Ready to move on, Alex takes the trail from the Center Podium into the Forest.
+3. Alex trades the Center Podium for the Forest.
+4. Leaving the Center Podium behind, Alex crosses into the Forest.
+5. Alex follows an exit from the Center Podium and reaches the Forest.
+6. Alex moves out of the Center Podium, choosing the Forest next.
+7. After a stay in the Center Podium, Alex sets off into the Forest.
+
+travel-warning-ruins
+1. Heeding the broadcast, Alex leaves the Center Podium for the Forest.
+2. Alex takes the warning about the Center Podium seriously and heads into the Forest.
+3. The announcement sends Alex out of the Center Podium and into the Forest.
+4. Alex leaves the Center Podium before the announced danger arrives, reaching the Forest.
+5. After the warning, Alex takes an exit from the Center Podium into the Forest.
+6. Alex packs up after the broadcast and moves from the Center Podium into the Forest.
+7. With trouble announced for the Center Podium, Alex relocates to the Forest.
+
+travel-weather-ruins
+1. Alex leaves the worsening weather in the Center Podium and reaches the Forest.
+2. Conditions in the Center Podium drive Alex onto the trail into the Forest.
+3. Alex abandons the Center Podium during the bad weather and moves into the Forest.
+4. Rather than wait out the weather in the Center Podium, Alex heads into the Forest.
+5. Alex follows an exit out of the bad weather in the Center Podium, reaching the Forest.
+6. The weather has turned in the Center Podium; Alex crosses into the Forest.
+7. Alex packs up in the Center Podium and escapes the weather by moving into the Forest.
