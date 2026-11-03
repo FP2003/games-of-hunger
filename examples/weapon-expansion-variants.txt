@@ -1,0 +1,129 @@
+Batch 1: weapon variety and replacement kill-and-loot wording
+
+Seven wording variants per scenario. Names and location are examples.
+
+KILL AND LOOT: bow and arrows
+1. Alex pins Blair's weapon arm against a barrier in the Forest and wrests away the bow and arrows. Alex takes an arrow from the seized quiver and drives its point into Blair's chest. Blair dies from the wound; Alex leaves with the bow and arrows.
+2. Beside a barrier in the Forest, Alex trips Blair and pulls the bow and arrows from their grip. Alex takes an arrow from the seized quiver and drives its point into Blair's chest. Blair dies from the wound; Alex leaves with the bow and arrows.
+3. Blair raises the bow and arrows in the Forest, but Alex catches the weapon arm against a barrier and tears it free. Alex takes an arrow from the seized quiver and drives its point into Blair's chest. Blair dies from the wound; Alex leaves with the bow and arrows.
+4. Alex catches Blair turning beside a barrier in the Forest and wrenches away the bow and arrows. Alex takes an arrow from the seized quiver and drives its point into Blair's chest. Blair dies from the wound; Alex leaves with the bow and arrows.
+5. The bow and arrows catches against a barrier during a struggle in the Forest. Alex forces Blair's grip open and seizes it. Alex takes an arrow from the seized quiver and drives its point into Blair's chest. Blair dies from the wound; Alex leaves with the bow and arrows.
+6. Blair backs against a barrier in the Forest. Alex traps the weapon arm there and prises away the bow and arrows. Alex takes an arrow from the seized quiver and drives its point into Blair's chest. Blair dies from the wound; Alex leaves with the bow and arrows.
+7. A close struggle in the Forest ends with Alex forcing Blair against a barrier and taking the bow and arrows. Alex takes an arrow from the seized quiver and drives its point into Blair's chest. Blair dies from the wound; Alex leaves with the bow and arrows.
+
+KILL AND LOOT: hunting knife
+1. Alex pins Blair's weapon arm against a barrier in the Forest and wrests away the hunting knife. Alex stabs Blair in the chest with the seized hunting knife. Blair dies from the wound; Alex leaves with the hunting knife.
+2. Beside a barrier in the Forest, Alex trips Blair and pulls the hunting knife from their grip. Alex stabs Blair in the chest with the seized hunting knife. Blair dies from the wound; Alex leaves with the hunting knife.
+3. Blair raises the hunting knife in the Forest, but Alex catches the weapon arm against a barrier and tears it free. Alex stabs Blair in the chest with the seized hunting knife. Blair dies from the wound; Alex leaves with the hunting knife.
+4. Alex catches Blair turning beside a barrier in the Forest and wrenches away the hunting knife. Alex stabs Blair in the chest with the seized hunting knife. Blair dies from the wound; Alex leaves with the hunting knife.
+5. The hunting knife catches against a barrier during a struggle in the Forest. Alex forces Blair's grip open and seizes it. Alex stabs Blair in the chest with the seized hunting knife. Blair dies from the wound; Alex leaves with the hunting knife.
+6. Blair backs against a barrier in the Forest. Alex traps the weapon arm there and prises away the hunting knife. Alex stabs Blair in the chest with the seized hunting knife. Blair dies from the wound; Alex leaves with the hunting knife.
+7. A close struggle in the Forest ends with Alex forcing Blair against a barrier and taking the hunting knife. Alex stabs Blair in the chest with the seized hunting knife. Blair dies from the wound; Alex leaves with the hunting knife.
+
+KILL AND LOOT: spear
+1. Alex pins Blair's weapon arm against a barrier in the Forest and wrests away the spear. Alex thrusts the seized spear into Blair's chest. Blair dies from the wound; Alex leaves with the spear.
+2. Beside a barrier in the Forest, Alex trips Blair and pulls the spear from their grip. Alex thrusts the seized spear into Blair's chest. Blair dies from the wound; Alex leaves with the spear.
+3. Blair raises the spear in the Forest, but Alex catches the weapon arm against a barrier and tears it free. Alex thrusts the seized spear into Blair's chest. Blair dies from the wound; Alex leaves with the spear.
+4. Alex catches Blair turning beside a barrier in the Forest and wrenches away the spear. Alex thrusts the seized spear into Blair's chest. Blair dies from the wound; Alex leaves with the spear.
+5. The spear catches against a barrier during a struggle in the Forest. Alex forces Blair's grip open and seizes it. Alex thrusts the seized spear into Blair's chest. Blair dies from the wound; Alex leaves with the spear.
+6. Blair backs against a barrier in the Forest. Alex traps the weapon arm there and prises away the spear. Alex thrusts the seized spear into Blair's chest. Blair dies from the wound; Alex leaves with the spear.
+7. A close struggle in the Forest ends with Alex forcing Blair against a barrier and taking the spear. Alex thrusts the seized spear into Blair's chest. Blair dies from the wound; Alex leaves with the spear.
+
+KILL AND LOOT: hand axe
+1. Alex pins Blair's weapon arm against a barrier in the Forest and wrests away the hand axe. Alex strikes Blair in the head with the seized hand axe. Blair dies from the wound; Alex leaves with the hand axe.
+2. Beside a barrier in the Forest, Alex trips Blair and pulls the hand axe from their grip. Alex strikes Blair in the head with the seized hand axe. Blair dies from the wound; Alex leaves with the hand axe.
+3. Blair raises the hand axe in the Forest, but Alex catches the weapon arm against a barrier and tears it free. Alex strikes Blair in the head with the seized hand axe. Blair dies from the wound; Alex leaves with the hand axe.
+4. Alex catches Blair turning beside a barrier in the Forest and wrenches away the hand axe. Alex strikes Blair in the head with the seized hand axe. Blair dies from the wound; Alex leaves with the hand axe.
+5. The hand axe catches against a barrier during a struggle in the Forest. Alex forces Blair's grip open and seizes it. Alex strikes Blair in the head with the seized hand axe. Blair dies from the wound; Alex leaves with the hand axe.
+6. Blair backs against a barrier in the Forest. Alex traps the weapon arm there and prises away the hand axe. Alex strikes Blair in the head with the seized hand axe. Blair dies from the wound; Alex leaves with the hand axe.
+7. A close struggle in the Forest ends with Alex forcing Blair against a barrier and taking the hand axe. Alex strikes Blair in the head with the seized hand axe. Blair dies from the wound; Alex leaves with the hand axe.
+
+KILL AND LOOT: wooden club
+1. Alex pins Blair's weapon arm against a barrier in the Forest and wrests away the wooden club. Alex strikes Blair in the head with the seized wooden club. Blair dies from the wound; Alex leaves with the wooden club.
+2. Beside a barrier in the Forest, Alex trips Blair and pulls the wooden club from their grip. Alex strikes Blair in the head with the seized wooden club. Blair dies from the wound; Alex leaves with the wooden club.
+3. Blair raises the wooden club in the Forest, but Alex catches the weapon arm against a barrier and tears it free. Alex strikes Blair in the head with the seized wooden club. Blair dies from the wound; Alex leaves with the wooden club.
+4. Alex catches Blair turning beside a barrier in the Forest and wrenches away the wooden club. Alex strikes Blair in the head with the seized wooden club. Blair dies from the wound; Alex leaves with the wooden club.
+5. The wooden club catches against a barrier during a struggle in the Forest. Alex forces Blair's grip open and seizes it. Alex strikes Blair in the head with the seized wooden club. Blair dies from the wound; Alex leaves with the wooden club.
+6. Blair backs against a barrier in the Forest. Alex traps the weapon arm there and prises away the wooden club. Alex strikes Blair in the head with the seized wooden club. Blair dies from the wound; Alex leaves with the wooden club.
+7. A close struggle in the Forest ends with Alex forcing Blair against a barrier and taking the wooden club. Alex strikes Blair in the head with the seized wooden club. Blair dies from the wound; Alex leaves with the wooden club.
+
+KILL AND LOOT: crossbow
+1. Alex pins Blair's weapon arm against a barrier in the Forest and wrests away the crossbow. Alex aims the seized crossbow and fires a bolt into Blair's chest. Blair dies from the wound; Alex leaves with the crossbow.
+2. Beside a barrier in the Forest, Alex trips Blair and pulls the crossbow from their grip. Alex aims the seized crossbow and fires a bolt into Blair's chest. Blair dies from the wound; Alex leaves with the crossbow.
+3. Blair raises the crossbow in the Forest, but Alex catches the weapon arm against a barrier and tears it free. Alex aims the seized crossbow and fires a bolt into Blair's chest. Blair dies from the wound; Alex leaves with the crossbow.
+4. Alex catches Blair turning beside a barrier in the Forest and wrenches away the crossbow. Alex aims the seized crossbow and fires a bolt into Blair's chest. Blair dies from the wound; Alex leaves with the crossbow.
+5. The crossbow catches against a barrier during a struggle in the Forest. Alex forces Blair's grip open and seizes it. Alex aims the seized crossbow and fires a bolt into Blair's chest. Blair dies from the wound; Alex leaves with the crossbow.
+6. Blair backs against a barrier in the Forest. Alex traps the weapon arm there and prises away the crossbow. Alex aims the seized crossbow and fires a bolt into Blair's chest. Blair dies from the wound; Alex leaves with the crossbow.
+7. A close struggle in the Forest ends with Alex forcing Blair against a barrier and taking the crossbow. Alex aims the seized crossbow and fires a bolt into Blair's chest. Blair dies from the wound; Alex leaves with the crossbow.
+
+KILL AND LOOT: machete
+1. Alex pins Blair's weapon arm against a barrier in the Forest and wrests away the machete. Alex strikes Blair in the neck with the seized machete. Blair dies from the wound; Alex leaves with the machete.
+2. Beside a barrier in the Forest, Alex trips Blair and pulls the machete from their grip. Alex strikes Blair in the neck with the seized machete. Blair dies from the wound; Alex leaves with the machete.
+3. Blair raises the machete in the Forest, but Alex catches the weapon arm against a barrier and tears it free. Alex strikes Blair in the neck with the seized machete. Blair dies from the wound; Alex leaves with the machete.
+4. Alex catches Blair turning beside a barrier in the Forest and wrenches away the machete. Alex strikes Blair in the neck with the seized machete. Blair dies from the wound; Alex leaves with the machete.
+5. The machete catches against a barrier during a struggle in the Forest. Alex forces Blair's grip open and seizes it. Alex strikes Blair in the neck with the seized machete. Blair dies from the wound; Alex leaves with the machete.
+6. Blair backs against a barrier in the Forest. Alex traps the weapon arm there and prises away the machete. Alex strikes Blair in the neck with the seized machete. Blair dies from the wound; Alex leaves with the machete.
+7. A close struggle in the Forest ends with Alex forcing Blair against a barrier and taking the machete. Alex strikes Blair in the neck with the seized machete. Blair dies from the wound; Alex leaves with the machete.
+
+KILL AND LOOT: spiked mace
+1. Alex pins Blair's weapon arm against a barrier in the Forest and wrests away the spiked mace. Alex strikes Blair in the head with the seized spiked mace. Blair dies from the wound; Alex leaves with the spiked mace.
+2. Beside a barrier in the Forest, Alex trips Blair and pulls the spiked mace from their grip. Alex strikes Blair in the head with the seized spiked mace. Blair dies from the wound; Alex leaves with the spiked mace.
+3. Blair raises the spiked mace in the Forest, but Alex catches the weapon arm against a barrier and tears it free. Alex strikes Blair in the head with the seized spiked mace. Blair dies from the wound; Alex leaves with the spiked mace.
+4. Alex catches Blair turning beside a barrier in the Forest and wrenches away the spiked mace. Alex strikes Blair in the head with the seized spiked mace. Blair dies from the wound; Alex leaves with the spiked mace.
+5. The spiked mace catches against a barrier during a struggle in the Forest. Alex forces Blair's grip open and seizes it. Alex strikes Blair in the head with the seized spiked mace. Blair dies from the wound; Alex leaves with the spiked mace.
+6. Blair backs against a barrier in the Forest. Alex traps the weapon arm there and prises away the spiked mace. Alex strikes Blair in the head with the seized spiked mace. Blair dies from the wound; Alex leaves with the spiked mace.
+7. A close struggle in the Forest ends with Alex forcing Blair against a barrier and taking the spiked mace. Alex strikes Blair in the head with the seized spiked mace. Blair dies from the wound; Alex leaves with the spiked mace.
+
+FATAL ATTACK: crossbow
+1. Alex waits behind a trail barrier in the Forest, then fires a crossbow bolt into Blair's chest. Blair collapses and dies from the injury.
+2. As Blair rounds a trail barrier in the Forest, Alex fires a crossbow bolt into Blair's chest. Blair collapses and dies from the injury.
+3. Alex steps from behind a trail barrier in the Forest and fires a crossbow bolt into Blair's chest. Blair collapses and dies from the injury.
+4. In the Forest, Blair passes a trail barrier. Alex emerges and fires a crossbow bolt into Blair's chest. Blair collapses and dies from the injury.
+5. A trail barrier hides Alex in the Forest until Blair comes close. Alex fires a crossbow bolt into Blair's chest. Blair collapses and dies from the injury.
+6. Blair spots Alex behind a trail barrier in the Forest. Before they can retreat, Alex fires a crossbow bolt into Blair's chest. Blair collapses and dies from the injury.
+7. Waiting beside a trail barrier in the Forest, Alex lets Blair approach, then fires a crossbow bolt into Blair's chest. Blair collapses and dies from the injury.
+
+UNHARMED ESCAPE: crossbow
+1. Alex waits behind a trail barrier in the Forest, then fires a crossbow bolt at Blair, but the bolt strikes a post as they ducks. Blair escapes unharmed while Alex recovers from the missed attack.
+2. As Blair rounds a trail barrier in the Forest, Alex fires a crossbow bolt at Blair, but the bolt strikes a post as they ducks. Blair escapes unharmed while Alex recovers from the missed attack.
+3. Alex steps from behind a trail barrier in the Forest and fires a crossbow bolt at Blair, but the bolt strikes a post as they ducks. Blair escapes unharmed while Alex recovers from the missed attack.
+4. In the Forest, Blair passes a trail barrier. Alex emerges and fires a crossbow bolt at Blair, but the bolt strikes a post as they ducks. Blair escapes unharmed while Alex recovers from the missed attack.
+5. A trail barrier hides Alex in the Forest until Blair comes close. Alex fires a crossbow bolt at Blair, but the bolt strikes a post as they ducks. Blair escapes unharmed while Alex recovers from the missed attack.
+6. Blair spots Alex behind a trail barrier in the Forest. Before they can retreat, Alex fires a crossbow bolt at Blair, but the bolt strikes a post as they ducks. Blair escapes unharmed while Alex recovers from the missed attack.
+7. Waiting beside a trail barrier in the Forest, Alex lets Blair approach, then fires a crossbow bolt at Blair, but the bolt strikes a post as they ducks. Blair escapes unharmed while Alex recovers from the missed attack.
+
+FATAL ATTACK: machete
+1. Alex waits behind a trail barrier in the Forest, then strikes Blair in the neck with a machete. Blair collapses and dies from the injury.
+2. As Blair rounds a trail barrier in the Forest, Alex strikes Blair in the neck with a machete. Blair collapses and dies from the injury.
+3. Alex steps from behind a trail barrier in the Forest and strikes Blair in the neck with a machete. Blair collapses and dies from the injury.
+4. In the Forest, Blair passes a trail barrier. Alex emerges and strikes Blair in the neck with a machete. Blair collapses and dies from the injury.
+5. A trail barrier hides Alex in the Forest until Blair comes close. Alex strikes Blair in the neck with a machete. Blair collapses and dies from the injury.
+6. Blair spots Alex behind a trail barrier in the Forest. Before they can retreat, Alex strikes Blair in the neck with a machete. Blair collapses and dies from the injury.
+7. Waiting beside a trail barrier in the Forest, Alex lets Blair approach, then strikes Blair in the neck with a machete. Blair collapses and dies from the injury.
+
+UNHARMED ESCAPE: machete
+1. Alex waits behind a trail barrier in the Forest, then swings a machete at Blair, but the blade catches a post as they ducks. Blair escapes unharmed while Alex recovers from the missed attack.
+2. As Blair rounds a trail barrier in the Forest, Alex swings a machete at Blair, but the blade catches a post as they ducks. Blair escapes unharmed while Alex recovers from the missed attack.
+3. Alex steps from behind a trail barrier in the Forest and swings a machete at Blair, but the blade catches a post as they ducks. Blair escapes unharmed while Alex recovers from the missed attack.
+4. In the Forest, Blair passes a trail barrier. Alex emerges and swings a machete at Blair, but the blade catches a post as they ducks. Blair escapes unharmed while Alex recovers from the missed attack.
+5. A trail barrier hides Alex in the Forest until Blair comes close. Alex swings a machete at Blair, but the blade catches a post as they ducks. Blair escapes unharmed while Alex recovers from the missed attack.
+6. Blair spots Alex behind a trail barrier in the Forest. Before they can retreat, Alex swings a machete at Blair, but the blade catches a post as they ducks. Blair escapes unharmed while Alex recovers from the missed attack.
+7. Waiting beside a trail barrier in the Forest, Alex lets Blair approach, then swings a machete at Blair, but the blade catches a post as they ducks. Blair escapes unharmed while Alex recovers from the missed attack.
+
+FATAL ATTACK: spiked mace
+1. Alex waits behind a trail barrier in the Forest, then strikes Blair in the head with a spiked mace. Blair collapses and dies from the injury.
+2. As Blair rounds a trail barrier in the Forest, Alex strikes Blair in the head with a spiked mace. Blair collapses and dies from the injury.
+3. Alex steps from behind a trail barrier in the Forest and strikes Blair in the head with a spiked mace. Blair collapses and dies from the injury.
+4. In the Forest, Blair passes a trail barrier. Alex emerges and strikes Blair in the head with a spiked mace. Blair collapses and dies from the injury.
+5. A trail barrier hides Alex in the Forest until Blair comes close. Alex strikes Blair in the head with a spiked mace. Blair collapses and dies from the injury.
+6. Blair spots Alex behind a trail barrier in the Forest. Before they can retreat, Alex strikes Blair in the head with a spiked mace. Blair collapses and dies from the injury.
+7. Waiting beside a trail barrier in the Forest, Alex lets Blair approach, then strikes Blair in the head with a spiked mace. Blair collapses and dies from the injury.
+
+UNHARMED ESCAPE: spiked mace
+1. Alex waits behind a trail barrier in the Forest, then swings a spiked mace at Blair, but the head hits a post as they ducks. Blair escapes unharmed while Alex recovers from the missed attack.
+2. As Blair rounds a trail barrier in the Forest, Alex swings a spiked mace at Blair, but the head hits a post as they ducks. Blair escapes unharmed while Alex recovers from the missed attack.
+3. Alex steps from behind a trail barrier in the Forest and swings a spiked mace at Blair, but the head hits a post as they ducks. Blair escapes unharmed while Alex recovers from the missed attack.
+4. In the Forest, Blair passes a trail barrier. Alex emerges and swings a spiked mace at Blair, but the head hits a post as they ducks. Blair escapes unharmed while Alex recovers from the missed attack.
+5. A trail barrier hides Alex in the Forest until Blair comes close. Alex swings a spiked mace at Blair, but the head hits a post as they ducks. Blair escapes unharmed while Alex recovers from the missed attack.
+6. Blair spots Alex behind a trail barrier in the Forest. Before they can retreat, Alex swings a spiked mace at Blair, but the head hits a post as they ducks. Blair escapes unharmed while Alex recovers from the missed attack.
+7. Waiting beside a trail barrier in the Forest, Alex lets Blair approach, then swings a spiked mace at Blair, but the head hits a post as they ducks. Blair escapes unharmed while Alex recovers from the missed attack.
