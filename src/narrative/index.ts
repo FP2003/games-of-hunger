@@ -1,4 +1,5 @@
 import type { ConfessionalSelection, ConfessionalInput, EventNarrativeInput, NarrativeAdapter, PlayerDefinition, RandomSource } from '../domain';
+import { deathSiteCallback } from './site-memory';
 
 function nameValue(player: PlayerDefinition, field: string): string {
   if (field === 'name') return player.name;
@@ -13,7 +14,21 @@ function itemLabel(input: EventNarrativeInput): string {
   if (instance) return instance.name;
   const effect = input.template.effects.find(e => 'definitionId' in e && e.definitionId);
   const definitionId = fact?.itemDefinitionId ?? (effect && 'definitionId' in effect ? effect.definitionId : undefined);
-  return input.content.items.find(i => i.id === definitionId)?.name ?? 'the item';
+  const definition = input.content.items.find(i => i.id === definitionId);
+  if (definition) return definition.name;
+  // Tool-assisted help can change relationships without consuming or moving the
+  // held item. Resolve its declared holder instead of using an unrelated item.
+  const holders = [
+    ...input.template.roles.filter(role => role.itemDefinitionId).map(role => ({ role: role.id, definitionId: role.itemDefinitionId, tag: undefined })),
+    ...input.template.conditions.filter(condition => condition.kind === 'item').filter(condition => condition.exists !== false),
+  ];
+  for (const holder of holders) {
+    const held = [...input.after.items, ...input.before.items].find(item => !item.destroyed && item.ownerId === input.bindings[holder.role]
+      && (!holder.definitionId || item.definitionId === holder.definitionId)
+      && (!holder.tag || input.content.items.find(def => def.id === item.definitionId)?.tags.includes(holder.tag)));
+    if (held) return held.name;
+  }
+  return 'the item';
 }
 /** Replace in one pass so braces in user names are never parsed as templates. */
 export function renderTemplate(text: string, input: EventNarrativeInput, speaker?: PlayerDefinition): string {
@@ -34,8 +49,16 @@ function pickWording(variants: readonly string[], previous: string | undefined, 
 }
 
 export function renderEvent(input: EventNarrativeInput): { text: string; wording: string } {
-  const wording = pickWording(input.template.variants, input.previousWording, input.random);
+  const alternatives = input.template.variants.filter(text => text !== input.previousWording);
+  const pool = alternatives.length ? alternatives : input.template.variants;
+  const uses = (text: string) => input.wordingUses && Object.hasOwn(input.wordingUses, text) ? input.wordingUses[text] : 0;
+  const leastUsed = Math.min(...pool.map(uses));
+  // Use all available situations before returning to familiar ones. Raw text
+  // shared by regional templates participates in the same per-run count.
+  const wording = input.random.pick(pool.filter(text => uses(text) === leastUsed));
   let text = renderTemplate(wording, input);
+  const siteCallback = deathSiteCallback(input);
+  if (siteCallback) text += ` ${siteCallback}`;
   const name = (id: string | undefined) => input.cast.players.find(p => p.id === id)?.name;
   for (const fact of input.facts.filter(f => f.type === 'grudge')) {
     text += ` When word of ${name(fact.allyId)}'s death reaches ${name(fact.actorId)}, ${name(fact.actorId)} vows never to forgive ${name(fact.targetId)} for killing an ally.`;
@@ -63,8 +86,13 @@ export function renderEvent(input: EventNarrativeInput): { text: string; wording
 export function selectConfessional(input: ConfessionalInput): ConfessionalSelection | null {
   const involved = new Set(Object.values(input.bindings));
   const justEliminated = new Set(input.before.players.filter(p => p.alive && !input.after.players.find(a => a.id === p.id)?.alive).map(p => p.id));
-  const candidates: { template: typeof input.content.confessionals[number]; player: PlayerDefinition; exit: boolean }[] = [];
+  const candidates: { template: typeof input.content.confessionals[number]; player: PlayerDefinition; exit: boolean; variants: string[]; priority: number; bindings: Record<string, string> }[] = [];
+  const usedTexts = new Set(input.usedTexts);
+  // Reactions follow the main consequence, rather than incidental travel or loot.
+  const priorities: Record<string, number> = { elimination: 10, revenge: 9, betrayal: 8, grudge: 7, theft: 6, curse: 5, alliance: 4, assistance: 3, acquire: 2, move: 1 };
   for (const template of input.content.confessionals) {
+    if (input.personalityEnabled === false && template.traits.length) continue;
+    if (template.eventIds && !template.eventIds.includes(input.template.id)) continue;
     if (input.sequence - (input.lastUsed[template.id] ?? -Infinity) < template.cooldown) continue;
     const triggering = input.facts.filter(f => template.triggers.includes(f.type));
     if (!triggering.length) continue;
@@ -76,16 +104,31 @@ export function selectConfessional(input: ConfessionalInput): ConfessionalSelect
       if (template.speaker === 'actor' && !triggering.some(f => f.actorId === player.id)) continue;
       if (template.speaker === 'target' && !triggering.some(f => f.targetId === player.id)) continue;
       if (template.traits.length && !template.traits.some(t => player.traits.includes(t))) continue;
-      candidates.push({ template, player, exit });
+      // The rival comes from this speaker's triggering fact, even when event
+      // roles point at somebody else (for example, an ally killed by a rival).
+      const rival = triggering.find(f => (f.type === 'nemesis' || f.type === 'grudge') && f.actorId === player.id
+        && f.targetId !== player.id && input.cast.players.some(p => p.id === f.targetId))?.targetId;
+      const bindings = { ...input.bindings };
+      delete bindings.rival;
+      if (rival) bindings.rival = rival;
+      const variants = [...new Set(template.variants)].filter(text => (!text.includes('{rival.') || !!rival)
+        && !usedTexts.has(renderTemplate(text, { ...input, bindings }, player)));
+      const relevant = triggering.filter(f => template.speaker === 'actor' ? f.actorId === player.id : template.speaker === 'target' ? f.targetId === player.id
+        : f.type === 'assistance' || f.type === 'alliance' ? f.actorId === player.id || f.targetId === player.id : true);
+      if (!relevant.length) continue;
+      candidates.push({ template, player, exit, variants, bindings, priority: Math.max(...relevant.map(f => priorities[f.type] ?? 0)) });
     }
   }
   if (!candidates.length) return null;
   // Personality-specific authored reactions get a larger share, while a cast
   // with no traits still has appropriate generic interviews.
-  const specific = candidates.filter(c => c.template.traits.length);
-  const chosen = input.random.pick(specific.length ? specific : candidates);
-  const wording = pickWording(chosen.template.variants, input.lastWording?.[chosen.template.id], input.random);
-  return { templateId: chosen.template.id, speakerId: chosen.player.id, exit: chosen.exit, text: renderTemplate(wording, input, chosen.player), wording };
+  const priority = Math.max(...input.facts.map(fact => priorities[fact.type] ?? 0));
+  const primary = candidates.filter(c => c.priority === priority && c.variants.length);
+  if (!primary.length) return null;
+  const specific = primary.filter(c => c.template.traits.length);
+  const chosen = input.random.pick(specific.length ? specific : primary);
+  const wording = pickWording(chosen.variants, input.lastWording?.[chosen.template.id], input.random);
+  return { templateId: chosen.template.id, speakerId: chosen.player.id, exit: chosen.exit, text: renderTemplate(wording, { ...input, bindings: chosen.bindings }, chosen.player), wording };
 }
 
 export const narrativeAdapter: NarrativeAdapter = { renderEvent, selectConfessional };

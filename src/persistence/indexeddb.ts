@@ -1,5 +1,6 @@
 import { RepositoryError, type GameRepository } from '../domain';
 import { createRepository, STORE_NAMES, storageError, type Database, type Transaction } from './repository';
+import { migrateLegionairrePronouns } from './legionairre-pronouns';
 
 export const DATABASE_VERSION = 1;
 function request<T>(req: IDBRequest<T>): Promise<T> { return new Promise((resolve, reject) => { req.onsuccess = () => resolve(req.result); req.onerror = () => reject(req.error); }); }
@@ -39,5 +40,7 @@ export async function createIndexedDbRepository(name = 'games-of-hunger-v1'): Pr
     },
     close: () => { closed = true; db.close(); },
   };
+  try { await database.transaction(true, migrateLegionairrePronouns); }
+  catch (error) { database.close(); throw storageError(error); }
   return createRepository(database);
 }
