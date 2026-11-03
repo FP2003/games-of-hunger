@@ -1,17 +1,22 @@
-import type { ReactNode } from 'react';
+import { useRef, type ReactNode } from 'react';
 import type { PlayerDefinition, RunRecord } from '../domain';
 import { phaseReport } from './playback';
 import { confessionalLabel, phaseLabel } from './recap';
 import { CharacterText } from './CharacterText';
 import { BiomeSymbol } from './BiomeSymbol';
+import { SceneExport } from './SceneExport';
 
-export function PhaseReport({ run, cursor, portrait }: { run: RunRecord; cursor: number; portrait: (player: PlayerDefinition) => ReactNode }) {
+export function PhaseReport({ run, cursor, portrait, onExport }: { run: RunRecord; cursor: number; portrait: (player: PlayerDefinition) => ReactNode; onExport?: () => void }) {
+  const exportTarget = useRef<HTMLElement>(null);
   const report = phaseReport(run, cursor);
   const phase = report.events[0]?.phase;
   const player = (id: string) => run.input.cast.players.find(p => p.id === id)!;
   const regionName = (id: string) => run.input.content.biomes.find(b => b.id === id)?.name ?? id;
-  return <article className="event-card phase-report" aria-label={phase ? `${phaseLabel(phase)} report` : 'Game ready'}>
+  return <>
+    {phase && <SceneExport key={`${run.id}:${cursor}`} target={exportTarget} title={`${run.input.cast.title} - ${phaseLabel(phase)}`} onExport={onExport} />}
+    <article ref={exportTarget} className="event-card phase-report" aria-label={phase ? `${phaseLabel(phase)} report` : 'Game ready'}>
     {phase ? <>
+      <p className="scene-season-title">{run.input.cast.title}</p>
       <header className="phase-heading"><h1 aria-live="polite">{phaseLabel(phase)}</h1><p className="muted">{phase.kind === 'finale' && `Day ${phase.day} · `}{report.events.length} events across the arena · {report.events.at(-1)!.state.players.filter(p => p.alive).length} tributes remain</p></header>
       {run.input.content.biomes.map(biome => {
         const events = report.events.filter(e => e.biome === biome.id);
@@ -29,7 +34,7 @@ export function PhaseReport({ run, cursor, portrait }: { run: RunRecord; cursor:
         </section>;
       })}
     </> : <><div className="gates-symbol">✳</div><h1>Game <em>ready.</em></h1><p className="muted">{run.input.cast.players.length} tributes. Start with the bloodbath, then follow each day and night together.</p><p className="muted">The Center Podium offers supplies and danger. Escaping leads to the outer regions. Sponsor gifts can arrive during the game.</p></>}
-  </article>;
+  </article></>;
 }
 
 export function FallenTributes({ run, cursor, portrait }: { run: RunRecord; cursor: number; portrait: (player: PlayerDefinition) => ReactNode }) {
