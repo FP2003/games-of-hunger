@@ -98,14 +98,14 @@ const thefts = [
   '{actor.name} offers to steady {item} while {target.name} crosses a low rail in {biome}, then keeps the weapon. From the far side, {target.name} has no doubt who stole it.',
 ];
 const weaponStorage: Record<string, readonly string[]> = {
-  bow: ['a horizontal bow-hook recess', 'a stringing bench', 'a long padded shipping tube', 'an archery target backing', 'a wooden bow-form rack', 'a quiver inspection stand', 'a canvas bow sleeve', 'a sighting-panel bracket', 'a raised archery platform'],
-  knife: ['a fitted sheath drawer', 'a cutlery inspection panel', 'a narrow foam-lined dispatch box', 'an apron pegboard', 'a leather knife-roll frame', 'a sharpening-bench recess', 'a folded blade wrapping', 'a utensil display bracket', 'a small preparation stand'],
-  spear: ['a long pole-rack channel', 'a spear-shaft inspection bench', 'a full-length transit sleeve', 'a training dummy backing', 'a vertical shaft stand', 'a spearhead fitting station', 'a canvas pole bundle', 'a long-handled tool bracket', 'a raised pole-storage deck'],
-  axe: ['an axe-hook cabinet', 'a haft inspection bench', 'a wedge-lined equipment box', 'a split timber block', 'a cutting-tool stand', 'a handle fitting station', 'a canvas head wrapping', 'a heavy tool mounting bracket', 'a timber-working platform'],
-  club: ['a club-rack alcove', 'a weighted-handle test bench', 'a cylindrical dispatch canister', 'a battered striking pad', 'a wooden baton stand', 'a grip-wrapping station', 'a coarse fabric equipment roll', 'a training-gear bracket', 'a raised practice deck'],
-  crossbow: ['a crossbow-stock recess', 'a trigger inspection bench', 'a deep foam-lined transit chest', 'a bolt-stop target frame', 'a crossbow assembly stand', 'a bolt-channel testing station', 'a padded stock cover', 'a wide weapon mounting bracket', 'a raised sighting deck'],
-  machete: ['a long blade-sheath slot', 'a machete inspection bench', 'a flat reinforced shipping case', 'a brush-cutting test frame', 'a broad-blade tool rack', 'a handle riveting station', 'a waxed blade wrapping', 'a clearing-tool bracket', 'a raised vegetation-cutting stand'],
-  mace: ['a reinforced mace cradle', 'a weighted-head inspection bench', 'a deep braced transit box', 'a dented impact-test frame', 'a heavy striking-tool stand', 'a grip inspection station', 'a thick padded head cover', 'a reinforced weapon bracket', 'a raised impact-testing deck'],
+  bow: ['a shelf with a hook for a bow', 'a bench for stringing bows', 'a long padded tube', 'the back of an archery target', 'a wooden bow rack', 'a quiver stand', 'a canvas bow case', 'a rack for bow sights', 'a raised archery platform'],
+  knife: ['a sheath drawer', 'a tool drawer', 'a narrow padded box', 'a row of apron hooks', 'a leather knife roll', 'a spot beside a sharpening stone', 'a folded cloth', 'a display rack', 'a small work stand'],
+  spear: ['a long rack', 'a workbench', 'a long carrying case', 'a practice dummy', 'a tall stand', 'a spearhead holder', 'a canvas bundle', 'a wall hook', 'a raised platform'],
+  axe: ['an axe cabinet', 'a workbench', 'a padded box', 'a chopping block', 'a tool stand', 'a rack of handles', 'a canvas cover', 'a wall hook', 'a work platform'],
+  club: ['a weapon rack', 'a workbench', 'a long carrying tube', 'a battered practice pad', 'a wooden stand', 'a spare grip', 'a cloth roll', 'a wall hook', 'a raised platform'],
+  crossbow: ['a shelf', 'a workbench', 'a padded chest', 'a target frame', 'a wooden stand', 'a rack of bolts', 'a padded cover', 'a wall hook', 'a raised platform'],
+  machete: ['a long sheath', 'a workbench', 'a strong carrying case', 'a practice target', 'a tool rack', 'a rack of handles', 'a waxed cloth', 'a wall hook', 'a raised platform'],
+  mace: ['a padded mace stand', 'a workbench', 'a strong carrying box', 'a dented practice dummy', 'a heavy weapon stand', 'a spare grip', 'a thick padded cover', 'a wall hook', 'a raised platform'],
 };
 for (const weapon of Object.keys(weaponStorage)) {
   const variants = [...thefts];
@@ -115,14 +115,14 @@ for (const weapon of Object.keys(weaponStorage)) {
   // Each weapon gets its own physical storage contexts. Sharing one nine-line
   // discovery bag across all equipment would exhaust it during larger games.
   itemSocialHotspotWording[`weapon-${weapon}-find`] = [
-    `{actor.name} slides a warped cover away from ${s[0]} in {biome}, exposing {item} and lifting it free to carry.`,
-    `At ${s[1]} in {biome}, {actor.name} notices a fastening loop beneath the work surface and unthreads it to retrieve {item}.`,
-    `{actor.name} eases an end cap off ${s[2]} in {biome}; the packing slides out with {item}, which {actor.name} keeps.`,
-    `Behind ${s[3]} in {biome}, {actor.name} spots the outline of {item} through a torn panel and reaches around to collect it.`,
-    `{actor.name} tilts a loose base at ${s[4]} in {biome}, freeing {item} from a jammed retaining clip before taking it along.`,
-    `A damaged return tray at ${s[5]} in {biome} rattles when {actor.name} checks it; {item} has lodged behind the tray and is retrieved.`,
-    `{actor.name} follows a faded equipment tag to ${s[6]} in {biome}, unfolding the material to find and claim {item}.`,
-    `At ${s[7]} in {biome}, {actor.name} works {item} upward until its remaining transport tie slips loose, then takes possession of the find.`,
-    `{actor.name} looks beneath ${s[8]} in {biome} and finds {item} secured inside a low access frame; undoing the catch releases it to carry away.`,
+    `{actor.name} uncovers {item} in ${s[0]} in {biome} and takes it.`,
+    `At ${s[1]} in {biome}, {actor.name} finds {item} and takes it.`,
+    `{actor.name} finds {item} in ${s[2]} in {biome}.`,
+    `{actor.name} spots {item} behind a torn panel near ${s[3]} in {biome} and takes it.`,
+    `{actor.name} finds {item} at ${s[4]} in {biome}.`,
+    `{actor.name} finds {item} behind a tray at ${s[5]} in {biome}.`,
+    `An equipment tag leads {actor.name} to {item} inside ${s[6]} in {biome}; {actor.name} takes it.`,
+    `{actor.name} loosens a transport tie at ${s[7]} in {biome} and claims {item}.`,
+    `{actor.name} opens a catch beneath ${s[8]} in {biome} and retrieves {item}.`,
   ];
 }
