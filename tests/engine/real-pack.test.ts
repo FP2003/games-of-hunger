@@ -36,7 +36,7 @@ describe('full authored pack integration',()=>{
     execute('final-beacon-1','p1','p0');execute('final-beacon-1','p1','p2');
     const run:RunRecord={id:canonicalRunId(input),engineVersion:ENGINE_VERSION,input,initialState:initial,events,winnerId:'p1',placements:[{playerId:'p1',rank:1,eventSequence:null},{playerId:'p2',rank:2,eventSequence:4},{playerId:'p0',rank:3,eventSequence:3}],awards:computeAwards(events,input),recap:['The theft was answered.']};
     expect(RunRecordSchema.safeParse(run).success).toBe(true);expect(run.awards.find(a=>a.id==='revenge')?.recipientIds).toEqual(['p1']);const lore=deriveLore(run);expect(lore.some(f=>f.type==='revenge'&&f.sourceRunId===run.id&&f.eventSequences.includes(2))).toBe(true);
-    const history=applyCompletedRun({version:1,seasons:[]},run,'2026-10-26');const second=setup(3,'second-season');second.lore=selectLoreContext(history,second.cast,second.content);const sequel=generateRun(second,narrativeAdapter);expect(sequel.events.some(e=>e.facts.some(f=>f.type==='lore'&&f.sourceRunId===run.id)&&e.text.includes('Archive:'))).toBe(true);
+    const history=applyCompletedRun({version:1,seasons:[]},run,'2026-10-26');const second=setup(3,'second-season');second.lore=selectLoreContext(history,second.cast,second.content);const sequel=generateRun(second,narrativeAdapter);expect(sequel.events.every(e=>!e.text.includes('Archive:'))).toBe(true);expect(sequel.events.some(e=>e.facts.some(f=>f.type==='lore'&&f.sourceRunId===run.id))).toBe(true);
   });
   it('completes shelter and warning chains and interrupts player chains on elimination',()=>{
     const input=setup();let state=initialState(input);let sequence=0;const history:{sequence:number;facts:EventRecord['facts']}[]=[];

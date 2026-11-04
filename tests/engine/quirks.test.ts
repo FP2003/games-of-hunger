@@ -190,7 +190,7 @@ describe('full replay behavior', () => {
       { ...scene('on-guard-escape'), id: 'test-opening-forest', roles: [{ id: 'actor' }], effects: [{ kind: 'move', role: 'actor', biome: 'forest' }] },
       scene('afraid-dark-wait'),
       { ...scene('curious-empty'), id: 'test-day-wait', roles: [{ id: 'actor' }], phases: ['day'], effects: [] },
-      { ...defaultContentPack.events.find(template => template.id === 'travel-roam-forest')!, weight: 1e-9 },
+      { ...defaultContentPack.events.find(template => template.id === 'travel-roam-forest')!, phases: ['night'], weight: 1e-9 },
       defaultContentPack.events.find(template => template.id === 'final-beacon-1')!,
     ], confessionals: [] };
     const run = generateRun(input, narrativeAdapter);
@@ -212,7 +212,7 @@ describe('full replay behavior', () => {
     const run = generateRun(input, narrativeAdapter);
     expect(generateRun(input, narrativeAdapter)).toEqual(run);
     expect(RunRecordSchema.safeParse(run).success).toBe(true);
-    const changed = structuredClone(input); changed.content.events.forEach(template => { template.variants = ['{actor.name} spends a turn.']; });
+    const changed = structuredClone(input); changed.content.events.forEach(template => { template.variants = ['{actor.name} spends a turn.']; if (template.combat?.variantMethods) template.combat.variantMethods = template.combat.variantMethods.slice(0, 1); });
     // Announcements have no actor, so keep their original prose.
     changed.content.events.filter(template => !template.roles.length).forEach(template => { template.variants = input.content.events.find(original => original.id === template.id)!.variants; });
     const other = generateRun(changed, narrativeAdapter);

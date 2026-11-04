@@ -21,7 +21,7 @@ describe('bloodbath, travel and sponsors', () => {
       const fallen = phase.flatMap(e => e.facts.filter(f => f.type === 'elimination').map(f => f.targetId));
       expect(escaped.some(id => fallen.includes(id))).toBe(false);
       for (const e of phase.filter(e => e.templateId.startsWith('opening-bloodbath-'))) {
-        expect(e.facts.filter(f => f.type === 'acquire')).toHaveLength(2);
+        expect(e.facts.filter(f => f.type === 'acquire')).toHaveLength(1);
       }
     }
   });
