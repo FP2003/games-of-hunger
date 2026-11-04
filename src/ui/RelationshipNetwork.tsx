@@ -1,13 +1,11 @@
 import { useLayoutEffect, useId, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import type { PlayerDefinition, Relationship } from '../domain';
 import { circularNetwork } from './networkLayout';
+import { type RelationshipStatus, relationshipStatuses as statuses, relationshipLabels as labels, relationshipColours as colours, relationshipTextColours as textColours, relationshipStatus as statusOf, relationshipPresets } from '../domain/relationshipStatus';
 
-export type RelationshipStatus = 'neutral' | 'trusted' | 'rival';
-const statuses: RelationshipStatus[] = ['trusted', 'rival', 'neutral'];
-const labels = { trusted: 'Trusted', rival: 'Rival', neutral: 'Neutral' };
-const colours = { trusted: '#a8db91', rival: '#ee978e', neutral: '#82958f' };
-const descriptions = { trusted: '+60 trust', rival: '60 grudge', neutral: 'No trust or grudge' };
-const statusOf = (edge?: Relationship): RelationshipStatus => edge && edge.grudge >= 40 ? 'rival' : edge && edge.trust >= 40 ? 'trusted' : 'neutral';
+export type { RelationshipStatus } from '../domain/relationshipStatus';
+const descriptions = Object.fromEntries(statuses.map(status => [status, `Trust ${relationshipPresets[status].trust} · Grudge ${relationshipPresets[status].grudge}`]));
+
 type Point = { x: number; y: number };
 
 export function RelationshipNetwork({ players, relationships, focalId, onChange, portrait, onEdit, eliminatedIds = [] }: {
@@ -21,15 +19,22 @@ export function RelationshipNetwork({ players, relationships, focalId, onChange,
 }) {
   const id = useId().replace(/:/g, '');
   const [selection, setSelection] = useState<{ from?: string; to?: string }>({});
-  const [showNeutral, setShowNeutral] = useState(false);
   const viewport = useRef<HTMLDivElement>(null);
   const [viewportSize, setViewportSize] = useState({ width: 500, height: 380 });
+  const [chromeHeight, setChromeHeight] = useState(200);
   useLayoutEffect(() => {
     const element = viewport.current;
     if (!element) return;
-    const measure = () => setViewportSize({ width: element.clientWidth, height: element.clientHeight });
+    const toolbar = element.parentElement?.querySelector('.network-toolbar');
+    const details = element.parentElement?.querySelector('.network-selection');
+    const measure = () => {
+      setViewportSize({ width: element.clientWidth, height: element.clientHeight });
+      setChromeHeight((toolbar?.getBoundingClientRect().height ?? 0) + (details?.getBoundingClientRect().height ?? 0));
+    };
     const observer = new ResizeObserver(measure);
     observer.observe(element);
+    if (toolbar) observer.observe(toolbar);
+    if (details) observer.observe(details);
     measure();
     return () => observer.disconnect();
   }, [players.length, selection.from, selection.to, focalId]);
@@ -43,8 +48,7 @@ export function RelationshipNetwork({ players, relationships, focalId, onChange,
   const { width, height } = viewportSize;
   const layout = circularNetwork(ring.length, width, height);
   const { narrow, dense, nodeWidth, nodeHeight } = layout;
-  const minimumHeight = layout.minimumDiameter
-    + (narrow ? 66 : 42) + (focal ? narrow ? 88 : 70 : narrow ? 196 : 148);
+  const minimumHeight = layout.minimumDiameter + chromeHeight + 2;
   const points = new Map<string, Point>();
   ring.forEach((player, index) => points.set(player.id, layout.points[index]));
   if (focal) points.set(focal.id, { x: width / 2, y: height / 2 });
@@ -61,12 +65,11 @@ export function RelationshipNetwork({ players, relationships, focalId, onChange,
   } else {
     players.forEach((a, index) => players.slice(index + 1).forEach(b => {
       const ab = status(a.id, b.id), ba = status(b.id, a.id);
-      const revealNeutral = showNeutral || from?.id === a.id || from?.id === b.id;
       if (ab === ba) {
-        if (ab !== 'neutral' || revealNeutral) edges.push({ from: a.id, to: b.id, status: ab, mutual: true, curved: false });
+        if (ab !== 'neutral') edges.push({ from: a.id, to: b.id, status: ab, mutual: true, curved: false });
       } else {
-        if (ab !== 'neutral' || revealNeutral) edges.push({ from: a.id, to: b.id, status: ab, mutual: false, curved: true });
-        if (ba !== 'neutral' || revealNeutral) edges.push({ from: b.id, to: a.id, status: ba, mutual: false, curved: true });
+        if (ab !== 'neutral') edges.push({ from: a.id, to: b.id, status: ab, mutual: false, curved: true });
+        if (ba !== 'neutral') edges.push({ from: b.id, to: a.id, status: ba, mutual: false, curved: true });
       }
     }));
   }
@@ -86,7 +89,7 @@ export function RelationshipNetwork({ players, relationships, focalId, onChange,
     if (outgoing === incoming) add(outgoing, 'mutual');
     else { add(outgoing, 'outgoing'); add(incoming, 'incoming'); }
   });
-  const bundles = [...bundleMap.values()];
+  const bundles = [...bundleMap.values()].filter(bundle => bundle.status !== 'neutral');
   const trim = (point: Point, toward: Point, nodeId: string): Point => {
     const distance = Math.hypot(toward.x - point.x, toward.y - point.y) || 1;
     const vx = (toward.x - point.x) / distance, vy = (toward.y - point.y) / distance;
@@ -102,13 +105,13 @@ export function RelationshipNetwork({ players, relationships, focalId, onChange,
 
   return <section className={`relationship-network${dense ? ' dense' : ''}`} style={{ '--network-min-height': `${minimumHeight}px`, '--node-width': `${nodeWidth}px`, '--node-height': `${nodeHeight}px`, '--node-font': `${narrow ? dense ? 11 : 12 : dense ? 12 : 13}px`, '--node-portrait': `${Math.max(4, nodeWidth - 4)}px`, '--label-width': `${layout.labelWidth}px`, '--label-height': `${layout.labelHeight}px` } as CSSProperties} aria-label={focal ? `Starting relationships for ${name(focal)}` : 'Cast relationship network'}>
     <p id={`${id}-instructions`} className="sr-only">{!onChange ? 'Select two tributes to inspect their relationship.' : focal ? `Select a player to edit how ${name(focal)} feels about them.` : 'Select two players to edit their relationship.'} Arrows show direction.</p>
-    <div className="network-toolbar"><h4>Relationships</h4><div className="network-legend" aria-label="Relationship colours">{statuses.map(value => <span key={value} style={{ '--relationship-colour': colours[value] } as CSSProperties}><i className={value} />{labels[value]}</span>)}</div>{!focal && <label className="network-neutral-toggle" title="Show neutral connections"><input type="checkbox" checked={showNeutral} onChange={event => setShowNeutral(event.target.checked)} />Neutral lines</label>}</div>
+    <div className="network-toolbar"><h4>Relationships</h4><div className="network-legend" aria-label="Relationship colours">{statuses.map(value => <span key={value} style={{ '--relationship-colour': colours[value] } as CSSProperties}><i className={value} />{labels[value]}</span>)}</div></div>
     <div ref={viewport} className="network-viewport" role="group" aria-label="Relationship chart" aria-describedby={`${id}-instructions`}>
       <div className="network-canvas" style={{ width, height }}>
         <svg viewBox={`0 0 ${width} ${height}`} aria-hidden="true" className="network-lines">
           <defs>{statuses.map(value => <marker key={value} id={`${id}-${value}`} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 1 1 L 9 5 L 1 9 z" fill={colours[value]} /></marker>)}</defs>
           <circle cx={width / 2} cy={height / 2} r={layout.radius} className="network-orbit" />
-          {!bundleFocus && edges.map(edge => {
+          {!bundleFocus && edges.filter(edge => edge.status !== 'neutral' && (!to || activeEdge(edge.from, edge.to))).map(edge => {
             const a = points.get(edge.from)!, b = points.get(edge.to)!;
             const length = Math.hypot(b.x - a.x, b.y - a.y);
             const dx = (b.x - a.x) / length, dy = (b.y - a.y) / length;
@@ -175,7 +178,7 @@ export function RelationshipNetwork({ players, relationships, focalId, onChange,
       {to ? <>
         {(focal ? [[from, to]] : [[from, to], [to, from]]).map(([a, b], index) => <div className="network-relationship-control" key={a.id}>
           <span id={`${id}-direction-${index}`}>{caption(a)} <span aria-label="toward">→</span> {caption(b)}</span>
-          {onChange ? <div className="network-status-options" role="group" aria-labelledby={`${id}-direction-${index}`}>{statuses.map(value => <button key={value} aria-label={`${caption(a)} toward ${caption(b)}: ${labels[value]}`} aria-pressed={status(a.id, b.id) === value} style={{ '--relationship-colour': colours[value] } as CSSProperties} title={descriptions[value]} onClick={() => onChange(a.id, b.id, value)}><i />{labels[value]}</button>)}</div> : <span className="network-status-readout" style={{ color: colours[status(a.id, b.id)] }}>{labels[status(a.id, b.id)]} · Trust {lookup.get(JSON.stringify([a.id, b.id]))?.trust ?? 0} · Grudge {lookup.get(JSON.stringify([a.id, b.id]))?.grudge ?? 0}</span>}
+          {onChange ? <div className="network-status-options" role="group" aria-labelledby={`${id}-direction-${index}`}>{statuses.map(value => <button key={value} aria-label={`${caption(a)} toward ${caption(b)}: ${labels[value]}`} aria-pressed={status(a.id, b.id) === value} style={{ '--relationship-colour': colours[value], '--relationship-text': textColours[value] } as CSSProperties} title={descriptions[value]} onClick={() => onChange(a.id, b.id, value)}><i />{labels[value]}</button>)}</div> : <span className="network-status-readout" style={{ color: textColours[status(a.id, b.id)] }}>{labels[status(a.id, b.id)]} · Trust {lookup.get(JSON.stringify([a.id, b.id]))?.trust ?? 0} · Grudge {lookup.get(JSON.stringify([a.id, b.id]))?.grudge ?? 0}</span>}
         </div>)}
       </> : <span className="network-selected-name">{caption(from)}</span>}
       {!focal && onEdit && <button className="network-edit subtle" aria-label={`Edit ${name(from)}’s character`} onClick={() => onEdit(from.id)}>Edit character ↗</button>}

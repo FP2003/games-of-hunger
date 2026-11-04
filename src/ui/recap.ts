@@ -1,4 +1,5 @@
 import type { RunRecord } from '../domain';
+import { eventText } from './eventText';
 
 export const phaseLabel = (phase?: RunRecord['events'][number]['phase']) => !phase ? 'Before the bloodbath' : phase.kind === 'opening' ? 'Bloodbath' : phase.kind === 'finale' ? 'The finale' : `${phase.kind === 'day' ? 'Day' : 'Night'} ${phase.day}`;
 
@@ -12,7 +13,7 @@ export function confessionalLabel(run: RunRecord, event: RunRecord['events'][num
 export function seasonRecap(run: RunRecord): string {
   const winner = run.input.cast.players.find(p => p.id === run.winnerId)?.name ?? run.winnerId;
   return [run.input.cast.title, `Winner: ${winner}`, ...run.events.map(event => [
-    `${phaseLabel(event.phase)}: ${event.text}`,
+    `${phaseLabel(event.phase)}: ${eventText(event)}`,
     ...(event.confessional ? [`${confessionalLabel(run, event)}: ${event.confessional.text}`] : []),
   ].join('\n')), ...run.awards.map(award => `${award.title}: ${award.explanation}`)].join('\n\n');
 }
