@@ -5,6 +5,7 @@ import { confessionalLabel, phaseLabel } from './recap';
 import { CharacterText } from './CharacterText';
 import { BiomeSymbol } from './BiomeSymbol';
 import { SceneExport } from './SceneExport';
+import { eventText } from './eventText';
 
 export function PhaseReport({ run, cursor, portrait, onExport }: { run: RunRecord; cursor: number; portrait: (player: PlayerDefinition) => ReactNode; onExport?: () => void }) {
   const exportTarget = useRef<HTMLElement>(null);
@@ -25,9 +26,8 @@ export function PhaseReport({ run, cursor, portrait, onExport }: { run: RunRecor
           <h2><BiomeSymbol biome={biome.id} /> {biome.name}<small>{events.length} {events.length === 1 ? 'event' : 'events'}</small></h2>
           {events.map(e => <article className={`phase-event${!Object.keys(e.bindings).length ? ' arena-announcement' : ''}`} key={e.id}>
             {!!Object.keys(e.bindings).length && <div className="event-portraits">{Object.values(e.bindings).map(id => <span key={id}>{portrait(player(id))}</span>)}</div>}
-            <div className="phase-event-body">{!Object.keys(e.bindings).length && <span className="announcement-tag">Arena broadcast</span>}{e.templateId.startsWith('sponsor-') && <span className="gift-tag">Sponsor gift</span>}<p><CharacterText text={e.text} players={run.input.cast.players} /></p>
+            <div className="phase-event-body">{!Object.keys(e.bindings).length && <span className="announcement-tag">Arena broadcast</span>}{e.templateId.startsWith('sponsor-') && <span className="gift-tag">Sponsor gift</span>}<p><CharacterText text={eventText(e)} players={run.input.cast.players} /></p>
               {e.facts.filter(f => f.type === 'move').map((f, i) => <small className="movement-tag" key={i}><CharacterText text={player(f.actorId!).name} players={run.input.cast.players} /> → {regionName(f.biome!)}</small>)}
-              {e.facts.filter(f => f.type === 'lore').map((f, i) => <small className="lore-source" key={i}>Past season · {f.sourceRunId} · {f.sourceEvent === undefined ? 'season result' : `event ${f.sourceEvent + 1}`}</small>)}
               {e.confessional && <blockquote><strong><CharacterText text={confessionalLabel(run, e)} players={run.input.cast.players} /></strong><p><CharacterText text={e.confessional.text} players={run.input.cast.players} /></p></blockquote>}
             </div>
           </article>)}
