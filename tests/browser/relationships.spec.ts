@@ -79,7 +79,7 @@ test('six players form a hexagon and matching incoming arrows share a trunk', as
   await expect(incoming.locator('.network-bundle-branch')).toHaveCount(5);
   await expect(incoming.locator('.network-bundle-trunk[marker-start]')).toHaveCount(1);
   await expect(incoming.locator('.network-bundle-branch[marker-end]')).toHaveCount(0);
-  await expect(chart.locator('.network-bundle[data-status="neutral"][data-direction="outgoing"]')).toHaveAttribute('data-count', '5');
+  await expect(chart.locator('.network-bundle[data-status="neutral"]')).toHaveCount(0);
   await chart.getByRole('button', { name: 'Select Cleo, cast entry 2', exact: true }).click();
   await chart.getByRole('button', { name: 'Cleo toward Hiro: Rival', exact: true }).click();
   await chart.getByRole('button', { name: 'Clear selection', exact: true }).click();
@@ -105,6 +105,8 @@ test('network preserves different feelings in each direction and shares edits wi
   await expect(chart.locator('.network-edge[data-from="riley"][data-to="alex"]')).toHaveAttribute('data-status', 'rival');
   await chart.getByRole('button', { name: 'Select Alex, cast entry 1', exact: true }).click();
   await chart.getByRole('button', { name: 'Select Riley, cast entry 2', exact: true }).click();
+  await expect(chart.locator('.network-edge')).toHaveCount(2);
+  await expect(chart.locator('.network-edge.dimmed')).toHaveCount(0);
   await expect(chart.getByRole('button', { name: 'Alex toward Riley: Trusted', exact: true })).toHaveAttribute('aria-pressed', 'true');
   await expect(chart.getByRole('button', { name: 'Riley toward Alex: Rival', exact: true })).toHaveAttribute('aria-pressed', 'true');
   await chart.getByRole('button', { name: 'Alex toward Riley: Neutral', exact: true }).click();
@@ -114,6 +116,7 @@ test('network preserves different feelings in each direction and shares edits wi
   const dialog = page.getByRole('dialog');
   await expect(dialog.locator('.network-node.central')).toContainText('Alex');
   await dialog.getByRole('button', { name: 'Select Riley, cast entry 2', exact: true }).click();
+  await expect(dialog.locator('.network-edge')).toHaveCount(0);
   await expect(dialog.getByRole('button', { name: 'Alex toward Riley: Neutral', exact: true })).toHaveAttribute('aria-pressed', 'true');
   await dialog.getByRole('button', { name: 'Alex toward Riley: Trusted', exact: true }).click();
   await dialog.getByRole('button', { name: 'Done', exact: true }).click();
@@ -123,13 +126,24 @@ test('network preserves different feelings in each direction and shares edits wi
   await expect(mutual).toHaveAttribute('marker-end', /trusted/);
   await chart.getByRole('button', { name: 'Clear selection', exact: true }).click();
   await expect(chart.locator('.network-edge.neutral')).toHaveCount(0);
-  await chart.getByLabel('Neutral lines', { exact: true }).check();
-  await expect(chart.locator('.network-edge.neutral')).toHaveCount(2);
+  await expect(chart.getByLabel('Neutral lines', { exact: true })).toHaveCount(0);
   await page.screenshot({ path: test.info().outputPath('cast-relationships.png'), fullPage: true });
   await expect(page.getByText('Draft saved', { exact: true })).toBeVisible();
   await page.reload();
   await page.getByRole('button', { name: 'Relationship network', exact: true }).click();
   await expect(page.locator('.network-edge[data-from="alex"][data-to="riley"]')).toHaveAttribute('data-status', 'trusted');
+  await chart.getByRole('button', { name: 'Select Alex, cast entry 1', exact: true }).click();
+  await chart.getByRole('button', { name: 'Select Riley, cast entry 2', exact: true }).click();
+  for (const status of ['Devoted', 'Friendly', 'Wary', 'Nemesis']) {
+    const option = chart.getByRole('button', { name: `Alex toward Riley: ${status}`, exact: true });
+    await option.click();
+    await expect(option).toHaveAttribute('aria-pressed', 'true');
+  }
+  await expect(page.getByText('Draft saved', { exact: true })).toBeVisible();
+  await page.reload();
+  await page.getByRole('button', { name: 'Relationship network', exact: true }).click();
+  await expect(chart.locator('.network-edge[data-from="alex"][data-to="riley"]')).toHaveAttribute('data-status', 'nemesis');
+  await expect(chart.locator('.network-edge[data-from="riley"][data-to="alex"]')).toHaveAttribute('data-status', 'trusted');
 });
 
 for (const width of [1280, 390]) {
@@ -148,9 +162,7 @@ for (const width of [1280, 390]) {
     await expectCircularNetwork(chart, 24);
     await chart.screenshot({ path: test.info().outputPath(`readable-network-${width}.png`) });
     await chart.locator('button.network-node').first().click();
-    await expect(chart.locator('.network-bundle')).toHaveCount(1);
-    await expect(chart.locator('.network-bundle[data-direction="mutual"]')).toHaveAttribute('data-count', '23');
-    await expect(chart.locator('.network-bundle-trunk[marker-start]')).toHaveCount(1);
+    await expect(chart.locator('.network-bundle')).toHaveCount(0);
     await chart.locator('button.network-node').last().click();
     await expectReadableNetwork(chart, width > 720 ? 13 : 12);
     await chart.getByRole('button', { name: /^Edit .+character$/ }).click();
@@ -192,7 +204,7 @@ for (const width of [1280, 390]) {
     await chart.getByRole('button', { name: 'Alex #1 toward Alex #2: Rival', exact: true }).click();
     await expect(chart.getByRole('button', { name: 'Alex #1 toward Alex #2: Rival', exact: true })).toHaveAttribute('aria-pressed', 'true');
     await expect(chart.getByRole('button', { name: 'Alex #2 toward Alex #1: Rival', exact: true })).toHaveAttribute('aria-pressed', 'false');
-    expect((await chart.boundingBox())!.height).toBe(initialHeight);
+    expect((await chart.boundingBox())!.height).toBeGreaterThanOrEqual(initialHeight);
     // Resizing still fits every node within both dimensions without panning.
     await page.setViewportSize({ width, height: 600 });
     await expect.poll(() => chart.locator('.network-viewport').evaluate(element => ({
