@@ -1,3 +1,5 @@
+> Implemented in engine 1.25.0/content 1.31.0: varied three-item public crates, 10% weapon chance across the expanded catalogue, weighted `schedule.choice` bundles and contents-neutral night callbacks. The plan below is retained as historical context.
+
 # Handover: varied resupply and supply-crate contents
 
 ## Current starting point
