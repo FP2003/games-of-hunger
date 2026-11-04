@@ -4,9 +4,8 @@ import { actionWording } from './action-wording';
 import { extraEverydayContexts, extraEverydayScenes } from './everyday-scenes';
 
 type Eight = readonly [string, string, string, string, string, string, string, string];
-// These are alternative context beats, not extra actions or mechanical effects.
-// Each is paired with the original complete action so injury, ownership, movement
-// and death remain explicit. Family helpers share copy only for the same setup.
+// Legacy context catalog retained for authoring coverage. Complete alternatives
+// come from actionWording; context-only prefixes are no longer emitted.
 const contexts: Record<string, Eight> = {
   'opening-rations': [
     'The central food crates are wedged beneath the reaching crowd.',
@@ -2328,9 +2327,8 @@ export const additionalSceneContexts = contexts;
 export function withAdditionalSceneVariety(template: EventTemplate): EventTemplate {
   const additions = contexts[template.id];
   if (!additions) throw new Error(`Missing additional scene context for ${template.id}`);
-  const original = template.variants[0];
-  const variants = actionWording[template.id] ?? additions.map(context => template.category === 'announcement'
-    ? `Announcer: “${context} ${original.slice('Announcer: “'.length)}`
-    : `${context} ${original}`);
+  // A scenery prefix does not make a new situation. Keep complete authored
+  // alternatives without padding every action with a redundant introduction.
+  const variants = actionWording[template.id] ?? [];
   return { ...template, variants: [...template.variants, ...variants] };
 }

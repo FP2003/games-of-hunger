@@ -1,3 +1,4 @@
+import { finaleEncounters } from './finale-encounters';
 /** Replaces paraphrase families found by reading complete demo games.
  * Each entry changes the encounter's problem or response, not just its scenery.
  * These templates have no held-item requirements; props stay at the scene. */
@@ -150,17 +151,7 @@ export const situationWording: Record<string, readonly string[]> = {
 };
 
 // Shared by all finale gates: these are bouts, which can precede later bouts.
-const finaleSituations = [
-  '{actor.name} and {target.name} struggle beneath a camera turntable in {biome}. {actor.name} releases its damaged catch, swinging the heavy mount into {target.name} with fatal force.',
-  '{target.name} rushes {actor.name} across the open ground in {biome}. {actor.name} drops beneath the reaching arms, takes the back, and holds a choke until {target.name} dies.',
-  '{actor.name} offers {target.name} a hand as though proposing a truce in {biome}. The handshake becomes a pull onto a concealed broken tile, whose point opens a fatal neck wound.',
-  '{actor.name} repeatedly gives ground around a low wall in {biome}, making {target.name} hurry each turn. When {target.name} finally vaults the wall, {actor.name} catches an ankle and sends {target.object} headfirst into its stone base; the injury is fatal.',
-  '{target.name} pins {actor.name} to the ground in {biome}. {actor.name} reaches a jagged ceramic fragment beside a footing and drives it upward into {target.name}\'s throat, inflicting a fatal wound before rolling free.',
-  '{actor.name} and {target.name} circle a sunken rest area in {biome}, each trying to force the other down into it. {actor.name} jumps in first, catches {target.name}\'s trailing leg from below, and pulls {target.object} headfirst against the concrete rim; the impact kills {target.object}.',
-  '{target.name} corners {actor.name} inside a cramped shelter in {biome}. {actor.name} kicks out its loose rear slats and climbs onto the low roof; when {target.name} runs outside to follow, {actor.name} jumps onto the shoulders, driving {target.name} headfirst into the foundation with fatal force.',
-  '{actor.name} and {target.name} grapple for the higher end of a rubble ridge in {biome}. {actor.name} gives up the height to pull {target.name} down onto an exposed reinforcement spike, causing a fatal chest wound.',
-  '{actor.name} notices {target.name} approaching in the reflection of a camera cover in {biome}. Turning before the ambush lands, {actor.name} wrenches a loose cover bracket into {target.name}\'s head; the blow kills {target.object}.',
-];
+const finaleSituations = finaleEncounters.map(encounter => encounter.text);
 for (let i = 1; i <= 6; i++) situationWording[`final-beacon-${i}`] = finaleSituations;
 const regions = ['forest', 'swamp', 'mountains', 'desert', 'tundra', 'ruins'];
 for (const from of regions) for (const to of regions) {
