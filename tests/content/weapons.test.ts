@@ -3,6 +3,9 @@ import { defaultContentPack } from '../../src/content';
 import { actionWording } from '../../src/content/action-wording';
 import { hotspotWording } from '../../src/content/hotspot-variety';
 import { weaponExchangeScenes, weaponItems, weaponScenes, weaponTrapScenes } from '../../src/content/weapons';
+import { arenaGearItems, arenaGearScenes } from '../../src/content/arena-gear';
+import { lootWeaponIds } from '../../src/content/weapon-catalogue';
+import { withLootVariety } from '../../src/content/loot-variety';
 import { DEFAULT_SETTINGS, type EventTemplate, type GameState, type RunInput } from '../../src/domain';
 import { applyEffects, createRandom, findBindings, initialState } from '../../src/engine';
 
@@ -12,11 +15,21 @@ const bind = (template: EventTemplate, state: GameState) => findBindings(templat
 const equip = (definitionId: string) => applyEffects(initialState(input), [{ kind: 'createItem', role: 'actor', definitionId }], { actor: 'a' }, defaultContentPack, random())!.state;
 
 describe('weapon and trap outcomes', () => {
-  it('ships eight tracked weapons with all authored variants per weapon scenario', () => {
-    expect(weaponItems.map(item => item.id)).toEqual(['bow', 'knife', 'spear', 'axe', 'club', 'crossbow', 'machete', 'mace']);
+  it('keeps useful weapons instead of abandoning them or repeatedly finding replacements', () => {
+    expect(defaultContentPack.events.some(template => template.effects.some(effect => effect.kind === 'dropItem' && !effect.definitionId) &&
+      !template.roles.some(role => role.traits?.includes('clumsy')) && !template.conditions.some(condition => condition.kind === 'trait' && condition.trait === 'clumsy'))).toBe(false);
+    const armed = equip('machete');
+    for (const weapon of weaponItems) {
+      const find = defaultContentPack.events.find(template => template.id === `weapon-${weapon.id}-find`)!;
+      expect(bind(find, initialState(input)), find.id).not.toBeNull();
+      expect(bind(find, armed), find.id).toBeNull();
+    }
+  });
+  it('ships the expanded tracked weapons with all authored variants per weapon scenario', () => {
+    expect(weaponItems.map(item => item.id)).toEqual(['bow', 'knife', 'spear', 'axe', 'club', 'crossbow', 'machete', 'mace', 'capitol-bow', 'slingshot', 'throwing-knives', 'trident', 'sword', 'broadsword', 'combat-axe', 'morningstar', 'scythe', 'sickle', 'dagger', 'spiked-knuckles', 'whip']);
     for (const raw of [...weaponScenes, ...weaponExchangeScenes]) {
       const template = defaultContentPack.events.find(event => event.id === raw.id)!;
-      const expected = hotspotWording[raw.id]?.length ?? raw.variants.length + (actionWording[raw.id]?.length ?? 8);
+      const expected = hotspotWording[raw.id]?.length ?? raw.variants.length + (actionWording[raw.id]?.length ?? 0);
       expect(template.variants, template.id).toHaveLength(expected);
       expect(new Set(template.variants).size, template.id).toBe(expected);
     }
@@ -27,7 +40,7 @@ describe('weapon and trap outcomes', () => {
       const template = defaultContentPack.events.find(event => event.id === `weapon-${item.id}-kill-and-loot`)!;
       for (const text of template.variants) {
         expect(text).toContain(item.name);
-        expect(text).not.toMatch(/stone|rock/);
+        if (item.id !== 'slingshot') expect(text).not.toMatch(/stone|rock/);
       }
     }
     for (const id of ['mountains-contest-2', 'tundra-contest-1']) {
@@ -140,6 +153,39 @@ describe('weapon and trap outcomes', () => {
       const template = weaponScenes.find(t => t.id === `weapon-${item.id}-${suffix}`)!;
       const result = applyEffects(initialState(input), template.effects, { actor: 'a' }, defaultContentPack, random())!;
       expect(result.state.items).toEqual(expect.arrayContaining([expect.objectContaining({ definitionId: item.id, ownerId: 'a' })]));
+    }
+  });
+
+  it('includes every weapon and special item in caches and sponsor drops without increasing their shared loot budget', () => {
+    const cache = withLootVariety({ ...weaponScenes[0], id: 'forest-life-3', weight: 1 });
+    expect(cache.reduce((total, scene) => total + scene.weight, 0)).toBeCloseTo(1);
+    const drops = defaultContentPack.events.filter(scene => lootWeaponIds.some(id => scene.id === `sponsor-gift-${id}`));
+    expect(drops).toHaveLength(lootWeaponIds.length);
+    expect(drops.reduce((total, scene) => total + scene.weight, 0)).toBeCloseTo(0.45 * 0.25);
+    for (const id of lootWeaponIds) {
+      expect(cache.some(scene => scene.effects.some(effect => effect.kind === 'createItem' && effect.definitionId === id)), id).toBe(true);
+    }
+    for (const item of arenaGearItems) for (const kind of ['opening', 'find']) {
+      const scene = defaultContentPack.events.find(event => event.id === `gear-${item.id}-${kind}`)!;
+      expect(bind(scene, initialState(input)), scene.id).not.toBeNull();
+      expect(bind(scene, equip('knife')), scene.id).toBeNull();
+      expect(applyEffects(initialState(input), scene.effects, { actor: 'a' }, defaultContentPack, random())!.state.items[0].definitionId).toBe(item.id);
+    }
+  });
+
+  it('requires special equipment and consumes single-use hazards on both hits and escapes', () => {
+    const consumables = ['landmine', 'coil-wire', 'nightlock', 'tracker-jacker-venom'];
+    for (const scene of arenaGearScenes.filter(event => event.category === 'conflict')) {
+      expect(bind(scene, initialState(input)), scene.id).toBeNull();
+      const ids = scene.conditions.flatMap(condition => condition.kind === 'item' && condition.definitionId ? [condition.definitionId] : []);
+      const state = applyEffects(initialState(input), ids.map(definitionId => ({ kind: 'createItem', role: 'actor', definitionId })), { actor: 'a' }, defaultContentPack, random())!.state;
+      expect(bind(scene, state), scene.id).not.toBeNull();
+      const result = applyEffects(state, scene.effects, { actor: 'a', target: 'b' }, defaultContentPack, random())!;
+      expect(result.state.players[1].alive, scene.id).toBe(!scene.id.endsWith('-fatal'));
+      expect(result.state.players[1].markers, scene.id).toEqual({});
+      for (const item of result.state.items) expect(item.destroyed, scene.id).toBe(consumables.includes(item.definitionId));
+      state.items[0].destroyed = true;
+      expect(bind(scene, state), scene.id).toBeNull();
     }
   });
 });

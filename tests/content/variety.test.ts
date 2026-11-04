@@ -1,3 +1,5 @@
+import { weaponFinaleScenes } from '../../src/content/weapons';
+import { relationshipInterviews } from '../../src/content/relationship-interviews';
 import { describe, expect, it } from 'vitest';
 import { defaultContentPack } from '../../src/content';
 import { additionalSceneContexts, withAdditionalSceneVariety } from '../../src/content/scene-context';
@@ -29,11 +31,11 @@ function context(): EventNarrativeInput {
 
 describe('authored scene variety', () => {
   it('retains complete contextual coverage alongside independently authored group scenes', () => {
-    const independentScenes = [...groupCooperation, ...supplyUseScenes, ...siteAccidentScenes, ...environmentalScenes, ...travelScenes, ...expandedTraitScenes, ...partyTravelScenes, ...openingPartyScenes, ...quirkScenes];
+    const independentScenes = [...weaponFinaleScenes, ...groupCooperation, ...supplyUseScenes, ...siteAccidentScenes, ...environmentalScenes, ...travelScenes, ...expandedTraitScenes, ...partyTravelScenes, ...openingPartyScenes, ...quirkScenes];
     const expandedScenes = defaultContentPack.events.filter(t => !independentScenes.some(scene => scene.id === t.id));
     expect(Object.keys(additionalSceneContexts).filter(id => !retiredDefaultEventIds.has(id)).sort()).toEqual(expandedScenes.map(t => t.id).sort());
     const retiredInterviews = new Set(['interview-open-4', 'interview-reckless-10', 'interview-loyal-17', 'interview-sneaky-24', 'interview-dramatic-31', 'interview-cautious-38', 'interview-resourceful-45']);
-    expect([...Object.keys(additionalConfessionalWording).filter(id => !retiredInterviews.has(id)), ...eventInterviews.map(t => t.id), ...expandedTraitInterviews.map(t => t.id), ...quirkInterviews.map(t => t.id)].sort()).toEqual(defaultContentPack.confessionals.map(t => t.id).sort());
+    expect([...Object.keys(additionalConfessionalWording).filter(id => !retiredInterviews.has(id)), ...eventInterviews.map(t => t.id), ...expandedTraitInterviews.map(t => t.id), ...quirkInterviews.map(t => t.id), ...relationshipInterviews.map(t => t.id)].sort()).toEqual(defaultContentPack.confessionals.map(t => t.id).sort());
     for (const template of expandedScenes) {
       if (hotspotWording[template.id]) {
         expect(template.variants).toEqual(hotspotWording[template.id]);
@@ -51,7 +53,11 @@ describe('authored scene variety', () => {
       }
       expect(additionalSceneContexts[template.id], template.id).toHaveLength(8);
       expect(new Set(additionalSceneContexts[template.id]).size, template.id).toBe(8);
-      const addedCount = actionWording[template.id]?.length ?? 8;
+      const addedCount = actionWording[template.id]?.length ?? 0;
+      if (!addedCount) {
+        expect(template.variants.every(text => !additionalSceneContexts[template.id].some(prefix => text.startsWith(prefix + ' '))), template.id).toBe(true);
+        continue;
+      }
       const original = { ...template, variants: template.variants.slice(0, -addedCount) };
       expect(new Set(template.variants).size, template.id).toBe(original.variants.length + addedCount);
       if (actionWording[template.id]) {
@@ -80,9 +86,9 @@ describe('authored scene variety', () => {
 
   it('retains expanded scene and interview variety alongside eight authored regional encounters', () => {
     const scenes = defaultContentPack.events.filter(t => ![...groupCooperation, ...expandedTraitScenes, ...quirkScenes].some(group => group.id === t.id) && (/-life-(?:[1-9]|1[0-5])$/.test(t.id) || t.id.startsWith('night-') || t.category === 'social'));
-    expect(scenes).toHaveLength(152);
-    for (const template of [...scenes, ...defaultContentPack.confessionals.filter(t => ![...eventInterviews, ...expandedTraitInterviews, ...quirkInterviews].some(extra => extra.id === t.id))]) {
-      const expected = hotspotWording[template.id]?.length ?? (shortTravelWording[template.id] ? 7 : isRegionalEncounter(template.id) ? 8 : (scenes.some(scene => scene.id === template.id) ? 11 : 7) + (extraGenericWording[template.id]?.length ?? 0));
+    expect(scenes).toHaveLength(146);
+    for (const template of [...scenes, ...defaultContentPack.confessionals.filter(t => ![...eventInterviews, ...expandedTraitInterviews, ...quirkInterviews, ...relationshipInterviews].some(extra => extra.id === t.id))]) {
+      const expected = hotspotWording[template.id]?.length ?? (shortTravelWording[template.id] ? 7 : isRegionalEncounter(template.id) ? 8 : (scenes.some(scene => scene.id === template.id) ? 3 + (actionWording[template.id]?.length ?? 0) : 7) + (extraGenericWording[template.id]?.length ?? 0));
       expect(template.variants, template.id).toHaveLength(expected);
       expect(new Set(template.variants).size, template.id).toBe(expected);
     }
@@ -166,7 +172,7 @@ describe('authored scene variety', () => {
     expect(generateRun(setup, narrativeAdapter)).toEqual(run);
     expect(generateRun(setup, narrativeAdapter)).toEqual(run);
     expect(run.events.every(e => !('wording' in e) && (!e.confessional || !('wording' in e.confessional)))).toBe(true);
-    const original = generateRun({ ...setup, content: { ...setup.content, events: setup.content.events.map(t => ({ ...t, variants: [t.variants[0]] })), confessionals: setup.content.confessionals.map(t => ({ ...t, variants: [t.variants[0]] })) } }, narrativeAdapter);
+    const original = generateRun({ ...setup, content: { ...setup.content, events: setup.content.events.map(t => ({ ...t, variants: [t.variants[0]], ...(t.combat?.variantMethods ? { combat: { ...t.combat, variantMethods: t.combat.variantMethods.slice(0, 1) } } : {}) })), confessionals: setup.content.confessionals.map(t => ({ ...t, variants: [t.variants[0]] })) } }, narrativeAdapter);
     const mechanics = (record: typeof run) => record.events.map(({ templateId, bindings, effects, facts, phase, state }) => ({ templateId, bindings, effects, facts, phase, state }));
     expect(mechanics(run)).toEqual(mechanics(original));
   });
@@ -175,7 +181,7 @@ describe('authored scene variety', () => {
     for (const seed of ['variety-outcomes-a', 'variety-outcomes-b']) {
       const setup: RunInput = { ...fixtureInput, cast: { version: 1, title: 'Variety outcomes', relationships: [], players: Array.from({ length: 24 }, (_, i) => ({ id: `p${i}`, name: `Guest ${i}`, traits: [] })) }, content: defaultContentPack, settings: { ...DEFAULT_SETTINGS, seed } };
       const varied = generateRun(setup, narrativeAdapter);
-      const single = generateRun({ ...setup, content: { ...defaultContentPack, events: defaultContentPack.events.map(t => ({ ...t, variants: [t.variants[0]] })), confessionals: defaultContentPack.confessionals.map(t => ({ ...t, variants: [t.variants[0]] })) } }, narrativeAdapter);
+      const single = generateRun({ ...setup, content: { ...defaultContentPack, events: defaultContentPack.events.map(t => ({ ...t, variants: [t.variants[0]], ...(t.combat?.variantMethods ? { combat: { ...t.combat, variantMethods: t.combat.variantMethods.slice(0, 1) } } : {}) })), confessionals: defaultContentPack.confessionals.map(t => ({ ...t, variants: [t.variants[0]] })) } }, narrativeAdapter);
       const outcomes = (run: typeof varied) => ({ winnerId: run.winnerId, placements: run.placements, awards: run.awards, events: run.events.map(({ templateId, bindings, facts, state, phase }) => ({ templateId, bindings, facts, state, phase })) });
       expect(outcomes(varied)).toEqual(outcomes(single));
     }

@@ -17,7 +17,7 @@ describe('use supplies instead of accumulating repeated pickups', () => {
       expect(scene.variants, scene.id).toHaveLength(7);
       expect(new Set(scene.variants).size, scene.id).toBe(7);
     }
-    expect(input.content.events.find(scene => scene.id === 'weapon-crossbow-kill-and-loot')!.weight).toBe(0.65);
+    expect(input.content.events.find(scene => scene.id === 'weapon-crossbow-kill-and-loot')!.weight).toBeCloseTo(0.65 * 1.7);
   });
 
   it('requires a real local held supply, and consumes exactly that instance once', () => {
