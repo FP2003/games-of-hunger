@@ -1,4 +1,6 @@
 import type { Condition, Effect, EventTemplate } from '../domain';
+import { lootWeaponIdSet } from './weapon-catalogue';
+import { rareExplosiveIds, rareExplosiveFindMultiplier } from './loot-rarity';
 
 export const stapleSupplies = new Set(['ration', 'flask', 'blanket']);
 
@@ -14,15 +16,21 @@ export function withSupplyBalance(template: EventTemplate): EventTemplate {
   });
   const ordinaryPickup = template.phases.some(phase => phase === 'day' || phase === 'night')
     && (retained.length > 0 || template.effects.some(effect => effect.kind === 'acquireItem' && !effect.from && (!effect.definitionId || stapleSupplies.has(effect.definitionId))));
-  return { ...template, conditions: [...template.conditions, ...missing], weight: template.weight * (ordinaryPickup ? 0.55 : 1) };
+  const weaponFind = template.roles.length === 1 && template.phases.some(phase => phase === 'day' || phase === 'night') &&
+    template.effects.some(effect => effect.kind === 'createItem' && (lootWeaponIdSet.has(effect.definitionId) || rareExplosiveIds.has(effect.definitionId)));
+  const rareFind = (template.id.endsWith('-find') || template.phases.includes('opening')) &&
+    template.effects.some(effect => effect.kind === 'createItem' && rareExplosiveIds.has(effect.definitionId));
+  return { ...template, conditions: [...template.conditions, ...missing,
+    ...(weaponFind ? [{ kind: 'item' as const, role: 'actor', tag: 'weapon', exists: false }] : [])], weight: template.weight * (ordinaryPickup && !template.id.startsWith('sponsor-gift-') ? 0.55 : 1) * (rareFind ? rareExplosiveFindMultiplier : 1) };
 }
 
 function use(id: string, item: string, variants: string[], effects: Effect[], options: Partial<EventTemplate> = {}): EventTemplate {
   return { id: `supplies-${id}`, category: 'survival', phases: ['day', 'night'], tones: ['dramatic', 'absurd', 'mixed'], scope: 'local', roles: [{ id: 'actor' }],
-    conditions: [{ kind: 'item', role: 'actor', definitionId: item }], effects, weight: effects.some(effect => effect.kind === 'consumeItem') ? 24 : 12, cooldown: 2, variants, ...options };
+    conditions: [{ kind: 'item', role: 'actor', definitionId: item }], effects, weight: effects.some(effect => effect.kind === 'consumeItem') ? 3 : 0.75, cooldown: 4, variants, ...options };
 }
 const consume = (definitionId: string): Effect[] => [{ kind: 'consumeItem', role: 'actor', definitionId }];
 const sharing = (definitionId: string): Partial<EventTemplate> => ({
+  weight: 12,
   roles: [{ id: 'actor' }, { id: 'target' }],
   conditions: [{ kind: 'item', role: 'actor', definitionId },
     { kind: 'relationship', from: 'actor', to: 'target', minTrust: 0 },
