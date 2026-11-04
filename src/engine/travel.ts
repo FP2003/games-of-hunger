@@ -1,7 +1,7 @@
 import type { ContentPack, EventRecord, EventTemplate, GameState, Phase } from '../domain';
 import { biomeStatus } from './arena';
 
-export const MAX_RESIDENT_ASSIGNMENTS = 3;
+export const MAX_RESIDENT_ASSIGNMENTS = 8;
 
 /** Derived from committed assignments, so no hidden counters need saving. */
 export function requestedTravel(playerId: string, state: GameState, history: readonly EventRecord[], phase: Phase, content: Pick<ContentPack, 'events'>): EventTemplate['travel'] | null {

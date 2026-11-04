@@ -48,20 +48,36 @@ function pickWording(variants: readonly string[], previous: string | undefined, 
   return random.pick(alternatives.length ? alternatives : variants);
 }
 
+function confessionalFingerprint(text: string, input: ConfessionalInput): string {
+  // Compare the spoken line rather than its cast-specific rendering, so two
+  // characters cannot repeat the same interview with only a name changed.
+  const names = [...input.cast.players.map(player => player.name)].sort((a, b) => b.length - a.length);
+  let normalized = text.toLocaleLowerCase();
+  for (const name of names) normalized = normalized.replaceAll(name.toLocaleLowerCase(), ' ');
+  return normalized.replace(/[^\p{L}\p{N}]+/gu, ' ').trim().replace(/\s+/g, ' ');
+}
+
 export function renderEvent(input: EventNarrativeInput): { text: string; wording: string } {
-  const alternatives = input.template.variants.filter(text => text !== input.previousWording);
-  const pool = alternatives.length ? alternatives : input.template.variants;
   const uses = (text: string) => input.wordingUses && Object.hasOwn(input.wordingUses, text) ? input.wordingUses[text] : 0;
-  const leastUsed = Math.min(...pool.map(uses));
+  const leastUsed = Math.min(...input.template.variants.map(uses));
+  const pool = input.template.variants.filter(text => uses(text) === leastUsed);
+  const alternatives = pool.filter(text => text !== input.previousWording);
   // Use all available situations before returning to familiar ones. Raw text
   // shared by regional templates participates in the same per-run count.
-  const wording = input.random.pick(pool.filter(text => uses(text) === leastUsed));
+  const wording = input.random.pick(alternatives.length ? alternatives : pool);
   let text = renderTemplate(wording, input);
   const siteCallback = deathSiteCallback(input);
   if (siteCallback) text += ` ${siteCallback}`;
   const name = (id: string | undefined) => input.cast.players.find(p => p.id === id)?.name;
   for (const fact of input.facts.filter(f => f.type === 'grudge')) {
-    text += ` When word of ${name(fact.allyId)}'s death reaches ${name(fact.actorId)}, ${name(fact.actorId)} vows never to forgive ${name(fact.targetId)} for killing an ally.`;
+    const ally = name(fact.allyId), griever = name(fact.actorId), killer = name(fact.targetId);
+    if (ally && griever && killer) text += ` ${input.random.pick([
+      `After ${ally} is killed, ${griever} blames ${killer} and swears to get even.`,
+      `${griever} hears that ${killer} killed ${ally}. ${griever} will not let it go.`,
+      `News of ${ally}'s death reaches ${griever}, who turns on ${killer} for killing an ally.`,
+      `${griever} learns that ${killer} killed ${ally} and promises not to forget it.`,
+      `When ${griever} hears that ${killer} killed ${ally}, the grudge is set.`,
+    ])}`;
   }
   const tinTransfer = input.facts.find(f => f.type === 'curse' && f.targetId && input.content.items.find(i => i.id === f.itemDefinitionId)?.curse === 'tin' && input.facts.some(t => (t.type === 'transfer' || t.type === 'theft') && t.itemId === f.itemId));
   if (tinTransfer) {
@@ -69,17 +85,7 @@ export function renderEvent(input: EventNarrativeInput): { text: string; wording
     const current = input.cast.players.find(p => p.id === tinTransfer.actorId)?.name;
     if (former && current) text += ` As the Whispering Tin changes hands, its curse deepens ${former}'s resentment toward ${current}.`;
   }
-  // A historical aside is factual, identity-based, and source-backed. It does
-  // not assert that a past rivalry remains an active relationship this season.
-  const callback = input.facts.find(f => f.type === 'lore');
-  if (callback) {
-    const fact = input.lore.facts.find(f => f.sourceRunId === callback.sourceRunId && (callback.sourceEvent === undefined ? f.eventSequences.length === 0 : f.eventSequences.includes(callback.sourceEvent)) && (!callback.actorId || f.playerIds.includes(callback.actorId)) && f.playerIds.every(id => input.cast.players.some(p => p.id === id)));
-    if (fact) {
-      const names = fact.playerIds.map(id => input.cast.players.find(p => p.id === id)!.name).join(' and ');
-      const phrases = { win: `${names} brings a previous victory into the arena's memory.`, betrayal: `The archive remembers a betrayal involving ${names}.`, revenge: `The archive remembers a settled score involving ${names}.`, transfer: `The archive remembers a memorable item exchange involving ${names}.`, nemesis: `A past rivalry involving ${names} still appears in the archive.`, curse: `A previous curse consequence involving ${names} has not been forgotten.` };
-      text += ` Archive: ${phrases[fact.type]} [Source: ${fact.sourceRunId}, ${callback.sourceEvent !== undefined ? `event ${callback.sourceEvent + 1}` : 'season result'}.]`;
-    }
-  }
+  // Historical provenance remains in event facts, outside the story prose.
   return { text, wording };
 }
 
@@ -88,12 +94,15 @@ export function selectConfessional(input: ConfessionalInput): ConfessionalSelect
   const justEliminated = new Set(input.before.players.filter(p => p.alive && !input.after.players.find(a => a.id === p.id)?.alive).map(p => p.id));
   const candidates: { template: typeof input.content.confessionals[number]; player: PlayerDefinition; exit: boolean; variants: string[]; priority: number; bindings: Record<string, string> }[] = [];
   const usedTexts = new Set(input.usedTexts);
+  const usedSayings = new Set([...usedTexts].map(text => confessionalFingerprint(text, input)));
   // Reactions follow the main consequence, rather than incidental travel or loot.
   const priorities: Record<string, number> = { elimination: 10, revenge: 9, betrayal: 8, grudge: 7, theft: 6, curse: 5, alliance: 4, assistance: 3, acquire: 2, move: 1 };
   for (const template of input.content.confessionals) {
     if (input.personalityEnabled === false && template.traits.length) continue;
     if (template.eventIds && !template.eventIds.includes(input.template.id)) continue;
-    if (input.sequence - (input.lastUsed[template.id] ?? -Infinity) < template.cooldown) continue;
+    // Interview lines with different wording can still make the same point.
+    // Leave a little more space before a character returns to that topic.
+    if (input.sequence - (input.lastUsed[template.id] ?? -Infinity) < Math.max(template.cooldown, 16)) continue;
     const triggering = input.facts.filter(f => template.triggers.includes(f.type));
     if (!triggering.length) continue;
     for (const player of input.cast.players) {
@@ -104,6 +113,20 @@ export function selectConfessional(input: ConfessionalInput): ConfessionalSelect
       if (template.speaker === 'actor' && !triggering.some(f => f.actorId === player.id)) continue;
       if (template.speaker === 'target' && !triggering.some(f => f.targetId === player.id)) continue;
       if (template.traits.length && !template.traits.some(t => player.traits.includes(t))) continue;
+      // Relationship-specific wording needs a real counterpart in this event.
+      // Filter facts too, so an unrelated consequence cannot supply its priority.
+      const eligibleFacts = triggering.filter(fact => {
+        if (!template.relationship) return true;
+        const otherId = fact.actorId === player.id ? fact.targetId : fact.targetId === player.id ? fact.actorId : undefined;
+        if (!otherId || otherId === player.id || !input.cast.players.some(p => p.id === otherId)) return false;
+        const opinion = input.after.relationships.find(r => r.from === player.id && r.to === otherId) ?? { trust: 0, grudge: 0 };
+        const gate = template.relationship;
+        return (gate.minTrust === undefined || opinion.trust >= gate.minTrust)
+          && (gate.maxTrust === undefined || opinion.trust <= gate.maxTrust)
+          && (gate.minGrudge === undefined || opinion.grudge >= gate.minGrudge)
+          && (gate.maxGrudge === undefined || opinion.grudge <= gate.maxGrudge);
+      });
+      if (!eligibleFacts.length) continue;
       // The rival comes from this speaker's triggering fact, even when event
       // roles point at somebody else (for example, an ally killed by a rival).
       const rival = triggering.find(f => (f.type === 'nemesis' || f.type === 'grudge') && f.actorId === player.id
@@ -111,9 +134,12 @@ export function selectConfessional(input: ConfessionalInput): ConfessionalSelect
       const bindings = { ...input.bindings };
       delete bindings.rival;
       if (rival) bindings.rival = rival;
-      const variants = [...new Set(template.variants)].filter(text => (!text.includes('{rival.') || !!rival)
-        && !usedTexts.has(renderTemplate(text, { ...input, bindings }, player)));
-      const relevant = triggering.filter(f => template.speaker === 'actor' ? f.actorId === player.id : template.speaker === 'target' ? f.targetId === player.id
+      const variants = [...new Set(template.variants)].filter(text => {
+        if (text.includes('{rival.') && !rival) return false;
+        const rendered = renderTemplate(text, { ...input, bindings }, player);
+        return !usedSayings.has(confessionalFingerprint(rendered, input));
+      });
+      const relevant = eligibleFacts.filter(f => template.speaker === 'actor' ? f.actorId === player.id : template.speaker === 'target' ? f.targetId === player.id
         : f.type === 'assistance' || f.type === 'alliance' ? f.actorId === player.id || f.targetId === player.id : true);
       if (!relevant.length) continue;
       candidates.push({ template, player, exit, variants, bindings, priority: Math.max(...relevant.map(f => priorities[f.type] ?? 0)) });
