@@ -31,7 +31,7 @@ export const injuryEncounters: EventTemplate[] = wounds.flatMap(({ site, attack,
       `{actor.name} rests in a hollow beside the path in {biome}, holding pressure on the earlier ${site} wound. A tight cloth dressing finally stops the bleeding; the rest of the day will have to wait.`,
     ], [{ kind: 'removeMarker', role: 'actor', marker }], { roles: [{ id: 'actor' }], conditions: active('actor'), weight: 5, chain: { id: `wound-${site}`, step: 2 } }),
     scene(`wound-${site}-assistance`, 'social', `{actor.name} finds {target.name} struggling with the earlier ${site} wound in {biome}. Keeping watch between knots, {actor.name} binds it with a strip of cloth until the bleeding stops. {target.name} accepts the help despite the risk of staying together.`, [help, { kind: 'removeMarker', role: 'target', marker }], { conditions: active('target'), weight: 4, chain: { id: `wound-${site}`, step: 2 } }),
-    scene(`wound-${site}-pursuit`, 'conflict', `{actor.name} hears {target.name} approaching a trail bank in {biome}. The earlier ${site} wound is still bleeding, so {actor.name} cannot risk a chase. A stone thrown down the opposite path draws {target.name} away long enough for {actor.name} to hide.`, [], { conditions: active('actor'), weight: 2 }),
+    scene(`wound-${site}-pursuit`, 'conflict', `{actor.name} hears {target.name} approaching a trail bank in {biome}. The earlier ${site} wound is still bleeding, so {actor.name} cannot risk a chase. A stone thrown down the opposite path draws {target.name} away long enough for {actor.name} to hide.`, [], { conditions: active('actor'), weight: 2, combat: { attacker: 'target', method: 'unknown' } }),
   ];
 });
 
