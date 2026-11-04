@@ -1,3 +1,4 @@
+import { combatRecord } from '../engine/combat';
 import { z } from 'zod';
 import { canonicalRunId, canonicalStringify } from './canonical';
 
@@ -108,14 +109,18 @@ export const EffectSchema = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('eliminate'), role, credit: role.optional() }).strict(),
   z.object({ kind: z.literal('curse'), role, definitionId: id }).strict(),
 ]);
+export const CombatMethodSchema = z.enum(['held-weapon', 'improvised', 'environment', 'unarmed', 'seized-weapon', 'explosive', 'pursuit', 'intimidation', 'disarm', 'unknown']);
 export const EventTemplateSchema = z.object({
   id, category: z.enum(['opening', 'survival', 'social', 'conflict', 'curse', 'hazard', 'finale', 'announcement']), phases: z.array(PhaseKindSchema).min(1), tones: z.array(ToneSchema).min(1), scope: z.enum(['local', 'global']), roles: z.array(RoleSchema).max(4), conditions: z.array(ConditionSchema).default([]), weight: z.number().finite().positive(), cooldown: z.number().int().nonnegative(), variants: z.array(z.string().min(1).max(2000)).min(1), effects: z.array(EffectSchema), chain: z.object({ id, step: z.number().int().positive() }).optional(), arena: ArenaSceneSchema.optional(), rare: z.boolean().optional(),
-  schedule: z.object({ day: z.number().int().positive(), group: id }).strict().optional(),
+  schedule: z.object({ day: z.number().int().positive(), group: id, choice: id.optional() }).strict().optional(),
   site: z.object({ id, name: label }).strict().optional(),
   travel: z.enum(['roam', 'warning', 'weather']).optional(),
+  lootSource: z.enum(['sponsor', 'supply-pack', 'bloodbath', 'resupply']).optional(),
+  cooldownGroup: id.optional(),
+  combat: z.object({ attacker: role, method: CombatMethodSchema, weaponDefinitionId: id.optional(), variantMethods: z.array(CombatMethodSchema).optional() }).strict().optional(),
   behaviors: z.array(z.object({ role, kind: z.enum(['forage', 'scout', 'conceal', 'safe-travel', 'guarded-opening', 'wait', 'company', 'theft', 'eat', 'risky-inspection']) }).strict()).optional(),
 }).strict();
-export const ConfessionalTemplateSchema = z.object({ id, traits: z.array(TraitSchema), tones: z.array(ToneSchema).min(1), triggers: z.array(FactTypeSchema).min(1), speaker: z.enum(['actor', 'target', 'any', 'eliminated']), variants: z.array(z.string().min(1).max(1000)).min(1), cooldown: z.number().int().nonnegative(), eventIds: z.array(id).min(1).optional() }).strict();
+export const ConfessionalTemplateSchema = z.object({ id, traits: z.array(TraitSchema), tones: z.array(ToneSchema).min(1), triggers: z.array(FactTypeSchema).min(1), speaker: z.enum(['actor', 'target', 'any', 'eliminated']), variants: z.array(z.string().min(1).max(1000)).min(1), cooldown: z.number().int().nonnegative(), eventIds: z.array(id).min(1).optional(), relationship: z.object({ minTrust: z.number().int().min(-100).max(100).optional(), maxTrust: z.number().int().min(-100).max(100).optional(), minGrudge: z.number().int().min(0).max(100).optional(), maxGrudge: z.number().int().min(0).max(100).optional() }).strict().optional() }).strict();
 export const ContentPackSchema = z.object({ id, version: label, title: label, biomes: z.array(BiomeDefinitionSchema).length(6), items: z.array(ItemDefinitionSchema), markers: z.array(MarkerDefinitionSchema), events: z.array(EventTemplateSchema).min(1), confessionals: z.array(ConfessionalTemplateSchema) }).strict().superRefine((pack, ctx) => {
   const issue = (path: (string | number)[], message: string) => ctx.addIssue({ code: 'custom', path, message });
   for (const key of ['biomes', 'items', 'markers', 'events', 'confessionals'] as const) {
@@ -160,6 +165,15 @@ export const ContentPackSchema = z.object({ id, version: label, title: label, bi
       }
     });
   });
+  pack.events.forEach((event, i) => {
+    if (!event.combat) return;
+    if (!event.roles.some(r => r.id === event.combat!.attacker)) issue(['events', i, 'combat'], 'Combat attacker must reference a declared role.');
+    if (event.combat.variantMethods && (event.combat.variantMethods.length !== event.variants.length || event.combat.variantMethods.some(m => ['held-weapon', 'seized-weapon', 'explosive'].includes(m)))) issue(['events', i, 'combat'], 'Variant methods must cover every wording and cannot change inventory weapon use.');
+    if (event.combat.method === 'held-weapon' || event.combat.method === 'explosive') {
+      if (!pack.items.some(item => item.id === event.combat!.weaponDefinitionId && item.tags.includes('weapon')) || !event.conditions.some(c => c.kind === 'item' && c.role === event.combat!.attacker && c.definitionId === event.combat!.weaponDefinitionId && c.exists !== false)) issue(['events', i, 'combat'], 'Inventory weapon attacks require a matching attacker item condition.');
+    }
+    if (event.combat.method === 'seized-weapon' && !event.effects.some(e => e.kind === 'acquireItem' && e.role === event.combat!.attacker && e.definitionId === event.combat!.weaponDefinitionId && e.from)) issue(['events', i, 'combat'], 'Seized weapons require acquisition from another participant.');
+  });
   pack.confessionals.forEach((c, i) => c.variants.forEach((text, j) => {
     for (const match of text.matchAll(/\{([^{}]+)\}/g)) if (!['speaker.name', 'speaker.subject', 'speaker.object', 'speaker.possessive', 'rival.name', 'rival.subject', 'rival.object', 'rival.possessive', 'biome', 'item'].includes(match[1])) issue(['confessionals', i, 'variants', j], `Unknown confessional placeholder: {${match[1]}}.`);
   }));
@@ -169,7 +183,8 @@ export const ItemInstanceSchema = z.object({ id, definitionId: id, name: label, 
 export const GameStateSchema = z.object({ players: z.array(PlayerStateSchema).min(2).max(48), items: z.array(ItemInstanceSchema), relationships: z.array(RelationshipSchema), arena: z.array(z.object({ biome: BiomeIdSchema, status: BiomeStatusSchema }).strict()).optional() }).strict();
 export const EventFactSchema = z.object({ type: FactTypeSchema, actorId: id.optional(), targetId: id.optional(), allyId: id.optional(), itemId: id.optional(), itemDefinitionId: id.optional(), biome: BiomeIdSchema.optional(), biomeStatus: BiomeStatusSchema.optional(), marker: id.optional(), siteId: id.optional(), sourceEvent: z.number().int().nonnegative().optional(), sourceRunId: id.optional() }).strict();
 export const ConfessionalSchema = z.object({ templateId: id, speakerId: id, text: z.string(), exit: z.boolean() }).strict();
-export const EventRecordSchema = z.object({ sequence: z.number().int().nonnegative(), id, phase: PhaseSchema, templateId: id, bindings: z.record(z.string(), id), biome: BiomeIdSchema, effects: z.array(EffectSchema), facts: z.array(EventFactSchema), text: z.string(), confessional: ConfessionalSchema.nullable(), state: GameStateSchema }).strict();
+export const CombatRecordSchema = z.object({ variantIndex: z.number().int().nonnegative().optional(), attackerId: id, targetIds: z.array(id), method: CombatMethodSchema, armed: z.boolean(), weaponItemId: id.optional(), weaponDefinitionId: id.optional(), outcome: z.enum(['death', 'injury', 'unharmed']) }).strict();
+export const EventRecordSchema = z.object({ combat: CombatRecordSchema.optional(), sequence: z.number().int().nonnegative(), id, phase: PhaseSchema, templateId: id, bindings: z.record(z.string(), id), biome: BiomeIdSchema, effects: z.array(EffectSchema), facts: z.array(EventFactSchema), text: z.string(), confessional: ConfessionalSchema.nullable(), state: GameStateSchema }).strict();
 export const LoreFactSchema = z.object({ id, type: z.enum(['win', 'betrayal', 'revenge', 'transfer', 'nemesis', 'curse']), sourceRunId: id, playerIds: z.array(id).min(1), eventSequences: z.array(z.number().int().nonnegative()), itemDefinitionId: id.optional(), detail: z.string() }).strict();
 export const LoreContextSchema = z.object({ facts: z.array(LoreFactSchema).max(12) }).strict();
 export const RunInputSchema = z.object({ cast: CastSchema, settings: GameSettingsSchema, content: ContentPackSchema, lore: LoreContextSchema }).strict();
@@ -219,6 +234,10 @@ export const RunRecordSchema = z.object({ id, engineVersion: id, input: Recorded
     if (template?.category === 'announcement' && (event.confessional || event.biome !== template.arena?.biome)) add(['events', i], 'Announcements must use their affected biome and cannot have a confessional.');
     if (template?.arena && ['escape', 'casualty'].includes(template.arena.stage) && previous.arena?.find(b => b.biome === template.arena!.biome)?.status !== 'evacuating') add(['events', i], 'Evacuation outcomes require an active closure.');
     if (template?.scope === 'local' && new Set(participants.map(id => previous.players.find(p => p.id === id)?.biome)).size > 1) add(['events', i, 'bindings'], 'Local encounters require participants in the same biome.');
+    if (event.combat && template) {
+      const expected = combatRecord(template, event.bindings, previous, event.state, run.input.content, event.combat.variantIndex);
+      if (canonicalStringify(event.combat) !== canonicalStringify(expected)) add(['events', i, 'combat'], 'Combat must agree with attacker roles, committed effects and pre-attack inventory.');
+    }
     checkState(event.state, ['events', i, 'state']);
     event.state.players.forEach(p => { if (p.alive && !previous.players.find(x => x.id === p.id)?.alive) add(['events', i, 'state'], 'Eliminated players cannot return.'); });
     const eliminated = previous.players.filter(p => p.alive && !event.state.players.find(v => v.id === p.id)?.alive);
