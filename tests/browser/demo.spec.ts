@@ -1,0 +1,36 @@
+import { expect, test } from '@playwright/test';
+
+for (const width of [1280, 390]) test(`demo batches persist, export and reset at ${width}px`, async ({ page }) => {
+  test.setTimeout(120_000);
+  await page.setViewportSize({ width, height: 900 });
+  await page.goto('/');
+  await page.getByRole('button', { name: 'Demo statistics', exact: true }).click();
+  await expect(page.getByRole('status')).toHaveText('0 demo games analysed');
+  await expect(page.getByLabel('Games per batch')).toHaveValue('100');
+  await page.getByLabel('Games per batch').fill('2');
+  await page.getByLabel('Batch seed', { exact: true }).fill('browser-demo-test');
+  await page.getByRole('button', { name: 'Run demo batch' }).click();
+  await expect(page.getByRole('status')).toHaveText('2 demo games analysed', { timeout: 90_000 });
+  await expect(page.getByText('Held weapon use / armed attacker opportunities', { exact: true })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Bloodbath death distribution' })).toBeVisible();
+  await expect(page.getByRole('table', { name: 'Phase outcomes and weapon ownership' })).toBeVisible();
+  await expect(page.getByRole('table', { name: 'Combat method breakdown' })).toBeVisible();
+  await expect(page.getByRole('table', { name: 'Combat method breakdown' }).getByText('Seized weapons', { exact: true })).toBeVisible();
+  const stored = await page.evaluate(() => JSON.parse(localStorage.getItem('survival-demo-analytics-v1')!));
+  expect(stored.version).toBe(2);
+  expect(stored.gameSamples).toHaveLength(2);
+  expect(stored.totals.armedAttacks).toBeGreaterThan(0);
+  const downloadPromise = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Export demo JSON' }).click();
+  expect((await downloadPromise).suggestedFilename()).toBe('demo-statistics.json');
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.reload();
+  await page.getByRole('button', { name: 'Demo statistics', exact: true }).click();
+  await expect(page.getByRole('status')).toHaveText('2 demo games analysed');
+  await page.getByRole('button', { name: 'Reset demo statistics' }).click();
+  await expect(page.getByRole('status')).toHaveText('0 demo games analysed');
+  expect(await page.evaluate(() => localStorage.getItem('survival-demo-analytics-v1'))).toBeNull();
+  await page.reload();
+  await page.getByRole('button', { name: 'Demo statistics', exact: true }).click();
+  await expect(page.getByRole('status')).toHaveText('0 demo games analysed');
+});

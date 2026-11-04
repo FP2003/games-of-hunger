@@ -40,7 +40,7 @@ for (const width of [1280, 390]) test(`DD quirks persist, respect slots and expo
   const replay = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Export full replay', exact: true }).click();
   const saved = JSON.parse(await readFile((await (await replay).path())!, 'utf8'));
-  expect(saved.run.engineVersion).toBe('1.16.0');
+  expect(saved.run.engineVersion).toBe('1.28.0');
   expect(saved.run.input.cast.players[0].traits).toEqual(cast.cast.players[0].traits);
   expect(saved.run.input.content.items.some((item: { curse?: string }) => item.curse)).toBe(false);
   expect(JSON.stringify(saved.run.input.content)).not.toMatch(/crooked-compass|whispering-tin|dinner-bell/);

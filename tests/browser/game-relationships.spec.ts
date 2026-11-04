@@ -4,6 +4,7 @@ import { DEFAULT_SETTINGS } from '../../src/domain';
 import { generateRun } from '../../src/engine';
 import { narrativeAdapter } from '../../src/narrative';
 import { phaseEndCursor } from '../../src/ui/playback';
+import { relationshipLabels, relationshipStatus } from '../../src/domain/relationshipStatus';
 
 const run = generateRun({
   cast: { version: 1, title: 'Live relationships', relationships: [], players: Array.from({ length: 24 }, (_, i) => ({ id: `p${i}`, name: `Tribute ${i}`, traits: [] })) },
@@ -26,6 +27,8 @@ for (const width of [1280, 390]) test(`game relationship modal is read-only, rev
   await expect(dialog.locator('.network-node.eliminated')).toHaveCount(0);
   await dialog.locator('.network-node').nth(0).click();
   await dialog.locator('.network-node').nth(1).click();
+  await expect(dialog.locator('.network-edge')).toHaveCount(0);
+  await expect(dialog.locator('.network-edge.dimmed')).toHaveCount(0);
   await expect(dialog.locator('.network-status-readout')).toHaveText(['Neutral · Trust 0 · Grudge 0', 'Neutral · Trust 0 · Grudge 0']);
   await expect(dialog.locator('.network-status-options button')).toHaveCount(0);
   await expect(dialog.getByRole('button', { name: /Edit character/ })).toHaveCount(0);
@@ -44,7 +47,7 @@ for (const width of [1280, 390]) test(`game relationship modal is read-only, rev
   await dialog.locator('.network-node').nth(from).click();
   await dialog.locator('.network-node').nth(to).click();
   const reverse = state.relationships.find(r => r.from === edge.to && r.to === edge.from);
-  const label = (r?: typeof edge) => `${r && r.grudge >= 40 ? 'Rival' : r && r.trust >= 40 ? 'Trusted' : 'Neutral'} · Trust ${r?.trust ?? 0} · Grudge ${r?.grudge ?? 0}`;
+  const label = (r?: typeof edge) => `${relationshipLabels[relationshipStatus(r)]} · Trust ${r?.trust ?? 0} · Grudge ${r?.grudge ?? 0}`;
   await expect(dialog.locator('.network-status-readout')).toHaveText([label(edge), label(reverse)]);
   await expect(dialog.locator('.network-node.eliminated')).toHaveCount(state.players.filter(p => !p.alive).length);
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);

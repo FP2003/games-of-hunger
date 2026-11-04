@@ -138,7 +138,7 @@ label.button{position:relative;overflow:hidden}label.button input[type=file]{dis
 .network-status-options{display:flex;flex-wrap:wrap;gap:6px}
 .network-status-options button{font-size:10px;min-height:38px;padding:8px 10px;gap:6px;background:#111b15;color:#bec9be;border-color:#3a493a}
 .network-status-options button i{width:5px;height:5px;border-radius:50%;background:var(--relationship-colour)}
-.network-status-options button[aria-pressed=true]{color:var(--relationship-colour);border-color:var(--relationship-colour);background:#2b362b}
+.network-status-options button[aria-pressed=true]{color:var(--relationship-text,var(--relationship-colour));border-color:var(--relationship-colour);background:#2b362b}
 .character-modal .relationship-network{margin-top:20px;height:clamp(440px,72dvh,740px)}
 @media(max-width:720px){.cast-view-toggle{width:100%}.cast-view-toggle button{flex:1;font-size:10px;padding:9px}.network-toolbar{padding:10px 12px;gap:10px}.network-toolbar h4{flex-basis:100%}.network-neutral-toggle{margin-left:auto}.network-relationship-control>span{flex-basis:100%}.network-status-options{gap:4px}.network-status-options button{min-height:42px;padding:7px 8px}}
 @media(max-width:720px){.cast-sidebar{margin-bottom:24px}.cast-sidebar .add-panel{grid-template-columns:minmax(0,1fr);gap:18px;padding:18px}.cast-sidebar .add-panel h3{font-size:24px}.cast-sidebar .add-panel textarea{height:112px}.add-panel-actions .button-row{width:100%;margin:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.cast-sidebar .add-panel button{padding:10px 8px;font-size:10px;gap:8px}.network-node.central{width:112px;height:56px}.network-node.central .portrait{width:28px;height:28px;font-size:12px}.network-node.central .network-node-name{font-size:12px}.network-node{gap:4px;padding:2px 3px}.relationship-network.dense .network-node{gap:2px;padding:1px 2px}}
@@ -198,6 +198,9 @@ label.button{position:relative;overflow:hidden}label.button input[type=file]{dis
 .game-relationships-modal .network-node.eliminated{opacity:.5}
 .game-relationships-modal .network-node.eliminated .network-node-name{text-decoration:line-through}
 .network-status-readout{font-size:11px;line-height:1.7}
+.network-edge.nemesis .network-edge-line{stroke-width:3.5;opacity:1}
+.network-bundle.nemesis .network-bundle-trunk{stroke-width:3.5}
+.network-legend i.nemesis{border-top-width:4px}
 @media(max-width:720px){.game-relationships-modal{width:calc(100% - 24px)}.game-relationships-modal .character-modal-body{padding:16px 12px}}
 
 .trait-picker h4{display:flex;align-items:center;gap:12px;margin:12px 0;color:#d5dfce;font-size:12px}.trait-picker h4 span{font-weight:400;color:var(--muted)}.trait-picker [role=group]+[role=group]{margin-top:18px}.trait-picker .traits label:has(input:disabled){opacity:.5}.trait-picker [role=alert]{color:#f0b3a0;font-size:12px;line-height:1.6}
