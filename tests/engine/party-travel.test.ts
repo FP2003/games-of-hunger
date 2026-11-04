@@ -7,6 +7,7 @@ import { travelScenes } from '../../src/content/travel';
 import { ContentPackSchema, DEFAULT_SETTINGS, RunRecordSchema, type RunInput } from '../../src/domain';
 import { applyEffects, createRandom, findBindings, generateRun, initialState } from '../../src/engine';
 import { narrativeAdapter } from '../../src/narrative';
+import { MAX_RESIDENT_ASSIGNMENTS } from '../../src/engine/travel';
 import { retiredDefaultEventIds } from '../fixtures/legacy-content';
 
 function setup(size = 5): RunInput {
@@ -84,7 +85,7 @@ describe('brief shared region departures', () => {
       input.content.events.find(scene => scene.id === 'final-beacon-1')!,
     ] };
     const run = generateRun(input, narrativeAdapter);
-    const departure = run.events.find(event => event.phase.index === 4 && event.templateId === 'travel-roam-2-ruins')!;
+    const departure = run.events.find(event => event.phase.index === MAX_RESIDENT_ASSIGNMENTS + 1 && event.templateId === 'travel-roam-2-ruins')!;
     expect(departure).toBeDefined();
     expect(new Set(Object.values(departure.bindings))).toEqual(new Set(['p0', 'p1']));
     expect(departure.state.players.filter(player => ['p2', 'p3'].includes(player.id)).every(player => player.biome === 'ruins')).toBe(true);

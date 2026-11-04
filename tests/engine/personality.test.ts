@@ -182,7 +182,7 @@ describe('personality rules', () => {
     ] };
     const run = generateRun(input, narrativeAdapter);
     const death = run.events.find(e => e.facts.some(f => f.type === 'grudge'))!;
-    expect(death.text).toContain('vows never to forgive c');
+    expect(death.text).toContain('a learns that c killed b and promises not to forget it.');
     expect(run.events.flatMap(e => e.facts)).toContainEqual({ type: 'revenge', actorId: 'a', targetId: 'c', sourceEvent: death.sequence });
     expect(RunRecordSchema.safeParse(JSON.parse(JSON.stringify(run))).success).toBe(true);
     const grudge = death.facts.find(f => f.type === 'grudge')!; grudge.allyId = 'a';

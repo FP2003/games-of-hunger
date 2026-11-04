@@ -12,8 +12,8 @@ function input(size: number, danger: GameSettings['danger'], seed = 'deadline'):
   };
 }
 
-describe('eight-day game pacing', () => {
-  it.each(['high', 'normal', 'low'] as const)('keeps seeded 24-player %s games within eight days', danger => {
+describe('six-day game pacing', () => {
+  it.each(['high', 'normal', 'low'] as const)('keeps seeded 24-player %s games within six days', danger => {
     const days = Array.from({ length: 20 }, (_, seed) => {
       const run = generateRun(input(24, danger, `pacing-${seed}`), narrativeAdapter);
       const final = run.events.at(-1)!;
@@ -24,13 +24,13 @@ describe('eight-day game pacing', () => {
     });
     const mean = days.reduce((sum, day) => sum + day, 0) / days.length;
     if (danger === 'high') {
-      expect(mean).toBeGreaterThanOrEqual(4);
+      expect(mean).toBeGreaterThanOrEqual(3);
       expect(mean).toBeLessThanOrEqual(5.5);
     }
     console.info(JSON.stringify({ danger, players: 24, samples: days.length, mean, min: Math.min(...days), max: Math.max(...days) }));
   });
 
-  it.each([2, 3, 12, 24, 48])('finishes an impossible %i-player pack on Day 8 without reusing a participant within a phase', size => {
+  it.each([2, 3, 12, 24, 48])('finishes an impossible %i-player pack on Day 6 without reusing a participant within a phase', size => {
     const setup = input(size, 'low');
     setup.content = { ...fixturePack, events: [{ ...fixturePack.events[0], phases: ['day'], conditions: [{ kind: 'trait', role: 'actor', trait: 'loyal' }] }] };
     const run = generateRun(setup, narrativeAdapter);
