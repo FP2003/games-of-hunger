@@ -1,0 +1,2150 @@
+{
+  "contentVersion": "1.33.0",
+  "methodology": "Static authored method/wording coverage. Shared raw wording counts once across template IDs. Does not simulate eligibility or measure repetition rates.",
+  "methods": [
+    {
+      "method": "improvised",
+      "templates": 77,
+      "uniqueWordings": 147,
+      "uniqueFinaleWordings": 7,
+      "narrowTemplates": [],
+      "sharedWordings": [
+        {
+          "wording": "{actor.name} pulls a sharpened scrap from the central supply crate and stabs {target.name} in the chest as they reach for the same lid. {target.name} collapses and dies beside the crate; {actor.name} claims {item}.",
+          "templateIds": [
+            "opening-bloodbath-1",
+            "opening-bloodbath-1-loot-rope",
+            "opening-bloodbath-1-loot-flask",
+            "opening-bloodbath-1-loot-blanket",
+            "opening-bloodbath-1-loot-lantern",
+            "opening-bloodbath-1-loot-scrap"
+          ]
+        },
+        {
+          "wording": "{actor.name} reaches inside the central supply crate as {target.name} grabs its lid. A sharpened scrap becomes a weapon, and {actor.name} stabs {target.name} in the chest. {target.name} dies; {actor.name} takes {item}.",
+          "templateIds": [
+            "opening-bloodbath-1",
+            "opening-bloodbath-1-loot-rope",
+            "opening-bloodbath-1-loot-flask",
+            "opening-bloodbath-1-loot-blanket",
+            "opening-bloodbath-1-loot-lantern",
+            "opening-bloodbath-1-loot-scrap"
+          ]
+        },
+        {
+          "wording": "The supply crate draws {actor.name} and {target.name} together. {actor.name} finds a sharpened scrap inside and drives it into {target.name}’s chest, killing {target.name} before leaving with {item}.",
+          "templateIds": [
+            "opening-bloodbath-1",
+            "opening-bloodbath-1-loot-rope",
+            "opening-bloodbath-1-loot-flask",
+            "opening-bloodbath-1-loot-blanket",
+            "opening-bloodbath-1-loot-lantern",
+            "opening-bloodbath-1-loot-scrap"
+          ]
+        },
+        {
+          "wording": "{target.name} reaches for the supply crate alongside {actor.name}. Pulling a sharpened scrap from within, {actor.name} delivers a fatal chest wound. {actor.name} collects {item} beside the body.",
+          "templateIds": [
+            "opening-bloodbath-1",
+            "opening-bloodbath-1-loot-rope",
+            "opening-bloodbath-1-loot-flask",
+            "opening-bloodbath-1-loot-blanket",
+            "opening-bloodbath-1-loot-lantern",
+            "opening-bloodbath-1-loot-scrap"
+          ]
+        },
+        {
+          "wording": "A sharpened scrap lies inside the central supply crate. {actor.name} grabs it as {target.name} reaches for the lid and stabs {target.name} in the chest. After the fatal attack, {actor.name} takes {item}.",
+          "templateIds": [
+            "opening-bloodbath-1",
+            "opening-bloodbath-1-loot-rope",
+            "opening-bloodbath-1-loot-flask",
+            "opening-bloodbath-1-loot-blanket",
+            "opening-bloodbath-1-loot-lantern",
+            "opening-bloodbath-1-loot-scrap"
+          ]
+        },
+        {
+          "wording": "{actor.name} wins the struggle at the supply crate by taking the sharpened scrap inside. A stab to the chest kills {target.name}. {actor.name} leaves the crate carrying {item}.",
+          "templateIds": [
+            "opening-bloodbath-1",
+            "opening-bloodbath-1-loot-rope",
+            "opening-bloodbath-1-loot-flask",
+            "opening-bloodbath-1-loot-blanket",
+            "opening-bloodbath-1-loot-lantern",
+            "opening-bloodbath-1-loot-scrap"
+          ]
+        },
+        {
+          "wording": "At the central supplies, {actor.name} pulls a sharpened scrap from the crate that {target.name} is opening. {actor.name} stabs {target.name} in the chest, causing death, then claims {item}.",
+          "templateIds": [
+            "opening-bloodbath-1",
+            "opening-bloodbath-1-loot-rope",
+            "opening-bloodbath-1-loot-flask",
+            "opening-bloodbath-1-loot-blanket",
+            "opening-bloodbath-1-loot-lantern",
+            "opening-bloodbath-1-loot-scrap"
+          ]
+        },
+        {
+          "wording": "At the central supply crate, {target.name} reaches for the lid alongside {actor.name}. {actor.name} grabs a sharpened scrap from the crate and drives it into {target.name}'s chest. {target.name} dies there; {actor.name} takes {item}.",
+          "templateIds": [
+            "opening-bloodbath-1",
+            "opening-bloodbath-1-loot-rope",
+            "opening-bloodbath-1-loot-flask",
+            "opening-bloodbath-1-loot-blanket",
+            "opening-bloodbath-1-loot-lantern",
+            "opening-bloodbath-1-loot-scrap"
+          ]
+        },
+        {
+          "wording": "{actor.name} and {target.name} converge on the same supply crate. A sharpened scrap inside gives {actor.name} a weapon: a stab to the chest kills {target.name} beside the lid. {actor.name} leaves with {item}.",
+          "templateIds": [
+            "opening-bloodbath-1",
+            "opening-bloodbath-1-loot-rope",
+            "opening-bloodbath-1-loot-flask",
+            "opening-bloodbath-1-loot-blanket",
+            "opening-bloodbath-1-loot-lantern",
+            "opening-bloodbath-1-loot-scrap"
+          ]
+        },
+        {
+          "wording": "Two contestants reach for a central supply crate, but {actor.name} reaches the sharpened scrap inside first. The stab catches {target.name} in the chest. After {target.name} collapses and dies, {actor.name} claims {item}.",
+          "templateIds": [
+            "opening-bloodbath-1",
+            "opening-bloodbath-1-loot-rope",
+            "opening-bloodbath-1-loot-flask",
+            "opening-bloodbath-1-loot-blanket",
+            "opening-bloodbath-1-loot-lantern",
+            "opening-bloodbath-1-loot-scrap"
+          ]
+        },
+        {
+          "wording": "{target.name} is still reaching for the supply crate's lid when {actor.name} pulls a sharpened scrap from within. {actor.name} stabs {target.name} in the chest, causing death beside the crate, then takes {item}.",
+          "templateIds": [
+            "opening-bloodbath-1",
+            "opening-bloodbath-1-loot-rope",
+            "opening-bloodbath-1-loot-flask",
+            "opening-bloodbath-1-loot-blanket",
+            "opening-bloodbath-1-loot-lantern",
+            "opening-bloodbath-1-loot-scrap"
+          ]
+        },
+        {
+          "wording": "{actor.name} wrenches a loose iron bar from the central tool rack and strikes {target.name} in the head. The blow kills {target.name}; {actor.name} takes {item}.",
+          "templateIds": [
+            "opening-bloodbath-2-loot-ration",
+            "opening-bloodbath-2",
+            "opening-bloodbath-2-loot-flask",
+            "opening-bloodbath-2-loot-blanket",
+            "opening-bloodbath-2-loot-lantern",
+            "opening-bloodbath-2-loot-scrap"
+          ]
+        },
+        {
+          "wording": "{actor.name} pulls an iron bar from the central tool rack and strikes {target.name} in the head. {target.name} dies beside the tools. {actor.name} takes {item}.",
+          "templateIds": [
+            "opening-bloodbath-2-loot-ration",
+            "opening-bloodbath-2",
+            "opening-bloodbath-2-loot-flask",
+            "opening-bloodbath-2-loot-blanket",
+            "opening-bloodbath-2-loot-lantern",
+            "opening-bloodbath-2-loot-scrap"
+          ]
+        },
+        {
+          "wording": "A bar comes loose from the tool rack in {actor.name}’s hands. {actor.name} turns it on {target.name}, delivering a fatal head strike before collecting {item}.",
+          "templateIds": [
+            "opening-bloodbath-2-loot-ration",
+            "opening-bloodbath-2",
+            "opening-bloodbath-2-loot-flask",
+            "opening-bloodbath-2-loot-blanket",
+            "opening-bloodbath-2-loot-lantern",
+            "opening-bloodbath-2-loot-scrap"
+          ]
+        },
+        {
+          "wording": "{target.name} reaches the tools as {actor.name} frees an iron bar from the rack. The blow to the head kills {target.name}. {actor.name} carries off {item}.",
+          "templateIds": [
+            "opening-bloodbath-2-loot-ration",
+            "opening-bloodbath-2",
+            "opening-bloodbath-2-loot-flask",
+            "opening-bloodbath-2-loot-blanket",
+            "opening-bloodbath-2-loot-lantern",
+            "opening-bloodbath-2-loot-scrap"
+          ]
+        },
+        {
+          "wording": "The central tool rack provides {actor.name} with an iron bar. A swing catches {target.name} in the head with fatal force. {actor.name} gathers {item} before leaving.",
+          "templateIds": [
+            "opening-bloodbath-2-loot-ration",
+            "opening-bloodbath-2",
+            "opening-bloodbath-2-loot-flask",
+            "opening-bloodbath-2-loot-blanket",
+            "opening-bloodbath-2-loot-lantern",
+            "opening-bloodbath-2-loot-scrap"
+          ]
+        },
+        {
+          "wording": "{actor.name} wrenches a bar from the tool rack before {target.name} can retreat. The iron strikes {target.name}’s head, killing {target.name}. {actor.name} takes {item} from the supplies.",
+          "templateIds": [
+            "opening-bloodbath-2-loot-ration",
+            "opening-bloodbath-2",
+            "opening-bloodbath-2-loot-flask",
+            "opening-bloodbath-2-loot-blanket",
+            "opening-bloodbath-2-loot-lantern",
+            "opening-bloodbath-2-loot-scrap"
+          ]
+        },
+        {
+          "wording": "Beside the opening scramble for tools, {actor.name} tears an iron bar from its rack. {actor.name} kills {target.name} with a blow to the head and leaves with {item}.",
+          "templateIds": [
+            "opening-bloodbath-2-loot-ration",
+            "opening-bloodbath-2",
+            "opening-bloodbath-2-loot-flask",
+            "opening-bloodbath-2-loot-blanket",
+            "opening-bloodbath-2-loot-lantern",
+            "opening-bloodbath-2-loot-scrap"
+          ]
+        },
+        {
+          "wording": "The tool rack loses an iron bar as {actor.name} tears it loose. Before {target.name} can get clear, {actor.name} strikes the head with it. The blow is fatal; {actor.name} claims {item}.",
+          "templateIds": [
+            "opening-bloodbath-2-loot-ration",
+            "opening-bloodbath-2",
+            "opening-bloodbath-2-loot-flask",
+            "opening-bloodbath-2-loot-blanket",
+            "opening-bloodbath-2-loot-lantern",
+            "opening-bloodbath-2-loot-scrap"
+          ]
+        },
+        {
+          "wording": "{target.name} closes on the central tool rack just as {actor.name} pulls an iron bar free. {actor.name} swings at {target.name}'s head, killing the approaching tribute, then leaves with {item}.",
+          "templateIds": [
+            "opening-bloodbath-2-loot-ration",
+            "opening-bloodbath-2",
+            "opening-bloodbath-2-loot-flask",
+            "opening-bloodbath-2-loot-blanket",
+            "opening-bloodbath-2-loot-lantern",
+            "opening-bloodbath-2-loot-scrap"
+          ]
+        },
+        {
+          "wording": "A loose bar becomes a weapon in {actor.name}'s hands beside the central tools. The strike hits {target.name} in the head and proves fatal. {actor.name} takes {item} from the supplies.",
+          "templateIds": [
+            "opening-bloodbath-2-loot-ration",
+            "opening-bloodbath-2",
+            "opening-bloodbath-2-loot-flask",
+            "opening-bloodbath-2-loot-blanket",
+            "opening-bloodbath-2-loot-lantern",
+            "opening-bloodbath-2-loot-scrap"
+          ]
+        },
+        {
+          "wording": "{actor.name} wrenches an iron bar out of the tool rack and turns on {target.name}. A blow to the head kills {target.name} at the rack. With {item} claimed, {actor.name} moves clear of the body.",
+          "templateIds": [
+            "opening-bloodbath-2-loot-ration",
+            "opening-bloodbath-2",
+            "opening-bloodbath-2-loot-flask",
+            "opening-bloodbath-2-loot-blanket",
+            "opening-bloodbath-2-loot-lantern",
+            "opening-bloodbath-2-loot-scrap"
+          ]
+        },
+        {
+          "wording": "{actor.name} crosses into {biome}. {actor.name} picks up a loose tent peg beside an abandoned resting place in {biome}. When {target.name} approaches, {actor.name} drives its point into the chest. {target.name} dies; the peg is left beside the body.",
+          "templateIds": [
+            "crossing-conflict-swamp",
+            "crossing-conflict-mountains"
+          ]
+        },
+        {
+          "wording": "{actor.name} crosses into {biome}. {target.name} catches {actor.name} searching beside an empty delivery box in {biome}. {actor.name} lifts the detached lid and strikes its metal edge against {target.name}'s neck, causing a fatal wound, then drops it.",
+          "templateIds": [
+            "crossing-conflict-swamp",
+            "crossing-conflict-mountains"
+          ]
+        },
+        {
+          "wording": "{actor.name} slams a fallen branch into {target.name} at a forest gate, causing a fatal head injury.",
+          "templateIds": [
+            "forest-contest-1",
+            "forest-contest-2"
+          ]
+        },
+        {
+          "wording": "{actor.name} picks up a loose tent peg beside an abandoned resting place in {biome}. When {target.name} approaches, {actor.name} drives its point into the chest. {target.name} dies; the peg is left beside the body.",
+          "templateIds": [
+            "forest-contest-1",
+            "forest-contest-2",
+            "desert-contest-1"
+          ]
+        },
+        {
+          "wording": "{target.name} catches {actor.name} searching beside an empty delivery box in {biome}. {actor.name} lifts the detached lid and strikes its metal edge against {target.name}'s neck, causing a fatal wound, then drops it.",
+          "templateIds": [
+            "forest-contest-1",
+            "forest-contest-2",
+            "desert-contest-1"
+          ]
+        },
+        {
+          "wording": "{actor.name} trips {target.name} on a packed tundra stair and drops a heavy marker onto {target.possessive} head, killing {target.object}.",
+          "templateIds": [
+            "tundra-contest-1",
+            "tundra-contest-2"
+          ]
+        },
+        {
+          "wording": "{actor.name} swings an ice-coated fence brace into {target.name} beside a tundra route pole, inflicting a fatal head wound.",
+          "templateIds": [
+            "tundra-contest-1",
+            "tundra-contest-2"
+          ]
+        },
+        {
+          "wording": "{actor.name} strikes {target.name} with a pointed tundra survey fitting; the chest wound is fatal.",
+          "templateIds": [
+            "tundra-contest-1",
+            "tundra-contest-2"
+          ]
+        },
+        {
+          "wording": "{actor.name} spots a loose length of delivery cord in {biome} as {target.name} turns to attack. Slipping behind, {actor.name} tightens the cord around {target.name}'s neck and holds it until {target.name} dies, then drops the cord.",
+          "templateIds": [
+            "final-beacon-1",
+            "final-beacon-2",
+            "final-beacon-3",
+            "final-beacon-4",
+            "final-beacon-5",
+            "final-beacon-6",
+            "final-converge-forest-swamp",
+            "final-converge-forest-mountains",
+            "final-converge-forest-desert",
+            "final-converge-forest-tundra",
+            "final-converge-forest-ruins",
+            "final-converge-swamp-forest",
+            "final-converge-swamp-mountains",
+            "final-converge-swamp-desert",
+            "final-converge-swamp-tundra",
+            "final-converge-swamp-ruins",
+            "final-converge-mountains-forest",
+            "final-converge-mountains-swamp",
+            "final-converge-mountains-desert",
+            "final-converge-mountains-tundra",
+            "final-converge-mountains-ruins",
+            "final-converge-desert-forest",
+            "final-converge-desert-swamp",
+            "final-converge-desert-mountains",
+            "final-converge-desert-tundra",
+            "final-converge-desert-ruins",
+            "final-converge-tundra-forest",
+            "final-converge-tundra-swamp",
+            "final-converge-tundra-mountains",
+            "final-converge-tundra-desert",
+            "final-converge-tundra-ruins",
+            "final-converge-ruins-forest",
+            "final-converge-ruins-swamp",
+            "final-converge-ruins-mountains",
+            "final-converge-ruins-desert",
+            "final-converge-ruins-tundra"
+          ]
+        },
+        {
+          "wording": "{target.name} advances while {actor.name} kneels beside scattered packing debris in {biome}. {actor.name} lifts a loose stone and strikes the approaching head. {target.name} dies from the impact; the stone falls back among the debris.",
+          "templateIds": [
+            "final-beacon-1",
+            "final-beacon-2",
+            "final-beacon-3",
+            "final-beacon-4",
+            "final-beacon-5",
+            "final-beacon-6",
+            "final-converge-forest-swamp",
+            "final-converge-forest-mountains",
+            "final-converge-forest-desert",
+            "final-converge-forest-tundra",
+            "final-converge-forest-ruins",
+            "final-converge-swamp-forest",
+            "final-converge-swamp-mountains",
+            "final-converge-swamp-desert",
+            "final-converge-swamp-tundra",
+            "final-converge-swamp-ruins",
+            "final-converge-mountains-forest",
+            "final-converge-mountains-swamp",
+            "final-converge-mountains-desert",
+            "final-converge-mountains-tundra",
+            "final-converge-mountains-ruins",
+            "final-converge-desert-forest",
+            "final-converge-desert-swamp",
+            "final-converge-desert-mountains",
+            "final-converge-desert-tundra",
+            "final-converge-desert-ruins",
+            "final-converge-tundra-forest",
+            "final-converge-tundra-swamp",
+            "final-converge-tundra-mountains",
+            "final-converge-tundra-desert",
+            "final-converge-tundra-ruins",
+            "final-converge-ruins-forest",
+            "final-converge-ruins-swamp",
+            "final-converge-ruins-mountains",
+            "final-converge-ruins-desert",
+            "final-converge-ruins-tundra"
+          ]
+        },
+        {
+          "wording": "{actor.name} takes a broken plank from an empty delivery pallet in {biome}. When {target.name} closes the distance, {actor.name} swings its heavy end against the temple. The strike kills {target.name}; {actor.name} discards the plank.",
+          "templateIds": [
+            "final-beacon-1",
+            "final-beacon-2",
+            "final-beacon-3",
+            "final-beacon-4",
+            "final-beacon-5",
+            "final-beacon-6",
+            "final-converge-forest-swamp",
+            "final-converge-forest-mountains",
+            "final-converge-forest-desert",
+            "final-converge-forest-tundra",
+            "final-converge-forest-ruins",
+            "final-converge-swamp-forest",
+            "final-converge-swamp-mountains",
+            "final-converge-swamp-desert",
+            "final-converge-swamp-tundra",
+            "final-converge-swamp-ruins",
+            "final-converge-mountains-forest",
+            "final-converge-mountains-swamp",
+            "final-converge-mountains-desert",
+            "final-converge-mountains-tundra",
+            "final-converge-mountains-ruins",
+            "final-converge-desert-forest",
+            "final-converge-desert-swamp",
+            "final-converge-desert-mountains",
+            "final-converge-desert-tundra",
+            "final-converge-desert-ruins",
+            "final-converge-tundra-forest",
+            "final-converge-tundra-swamp",
+            "final-converge-tundra-mountains",
+            "final-converge-tundra-desert",
+            "final-converge-tundra-ruins",
+            "final-converge-ruins-forest",
+            "final-converge-ruins-swamp",
+            "final-converge-ruins-mountains",
+            "final-converge-ruins-desert",
+            "final-converge-ruins-tundra"
+          ]
+        },
+        {
+          "wording": "{target.name} pushes past an overturned supply basket in {biome}. {actor.name} tears off its loose metal handle and drives the exposed end into {target.name}'s chest. {target.name} dies beside the basket; {actor.name} leaves the handle there.",
+          "templateIds": [
+            "final-beacon-1",
+            "final-beacon-2",
+            "final-beacon-3",
+            "final-beacon-4",
+            "final-beacon-5",
+            "final-beacon-6",
+            "final-converge-forest-swamp",
+            "final-converge-forest-mountains",
+            "final-converge-forest-desert",
+            "final-converge-forest-tundra",
+            "final-converge-forest-ruins",
+            "final-converge-swamp-forest",
+            "final-converge-swamp-mountains",
+            "final-converge-swamp-desert",
+            "final-converge-swamp-tundra",
+            "final-converge-swamp-ruins",
+            "final-converge-mountains-forest",
+            "final-converge-mountains-swamp",
+            "final-converge-mountains-desert",
+            "final-converge-mountains-tundra",
+            "final-converge-mountains-ruins",
+            "final-converge-desert-forest",
+            "final-converge-desert-swamp",
+            "final-converge-desert-mountains",
+            "final-converge-desert-tundra",
+            "final-converge-desert-ruins",
+            "final-converge-tundra-forest",
+            "final-converge-tundra-swamp",
+            "final-converge-tundra-mountains",
+            "final-converge-tundra-desert",
+            "final-converge-tundra-ruins",
+            "final-converge-ruins-forest",
+            "final-converge-ruins-swamp",
+            "final-converge-ruins-mountains",
+            "final-converge-ruins-desert",
+            "final-converge-ruins-tundra"
+          ]
+        },
+        {
+          "wording": "{actor.name} offers {target.name} a hand as though proposing a truce in {biome}. The handshake becomes a pull onto a concealed broken tile, whose point opens a fatal neck wound.",
+          "templateIds": [
+            "final-beacon-1",
+            "final-beacon-2",
+            "final-beacon-3",
+            "final-beacon-4",
+            "final-beacon-5",
+            "final-beacon-6",
+            "final-converge-forest-swamp",
+            "final-converge-forest-mountains",
+            "final-converge-forest-desert",
+            "final-converge-forest-tundra",
+            "final-converge-forest-ruins",
+            "final-converge-swamp-forest",
+            "final-converge-swamp-mountains",
+            "final-converge-swamp-desert",
+            "final-converge-swamp-tundra",
+            "final-converge-swamp-ruins",
+            "final-converge-mountains-forest",
+            "final-converge-mountains-swamp",
+            "final-converge-mountains-desert",
+            "final-converge-mountains-tundra",
+            "final-converge-mountains-ruins",
+            "final-converge-desert-forest",
+            "final-converge-desert-swamp",
+            "final-converge-desert-mountains",
+            "final-converge-desert-tundra",
+            "final-converge-desert-ruins",
+            "final-converge-tundra-forest",
+            "final-converge-tundra-swamp",
+            "final-converge-tundra-mountains",
+            "final-converge-tundra-desert",
+            "final-converge-tundra-ruins",
+            "final-converge-ruins-forest",
+            "final-converge-ruins-swamp",
+            "final-converge-ruins-mountains",
+            "final-converge-ruins-desert",
+            "final-converge-ruins-tundra"
+          ]
+        },
+        {
+          "wording": "{target.name} pins {actor.name} to the ground in {biome}. {actor.name} reaches a jagged ceramic fragment beside a footing and drives it upward into {target.name}'s throat, inflicting a fatal wound before rolling free.",
+          "templateIds": [
+            "final-beacon-1",
+            "final-beacon-2",
+            "final-beacon-3",
+            "final-beacon-4",
+            "final-beacon-5",
+            "final-beacon-6",
+            "final-converge-forest-swamp",
+            "final-converge-forest-mountains",
+            "final-converge-forest-desert",
+            "final-converge-forest-tundra",
+            "final-converge-forest-ruins",
+            "final-converge-swamp-forest",
+            "final-converge-swamp-mountains",
+            "final-converge-swamp-desert",
+            "final-converge-swamp-tundra",
+            "final-converge-swamp-ruins",
+            "final-converge-mountains-forest",
+            "final-converge-mountains-swamp",
+            "final-converge-mountains-desert",
+            "final-converge-mountains-tundra",
+            "final-converge-mountains-ruins",
+            "final-converge-desert-forest",
+            "final-converge-desert-swamp",
+            "final-converge-desert-mountains",
+            "final-converge-desert-tundra",
+            "final-converge-desert-ruins",
+            "final-converge-tundra-forest",
+            "final-converge-tundra-swamp",
+            "final-converge-tundra-mountains",
+            "final-converge-tundra-desert",
+            "final-converge-tundra-ruins",
+            "final-converge-ruins-forest",
+            "final-converge-ruins-swamp",
+            "final-converge-ruins-mountains",
+            "final-converge-ruins-desert",
+            "final-converge-ruins-tundra"
+          ]
+        },
+        {
+          "wording": "{actor.name} notices {target.name} approaching in the reflection of a camera cover in {biome}. Turning before the ambush lands, {actor.name} wrenches a loose cover bracket into {target.name}'s head; the blow kills {target.object}.",
+          "templateIds": [
+            "final-beacon-1",
+            "final-beacon-2",
+            "final-beacon-3",
+            "final-beacon-4",
+            "final-beacon-5",
+            "final-beacon-6",
+            "final-converge-forest-swamp",
+            "final-converge-forest-mountains",
+            "final-converge-forest-desert",
+            "final-converge-forest-tundra",
+            "final-converge-forest-ruins",
+            "final-converge-swamp-forest",
+            "final-converge-swamp-mountains",
+            "final-converge-swamp-desert",
+            "final-converge-swamp-tundra",
+            "final-converge-swamp-ruins",
+            "final-converge-mountains-forest",
+            "final-converge-mountains-swamp",
+            "final-converge-mountains-desert",
+            "final-converge-mountains-tundra",
+            "final-converge-mountains-ruins",
+            "final-converge-desert-forest",
+            "final-converge-desert-swamp",
+            "final-converge-desert-mountains",
+            "final-converge-desert-tundra",
+            "final-converge-desert-ruins",
+            "final-converge-tundra-forest",
+            "final-converge-tundra-swamp",
+            "final-converge-tundra-mountains",
+            "final-converge-tundra-desert",
+            "final-converge-tundra-ruins",
+            "final-converge-ruins-forest",
+            "final-converge-ruins-swamp",
+            "final-converge-ruins-mountains",
+            "final-converge-ruins-desert",
+            "final-converge-ruins-tundra"
+          ]
+        }
+      ]
+    },
+    {
+      "method": "environment",
+      "templates": 93,
+      "uniqueWordings": 283,
+      "uniqueFinaleWordings": 9,
+      "narrowTemplates": [
+        {
+          "id": "multikill-rope-bridge",
+          "phases": [
+            "day",
+            "night"
+          ],
+          "options": 1
+        },
+        {
+          "id": "multikill-shelter-support",
+          "phases": [
+            "day",
+            "night"
+          ],
+          "options": 1
+        },
+        {
+          "id": "multikill-floodgate",
+          "phases": [
+            "day",
+            "night"
+          ],
+          "options": 1
+        },
+        {
+          "id": "multikill-thin-ice",
+          "phases": [
+            "day",
+            "night"
+          ],
+          "options": 1
+        },
+        {
+          "id": "multikill-supply-collapse",
+          "phases": [
+            "day",
+            "night"
+          ],
+          "options": 1
+        }
+      ],
+      "sharedWordings": [
+        {
+          "wording": "{actor.name} trips {target.name} beside the central water cache, then shoves the heavy tank from its stand. It lands on {target.name}, causing fatal injuries; {actor.name} leaves with {item}.",
+          "templateIds": [
+            "opening-bloodbath-3-loot-ration",
+            "opening-bloodbath-3-loot-rope",
+            "opening-bloodbath-3",
+            "opening-bloodbath-3-loot-blanket",
+            "opening-bloodbath-3-loot-lantern",
+            "opening-bloodbath-3-loot-scrap"
+          ]
+        },
+        {
+          "wording": "{actor.name} trips {target.name} at the central water cache and shoves the heavy tank from its stand. It lands on {target.name}, causing fatal injuries. {actor.name} takes {item}.",
+          "templateIds": [
+            "opening-bloodbath-3-loot-ration",
+            "opening-bloodbath-3-loot-rope",
+            "opening-bloodbath-3",
+            "opening-bloodbath-3-loot-blanket",
+            "opening-bloodbath-3-loot-lantern",
+            "opening-bloodbath-3-loot-scrap"
+          ]
+        },
+        {
+          "wording": "The water cache leaves {target.name} beside a heavy tank when {actor.name} trips the approaching tribute. {actor.name} topples the tank onto {target.name}, killing {target.name}, then claims {item}.",
+          "templateIds": [
+            "opening-bloodbath-3-loot-ration",
+            "opening-bloodbath-3-loot-rope",
+            "opening-bloodbath-3",
+            "opening-bloodbath-3-loot-blanket",
+            "opening-bloodbath-3-loot-lantern",
+            "opening-bloodbath-3-loot-scrap"
+          ]
+        },
+        {
+          "wording": "{target.name} falls at the water cache after {actor.name} catches the approaching tribute’s feet. {actor.name} pushes the tank off its stand. The crushing injuries are fatal; {actor.name} leaves with {item}.",
+          "templateIds": [
+            "opening-bloodbath-3-loot-ration",
+            "opening-bloodbath-3-loot-rope",
+            "opening-bloodbath-3",
+            "opening-bloodbath-3-loot-blanket",
+            "opening-bloodbath-3-loot-lantern",
+            "opening-bloodbath-3-loot-scrap"
+          ]
+        },
+        {
+          "wording": "At the central water supplies, {actor.name} trips {target.name} beneath the tank’s stand. A shove brings the heavy tank down with fatal force. {actor.name} collects {item}.",
+          "templateIds": [
+            "opening-bloodbath-3-loot-ration",
+            "opening-bloodbath-3-loot-rope",
+            "opening-bloodbath-3",
+            "opening-bloodbath-3-loot-blanket",
+            "opening-bloodbath-3-loot-lantern",
+            "opening-bloodbath-3-loot-scrap"
+          ]
+        },
+        {
+          "wording": "{actor.name} sends {target.name} sprawling beside the water cache with a trip. Before {target.name} can rise, {actor.name} forces the heavy tank onto the fallen tribute. {target.name} dies; {actor.name} takes {item}.",
+          "templateIds": [
+            "opening-bloodbath-3-loot-ration",
+            "opening-bloodbath-3-loot-rope",
+            "opening-bloodbath-3",
+            "opening-bloodbath-3-loot-blanket",
+            "opening-bloodbath-3-loot-lantern",
+            "opening-bloodbath-3-loot-scrap"
+          ]
+        },
+        {
+          "wording": "A heavy tank stands over {target.name} after {actor.name} trips the approaching tribute at the water cache. {actor.name} tips it from the stand, fatally crushing {target.name}, then gathers {item}.",
+          "templateIds": [
+            "opening-bloodbath-3-loot-ration",
+            "opening-bloodbath-3-loot-rope",
+            "opening-bloodbath-3",
+            "opening-bloodbath-3-loot-blanket",
+            "opening-bloodbath-3-loot-lantern",
+            "opening-bloodbath-3-loot-scrap"
+          ]
+        },
+        {
+          "wording": "{target.name} loses footing when {actor.name} trips the approaching tribute beside the central water cache. {actor.name} pushes the heavy tank off its stand. It crushes {target.name} to death; {actor.name} takes {item}.",
+          "templateIds": [
+            "opening-bloodbath-3-loot-ration",
+            "opening-bloodbath-3-loot-rope",
+            "opening-bloodbath-3",
+            "opening-bloodbath-3-loot-blanket",
+            "opening-bloodbath-3-loot-lantern",
+            "opening-bloodbath-3-loot-scrap"
+          ]
+        },
+        {
+          "wording": "The heavy tank above the water cache tips under {actor.name}'s shove. {target.name}, tripped by {actor.name} moments before, cannot get clear. The tank lands with fatal force, leaving {actor.name} to claim {item}.",
+          "templateIds": [
+            "opening-bloodbath-3-loot-ration",
+            "opening-bloodbath-3-loot-rope",
+            "opening-bloodbath-3",
+            "opening-bloodbath-3-loot-blanket",
+            "opening-bloodbath-3-loot-lantern",
+            "opening-bloodbath-3-loot-scrap"
+          ]
+        },
+        {
+          "wording": "{actor.name} catches {target.name}'s feet beside the water cache, then forces its heavy tank from the stand. The fallen tribute is trapped beneath it and dies from the injuries. {actor.name} leaves with {item}.",
+          "templateIds": [
+            "opening-bloodbath-3-loot-ration",
+            "opening-bloodbath-3-loot-rope",
+            "opening-bloodbath-3",
+            "opening-bloodbath-3-loot-blanket",
+            "opening-bloodbath-3-loot-lantern",
+            "opening-bloodbath-3-loot-scrap"
+          ]
+        },
+        {
+          "wording": "A trip sends {target.name} down beside the central water supplies. {actor.name} follows by toppling the heavy tank onto {target.name}, causing fatal injuries, then gathers {item}.",
+          "templateIds": [
+            "opening-bloodbath-3-loot-ration",
+            "opening-bloodbath-3-loot-rope",
+            "opening-bloodbath-3",
+            "opening-bloodbath-3-loot-blanket",
+            "opening-bloodbath-3-loot-lantern",
+            "opening-bloodbath-3-loot-scrap"
+          ]
+        },
+        {
+          "wording": "{actor.name} tips a stack of cut timber onto {target.name} beside a forest loading track, causing fatal crushing injuries.",
+          "templateIds": [
+            "forest-contest-1",
+            "forest-contest-2"
+          ]
+        },
+        {
+          "wording": "{actor.name} pushes {target.name} through a rotten lookout rail; the fall into the forest gully is fatal.",
+          "templateIds": [
+            "forest-contest-1",
+            "forest-contest-2"
+          ]
+        },
+        {
+          "wording": "{actor.name} loosens a root supporting the forest bank beneath {target.name}; the collapsing edge sends {target.object} into a fatal fall.",
+          "templateIds": [
+            "forest-contest-1",
+            "forest-contest-2"
+          ]
+        },
+        {
+          "wording": "{actor.name} releases a bent sapling beside a forest marker, driving its splintered end into {target.name} with fatal force.",
+          "templateIds": [
+            "forest-contest-1",
+            "forest-contest-2"
+          ]
+        },
+        {
+          "wording": "{actor.name} knocks {target.name} into a narrow forest cutting and rolls a heavy log across it, crushing {target.object} to death.",
+          "templateIds": [
+            "forest-contest-1",
+            "forest-contest-2"
+          ]
+        },
+        {
+          "wording": "{actor.name} drops a loose lookout brace onto {target.name} on the forest path below; the head injury kills {target.object}.",
+          "templateIds": [
+            "forest-contest-1",
+            "forest-contest-2"
+          ]
+        },
+        {
+          "wording": "{actor.name} kicks a plank out of a forest crossing as {target.name} steps onto it; the fall onto exposed roots is fatal.",
+          "templateIds": [
+            "forest-contest-1",
+            "forest-contest-2"
+          ]
+        },
+        {
+          "wording": "{actor.name} leads {target.name} across the damaged cover of an inspection shaft in {biome}, then stamps its loose end. The cover tips beneath {target.name}, whose fall down the shaft is fatal.",
+          "templateIds": [
+            "mountains-contest-1",
+            "mountains-contest-2",
+            "desert-contest-2"
+          ]
+        },
+        {
+          "wording": "{target.name} moves beneath a leaning service sign in {biome}. {actor.name} pulls away its last support, bringing the sign down onto {target.name} with fatal force.",
+          "templateIds": [
+            "mountains-contest-1",
+            "mountains-contest-2",
+            "desert-contest-2"
+          ]
+        },
+        {
+          "wording": "{actor.name} pulls a rotten post from a tundra shelter as {target.name} enters; the collapsing roof kills {target.object}.",
+          "templateIds": [
+            "tundra-contest-1",
+            "tundra-contest-2"
+          ]
+        },
+        {
+          "wording": "{actor.name} loosens the support of a snow-loaded awning above {target.name}; the collapsing frame crushes {target.object} to death.",
+          "templateIds": [
+            "tundra-contest-1",
+            "tundra-contest-2"
+          ]
+        },
+        {
+          "wording": "{actor.name} drives {target.name} backward onto a concealed tundra cutting; the crust breaks and the fall is fatal.",
+          "templateIds": [
+            "tundra-contest-1",
+            "tundra-contest-2"
+          ]
+        },
+        {
+          "wording": "{actor.name} tips a frozen barrier onto {target.name} at an old tundra checkpoint; the crushing injuries kill {target.object}.",
+          "templateIds": [
+            "tundra-contest-1",
+            "tundra-contest-2"
+          ]
+        },
+        {
+          "wording": "{actor.name} yanks a loose walkway panel from beneath {target.name} over a tundra ditch; the fall breaks {target.possessive} neck and kills {target.object}.",
+          "templateIds": [
+            "tundra-contest-1",
+            "tundra-contest-2"
+          ]
+        },
+        {
+          "wording": "{target.name} steps across a drainage opening in {biome} while pursuing {actor.name}. {actor.name} pulls its hinged grate upright beneath the next step. {target.name} falls headfirst into the channel and dies from the impact.",
+          "templateIds": [
+            "final-beacon-1",
+            "final-beacon-2",
+            "final-beacon-3",
+            "final-beacon-4",
+            "final-beacon-5",
+            "final-beacon-6",
+            "final-converge-forest-swamp",
+            "final-converge-forest-mountains",
+            "final-converge-forest-desert",
+            "final-converge-forest-tundra",
+            "final-converge-forest-ruins",
+            "final-converge-swamp-forest",
+            "final-converge-swamp-mountains",
+            "final-converge-swamp-desert",
+            "final-converge-swamp-tundra",
+            "final-converge-swamp-ruins",
+            "final-converge-mountains-forest",
+            "final-converge-mountains-swamp",
+            "final-converge-mountains-desert",
+            "final-converge-mountains-tundra",
+            "final-converge-mountains-ruins",
+            "final-converge-desert-forest",
+            "final-converge-desert-swamp",
+            "final-converge-desert-mountains",
+            "final-converge-desert-tundra",
+            "final-converge-desert-ruins",
+            "final-converge-tundra-forest",
+            "final-converge-tundra-swamp",
+            "final-converge-tundra-mountains",
+            "final-converge-tundra-desert",
+            "final-converge-tundra-ruins",
+            "final-converge-ruins-forest",
+            "final-converge-ruins-swamp",
+            "final-converge-ruins-mountains",
+            "final-converge-ruins-desert",
+            "final-converge-ruins-tundra"
+          ]
+        },
+        {
+          "wording": "{actor.name} slips behind an unsecured stack of concrete supply blocks in {biome}. As {target.name} reaches its other side, {actor.name} pushes the top block loose. The falling stack crushes {target.name}, causing fatal injuries.",
+          "templateIds": [
+            "final-beacon-1",
+            "final-beacon-2",
+            "final-beacon-3",
+            "final-beacon-4",
+            "final-beacon-5",
+            "final-beacon-6",
+            "final-converge-forest-swamp",
+            "final-converge-forest-mountains",
+            "final-converge-forest-desert",
+            "final-converge-forest-tundra",
+            "final-converge-forest-ruins",
+            "final-converge-swamp-forest",
+            "final-converge-swamp-mountains",
+            "final-converge-swamp-desert",
+            "final-converge-swamp-tundra",
+            "final-converge-swamp-ruins",
+            "final-converge-mountains-forest",
+            "final-converge-mountains-swamp",
+            "final-converge-mountains-desert",
+            "final-converge-mountains-tundra",
+            "final-converge-mountains-ruins",
+            "final-converge-desert-forest",
+            "final-converge-desert-swamp",
+            "final-converge-desert-mountains",
+            "final-converge-desert-tundra",
+            "final-converge-desert-ruins",
+            "final-converge-tundra-forest",
+            "final-converge-tundra-swamp",
+            "final-converge-tundra-mountains",
+            "final-converge-tundra-desert",
+            "final-converge-tundra-ruins",
+            "final-converge-ruins-forest",
+            "final-converge-ruins-swamp",
+            "final-converge-ruins-mountains",
+            "final-converge-ruins-desert",
+            "final-converge-ruins-tundra"
+          ]
+        },
+        {
+          "wording": "{target.name} follows {actor.name} onto a narrow service platform in {biome}. {actor.name} jumps back to solid ground and kicks away its damaged supporting strut. The platform collapses beneath {target.name}; the fall is fatal.",
+          "templateIds": [
+            "final-beacon-1",
+            "final-beacon-2",
+            "final-beacon-3",
+            "final-beacon-4",
+            "final-beacon-5",
+            "final-beacon-6",
+            "final-converge-forest-swamp",
+            "final-converge-forest-mountains",
+            "final-converge-forest-desert",
+            "final-converge-forest-tundra",
+            "final-converge-forest-ruins",
+            "final-converge-swamp-forest",
+            "final-converge-swamp-mountains",
+            "final-converge-swamp-desert",
+            "final-converge-swamp-tundra",
+            "final-converge-swamp-ruins",
+            "final-converge-mountains-forest",
+            "final-converge-mountains-swamp",
+            "final-converge-mountains-desert",
+            "final-converge-mountains-tundra",
+            "final-converge-mountains-ruins",
+            "final-converge-desert-forest",
+            "final-converge-desert-swamp",
+            "final-converge-desert-mountains",
+            "final-converge-desert-tundra",
+            "final-converge-desert-ruins",
+            "final-converge-tundra-forest",
+            "final-converge-tundra-swamp",
+            "final-converge-tundra-mountains",
+            "final-converge-tundra-desert",
+            "final-converge-tundra-ruins",
+            "final-converge-ruins-forest",
+            "final-converge-ruins-swamp",
+            "final-converge-ruins-mountains",
+            "final-converge-ruins-desert",
+            "final-converge-ruins-tundra"
+          ]
+        },
+        {
+          "wording": "{actor.name} draws {target.name} into the path of an open service gate in {biome}, then releases its broken stop. The gate swings downhill and pins {target.name} against the fixed frame, inflicting fatal crushing injuries.",
+          "templateIds": [
+            "final-beacon-1",
+            "final-beacon-2",
+            "final-beacon-3",
+            "final-beacon-4",
+            "final-beacon-5",
+            "final-beacon-6",
+            "final-converge-forest-swamp",
+            "final-converge-forest-mountains",
+            "final-converge-forest-desert",
+            "final-converge-forest-tundra",
+            "final-converge-forest-ruins",
+            "final-converge-swamp-forest",
+            "final-converge-swamp-mountains",
+            "final-converge-swamp-desert",
+            "final-converge-swamp-tundra",
+            "final-converge-swamp-ruins",
+            "final-converge-mountains-forest",
+            "final-converge-mountains-swamp",
+            "final-converge-mountains-desert",
+            "final-converge-mountains-tundra",
+            "final-converge-mountains-ruins",
+            "final-converge-desert-forest",
+            "final-converge-desert-swamp",
+            "final-converge-desert-mountains",
+            "final-converge-desert-tundra",
+            "final-converge-desert-ruins",
+            "final-converge-tundra-forest",
+            "final-converge-tundra-swamp",
+            "final-converge-tundra-mountains",
+            "final-converge-tundra-desert",
+            "final-converge-tundra-ruins",
+            "final-converge-ruins-forest",
+            "final-converge-ruins-swamp",
+            "final-converge-ruins-mountains",
+            "final-converge-ruins-desert",
+            "final-converge-ruins-tundra"
+          ]
+        },
+        {
+          "wording": "{actor.name} and {target.name} struggle beneath a camera turntable in {biome}. {actor.name} releases its damaged catch, swinging the heavy mount into {target.name} with fatal force.",
+          "templateIds": [
+            "final-beacon-1",
+            "final-beacon-2",
+            "final-beacon-3",
+            "final-beacon-4",
+            "final-beacon-5",
+            "final-beacon-6",
+            "final-converge-forest-swamp",
+            "final-converge-forest-mountains",
+            "final-converge-forest-desert",
+            "final-converge-forest-tundra",
+            "final-converge-forest-ruins",
+            "final-converge-swamp-forest",
+            "final-converge-swamp-mountains",
+            "final-converge-swamp-desert",
+            "final-converge-swamp-tundra",
+            "final-converge-swamp-ruins",
+            "final-converge-mountains-forest",
+            "final-converge-mountains-swamp",
+            "final-converge-mountains-desert",
+            "final-converge-mountains-tundra",
+            "final-converge-mountains-ruins",
+            "final-converge-desert-forest",
+            "final-converge-desert-swamp",
+            "final-converge-desert-mountains",
+            "final-converge-desert-tundra",
+            "final-converge-desert-ruins",
+            "final-converge-tundra-forest",
+            "final-converge-tundra-swamp",
+            "final-converge-tundra-mountains",
+            "final-converge-tundra-desert",
+            "final-converge-tundra-ruins",
+            "final-converge-ruins-forest",
+            "final-converge-ruins-swamp",
+            "final-converge-ruins-mountains",
+            "final-converge-ruins-desert",
+            "final-converge-ruins-tundra"
+          ]
+        },
+        {
+          "wording": "{actor.name} repeatedly gives ground around a low wall in {biome}, making {target.name} hurry each turn. When {target.name} finally vaults the wall, {actor.name} catches an ankle and sends {target.object} headfirst into its stone base; the injury is fatal.",
+          "templateIds": [
+            "final-beacon-1",
+            "final-beacon-2",
+            "final-beacon-3",
+            "final-beacon-4",
+            "final-beacon-5",
+            "final-beacon-6",
+            "final-converge-forest-swamp",
+            "final-converge-forest-mountains",
+            "final-converge-forest-desert",
+            "final-converge-forest-tundra",
+            "final-converge-forest-ruins",
+            "final-converge-swamp-forest",
+            "final-converge-swamp-mountains",
+            "final-converge-swamp-desert",
+            "final-converge-swamp-tundra",
+            "final-converge-swamp-ruins",
+            "final-converge-mountains-forest",
+            "final-converge-mountains-swamp",
+            "final-converge-mountains-desert",
+            "final-converge-mountains-tundra",
+            "final-converge-mountains-ruins",
+            "final-converge-desert-forest",
+            "final-converge-desert-swamp",
+            "final-converge-desert-mountains",
+            "final-converge-desert-tundra",
+            "final-converge-desert-ruins",
+            "final-converge-tundra-forest",
+            "final-converge-tundra-swamp",
+            "final-converge-tundra-mountains",
+            "final-converge-tundra-desert",
+            "final-converge-tundra-ruins",
+            "final-converge-ruins-forest",
+            "final-converge-ruins-swamp",
+            "final-converge-ruins-mountains",
+            "final-converge-ruins-desert",
+            "final-converge-ruins-tundra"
+          ]
+        },
+        {
+          "wording": "{actor.name} and {target.name} circle a sunken rest area in {biome}, each trying to force the other down into it. {actor.name} jumps in first, catches {target.name}'s trailing leg from below, and pulls {target.object} headfirst against the concrete rim; the impact kills {target.object}.",
+          "templateIds": [
+            "final-beacon-1",
+            "final-beacon-2",
+            "final-beacon-3",
+            "final-beacon-4",
+            "final-beacon-5",
+            "final-beacon-6",
+            "final-converge-forest-swamp",
+            "final-converge-forest-mountains",
+            "final-converge-forest-desert",
+            "final-converge-forest-tundra",
+            "final-converge-forest-ruins",
+            "final-converge-swamp-forest",
+            "final-converge-swamp-mountains",
+            "final-converge-swamp-desert",
+            "final-converge-swamp-tundra",
+            "final-converge-swamp-ruins",
+            "final-converge-mountains-forest",
+            "final-converge-mountains-swamp",
+            "final-converge-mountains-desert",
+            "final-converge-mountains-tundra",
+            "final-converge-mountains-ruins",
+            "final-converge-desert-forest",
+            "final-converge-desert-swamp",
+            "final-converge-desert-mountains",
+            "final-converge-desert-tundra",
+            "final-converge-desert-ruins",
+            "final-converge-tundra-forest",
+            "final-converge-tundra-swamp",
+            "final-converge-tundra-mountains",
+            "final-converge-tundra-desert",
+            "final-converge-tundra-ruins",
+            "final-converge-ruins-forest",
+            "final-converge-ruins-swamp",
+            "final-converge-ruins-mountains",
+            "final-converge-ruins-desert",
+            "final-converge-ruins-tundra"
+          ]
+        },
+        {
+          "wording": "{target.name} corners {actor.name} inside a cramped shelter in {biome}. {actor.name} kicks out its loose rear slats and climbs onto the low roof; when {target.name} runs outside to follow, {actor.name} jumps onto the shoulders, driving {target.name} headfirst into the foundation with fatal force.",
+          "templateIds": [
+            "final-beacon-1",
+            "final-beacon-2",
+            "final-beacon-3",
+            "final-beacon-4",
+            "final-beacon-5",
+            "final-beacon-6",
+            "final-converge-forest-swamp",
+            "final-converge-forest-mountains",
+            "final-converge-forest-desert",
+            "final-converge-forest-tundra",
+            "final-converge-forest-ruins",
+            "final-converge-swamp-forest",
+            "final-converge-swamp-mountains",
+            "final-converge-swamp-desert",
+            "final-converge-swamp-tundra",
+            "final-converge-swamp-ruins",
+            "final-converge-mountains-forest",
+            "final-converge-mountains-swamp",
+            "final-converge-mountains-desert",
+            "final-converge-mountains-tundra",
+            "final-converge-mountains-ruins",
+            "final-converge-desert-forest",
+            "final-converge-desert-swamp",
+            "final-converge-desert-mountains",
+            "final-converge-desert-tundra",
+            "final-converge-desert-ruins",
+            "final-converge-tundra-forest",
+            "final-converge-tundra-swamp",
+            "final-converge-tundra-mountains",
+            "final-converge-tundra-desert",
+            "final-converge-tundra-ruins",
+            "final-converge-ruins-forest",
+            "final-converge-ruins-swamp",
+            "final-converge-ruins-mountains",
+            "final-converge-ruins-desert",
+            "final-converge-ruins-tundra"
+          ]
+        },
+        {
+          "wording": "{actor.name} and {target.name} grapple for the higher end of a rubble ridge in {biome}. {actor.name} gives up the height to pull {target.name} down onto an exposed reinforcement spike, causing a fatal chest wound.",
+          "templateIds": [
+            "final-beacon-1",
+            "final-beacon-2",
+            "final-beacon-3",
+            "final-beacon-4",
+            "final-beacon-5",
+            "final-beacon-6",
+            "final-converge-forest-swamp",
+            "final-converge-forest-mountains",
+            "final-converge-forest-desert",
+            "final-converge-forest-tundra",
+            "final-converge-forest-ruins",
+            "final-converge-swamp-forest",
+            "final-converge-swamp-mountains",
+            "final-converge-swamp-desert",
+            "final-converge-swamp-tundra",
+            "final-converge-swamp-ruins",
+            "final-converge-mountains-forest",
+            "final-converge-mountains-swamp",
+            "final-converge-mountains-desert",
+            "final-converge-mountains-tundra",
+            "final-converge-mountains-ruins",
+            "final-converge-desert-forest",
+            "final-converge-desert-swamp",
+            "final-converge-desert-mountains",
+            "final-converge-desert-tundra",
+            "final-converge-desert-ruins",
+            "final-converge-tundra-forest",
+            "final-converge-tundra-swamp",
+            "final-converge-tundra-mountains",
+            "final-converge-tundra-desert",
+            "final-converge-tundra-ruins",
+            "final-converge-ruins-forest",
+            "final-converge-ruins-swamp",
+            "final-converge-ruins-mountains",
+            "final-converge-ruins-desert",
+            "final-converge-ruins-tundra"
+          ]
+        }
+      ]
+    },
+    {
+      "method": "unarmed",
+      "templates": 43,
+      "uniqueWordings": 28,
+      "uniqueFinaleWordings": 8,
+      "narrowTemplates": [],
+      "sharedWordings": [
+        {
+          "wording": "{actor.name} feints a retreat in {biome}, then turns into {target.name}'s pursuit with an elbow to the temple. {target.name} collapses and dies from the blow.",
+          "templateIds": [
+            "ruins-contest-2",
+            "arena-contest-3",
+            "arena-contest-5",
+            "arena-contest-6"
+          ]
+        },
+        {
+          "wording": "{target.name} reaches around {actor.name}'s waist in {biome}. {actor.name} catches the wrist, turns behind the shoulder and brings {target.name} down, then lands a fatal knee to the head.",
+          "templateIds": [
+            "ruins-contest-2",
+            "arena-contest-3",
+            "arena-contest-5",
+            "arena-contest-6"
+          ]
+        },
+        {
+          "wording": "{target.name} grabs at {actor.name}'s shoulders in {biome}. {actor.name} ducks inside the grip and lands a knee against the temple. {target.name} falls unconscious and dies from the head injury; {actor.name} backs clear.",
+          "templateIds": [
+            "final-beacon-1",
+            "final-beacon-2",
+            "final-beacon-3",
+            "final-beacon-4",
+            "final-beacon-5",
+            "final-beacon-6",
+            "final-converge-forest-swamp",
+            "final-converge-forest-mountains",
+            "final-converge-forest-desert",
+            "final-converge-forest-tundra",
+            "final-converge-forest-ruins",
+            "final-converge-swamp-forest",
+            "final-converge-swamp-mountains",
+            "final-converge-swamp-desert",
+            "final-converge-swamp-tundra",
+            "final-converge-swamp-ruins",
+            "final-converge-mountains-forest",
+            "final-converge-mountains-swamp",
+            "final-converge-mountains-desert",
+            "final-converge-mountains-tundra",
+            "final-converge-mountains-ruins",
+            "final-converge-desert-forest",
+            "final-converge-desert-swamp",
+            "final-converge-desert-mountains",
+            "final-converge-desert-tundra",
+            "final-converge-desert-ruins",
+            "final-converge-tundra-forest",
+            "final-converge-tundra-swamp",
+            "final-converge-tundra-mountains",
+            "final-converge-tundra-desert",
+            "final-converge-tundra-ruins",
+            "final-converge-ruins-forest",
+            "final-converge-ruins-swamp",
+            "final-converge-ruins-mountains",
+            "final-converge-ruins-desert",
+            "final-converge-ruins-tundra"
+          ]
+        },
+        {
+          "wording": "A close grapple in {biome} takes {actor.name} and {target.name} to the ground. {actor.name} gains the upper position and lands repeated punches against the temple until {target.name} dies.",
+          "templateIds": [
+            "final-beacon-1",
+            "final-beacon-2",
+            "final-beacon-3",
+            "final-beacon-4",
+            "final-beacon-5",
+            "final-beacon-6",
+            "final-converge-forest-swamp",
+            "final-converge-forest-mountains",
+            "final-converge-forest-desert",
+            "final-converge-forest-tundra",
+            "final-converge-forest-ruins",
+            "final-converge-swamp-forest",
+            "final-converge-swamp-mountains",
+            "final-converge-swamp-desert",
+            "final-converge-swamp-tundra",
+            "final-converge-swamp-ruins",
+            "final-converge-mountains-forest",
+            "final-converge-mountains-swamp",
+            "final-converge-mountains-desert",
+            "final-converge-mountains-tundra",
+            "final-converge-mountains-ruins",
+            "final-converge-desert-forest",
+            "final-converge-desert-swamp",
+            "final-converge-desert-mountains",
+            "final-converge-desert-tundra",
+            "final-converge-desert-ruins",
+            "final-converge-tundra-forest",
+            "final-converge-tundra-swamp",
+            "final-converge-tundra-mountains",
+            "final-converge-tundra-desert",
+            "final-converge-tundra-ruins",
+            "final-converge-ruins-forest",
+            "final-converge-ruins-swamp",
+            "final-converge-ruins-mountains",
+            "final-converge-ruins-desert",
+            "final-converge-ruins-tundra"
+          ]
+        },
+        {
+          "wording": "{target.name} tries to pull {actor.name} off balance in {biome}. {actor.name} turns through the grip and throws {target.name} over the hip. {target.name} lands on the neck and dies from the injury.",
+          "templateIds": [
+            "final-beacon-1",
+            "final-beacon-2",
+            "final-beacon-3",
+            "final-beacon-4",
+            "final-beacon-5",
+            "final-beacon-6",
+            "final-converge-forest-swamp",
+            "final-converge-forest-mountains",
+            "final-converge-forest-desert",
+            "final-converge-forest-tundra",
+            "final-converge-forest-ruins",
+            "final-converge-swamp-forest",
+            "final-converge-swamp-mountains",
+            "final-converge-swamp-desert",
+            "final-converge-swamp-tundra",
+            "final-converge-swamp-ruins",
+            "final-converge-mountains-forest",
+            "final-converge-mountains-swamp",
+            "final-converge-mountains-desert",
+            "final-converge-mountains-tundra",
+            "final-converge-mountains-ruins",
+            "final-converge-desert-forest",
+            "final-converge-desert-swamp",
+            "final-converge-desert-mountains",
+            "final-converge-desert-tundra",
+            "final-converge-desert-ruins",
+            "final-converge-tundra-forest",
+            "final-converge-tundra-swamp",
+            "final-converge-tundra-mountains",
+            "final-converge-tundra-desert",
+            "final-converge-tundra-ruins",
+            "final-converge-ruins-forest",
+            "final-converge-ruins-swamp",
+            "final-converge-ruins-mountains",
+            "final-converge-ruins-desert",
+            "final-converge-ruins-tundra"
+          ]
+        },
+        {
+          "wording": "{actor.name} catches {target.name}'s attempted tackle in {biome} and locks the head beneath one arm. Keeping the grip through the struggle, {actor.name} cuts off {target.name}'s breathing. {target.name} dies before the hold is released.",
+          "templateIds": [
+            "final-beacon-1",
+            "final-beacon-2",
+            "final-beacon-3",
+            "final-beacon-4",
+            "final-beacon-5",
+            "final-beacon-6",
+            "final-converge-forest-swamp",
+            "final-converge-forest-mountains",
+            "final-converge-forest-desert",
+            "final-converge-forest-tundra",
+            "final-converge-forest-ruins",
+            "final-converge-swamp-forest",
+            "final-converge-swamp-mountains",
+            "final-converge-swamp-desert",
+            "final-converge-swamp-tundra",
+            "final-converge-swamp-ruins",
+            "final-converge-mountains-forest",
+            "final-converge-mountains-swamp",
+            "final-converge-mountains-desert",
+            "final-converge-mountains-tundra",
+            "final-converge-mountains-ruins",
+            "final-converge-desert-forest",
+            "final-converge-desert-swamp",
+            "final-converge-desert-mountains",
+            "final-converge-desert-tundra",
+            "final-converge-desert-ruins",
+            "final-converge-tundra-forest",
+            "final-converge-tundra-swamp",
+            "final-converge-tundra-mountains",
+            "final-converge-tundra-desert",
+            "final-converge-tundra-ruins",
+            "final-converge-ruins-forest",
+            "final-converge-ruins-swamp",
+            "final-converge-ruins-mountains",
+            "final-converge-ruins-desert",
+            "final-converge-ruins-tundra"
+          ]
+        },
+        {
+          "wording": "{target.name} closes both hands around {actor.name}'s upper arms in {biome}. {actor.name} breaks the grip with a headbutt and follows with an elbow to the temple. {target.name} collapses and dies from the head injury.",
+          "templateIds": [
+            "final-beacon-1",
+            "final-beacon-2",
+            "final-beacon-3",
+            "final-beacon-4",
+            "final-beacon-5",
+            "final-beacon-6",
+            "final-converge-forest-swamp",
+            "final-converge-forest-mountains",
+            "final-converge-forest-desert",
+            "final-converge-forest-tundra",
+            "final-converge-forest-ruins",
+            "final-converge-swamp-forest",
+            "final-converge-swamp-mountains",
+            "final-converge-swamp-desert",
+            "final-converge-swamp-tundra",
+            "final-converge-swamp-ruins",
+            "final-converge-mountains-forest",
+            "final-converge-mountains-swamp",
+            "final-converge-mountains-desert",
+            "final-converge-mountains-tundra",
+            "final-converge-mountains-ruins",
+            "final-converge-desert-forest",
+            "final-converge-desert-swamp",
+            "final-converge-desert-mountains",
+            "final-converge-desert-tundra",
+            "final-converge-desert-ruins",
+            "final-converge-tundra-forest",
+            "final-converge-tundra-swamp",
+            "final-converge-tundra-mountains",
+            "final-converge-tundra-desert",
+            "final-converge-tundra-ruins",
+            "final-converge-ruins-forest",
+            "final-converge-ruins-swamp",
+            "final-converge-ruins-mountains",
+            "final-converge-ruins-desert",
+            "final-converge-ruins-tundra"
+          ]
+        },
+        {
+          "wording": "{actor.name} catches {target.name} crouching to recover balance in {biome}. A kick strikes the side of the head before {target.name} can stand. {target.name} falls and dies from the blow.",
+          "templateIds": [
+            "final-beacon-1",
+            "final-beacon-2",
+            "final-beacon-3",
+            "final-beacon-4",
+            "final-beacon-5",
+            "final-beacon-6",
+            "final-converge-forest-swamp",
+            "final-converge-forest-mountains",
+            "final-converge-forest-desert",
+            "final-converge-forest-tundra",
+            "final-converge-forest-ruins",
+            "final-converge-swamp-forest",
+            "final-converge-swamp-mountains",
+            "final-converge-swamp-desert",
+            "final-converge-swamp-tundra",
+            "final-converge-swamp-ruins",
+            "final-converge-mountains-forest",
+            "final-converge-mountains-swamp",
+            "final-converge-mountains-desert",
+            "final-converge-mountains-tundra",
+            "final-converge-mountains-ruins",
+            "final-converge-desert-forest",
+            "final-converge-desert-swamp",
+            "final-converge-desert-mountains",
+            "final-converge-desert-tundra",
+            "final-converge-desert-ruins",
+            "final-converge-tundra-forest",
+            "final-converge-tundra-swamp",
+            "final-converge-tundra-mountains",
+            "final-converge-tundra-desert",
+            "final-converge-tundra-ruins",
+            "final-converge-ruins-forest",
+            "final-converge-ruins-swamp",
+            "final-converge-ruins-mountains",
+            "final-converge-ruins-desert",
+            "final-converge-ruins-tundra"
+          ]
+        },
+        {
+          "wording": "During a scramble on the ground in {biome}, {actor.name} traps {target.name}'s arms beneath the knees and covers the mouth and nose with both hands. {target.name} struggles, then dies from suffocation before {actor.name} stands clear.",
+          "templateIds": [
+            "final-beacon-1",
+            "final-beacon-2",
+            "final-beacon-3",
+            "final-beacon-4",
+            "final-beacon-5",
+            "final-beacon-6",
+            "final-converge-forest-swamp",
+            "final-converge-forest-mountains",
+            "final-converge-forest-desert",
+            "final-converge-forest-tundra",
+            "final-converge-forest-ruins",
+            "final-converge-swamp-forest",
+            "final-converge-swamp-mountains",
+            "final-converge-swamp-desert",
+            "final-converge-swamp-tundra",
+            "final-converge-swamp-ruins",
+            "final-converge-mountains-forest",
+            "final-converge-mountains-swamp",
+            "final-converge-mountains-desert",
+            "final-converge-mountains-tundra",
+            "final-converge-mountains-ruins",
+            "final-converge-desert-forest",
+            "final-converge-desert-swamp",
+            "final-converge-desert-mountains",
+            "final-converge-desert-tundra",
+            "final-converge-desert-ruins",
+            "final-converge-tundra-forest",
+            "final-converge-tundra-swamp",
+            "final-converge-tundra-mountains",
+            "final-converge-tundra-desert",
+            "final-converge-tundra-ruins",
+            "final-converge-ruins-forest",
+            "final-converge-ruins-swamp",
+            "final-converge-ruins-mountains",
+            "final-converge-ruins-desert",
+            "final-converge-ruins-tundra"
+          ]
+        },
+        {
+          "wording": "{target.name} rushes {actor.name} across the open ground in {biome}. {actor.name} drops beneath the reaching arms, takes the back, and holds a choke until {target.name} dies.",
+          "templateIds": [
+            "final-beacon-1",
+            "final-beacon-2",
+            "final-beacon-3",
+            "final-beacon-4",
+            "final-beacon-5",
+            "final-beacon-6",
+            "final-converge-forest-swamp",
+            "final-converge-forest-mountains",
+            "final-converge-forest-desert",
+            "final-converge-forest-tundra",
+            "final-converge-forest-ruins",
+            "final-converge-swamp-forest",
+            "final-converge-swamp-mountains",
+            "final-converge-swamp-desert",
+            "final-converge-swamp-tundra",
+            "final-converge-swamp-ruins",
+            "final-converge-mountains-forest",
+            "final-converge-mountains-swamp",
+            "final-converge-mountains-desert",
+            "final-converge-mountains-tundra",
+            "final-converge-mountains-ruins",
+            "final-converge-desert-forest",
+            "final-converge-desert-swamp",
+            "final-converge-desert-mountains",
+            "final-converge-desert-tundra",
+            "final-converge-desert-ruins",
+            "final-converge-tundra-forest",
+            "final-converge-tundra-swamp",
+            "final-converge-tundra-mountains",
+            "final-converge-tundra-desert",
+            "final-converge-tundra-ruins",
+            "final-converge-ruins-forest",
+            "final-converge-ruins-swamp",
+            "final-converge-ruins-mountains",
+            "final-converge-ruins-desert",
+            "final-converge-ruins-tundra"
+          ]
+        }
+      ]
+    },
+    {
+      "method": "pursuit",
+      "templates": 6,
+      "uniqueWordings": 46,
+      "uniqueFinaleWordings": 0,
+      "narrowTemplates": [],
+      "sharedWordings": []
+    },
+    {
+      "method": "intimidation",
+      "templates": 4,
+      "uniqueWordings": 9,
+      "uniqueFinaleWordings": 0,
+      "narrowTemplates": [],
+      "sharedWordings": []
+    },
+    {
+      "method": "held-weapon",
+      "templates": 185,
+      "uniqueWordings": 1319,
+      "uniqueFinaleWordings": 304,
+      "narrowTemplates": [],
+      "sharedWordings": [
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} fires an arrow at {target.name} across a clearing in {biome}. It pierces {target.possessive} chest. {target.name} collapses and dies before reaching cover.",
+          "templateIds": [
+            "weapon-bow-final-converge-0",
+            "weapon-bow-final-converge-1",
+            "weapon-bow-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. Across a clearing in {biome}, {actor.name} sends an arrow into {target.name}'s chest. {target.name} falls and dies before making it to cover.",
+          "templateIds": [
+            "weapon-bow-final-converge-0",
+            "weapon-bow-final-converge-1",
+            "weapon-bow-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} looses an arrow across a clearing in {biome}, piercing {target.name}'s chest. Unable to reach cover, {target.name} collapses and dies.",
+          "templateIds": [
+            "weapon-bow-final-converge-0",
+            "weapon-bow-final-converge-1",
+            "weapon-bow-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} surprises {target.name} at a supply shelter in {biome} and stabs {target.object} in the chest with a hunting knife. {target.name} stumbles through the doorway and dies from the wound.",
+          "templateIds": [
+            "weapon-knife-final-converge-0",
+            "weapon-knife-final-converge-1",
+            "weapon-knife-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. At a supply shelter in {biome}, {actor.name} catches {target.name} by surprise and drives a hunting knife into {target.possessive} chest. {target.name} staggers through the doorway and dies from the injury.",
+          "templateIds": [
+            "weapon-knife-final-converge-0",
+            "weapon-knife-final-converge-1",
+            "weapon-knife-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} ambushes {target.name} beside a supply shelter in {biome}, stabbing {target.object} in the chest with a hunting knife. {target.name} makes it through the doorway but dies from the wound.",
+          "templateIds": [
+            "weapon-knife-final-converge-0",
+            "weapon-knife-final-converge-1",
+            "weapon-knife-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} braces a spear as {target.name} charges through a narrow gap in {biome}. The point pierces {target.possessive} chest. {target.name} collapses beside the gap and dies.",
+          "templateIds": [
+            "weapon-spear-final-converge-0",
+            "weapon-spear-final-converge-1",
+            "weapon-spear-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. As {target.name} charges through a narrow gap in {biome}, {actor.name} holds a spear steady. Its point pierces {target.possessive} chest; {target.name} falls beside the gap and dies.",
+          "templateIds": [
+            "weapon-spear-final-converge-0",
+            "weapon-spear-final-converge-1",
+            "weapon-spear-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {target.name} rushes into a narrow gap in {biome}, where {actor.name} has braced a spear. The point strikes {target.object} in the chest. {target.name} collapses there and dies.",
+          "templateIds": [
+            "weapon-spear-final-converge-0",
+            "weapon-spear-final-converge-1",
+            "weapon-spear-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} blocks a shelter exit in {biome} and strikes {target.name} in the head with a hand axe. {target.name} collapses; the injury is fatal.",
+          "templateIds": [
+            "weapon-axe-final-converge-0",
+            "weapon-axe-final-converge-1",
+            "weapon-axe-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. At a shelter exit in {biome}, {actor.name} bars {target.name}'s way and delivers a blow to the head with a hand axe. {target.name} collapses and dies from the injury.",
+          "templateIds": [
+            "weapon-axe-final-converge-0",
+            "weapon-axe-final-converge-1",
+            "weapon-axe-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {target.name} finds the shelter exit in {biome} blocked by {actor.name}. A strike to the head from {actor.possessive} hand axe brings {target.name} down with a fatal injury.",
+          "templateIds": [
+            "weapon-axe-final-converge-0",
+            "weapon-axe-final-converge-1",
+            "weapon-axe-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} trips {target.name} beside a trail barrier in {biome}, then strikes {target.object} in the head with a wooden club. {target.name} dies from the blow.",
+          "templateIds": [
+            "weapon-club-final-converge-0",
+            "weapon-club-final-converge-1",
+            "weapon-club-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. Beside a trail barrier in {biome}, {actor.name} trips {target.name} and follows with a wooden club to the head. The blow kills {target.name}.",
+          "templateIds": [
+            "weapon-club-final-converge-0",
+            "weapon-club-final-converge-1",
+            "weapon-club-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} sends {target.name} sprawling beside a trail barrier in {biome}, then brings a wooden club down on {target.possessive} head. {target.name} dies from the impact.",
+          "templateIds": [
+            "weapon-club-final-converge-0",
+            "weapon-club-final-converge-1",
+            "weapon-club-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} waits behind a trail barrier in {biome}, then fires a crossbow bolt into {target.name}'s chest. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-crossbow-final-converge-0",
+            "weapon-crossbow-final-converge-1",
+            "weapon-crossbow-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. As {target.name} rounds a trail barrier in {biome}, {actor.name} fires a crossbow bolt into {target.name}'s chest. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-crossbow-final-converge-0",
+            "weapon-crossbow-final-converge-1",
+            "weapon-crossbow-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} steps from behind a trail barrier in {biome} and fires a crossbow bolt into {target.name}'s chest. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-crossbow-final-converge-0",
+            "weapon-crossbow-final-converge-1",
+            "weapon-crossbow-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} waits behind a trail barrier in {biome}, then strikes {target.name} in the neck with a machete. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-machete-final-converge-0",
+            "weapon-machete-final-converge-1",
+            "weapon-machete-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. As {target.name} rounds a trail barrier in {biome}, {actor.name} strikes {target.name} in the neck with a machete. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-machete-final-converge-0",
+            "weapon-machete-final-converge-1",
+            "weapon-machete-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} steps from behind a trail barrier in {biome} and strikes {target.name} in the neck with a machete. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-machete-final-converge-0",
+            "weapon-machete-final-converge-1",
+            "weapon-machete-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} waits behind a trail barrier in {biome}, then strikes {target.name} in the head with a spiked mace. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-mace-final-converge-0",
+            "weapon-mace-final-converge-1",
+            "weapon-mace-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. As {target.name} rounds a trail barrier in {biome}, {actor.name} strikes {target.name} in the head with a spiked mace. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-mace-final-converge-0",
+            "weapon-mace-final-converge-1",
+            "weapon-mace-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} steps from behind a trail barrier in {biome} and strikes {target.name} in the head with a spiked mace. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-mace-final-converge-0",
+            "weapon-mace-final-converge-1",
+            "weapon-mace-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} waits behind a trail barrier in {biome}, then fires a competition arrow into {target.name}'s chest. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-capitol-bow-final-converge-0",
+            "weapon-capitol-bow-final-converge-1",
+            "weapon-capitol-bow-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. As {target.name} rounds a trail barrier in {biome}, {actor.name} fires a competition arrow into {target.name}'s chest. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-capitol-bow-final-converge-0",
+            "weapon-capitol-bow-final-converge-1",
+            "weapon-capitol-bow-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} steps from behind a trail barrier in {biome} and fires a competition arrow into {target.name}'s chest. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-capitol-bow-final-converge-0",
+            "weapon-capitol-bow-final-converge-1",
+            "weapon-capitol-bow-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} waits behind a trail barrier in {biome}, then strikes {target.name} in the temple with a stone from a slingshot. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-slingshot-final-converge-0",
+            "weapon-slingshot-final-converge-1",
+            "weapon-slingshot-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. As {target.name} rounds a trail barrier in {biome}, {actor.name} strikes {target.name} in the temple with a stone from a slingshot. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-slingshot-final-converge-0",
+            "weapon-slingshot-final-converge-1",
+            "weapon-slingshot-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} steps from behind a trail barrier in {biome} and strikes {target.name} in the temple with a stone from a slingshot. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-slingshot-final-converge-0",
+            "weapon-slingshot-final-converge-1",
+            "weapon-slingshot-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} waits behind a trail barrier in {biome}, then throws a knife into {target.name}'s chest. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-throwing-knives-final-converge-0",
+            "weapon-throwing-knives-final-converge-1",
+            "weapon-throwing-knives-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. As {target.name} rounds a trail barrier in {biome}, {actor.name} throws a knife into {target.name}'s chest. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-throwing-knives-final-converge-0",
+            "weapon-throwing-knives-final-converge-1",
+            "weapon-throwing-knives-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} steps from behind a trail barrier in {biome} and throws a knife into {target.name}'s chest. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-throwing-knives-final-converge-0",
+            "weapon-throwing-knives-final-converge-1",
+            "weapon-throwing-knives-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} waits behind a trail barrier in {biome}, then thrusts a trident into {target.name}'s chest. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-trident-final-converge-0",
+            "weapon-trident-final-converge-1",
+            "weapon-trident-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. As {target.name} rounds a trail barrier in {biome}, {actor.name} thrusts a trident into {target.name}'s chest. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-trident-final-converge-0",
+            "weapon-trident-final-converge-1",
+            "weapon-trident-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} steps from behind a trail barrier in {biome} and thrusts a trident into {target.name}'s chest. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-trident-final-converge-0",
+            "weapon-trident-final-converge-1",
+            "weapon-trident-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} waits behind a trail barrier in {biome}, then stabs {target.name} in the chest with a short sword. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-sword-final-converge-0",
+            "weapon-sword-final-converge-1",
+            "weapon-sword-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. As {target.name} rounds a trail barrier in {biome}, {actor.name} stabs {target.name} in the chest with a short sword. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-sword-final-converge-0",
+            "weapon-sword-final-converge-1",
+            "weapon-sword-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} steps from behind a trail barrier in {biome} and stabs {target.name} in the chest with a short sword. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-sword-final-converge-0",
+            "weapon-sword-final-converge-1",
+            "weapon-sword-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} waits behind a trail barrier in {biome}, then strikes {target.name} in the neck with a broadsword. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-broadsword-final-converge-0",
+            "weapon-broadsword-final-converge-1",
+            "weapon-broadsword-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. As {target.name} rounds a trail barrier in {biome}, {actor.name} strikes {target.name} in the neck with a broadsword. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-broadsword-final-converge-0",
+            "weapon-broadsword-final-converge-1",
+            "weapon-broadsword-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} steps from behind a trail barrier in {biome} and strikes {target.name} in the neck with a broadsword. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-broadsword-final-converge-0",
+            "weapon-broadsword-final-converge-1",
+            "weapon-broadsword-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} waits behind a trail barrier in {biome}, then strikes {target.name} in the head with a combat axe. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-combat-axe-final-converge-0",
+            "weapon-combat-axe-final-converge-1",
+            "weapon-combat-axe-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. As {target.name} rounds a trail barrier in {biome}, {actor.name} strikes {target.name} in the head with a combat axe. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-combat-axe-final-converge-0",
+            "weapon-combat-axe-final-converge-1",
+            "weapon-combat-axe-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} steps from behind a trail barrier in {biome} and strikes {target.name} in the head with a combat axe. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-combat-axe-final-converge-0",
+            "weapon-combat-axe-final-converge-1",
+            "weapon-combat-axe-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} waits behind a trail barrier in {biome}, then strikes {target.name} in the head with a morningstar. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-morningstar-final-converge-0",
+            "weapon-morningstar-final-converge-1",
+            "weapon-morningstar-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. As {target.name} rounds a trail barrier in {biome}, {actor.name} strikes {target.name} in the head with a morningstar. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-morningstar-final-converge-0",
+            "weapon-morningstar-final-converge-1",
+            "weapon-morningstar-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} steps from behind a trail barrier in {biome} and strikes {target.name} in the head with a morningstar. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-morningstar-final-converge-0",
+            "weapon-morningstar-final-converge-1",
+            "weapon-morningstar-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} waits behind a trail barrier in {biome}, then cuts {target.name} across the neck with a scythe. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-scythe-final-converge-0",
+            "weapon-scythe-final-converge-1",
+            "weapon-scythe-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. As {target.name} rounds a trail barrier in {biome}, {actor.name} cuts {target.name} across the neck with a scythe. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-scythe-final-converge-0",
+            "weapon-scythe-final-converge-1",
+            "weapon-scythe-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} steps from behind a trail barrier in {biome} and cuts {target.name} across the neck with a scythe. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-scythe-final-converge-0",
+            "weapon-scythe-final-converge-1",
+            "weapon-scythe-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} waits behind a trail barrier in {biome}, then cuts {target.name} across the neck with a sickle. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-sickle-final-converge-0",
+            "weapon-sickle-final-converge-1",
+            "weapon-sickle-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. As {target.name} rounds a trail barrier in {biome}, {actor.name} cuts {target.name} across the neck with a sickle. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-sickle-final-converge-0",
+            "weapon-sickle-final-converge-1",
+            "weapon-sickle-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} steps from behind a trail barrier in {biome} and cuts {target.name} across the neck with a sickle. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-sickle-final-converge-0",
+            "weapon-sickle-final-converge-1",
+            "weapon-sickle-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} waits behind a trail barrier in {biome}, then stabs {target.name} in the chest with a dagger. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-dagger-final-converge-0",
+            "weapon-dagger-final-converge-1",
+            "weapon-dagger-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. As {target.name} rounds a trail barrier in {biome}, {actor.name} stabs {target.name} in the chest with a dagger. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-dagger-final-converge-0",
+            "weapon-dagger-final-converge-1",
+            "weapon-dagger-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} steps from behind a trail barrier in {biome} and stabs {target.name} in the chest with a dagger. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-dagger-final-converge-0",
+            "weapon-dagger-final-converge-1",
+            "weapon-dagger-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} waits behind a trail barrier in {biome}, then strikes {target.name} in the temple with spiked brass knuckles. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-spiked-knuckles-final-converge-0",
+            "weapon-spiked-knuckles-final-converge-1",
+            "weapon-spiked-knuckles-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. As {target.name} rounds a trail barrier in {biome}, {actor.name} strikes {target.name} in the temple with spiked brass knuckles. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-spiked-knuckles-final-converge-0",
+            "weapon-spiked-knuckles-final-converge-1",
+            "weapon-spiked-knuckles-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} steps from behind a trail barrier in {biome} and strikes {target.name} in the temple with spiked brass knuckles. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-spiked-knuckles-final-converge-0",
+            "weapon-spiked-knuckles-final-converge-1",
+            "weapon-spiked-knuckles-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} waits behind a trail barrier in {biome}, then wraps a whip around {target.name}'s neck and pulls it tight. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-whip-final-converge-0",
+            "weapon-whip-final-converge-1",
+            "weapon-whip-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. As {target.name} rounds a trail barrier in {biome}, {actor.name} wraps a whip around {target.name}'s neck and pulls it tight. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-whip-final-converge-0",
+            "weapon-whip-final-converge-1",
+            "weapon-whip-final-converge-2"
+          ]
+        },
+        {
+          "wording": "The finalists follow the closing arena back to the Center Podium. {actor.name} steps from behind a trail barrier in {biome} and wraps a whip around {target.name}'s neck and pulls it tight. {target.name} collapses and dies from the attack.",
+          "templateIds": [
+            "weapon-whip-final-converge-0",
+            "weapon-whip-final-converge-1",
+            "weapon-whip-final-converge-2"
+          ]
+        }
+      ]
+    },
+    {
+      "method": "disarm",
+      "templates": 21,
+      "uniqueWordings": 241,
+      "uniqueFinaleWordings": 0,
+      "narrowTemplates": [],
+      "sharedWordings": []
+    },
+    {
+      "method": "seized-weapon",
+      "templates": 21,
+      "uniqueWordings": 241,
+      "uniqueFinaleWordings": 0,
+      "narrowTemplates": [],
+      "sharedWordings": []
+    },
+    {
+      "method": "explosive",
+      "templates": 4,
+      "uniqueWordings": 20,
+      "uniqueFinaleWordings": 0,
+      "narrowTemplates": [],
+      "sharedWordings": []
+    }
+  ]
+}

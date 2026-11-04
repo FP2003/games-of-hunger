@@ -1,0 +1,165 @@
+{
+  "games": 100,
+  "seed": "demo-baseline-2026-11-04",
+  "methods": {
+    "environment": {
+      "armed": 48,
+      "unarmed": 1066
+    },
+    "improvised": {
+      "armed": 23,
+      "unarmed": 1146
+    },
+    "unarmed": {
+      "armed": 1,
+      "unarmed": 118
+    },
+    "held-weapon": {
+      "armed": 586,
+      "unarmed": 0
+    },
+    "pursuit": {
+      "armed": 12,
+      "unarmed": 82
+    },
+    "seized-weapon": {
+      "armed": 1,
+      "unarmed": 35
+    },
+    "disarm": {
+      "armed": 0,
+      "unarmed": 36
+    },
+    "explosive": {
+      "armed": 1,
+      "unarmed": 0
+    }
+  },
+  "phases": {
+    "opening": {
+      "fights": 589,
+      "armed": 0,
+      "ownedWeaponUsed": 0
+    },
+    "day": {
+      "fights": 1255,
+      "armed": 261,
+      "ownedWeaponUsed": 236
+    },
+    "night": {
+      "fights": 996,
+      "armed": 281,
+      "ownedWeaponUsed": 246
+    },
+    "finale": {
+      "fights": 315,
+      "armed": 130,
+      "ownedWeaponUsed": 105
+    }
+  },
+  "openingSurvivors": 1862,
+  "openingArmed": 220,
+  "ownedWeaponsUnused": [
+    {
+      "seed": 1,
+      "template": "crossing-conflict-ruins",
+      "method": "environment",
+      "phase": "night",
+      "held": [
+        "knife"
+      ],
+      "text": "Tribute 14 crosses the boundary into The Center Podium and pulls a retaining pin from a camera gantry above Tribute 4; the falling frame is fatal."
+    },
+    {
+      "seed": 2,
+      "template": "trap-deadfall-fatal",
+      "method": "environment",
+      "phase": "night",
+      "held": [
+        "crossbow"
+      ],
+      "text": "Tribute 8 suspends a falling log over a supply trail in The Center Podium with a rope, waiting until Tribute 11 passes below. Released from above, the log strikes Tribute 11's head with fatal force. The log rolls clear and leaves the rope hanging slack."
+    },
+    {
+      "seed": 4,
+      "template": "crossing-conflict-ruins",
+      "method": "environment",
+      "phase": "night",
+      "held": [
+        "spear"
+      ],
+      "text": "Tribute 1 crosses the boundary into The Center Podium and kicks a corroded stair tread loose beneath Tribute 2; the fatal fall breaks their neck."
+    },
+    {
+      "seed": 4,
+      "template": "arena-contest-1",
+      "method": "environment",
+      "phase": "night",
+      "held": [
+        "spear"
+      ],
+      "text": "Tribute 3 tries to climb a steep cut bank in The Center Podium rather than face Tribute 1. Tribute 1 stamps on the reaching fingers; the fall onto the hard footing below kills Tribute 3."
+    },
+    {
+      "seed": 8,
+      "template": "crossing-conflict-ruins",
+      "method": "environment",
+      "phase": "day",
+      "held": [
+        "explosive"
+      ],
+      "text": "Tribute 21 crosses the boundary into The Center Podium and releases a heavy service hatch onto Tribute 14 below; the impact kills them."
+    },
+    {
+      "seed": 8,
+      "template": "arena-contest-6",
+      "method": "improvised",
+      "phase": "day",
+      "held": [
+        "explosive"
+      ],
+      "text": "Tribute 1 stops in The Center Podium to work a trapped heel out of a fence gap. Tribute 21 notices the delay and attacks with a loose fence post; the blow kills Tribute 1 before the foot comes free."
+    },
+    {
+      "seed": 9,
+      "template": "wound-thigh-fatal",
+      "method": "improvised",
+      "phase": "day",
+      "held": [
+        "spear"
+      ],
+      "text": "At a broken bench in The Center Podium, Tribute 19 forces Tribute 2's thigh against a splintered metal brace. Tribute 2 tears free of the brace but cannot stop the fatal bleeding."
+    },
+    {
+      "seed": 11,
+      "template": "knife-disarmed",
+      "method": "improvised",
+      "phase": "night",
+      "held": [
+        "mace"
+      ],
+      "text": "Tribute 16 tries to jab a jagged scrap past a stack of crates in The Center Podium. Tribute 15 drops a loose crate lid onto the hand, and the scrap disappears between the stacked bases."
+    },
+    {
+      "seed": 11,
+      "template": "arena-contest-1",
+      "method": "improvised",
+      "phase": "night",
+      "held": [
+        "mace"
+      ],
+      "text": "Tribute 11 deliberately leaves footprints circling an empty recess in The Center Podium. Tribute 5 follows the loop and meets Tribute 11 coming the other way with a broken tile; a blow to the temple is fatal."
+    },
+    {
+      "seed": 11,
+      "template": "crossing-conflict-ruins",
+      "method": "environment",
+      "phase": "night",
+      "held": [
+        "mace"
+      ],
+      "text": "Tribute 16 crosses the boundary into The Center Podium and pushes a loose masonry block from a low wall onto Tribute 24; the head injury kills them."
+    }
+  ],
+  "weaponAcquisitions": 473
+}
