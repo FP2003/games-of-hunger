@@ -8,7 +8,7 @@ import { legacyCursedRun } from '../fixtures/legacy-content';
 describe('pre-quirk cursed replay compatibility', () => {
   it('validates an actual old snapshot and portable roundtrips without rewriting content, names or outcomes', () => {
     expect(legacyCursedRun.engineVersion).toBe('1.15.0');
-    expect(ENGINE_VERSION).toBe('1.16.0');
+    expect(ENGINE_VERSION).toBe('1.28.0');
     expect(legacyCursedRun.input.content.items.map(item => item.curse)).toEqual(['compass', 'bell', 'tin']);
     expect(legacyCursedRun.events.some(event => event.facts.some(fact => fact.type === 'curse'))).toBe(true);
     expect(RunRecordSchema.parse(legacyCursedRun)).toEqual(legacyCursedRun);
