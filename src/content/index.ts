@@ -1,10 +1,11 @@
+import { relationshipInterviews } from './relationship-interviews';
 import { ContentPackSchema, type BiomeId, type ContentPack, type EventTemplate, type Effect, type Condition, type ConfessionalTemplate, type Trait, type FactType } from '../domain';
 import { contextualEncounters, finalConfrontations, injuryEncounters, openingEscapes, survivalCloseCalls, woundMarkers } from './encounters';
 import { arenaScenes } from './arena';
 import { multikillScenes } from './multikills';
 import { personalityMarkers, personalityScenes } from './personality';
 import { nightScenes } from './night';
-import { weaponExchangeScenes, weaponItems, weaponScenes, weaponTrapScenes } from './weapons';
+import { weaponExchangeScenes, weaponFinaleScenes, weaponItems, weaponScenes, weaponTrapScenes } from './weapons';
 import { withConfessionalVariety, withSceneVariety } from './variety';
 import { eventInterviews } from './interview-expansion';
 import { groupCooperation } from './cooperation';
@@ -18,6 +19,15 @@ import { openingPartyScenes, partyTravelScenes } from './party-travel';
 import { shortTravelWording, withShortTravel } from './short-travel';
 import { withHotspotVariety } from './hotspot-variety';
 import { quirkInterviews, quirkScenes, withQuirkBehaviors } from './quirks';
+import { withLootSource } from './loot-sources';
+import { withCombatMethods } from './combat-methods';
+import { withCombatVariety } from './combat-variety';
+import { withCombatPacing } from './pacing';
+import { withLootVariety } from './loot-variety';
+import { intimidationScenes } from './intimidation';
+import { arenaGearItems, arenaGearScenes } from './arena-gear';
+import { weaponLootWeights } from './weapon-catalogue';
+import { publicResupplyScenes } from './resupply';
 
 const ordinary = ['day', 'night'] as const;
 const allTones = ['dramatic', 'absurd', 'mixed'] as const;
@@ -40,6 +50,7 @@ export const biomes: ContentPack['biomes'] = [
 ];
 export const items: ContentPack['items'] = [
   ...weaponItems,
+  ...arenaGearItems,
   ...environmentalItems,
   { id: 'ration', name: 'sealed rations', description: 'Food with an optimistically distant expiry date.', tags: ['supplies'] },
   { id: 'rope', name: 'rescue rope', description: 'A sturdy length of rope with a questionable knot diagram.', tags: ['supplies', 'tool'] },
@@ -71,11 +82,11 @@ opening.push(event('opening-route-6', 'opening', '{actor.name} ducks the opening
 ], { phases: ['opening'] }));
 
 ['ration', 'rope', 'flask'].forEach((definitionId, i) => opening.push(event(`opening-bloodbath-${i + 1}`, 'opening', [
-  '{actor.name} pulls a sharpened scrap from the central food crate and stabs {target.name} in the chest as they reach for the same lid. {target.name} collapses and dies beside the crate; {actor.name} claims {item} and an emergency blanket.',
-  '{actor.name} wrenches a loose iron bar from the central tool rack and strikes {target.name} in the head. The blow kills {target.name}; {actor.name} takes {item} and an emergency blanket.',
-  '{actor.name} trips {target.name} beside the central water cache, then shoves the heavy tank from its stand. It lands on {target.name}, causing fatal injuries; {actor.name} leaves with {item} and an emergency blanket.',
+  '{actor.name} pulls a sharpened scrap from the central food crate and stabs {target.name} in the chest as they reach for the same lid. {target.name} collapses and dies beside the crate; {actor.name} claims {item}.',
+  '{actor.name} wrenches a loose iron bar from the central tool rack and strikes {target.name} in the head. The blow kills {target.name}; {actor.name} takes {item}.',
+  '{actor.name} trips {target.name} beside the central water cache, then shoves the heavy tank from its stand. It lands on {target.name}, causing fatal injuries; {actor.name} leaves with {item}.',
 ][i], [
-  { kind: 'createItem', role: 'actor', definitionId }, { kind: 'createItem', role: 'actor', definitionId: 'blanket' }, { kind: 'eliminate', role: 'target', credit: 'actor' },
+  { kind: 'createItem', role: 'actor', definitionId }, { kind: 'eliminate', role: 'target', credit: 'actor' },
 ], { phases: ['opening'], roles: pair, conditions: [biomeCondition('ruins')], weight: 2 })));
 
 const sponsorships = ['ration', 'flask', 'blanket'].map((definitionId, i) => event(`sponsor-gift-${i + 1}`, 'survival', [
@@ -84,19 +95,25 @@ const sponsorships = ['ration', 'flask', 'blanket'].map((definitionId, i) => eve
   'A silver sponsor parachute lands beside {actor.name} in {biome}, carrying {item} for the cold ahead.',
 ][i], [{ kind: 'createItem', role: 'actor', definitionId }], { weight: 0.55, cooldown: 4 }));
 
-const resupply = [false, true].map(arriving => event(`podium-resupply${arriving ? '-arrival' : ''}`, 'survival',
-  `A cargo drone resupplies the Center Podium with fresh food, water flasks, and emergency blankets. ${arriving ? '{actor.name} follows the delivery beacon back to the podium' : '{actor.name} opens the newly delivered crate'}, takes sealed rations, and sets out a water flask and an emergency blanket for the next tribute.`,
-  [
-    ...(arriving ? [{ kind: 'move' as const, role: 'actor', biome: 'ruins' as const }] : []),
-    { kind: 'createItem', role: 'actor', definitionId: 'ration' },
-    { kind: 'setMarker', role: 'actor', marker: 'podium-resupply-collected', value: true },
-    { kind: 'createItem', role: 'actor', definitionId: 'flask' },
-    { kind: 'dropItem', role: 'actor', definitionId: 'flask' },
-    { kind: 'createItem', role: 'actor', definitionId: 'blanket' },
-    { kind: 'dropItem', role: 'actor', definitionId: 'blanket' },
-  ],
-  { phases: ['day'], tones: [...allTones], schedule: { day: 3, group: 'podium-resupply' }, conditions: [{ kind: 'biome', role: 'actor', biomes: arriving ? biomes.filter(b => b.id !== 'ruins').map(b => b.id) : ['ruins'] }] }
-));
+// Keep the gift roll/cap unchanged; diversify the contents of a successful drop.
+// Eligible catalogue weights: 49% other weapons, 1% explosives, 50% utility.
+for (const gift of sponsorships) gift.weight = 0.5 / 6;
+const extraSponsorGifts: EventTemplate[] = [];
+const sponsorWeapons = new Map(weaponLootWeights(0.5, 0.01));
+for (const definitionId of ['rope', 'lantern', 'scrap', ...sponsorWeapons.keys()]) {
+  const weapon = sponsorWeapons.has(definitionId);
+  extraSponsorGifts.push(event(`sponsor-gift-${definitionId}`, 'survival', [
+    'A sponsor parachute settles beside {actor.name} in {biome}. Inside the padded parcel is {item}.',
+    '{actor.name} follows a sponsor beacon in {biome} and opens the delivered case to find {item}.',
+    'A delivery drone lowers a sponsor parcel into {biome}. {actor.name} unfastens it and claims {item}.',
+  ], [{ kind: 'createItem', role: 'actor', definitionId }], {
+    weight: sponsorWeapons.get(definitionId) ?? 0.5 / 6,
+    cooldown: 4,
+    conditions: [{ kind: 'item', role: 'actor', ...(weapon ? { tag: 'weapon' } : { definitionId }), exists: false }],
+  }));
+}
+
+const resupply = publicResupplyScenes(items);
 
 // Cross-region encounters explicitly move a tribute along a shared border first.
 const crossings = biomes.flatMap(destination => (['social', 'conflict'] as const).map(category => event(`crossing-${category}-${destination.id}`, category,
@@ -318,9 +335,9 @@ const confessionals: ConfessionalTemplate[] = reactions.map(([trait, triggers, v
 ].forEach(([trigger, text], i) => confessionals.push({ id: `interview-open-${i + 1}`, traits: [], tones: [...allTones], triggers: [trigger as FactType], speaker: trigger === 'elimination' ? 'eliminated' : 'any', variants: [text], cooldown: 8 }));
 
 export const defaultContentPack: ContentPack = ContentPackSchema.parse({
-  id: 'wild-broadcast', version: '1.23.0', title: 'The Wild Broadcast', biomes, items,
+  id: 'wild-broadcast', version: '1.33.0', title: 'The Wild Broadcast', biomes, items,
   markers: [
-    { id: 'podium-resupply-collected', type: 'boolean', lifetime: 'season', description: 'This tribute collected rations from the Center Podium delivery.' },
+    { id: 'podium-resupply-collected', type: 'boolean', lifetime: 'season', description: 'This tribute collected supplies from the Center Podium delivery.' },
     { id: 'stolen-from', type: 'player', lifetime: 'season', description: 'The living player who stole from this participant.' },
     { id: 'confronted', type: 'boolean', lifetime: 'season', description: 'The theft has been confronted.' },
     { id: 'debt-to', type: 'player', lifetime: 'season', description: 'The player who offered shelter.' },
@@ -328,7 +345,7 @@ export const defaultContentPack: ContentPack = ContentPackSchema.parse({
     { id: 'omen', type: 'number', lifetime: 'season', description: 'Progress decoding the trail warning, from one to three.' },
     ...woundMarkers, ...personalityMarkers,
   ],
-  events: [...[...opening, ...openingEscapes, ...survival, ...survivalCloseCalls, ...sponsorships, ...resupply, ...social, ...crossings, ...conflict, ...injuryEncounters, ...contextualEncounters, ...hazard, ...finale, ...arenaScenes, ...multikillScenes, ...personalityScenes, ...nightScenes, ...weaponScenes, ...weaponTrapScenes, ...weaponExchangeScenes].map(withSceneVariety), ...groupCooperation, ...supplyUseScenes, ...siteAccidentScenes, ...environmentalScenes, ...travelScenes, ...expandedTraitScenes, ...partyTravelScenes, ...openingPartyScenes, ...quirkScenes].map(withSupplyBalance).map(withDeathSite).map(withShortTravel).map(withHotspotVariety).map(withQuirkBehaviors), confessionals: [...confessionals.map(withConfessionalVariety), ...eventInterviews, ...expandedTraitInterviews, ...quirkInterviews].map(interview => ({ ...interview, triggers: interview.triggers.filter(trigger => trigger !== 'curse') })).filter(interview => interview.triggers.length > 0),
+  events: [...[...opening, ...openingEscapes, ...survival, ...survivalCloseCalls, ...sponsorships, ...social, ...crossings, ...conflict, ...injuryEncounters, ...contextualEncounters, ...hazard, ...finale, ...arenaScenes, ...multikillScenes, ...personalityScenes, ...nightScenes, ...weaponScenes, ...weaponTrapScenes, ...weaponExchangeScenes].map(withSceneVariety), ...weaponFinaleScenes, ...extraSponsorGifts, ...resupply, ...groupCooperation, ...supplyUseScenes, ...siteAccidentScenes, ...environmentalScenes, ...arenaGearScenes, ...travelScenes, ...expandedTraitScenes, ...partyTravelScenes, ...openingPartyScenes, ...quirkScenes, ...intimidationScenes].map(withSupplyBalance).map(withDeathSite).map(withShortTravel).map(withHotspotVariety).map(withQuirkBehaviors).map(withCombatPacing).map(withCombatMethods).map(withCombatVariety).map(withLootSource).flatMap(withLootVariety).filter(scene => !/^(forest|swamp|mountains|desert|tundra|ruins)-life-6$/.test(scene.id)), confessionals: [...confessionals.map(withConfessionalVariety), ...eventInterviews, ...expandedTraitInterviews, ...quirkInterviews, ...relationshipInterviews].map(interview => ({ ...interview, triggers: interview.triggers.filter(trigger => trigger !== 'curse') })).filter(interview => interview.triggers.length > 0),
 });
 
 /** Small integration/authoring pack. Production uses defaultContentPack. */

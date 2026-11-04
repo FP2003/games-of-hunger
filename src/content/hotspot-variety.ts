@@ -67,9 +67,9 @@ export const hotspotWording: Record<string, readonly string[]> = {
 // Local features are scenery, not acquired inventory, shelters remembered across
 // scenes, cross-region moves, or extra injury markers.
 const routes: Record<BiomeId, readonly string[]> = {
-  forest: ['a curtain of hanging roots', 'an uprooted tree arch', 'a dry leaf-filled gully', 'a line of old forester blazes', 'a bramble gap beneath a fallen trunk', 'the narrow rim of a fern bed', 'a row of cut stumps', 'an abandoned timber-dragging track', 'a notch between two split trunks'],
-  swamp: ['the upper rail of a sunken boardwalk', 'a chain of firm reed hummocks', 'a raised culvert lip', 'a line of old piling tops', 'a dry channel beneath a tilted platform', 'a bank reinforced with woven branches', 'the shore beside a grounded punt', 'a narrow levee through the reeds', 'a row of exposed walkway braces'],
-  mountains: ['a zigzag of abandoned survey stakes', 'a ledge beneath an overhanging slab', 'a shallow chimney between boulders', 'a scree-free strip beside the ridge', 'a saddle behind a broken cairn', 'a disused quarry ramp', 'a low passage beneath a wedged rock', 'the inside edge of a switchback', 'a line of weathered stone steps'],
+  forest: ['hanging tree roots', 'a gap beneath an uprooted tree', 'a dry gully covered in leaves', 'a trail of old paint marks', 'a gap in the brambles beneath a fallen tree', 'the edge of a fern patch', 'a row of cut stumps', 'an old logging track', 'a gap between two split trunks'],
+  swamp: ['the upper rail of a sunken boardwalk', 'a chain of firm reed hummocks', 'a raised edge of a drain', 'a line of old piling tops', 'a dry channel beneath a tilted platform', 'a bank reinforced with woven branches', 'the shore beside a grounded punt', 'a narrow levee through the reeds', 'a row of exposed walkway braces'],
+  mountains: ['a zigzag of old trail markers', 'a ledge beneath an overhanging rock', 'a shallow gap between boulders', 'a clear strip beside the ridge', 'a dip behind a pile of stones', 'an old quarry ramp', 'a low gap beneath a wedged rock', 'the inside edge of a winding path', 'a line of worn stone steps'],
   desert: ['the shadowed side of a long dune', 'a buried service road', 'a shallow trench between windbreaks', 'the gravel strip beside a dry channel', 'a gap beneath a sand-scoured fence', 'a row of half-buried route posts', 'the hard ground around a salt pan', 'an old wheel rut through the sand', 'a breach in a low retaining wall'],
   tundra: ['a wind-scoured strip of bare ground', 'a line of orange poles above the drifts', 'the sheltered side of a low snow ridge', 'a packed track beside a frozen ditch', 'a gap between two ice-coated barriers', 'a row of exposed dark stones', 'a shallow cutting behind a snow fence', 'the firm edge of an old sled track', 'a cleared passage beneath a raised walkway'],
   ruins: ['a maintenance hatch beneath the podium steps', 'the gap behind the loudspeaker tower', 'an empty cable trench', 'a turnstile wedged open with rubble', 'a low opening under the spectator ramp', 'the back of a disused camera gantry', 'a service stair with a missing handrail', 'a narrow passage between concrete barriers', 'a drainage ledge below the supply lanes'],
@@ -82,12 +82,12 @@ export function contextualTravel(region: BiomeId, names: string, plural = false)
     `Using ${r[0]}, ${names} ${v('emerges', 'emerge')} in {biome} beyond the boundary.`,
     `${names} ${v('squeezes', 'squeeze')} past ${r[1]} and ${v('reaches', 'reach')} {biome}.`,
     `Following ${r[2]}, ${names} ${v('avoids', 'avoid')} the main approach and ${v('crosses', 'cross')} into {biome}.`,
-    `${names} ${v('checks', 'check')} the way through ${r[3]} before committing to the crossing into {biome}.`,
-    `Crouching through ${r[4]}, ${names} ${v('gets', 'get')} clear of the exposed route and into {biome}.`,
-    `${names} ${v('takes', 'take')} a longer way around by ${r[5]}, arriving in {biome} away from the main exit.`,
-    `Pausing at ${r[6]} to check the ground ahead, ${names} then ${v('continues', 'continue')} into {biome}.`,
-    `${names} ${v('retraces', 'retrace')} the approach to ${r[7]} and ${v('finds', 'find')} a way across the boundary into {biome}.`,
-    `Keeping low beside ${r[8]}, ${names} ${v('passes', 'pass')} out of sight of the main trail and into {biome}.`,
+    `${names} ${v('crosses', 'cross')} through ${r[3]} into {biome}.`,
+    `${names} ${v('takes', 'take')} ${r[4]} into {biome}.`,
+    `${names} ${v('detours', 'detour')} past ${r[5]} into {biome}.`,
+    `${names} ${v('passes', 'pass')} ${r[6]} on the way into {biome}.`,
+    `${names} ${v('crosses', 'cross')} by ${r[7]} into {biome}.`,
+    `${names} ${v('slips', 'slip')} past ${r[8]} into {biome}.`,
   ];
   if (region === 'ruins') variants.push(
     `Beside an idle supply conveyor, ${names} ${v('follows', 'follow')} the loading passage out into {biome}.`,
