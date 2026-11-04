@@ -32,8 +32,8 @@ export const nightWording: Record<string, [string, string]> = {
     '{actor.name} stays low at the sound of footsteps beside the sleeping hollow in {biome}, watching until they fade before moving the bedding away from the trail.',
   ],
   'night-resupply-preparation': [
-    'After checking the sealed rations collected from the Center Podium delivery, {actor.name} picks a sleeping place clear of the supply lanes in {biome}. The food stays close while {actor.name} looks for anyone following the delivery route.',
-    '{actor.name} chooses somewhere to sleep away from the supply lanes in {biome} after inspecting the sealed rations from the Center Podium delivery. Keeping the food close, {actor.name} watches the delivery route for followers.',
+    'After collecting from the Center Podium delivery, {actor.name} picks a sleeping place clear of the supply lanes in {biome} and looks for anyone following the delivery route.',
+    '{actor.name} chooses somewhere to sleep away from the supply lanes in {biome} after visiting the Center Podium delivery. Watching the route for followers takes priority over settling down.',
   ],
   'night-weather-shelter': [
     'As the announced weather arrives in {biome}, {actor.name} leaves an exposed sleeping place and crawls into a sheltered hollow. The entrance stays close in case another move is needed.',

@@ -30,9 +30,8 @@ export const nightScenes: EventTemplate[] = [
     { kind: 'relationship', from: 'target', to: 'actor', trust: 25, grudge: 0, fact: 'assistance' },
   ], { category: 'social', roles: [{ id: 'actor' }, { id: 'target' }] }),
   scene('noise-on-watch', '{actor.name} hears footsteps near the sleeping hollow in {biome}. Staying low, {actor.name} watches the approach until the sound fades, then moves the bedding farther from the trail.'),
-  scene('resupply-preparation', '{actor.name} checks the sealed rations collected from the Center Podium delivery, then chooses a sleeping spot away from the supply lanes in {biome}. The food stays tucked close while {actor.name} watches for anyone following the delivery route.', [
+  scene('resupply-preparation', 'After visiting the Center Podium delivery, {actor.name} chooses a sleeping spot away from the supply lanes in {biome} and watches for anyone following the delivery route.', [
     { kind: 'marker', role: 'actor', marker: 'podium-resupply-collected', exists: true },
-    { kind: 'item', role: 'actor', definitionId: 'ration' },
   ]),
   scene('weather-shelter', 'The weather announced earlier reaches {biome}. {actor.name} abandons an exposed sleeping spot, crawls into a sheltered hollow, and waits near the entrance in case conditions force another move.', [
     { kind: 'biomeStatus', role: 'actor', statuses: ['hazardous'] },
