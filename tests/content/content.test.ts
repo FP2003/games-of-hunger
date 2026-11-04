@@ -20,15 +20,15 @@ describe('release content inventory and references', () => {
     expect(ContentPackSchema.safeParse(defaultContentPack).success).toBe(true);
     const inventory = contentInventory();
     expect(inventory.events).toBeGreaterThanOrEqual(120);
-    expect(inventory.categories).toEqual({ opening: 38, survival: 237, social: 70, conflict: 134, curse: 0, hazard: 34, finale: 36, announcement: 30 });
+    expect(inventory.categories).toEqual({ opening: 75, survival: 827, social: 70, conflict: 260, curse: 0, hazard: 34, finale: 99, announcement: 30 });
     expect(Object.values(inventory.biomes).every(n => n >= 8)).toBe(true);
     expect(inventory.confessionals).toBeGreaterThanOrEqual(40);
     expect(inventory.curses).toBe(0);
     expect(inventory.chains).toHaveLength(6);
     for (const id of inventory.chains) expect(defaultContentPack.events.filter(e => e.chain?.id === id).map(e => e.chain!.step)).toEqual(id.startsWith('wound-') ? [1, 2, 2] : [1, 2, 3]);
-    // Finale IDs retain their mechanical gates but deliberately share a prose
-    // pool, so the same confrontation cannot repeat through another template ID.
-    const nonFinale = defaultContentPack.events.filter(e => e.category !== 'finale');
+    // Finales and alternate cache/sponsor contents deliberately share prose.
+    // Check independently authored scenarios rather than cloned loot rolls.
+    const nonFinale = defaultContentPack.events.filter(e => e.category !== 'finale' && !e.cooldownGroup && e.lootSource !== 'sponsor');
     expect(new Set(nonFinale.map(e => e.variants[0])).size).toBe(nonFinale.length);
   });
   it('keeps starter and custom JSON examples valid', () => {

@@ -4,7 +4,7 @@ import { additionalWeapons, additionalWeaponWording, killAndLootWording } from '
 
 type Weapon = { id: string; name: string; description: string; fatal: string[]; hit: (site: string) => string; miss: string };
 const weapons: Weapon[] = [
-  { id: 'bow', name: 'bow and arrows', description: 'A simple bow bundled with a quiver of arrows.',
+  { id: 'bow', name: 'bow and arrows', description: 'A wooden hunting bow bundled with a quiver of arrows.',
     fatal: [
       '{actor.name} fires an arrow at {target.name} across a clearing in {biome}. It pierces {target.possessive} chest. {target.name} collapses and dies before reaching cover.',
     ],
@@ -18,7 +18,7 @@ const weapons: Weapon[] = [
     fatal: ['{actor.name} braces a spear as {target.name} charges through a narrow gap in {biome}. The point pierces {target.possessive} chest. {target.name} collapses beside the gap and dies.'],
     hit: site => `{actor.name} thrusts a spear through a gap in a trail barrier in {biome}, piercing {target.name}'s ${site}.`,
     miss: '{actor.name} thrusts a spear at {target.name} in {biome}. {target.name} sidesteps the point and slips through a narrow passage before {actor.name} can turn, escaping unharmed.' },
-  { id: 'axe', name: 'hand axe', description: 'A compact axe with a wrapped handle.',
+  { id: 'axe', name: 'hand axe', description: 'A compact hatchet with a wrapped handle.',
     fatal: ['{actor.name} blocks a shelter exit in {biome} and strikes {target.name} in the head with a hand axe. {target.name} collapses; the injury is fatal.'],
     hit: site => `{actor.name} swings a hand axe as {target.name} passes a supply rack in {biome}, cutting {target.object} across the ${site}.`,
     miss: '{actor.name} swings a hand axe at {target.name} in {biome}. {target.name} ducks, and the blade catches in a wooden post. {target.name} escapes unharmed while {actor.name} pulls it free.' },
@@ -57,11 +57,24 @@ export const weaponScenes: EventTemplate[] = weapons.flatMap(weapon => {
       `Inside an equipment case in {biome}, {actor.name} discovers ${equipment} and takes it.`,
       `{actor.name} searches an equipment case in {biome} and retrieves ${equipment}.`,
     ], [{ kind: 'createItem', role: 'actor', definitionId: weapon.id }], [], { category: 'survival', roles: [{ id: 'actor' }], weight: 0.65 }),
-    scene(`weapon-${weapon.id}-fatal`, [...weapon.fatal, ...wording.fatal], [{ kind: 'eliminate', role: 'target', credit: 'actor' }], held, { weight: 0.8 }),
+    scene(`weapon-${weapon.id}-fatal`, [...weapon.fatal, ...wording.fatal], [{ kind: 'eliminate', role: 'target', credit: 'actor' }], held, { weight: 0.8, phases: ['day', 'night', 'finale'] }),
     ...sites.map(site => scene(`weapon-${weapon.id}-${site}-survived`, [weapon.hit(site), ...wording.hit(site)].map((attack, i) => attack + woundedEscapeWording(site)[i]), [hostility, { kind: 'setMarker', role: 'target', marker: `bleeding-${site}`, value: true }], [...held, ...unwounded], { weight: 0.45 })),
     scene(`weapon-${weapon.id}-missed`, [weapon.miss, ...wording.missed], [hostility], held, { weight: 1.1 }),
   ];
 });
+
+// Finalists may converge from different regions while retaining their own weapon.
+// Three location cases avoid no-op moves and keep every route explicit.
+export const weaponFinaleScenes: EventTemplate[] = [];
+const outer = ['forest', 'swamp', 'mountains', 'desert', 'tundra'] as const;
+for (const weapon of weapons) for (const [index, actorOuter, targetOuter] of [[0, true, true], [1, true, false], [2, false, true]] as const) {
+  const fatal = weaponScenes.find(scene => scene.id === `weapon-${weapon.id}-fatal`)!;
+  weaponFinaleScenes.push({ ...fatal, id: `weapon-${weapon.id}-final-converge-${index}`, category: 'finale', phases: ['finale'], scope: 'global', cooldown: 0,
+    conditions: [...fatal.conditions, { kind: 'biome', role: 'actor', biomes: actorOuter ? [...outer] : ['ruins'] }, { kind: 'biome', role: 'target', biomes: targetOuter ? [...outer] : ['ruins'] }],
+    effects: [...(actorOuter ? [{ kind: 'move' as const, role: 'actor', biome: 'ruins' as const }] : []), ...(targetOuter ? [{ kind: 'move' as const, role: 'target', biome: 'ruins' as const }] : []), ...fatal.effects],
+    variants: fatal.variants.map(text => `The finalists follow the closing arena back to the Center Podium. ${text}`),
+  });
+}
 
 const traps = [
   { id: 'snare', setup: '{actor.name} rigs a rope snare beside a steep trail in {biome} and draws {target.name} toward it with a tossed stone.',
