@@ -112,7 +112,9 @@ describe('cross-season lore', () => {
     let history = applyCompletedRun({ version: 1, seasons: [] }, season());
     for (let i = 0; i < 8; i++) { const run = season(); run.input.settings.seed = `season-${i}`; run.id = canonicalRunId(run.input); history = applyCompletedRun(history, run); }
     const context = selectLoreContext(history, exampleCast);
-    expect(context.facts).toHaveLength(12);
+    expect(context.facts.length).toBeLessThanOrEqual(12);
+    expect(context.facts[0].type).toBe('win');
+    expect(new Set(context.facts.map(f => JSON.stringify([f.type, f.playerIds]))).size).toBe(context.facts.length);
     expect(selectLoreContext(history, exampleCast)).toEqual(context);
     expect(aggregateWins(history).alex).toBe(9);
   });

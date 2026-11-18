@@ -20,7 +20,7 @@ describe('release content inventory and references', () => {
     expect(ContentPackSchema.safeParse(defaultContentPack).success).toBe(true);
     const inventory = contentInventory();
     expect(inventory.events).toBeGreaterThanOrEqual(120);
-    expect(inventory.categories).toEqual({ opening: 75, survival: 827, social: 70, conflict: 260, curse: 0, hazard: 34, finale: 99, announcement: 30 });
+    expect(inventory.categories).toEqual({ opening: 75, survival: 899, social: 70, conflict: 260, curse: 0, hazard: 34, finale: 99, announcement: 30 });
     expect(Object.values(inventory.biomes).every(n => n >= 8)).toBe(true);
     expect(inventory.confessionals).toBeGreaterThanOrEqual(40);
     expect(inventory.curses).toBe(0);
@@ -51,7 +51,7 @@ describe('release content inventory and references', () => {
       }
     }
     for (const template of defaultContentPack.confessionals) for (const text of template.variants) {
-      const input = context(); input.bindings.rival = 'b';
+      const input = context(); input.bindings.rival = 'b'; input.bindings.other = 'b';
       expect(renderTemplate(text, input, input.cast.players[0])).not.toMatch(/\{[^}]+\}/);
     }
   });
@@ -138,11 +138,11 @@ describe('pure, truthful narrative', () => {
     input.sequence = 0;
     input.lore.facts = [{ id: 'old-win', type: 'win', sourceRunId: 'old-season', playerIds: ['a'], eventSequences: [4], detail: 'A previous win.' }];
     expect(renderEvent(input).text).not.toContain('Archive:');
-    input.facts.push({ type: 'lore', actorId: 'a', sourceRunId: 'old-season', sourceEvent: 4 });
-    expect(renderEvent(input).text).toContain('Alex brings a previous victory');
-    expect(renderEvent(input).text).toContain('old-season, event 5');
+    input.facts.push({ type: 'lore', actorId: 'a', loreFactId: 'old-win', sourceRunId: 'old-season', sourceEvent: 4 });
+    expect(renderEvent(input).text).toContain('Alex has won this game before.');
+    expect(renderEvent(input).text).not.toContain('old-season');
     input.lore.facts[0].playerIds = ['different-id'];
-    expect(renderEvent(input).text).not.toContain('Archive:');
+    expect(renderEvent(input).text).not.toContain('has won this game before');
   });
   it('uses fact-compatible, personality-specific interviews with speaker and template cooldowns', () => {
     const input: ConfessionalInput = { ...context(), usedThisPhase: [], lastUsed: {} };

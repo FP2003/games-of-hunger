@@ -14,6 +14,8 @@ Run `npm test -- tests/content` for runtime schema validation, inventory counts,
 
 ## Editing an event
 
+The optional `loreCallbacks` collection supplies past-season prose, snapshotted with the pack. Each entry has a unique historical `type` and nonempty `variants`; the default collection in `src/content/past-season-callbacks.ts` has eight alternatives for each of nine types. Only `{pastActor}` and `{pastTarget}` are allowed; `win` has no target. They resolve from stable historical IDs to current names in one pass. Describe only the recorded action, without inventing a weapon, place, motive, promise, continued hostility or current item ownership. Legacy transfers can include theft, so their wording must not claim a willing gift. The scene matcher controls when each type can appear. Packs omitting this collection remain valid and emit no historical callbacks. Test with `tests/engine/past-seasons.test.ts` and `node scripts/past-season-audit.mjs`.
+
 Each event has an ID, one primary category, eligible phases, tone tags, local/global scope, distinct participant roles, conditions, positive weight, phase cooldown, text variants, effects, and an optional chain ID/step. Change the content version when editing the library. Existing portable runs retain their original content, rendered text, and state snapshots.
 
 `public/examples/custom-pack.json` is a minimal valid custom pack. Load unknown data through `validateContentPack()` before simulation. The current UI uses the default pack; a visual pack editor is deferred. Never place executable expressions in JSON.
