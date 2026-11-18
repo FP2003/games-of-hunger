@@ -1,0 +1,119 @@
+{
+  "engineVersion": "1.29.0",
+  "contentVersion": "1.35.0",
+  "method": "paired-exact-union-v1",
+  "reproducibility": {
+    "fullVsOutcomePilotReportsIdentical": true,
+    "fullVsNoInterviewPilotReportsIdentical": true,
+    "serialVsParallelSmokeReportsIdentical": true
+  },
+  "winnerEquivalence": {
+    "allTraitsChecked": 26,
+    "status": "passed"
+  },
+  "personalityOffControl": {
+    "pairs": 24,
+    "traits": 26,
+    "exactWinnerIdentityEnforcedByRunner": true,
+    "discordantFocalWins": 0
+  },
+  "intervalOracle": "SciPy 1.13.1 scipy.stats.beta.ppf; Clopper-Pearson equal-tailed inversion",
+  "featureTests": {
+    "passed": 22
+  },
+  "browserRegression": {
+    "passed": 66,
+    "shippedAuditCheck": "passed"
+  },
+  "fullUnitSuite": {
+    "passed": 397,
+    "failed": 14,
+    "failures": [
+      {
+        "test": "everyday biome scenes ships fourteen distinct scenes per biome with solo, pair, trio and four-player options",
+        "reason": "AssertionError: expected [ \u2026(86) ] to have a length of 14 but got 86"
+      },
+      {
+        "test": "renders all complete hotspot situations with the bound participants and no added effects",
+        "reason": "AssertionError: forest-contest-1: expected [ \u2026(11) ] to deeply equal [ \u2026(9) ]"
+      },
+      {
+        "test": "night scenes use the current scenario requires personal delivery history and still-held food for the resupply callback",
+        "reason": "AssertionError: expected { actor: 'a' } to be null"
+      },
+      {
+        "test": "authored scene variety retains complete contextual coverage alongside independently authored group scenes",
+        "reason": "AssertionError: expected [ 'agile-ankle-rest', \u2026(549) ] to deeply equal [ 'agile-ankle-rest', \u2026(1250) ]"
+      },
+      {
+        "test": "authored scene variety provides ten distinct complete alternatives for every action-wording option",
+        "reason": "AssertionError: expected [ \u2026(11) ] to deeply equal [ \u2026(9) ]"
+      },
+      {
+        "test": "authored scene variety retains expanded scene and interview variety alongside eight authored regional encounters",
+        "reason": "AssertionError: forest-life-3: expected [ \u2026(4) ] to have a length of 3 but got 4"
+      },
+      {
+        "test": "authored scene variety uses unseen wording across template IDs, then balances exhausted pools without immediate repeats",
+        "reason": "AssertionError: expected 'A second route.' to be 'A third route.' // Object.is equality"
+      },
+      {
+        "test": "authored scene variety preserves full-pack events, inventory, relationships and winner when only wording varies",
+        "reason": "AssertionError: expected { winnerId: 'p23', \u2026(3) } to deeply equal { winnerId: 'p2', \u2026(3) }"
+      },
+      {
+        "test": "weapon and trap outcomes includes every weapon and special item in caches and sponsor drops without increasing their shared loot budget",
+        "reason": "AssertionError: expected 0.1241666666666667 to be close to 0.1125, received difference is 0.0116666666666667, but expected 0.005"
+      },
+      {
+        "test": "warned arena disruptions and rare multikills resupplies the podium once from Day 3, leaving collectible supplies and using one assignment",
+        "reason": "AssertionError: expected [ { type: 'acquire', \u2026(3) }, \u2026(5) ] to deeply equal ArrayContaining{\u2026}"
+      },
+      {
+        "test": "structured combat and balance uses the selected authored variant and validates replay indices",
+        "reason": "AssertionError: expected 'unarmed' to be 'environment' // Object.is equality"
+      },
+      {
+        "test": "structured combat and balance meets 24-player balance targets across 100 fixed seeds and reconciles all metrics",
+        "reason": "Error: Test timed out in 60000ms."
+      },
+      {
+        "test": "bloodbath, travel and sponsors offers lethal central supplies and safe escapes to all five outer regions",
+        "reason": "AssertionError: expected 4 to be 5 // Object.is equality"
+      },
+      {
+        "test": "full replay behavior repeats versioned inputs exactly, keeps outcomes independent of wording, and records no cursed equipment in new games",
+        "reason": "AssertionError: expected [ [ \u2026(4) ], [ \u2026(4) ], \u2026(16) ] to deeply equal [ [ \u2026(4) ], [ \u2026(4) ], \u2026(5) ]"
+      }
+    ]
+  },
+  "preRefactorBaselineCheck": {
+    "passed": 17,
+    "failed": 3,
+    "note": "The same three selected assertion failures reproduce with only the new engine wrapper reconstructed away in memory; existing workspace changes retained."
+  },
+  "mainAudit": {
+    "pairsPerTrait": 2400,
+    "games": 64800,
+    "baselineWins": 93,
+    "traits": 26,
+    "independentScipyMaxIntervalErrorPp": 3.156586103614245e-12,
+    "sha256": "b2b47bab7c735e30987d5b08a118f6da2c8d02973f93613398527593129ac41e"
+  },
+  "confirmationAudit": {
+    "pairsPerTrait": 2400,
+    "games": 12000,
+    "baselineWins": 110,
+    "selectedTraits": [
+      "reckless",
+      "medic",
+      "loud",
+      "curious"
+    ],
+    "selection": "all ties at main-study highest/lowest point estimates; no main-study S/A/F traits",
+    "freshSeed": "trait-confirm-v1",
+    "independentScipyMaxIntervalErrorPp": 8.097966741615892e-13,
+    "sha256": "c84a1934176adffdf614bbec244b005dcf09a323ff46836ad920f4a40865081b"
+  },
+  "complete": true
+}
