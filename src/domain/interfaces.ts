@@ -17,6 +17,8 @@ export interface EventNarrativeInput {
   sequence: number;
   random: RandomSource;
   lore: LoreContext;
+  /** Independent stream: historical wording cannot change ordinary story selection. */
+  loreRandom?: RandomSource;
   /** False disables trait-specific interviews as well as mechanical personality rules. */
   personalityEnabled?: boolean;
   previousWording?: string;
@@ -31,8 +33,9 @@ export interface ConfessionalInput extends EventNarrativeInput {
   lastWording?: Readonly<Record<string, string>>;
   /** Rendered interviews already spoken in this run, shared across speakers. */
   usedTexts?: readonly string[];
+  usedIdeas?: readonly string[];
 }
-export type ConfessionalSelection = Confessional & { wording?: string };
+export type ConfessionalSelection = Confessional & { wording?: string; idea?: string };
 export interface NarrativeAdapter {
   renderEvent(input: EventNarrativeInput): RenderedEvent;
   selectConfessional(input: ConfessionalInput): ConfessionalSelection | null;

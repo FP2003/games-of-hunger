@@ -7,6 +7,7 @@ import { computeAwards } from './awards';
 import { allied, hostilePairs } from './personality';
 import { arenaTemplate, biomeStatus, chooseArenaWarning, environmentWeight, evacuationDeathChance } from './arena';
 import { siteRevisit } from './site-memory';
+import { createLoreTracker } from './lore';
 import { requestedTravel } from './travel';
 import { expandedTraitWeight } from './trait-expansion';
 import { quirkWeight } from './quirks';
@@ -68,17 +69,34 @@ export function eventWeight(template: EventTemplate, bindings: Record<string,str
 }
 
 export function generateRun(rawInput: RunInput, narrative: NarrativeAdapter): RunRecord {
-  const input=RunInputSchema.parse(rawInput);
+  return simulate(RunInputSchema.parse(rawInput), narrative, false) as RunRecord;
+}
+
+/** Analytics only: validate fixed content/settings once, retain the same simulation,
+ * narrator and random streams, omit record hashing and final replay validation.
+ * Each varying cast/seed is validated before use. Never returns an exportable replay. */
+export function createOutcomeSimulator(rawInput: RunInput, narrative: NarrativeAdapter) {
+  const fixed = RunInputSchema.parse(rawInput);
+  return (cast: RunInput['cast'], seed: string): string => {
+    const varying = RunInputSchema.pick({ cast: true, settings: true }).parse({ cast, settings: { ...fixed.settings, seed } });
+    return simulate({ ...fixed, ...varying }, narrative, true) as string;
+  };
+}
+
+function simulate(input: RunInput, narrative: NarrativeAdapter, outcomeOnly: boolean): RunRecord | string {
   if(!input.settings.loreCarryover)input.lore={facts:[]};
-  const id=canonicalRunId(input); const mechanics=createRandom(`${input.settings.seed}:mechanics`), wording=createRandom(`${input.settings.seed}:wording`), confessionals=createRandom(`${input.settings.seed}:confessionals`);
+  const id=outcomeOnly ? '' : canonicalRunId(input); const mechanics=createRandom(`${input.settings.seed}:mechanics`), wording=createRandom(`${input.settings.seed}:wording`), confessionals=createRandom(`${input.settings.seed}:confessionals`);
   const arenaRandom=createRandom(`${input.settings.seed}:arena`);
   const lastEventWording: Record<string, string> = {}, lastInterviewWording: Record<string, string> = {};
   const wordingUses: Record<string, number> = Object.create(null);
   const usedInterviewTexts = new Set<string>();
+  const usedInterviewIdeas = new Set<string>();
   const scheduledRandom = createRandom(`${input.settings.seed}:scheduled`);
   const sponsorRandom = createRandom(`${input.settings.seed}:sponsors`);
+  const loreRandom = createRandom(`${input.settings.seed}:lore-wording`);
+  const historicalCallback = createLoreTracker();
   let sponsorGifts = 0;
-  let state=initialState(input);const initial=structuredClone(state);const events:EventRecord[]=[];const placements:Placement[]=[];const lastUsed:Record<string,number>={};const lastConfessional:Record<string,number>={};let loreUsed=false;
+  let state=initialState(input);const initial=structuredClone(state);const events:EventRecord[]=[];const placements:Placement[]=[];const lastUsed:Record<string,number>={};const lastConfessional:Record<string,number>={};
   const templates=[...input.content.events].sort((a,b)=>a.id<b.id?-1:a.id>b.id?1:0);
   const cooldownKeys = new Map(templates.map(template => [template.id, cooldownKey(template)]));
   const travelContent = { events: templates.filter(template => template.travel) };
@@ -97,26 +115,24 @@ export function generateRun(rawInput: RunInput, narrative: NarrativeAdapter): Ru
       if (isSponsorGift(template)) sponsorGifts++;
       const sequence=events.length, anchor=Object.values(bindings)[0], before=state; state=result.state;
       if(!result.facts.length && anchor)result.facts.push({type:'survival',actorId:anchor,biome:state.players.find(p=>p.id===anchor)!.biome});
-      if(!loreUsed&&input.settings.loreCarryover && anchor) {
-        const lore=input.lore.facts.find(f=>f.playerIds.some(p=>Object.values(bindings).includes(p))&&f.playerIds.every(p=>input.cast.players.some(c=>c.id===p))&&(!f.itemDefinitionId||input.content.items.some(i=>i.id===f.itemDefinitionId)));
-        if(lore) {result.facts.push({type:'lore',actorId:lore.playerIds.find(p=>Object.values(bindings).includes(p)),sourceRunId:lore.sourceRunId,...(lore.eventSequences.length?{sourceEvent:lore.eventSequences[0]}:{})});loreUsed=true;}
-      }
+      const historical = historicalCallback(input, template, bindings, result.facts, state, phase, sequence);
+      if (historical) result.facts.push(historical);
       const biome=template.arena?.biome ?? state.players.find(p=>p.id===anchor)!.biome;
       const revisit = siteRevisit(template, result.facts, biome, events, input.content);
       if (revisit) result.facts.push(revisit);
-      const narrativeInput={template,bindings,cast:input.cast,content:input.content,before,after:state,facts:result.facts,phase,sequence,random:wording,lore:input.lore,previousWording:lastEventWording[template.id],wordingUses:{...wordingUses},history:events,personalityEnabled:input.settings.personality!=='off'};
+      const narrativeInput={template,bindings,cast:input.cast,content:input.content,before,after:state,facts:result.facts,phase,sequence,random:wording,loreRandom,lore:input.lore,previousWording:lastEventWording[template.id],wordingUses:{...wordingUses},history:events,personalityEnabled:input.settings.personality!=='off'};
       // Keep the original template for recorded variant indices and replay checks.
       // Only wording selection is restricted to the chosen authored method.
       const methodVariants = preferredMethod && template.combat?.variantMethods
         ? template.variants.filter((_, index) => template.combat!.variantMethods![index] === preferredMethod) : undefined;
-      const rendered=narrative.renderEvent(methodVariants?.length ? { ...narrativeInput, template: { ...template, variants: methodVariants } } : narrativeInput);const selection=anchor && usedSpeakers.length < MAX_CONFESSIONALS_PER_ROUND && confessionals.next() < CONFESSIONAL_CHANCE ? narrative.selectConfessional({...narrativeInput,random:confessionals,usedThisPhase:[...usedSpeakers],lastUsed:{...lastConfessional},lastWording:{...lastInterviewWording},usedTexts:[...usedInterviewTexts]}) : null;
+      const rendered=narrative.renderEvent(methodVariants?.length ? { ...narrativeInput, template: { ...template, variants: methodVariants } } : narrativeInput);const selection=anchor && usedSpeakers.length < MAX_CONFESSIONALS_PER_ROUND && confessionals.next() < CONFESSIONAL_CHANCE ? narrative.selectConfessional({...narrativeInput,random:confessionals,usedThisPhase:[...usedSpeakers],lastUsed:{...lastConfessional},lastWording:{...lastInterviewWording},usedTexts:[...usedInterviewTexts],usedIdeas:[...usedInterviewIdeas]}) : null;
       if (rendered.wording !== undefined) {
         lastEventWording[template.id] = rendered.wording;
         wordingUses[rendered.wording] = (wordingUses[rendered.wording] ?? 0) + 1;
       }
-      const confessional = selection ? (({ wording: _wording, ...saved }) => saved)(selection) : null;
+      const confessional = selection ? (({ wording: _wording, idea: _idea, ...saved }) => saved)(selection) : null;
       const validConfessional=confessional && !usedSpeakers.includes(confessional.speakerId) && (state.players.find(p=>p.id===confessional.speakerId)?.alive || (confessional.exit && before.players.find(p=>p.id===confessional.speakerId)?.alive && !state.players.find(p=>p.id===confessional.speakerId)?.alive))?confessional:null;
-      if(validConfessional){usedSpeakers.push(validConfessional.speakerId);usedInterviewTexts.add(validConfessional.text);lastConfessional[validConfessional.templateId]=sequence;if(selection?.wording !== undefined)lastInterviewWording[validConfessional.templateId]=selection.wording;}
+      if(validConfessional){usedSpeakers.push(validConfessional.speakerId);usedInterviewTexts.add(validConfessional.text);if(selection?.idea)usedInterviewIdeas.add(selection.idea);lastConfessional[validConfessional.templateId]=sequence;if(selection?.wording !== undefined)lastInterviewWording[validConfessional.templateId]=selection.wording;}
       events.push({combat:combatRecord(template, bindings, before, state, input.content, rendered.wording === undefined ? undefined : template.variants.indexOf(rendered.wording)),sequence,id:`event-${sequence}`,phase:{...phase},templateId:template.id,bindings,biome,effects:structuredClone(template.effects),facts:result.facts,text:rendered.text,confessional:validConfessional,state:structuredClone(state)});
       const eliminated=before.players.filter(p=>p.alive&&!state.players.find(s=>s.id===p.id)!.alive), rank=state.players.filter(p=>p.alive).length+1;
       eliminated.forEach(p=>placements.push({playerId:p.id,rank,eventSequence:sequence}));Object.values(bindings).forEach(p=>assigned.add(p));lastUsed[cooldownKey(template)]=phaseIndex;
@@ -333,6 +349,7 @@ export function generateRun(rawInput: RunInput, narrative: NarrativeAdapter): Ru
     for (const region of state.arena ?? []) if (region.status==='evacuating' && !state.players.some(p=>p.alive&&p.biome===region.biome)) stage(arenaTemplate(input,region.biome,'close'));
   }
   const winnerId=state.players.find(p=>p.alive)!.id;placements.push({playerId:winnerId,rank:1,eventSequence:null});placements.sort((a,b)=>a.rank-b.rank||(a.playerId<b.playerId?-1:1));
+  if (outcomeOnly) return winnerId;
   const name=(playerId:string)=>input.cast.players.find(p=>p.id===playerId)!.name;
   const duration = events.at(-1)!.phase.day;
   const run:RunRecord={id,engineVersion:ENGINE_VERSION,input,initialState:initial,events,winnerId,placements,awards:computeAwards(events,input),recap:[`${name(winnerId)} outlasted ${input.cast.players.length-1} other players.`, duration === 0 ? 'The game was decided during the bloodbath.' : `The game was decided on Day ${duration}.`, `${events.length} events unfolded across ${new Set(events.map(e=>e.biome)).size} biomes.`,...events.filter(e=>e.facts.some(f=>f.type==='betrayal'||f.type==='revenge'||f.type==='curse')).slice(-5).map(e=>e.text)]};

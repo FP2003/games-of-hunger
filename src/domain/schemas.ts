@@ -1,4 +1,5 @@
 import { combatRecord } from '../engine/combat';
+import { matchesLoreScene, loreSignature, MAX_LORE_CALLBACKS, LORE_CALLBACK_GAP } from './lore';
 import { z } from 'zod';
 import { canonicalRunId, canonicalStringify } from './canonical';
 
@@ -120,9 +121,15 @@ export const EventTemplateSchema = z.object({
   combat: z.object({ attacker: role, method: CombatMethodSchema, weaponDefinitionId: id.optional(), variantMethods: z.array(CombatMethodSchema).optional() }).strict().optional(),
   behaviors: z.array(z.object({ role, kind: z.enum(['forage', 'scout', 'conceal', 'safe-travel', 'guarded-opening', 'wait', 'company', 'theft', 'eat', 'risky-inspection']) }).strict()).optional(),
 }).strict();
-export const ConfessionalTemplateSchema = z.object({ id, traits: z.array(TraitSchema), tones: z.array(ToneSchema).min(1), triggers: z.array(FactTypeSchema).min(1), speaker: z.enum(['actor', 'target', 'any', 'eliminated']), variants: z.array(z.string().min(1).max(1000)).min(1), cooldown: z.number().int().nonnegative(), eventIds: z.array(id).min(1).optional(), relationship: z.object({ minTrust: z.number().int().min(-100).max(100).optional(), maxTrust: z.number().int().min(-100).max(100).optional(), minGrudge: z.number().int().min(0).max(100).optional(), maxGrudge: z.number().int().min(0).max(100).optional() }).strict().optional() }).strict();
-export const ContentPackSchema = z.object({ id, version: label, title: label, biomes: z.array(BiomeDefinitionSchema).length(6), items: z.array(ItemDefinitionSchema), markers: z.array(MarkerDefinitionSchema), events: z.array(EventTemplateSchema).min(1), confessionals: z.array(ConfessionalTemplateSchema) }).strict().superRefine((pack, ctx) => {
+export const ConfessionalTemplateSchema = z.object({ id, traits: z.array(TraitSchema), tones: z.array(ToneSchema).min(1), triggers: z.array(FactTypeSchema).min(1), speaker: z.enum(['actor', 'target', 'any', 'eliminated']), idea: id.optional(), speakerRole: id.optional(), relationshipBasis: z.enum(['before', 'after']).optional(), variants: z.array(z.string().min(1).max(1000)).min(1), cooldown: z.number().int().nonnegative(), eventIds: z.array(id).min(1).optional(), relationship: z.object({ minTrust: z.number().int().min(-100).max(100).optional(), maxTrust: z.number().int().min(-100).max(100).optional(), minGrudge: z.number().int().min(0).max(100).optional(), maxGrudge: z.number().int().min(0).max(100).optional() }).strict().optional() }).strict();
+export const LORE_TYPES = ['win', 'betrayal', 'revenge', 'transfer', 'nemesis', 'curse', 'theft', 'elimination', 'assistance', 'alliance'] as const;
+const LoreCallbackSchema = z.object({ type: z.enum(LORE_TYPES), variants: z.array(z.string().min(1)).min(1) }).strict();
+export const ContentPackSchema = z.object({ id, version: label, title: label, biomes: z.array(BiomeDefinitionSchema).length(6), items: z.array(ItemDefinitionSchema), markers: z.array(MarkerDefinitionSchema), events: z.array(EventTemplateSchema).min(1), confessionals: z.array(ConfessionalTemplateSchema), loreCallbacks: z.array(LoreCallbackSchema).optional() }).strict().superRefine((pack, ctx) => {
   const issue = (path: (string | number)[], message: string) => ctx.addIssue({ code: 'custom', path, message });
+  if (new Set(pack.loreCallbacks?.map(c => c.type)).size !== (pack.loreCallbacks?.length ?? 0)) issue(['loreCallbacks'], 'Historical callback types must be unique.');
+  pack.loreCallbacks?.forEach((callback, i) => callback.variants.forEach((text, j) => {
+    for (const token of text.matchAll(/\{([^{}]+)\}/g)) if (!['pastActor', 'pastTarget'].includes(token[1]) || (callback.type === 'win' && token[1] === 'pastTarget')) issue(['loreCallbacks', i, 'variants', j], 'Unknown or unavailable historical placeholder.');
+  }));
   for (const key of ['biomes', 'items', 'markers', 'events', 'confessionals'] as const) {
     const ids = pack[key].map(v => v.id); if (new Set(ids).size !== ids.length) issue([key], 'IDs must be unique within this collection.');
   }
@@ -175,17 +182,17 @@ export const ContentPackSchema = z.object({ id, version: label, title: label, bi
     if (event.combat.method === 'seized-weapon' && !event.effects.some(e => e.kind === 'acquireItem' && e.role === event.combat!.attacker && e.definitionId === event.combat!.weaponDefinitionId && e.from)) issue(['events', i, 'combat'], 'Seized weapons require acquisition from another participant.');
   });
   pack.confessionals.forEach((c, i) => c.variants.forEach((text, j) => {
-    for (const match of text.matchAll(/\{([^{}]+)\}/g)) if (!['speaker.name', 'speaker.subject', 'speaker.object', 'speaker.possessive', 'rival.name', 'rival.subject', 'rival.object', 'rival.possessive', 'biome', 'item'].includes(match[1])) issue(['confessionals', i, 'variants', j], `Unknown confessional placeholder: {${match[1]}}.`);
+    for (const match of text.matchAll(/\{([^{}]+)\}/g)) if (!['speaker.name', 'speaker.subject', 'speaker.object', 'speaker.possessive', 'rival.name', 'rival.subject', 'rival.object', 'rival.possessive', 'other.name', 'other.subject', 'other.object', 'other.possessive', 'biome', 'item'].includes(match[1])) issue(['confessionals', i, 'variants', j], `Unknown confessional placeholder: {${match[1]}}.`);
   }));
 });
 export const PlayerStateSchema = z.object({ id, alive: z.boolean(), biome: BiomeIdSchema, markers: z.record(z.string(), z.union([z.boolean(), z.number().finite(), z.string()])) }).strict();
 export const ItemInstanceSchema = z.object({ id, definitionId: id, name: label, ownerId: id.nullable(), biome: BiomeIdSchema, destroyed: z.boolean() }).strict();
 export const GameStateSchema = z.object({ players: z.array(PlayerStateSchema).min(2).max(48), items: z.array(ItemInstanceSchema), relationships: z.array(RelationshipSchema), arena: z.array(z.object({ biome: BiomeIdSchema, status: BiomeStatusSchema }).strict()).optional() }).strict();
-export const EventFactSchema = z.object({ type: FactTypeSchema, actorId: id.optional(), targetId: id.optional(), allyId: id.optional(), itemId: id.optional(), itemDefinitionId: id.optional(), biome: BiomeIdSchema.optional(), biomeStatus: BiomeStatusSchema.optional(), marker: id.optional(), siteId: id.optional(), sourceEvent: z.number().int().nonnegative().optional(), sourceRunId: id.optional() }).strict();
+export const EventFactSchema = z.object({ type: FactTypeSchema, actorId: id.optional(), targetId: id.optional(), allyId: id.optional(), itemId: id.optional(), itemDefinitionId: id.optional(), biome: BiomeIdSchema.optional(), biomeStatus: BiomeStatusSchema.optional(), marker: id.optional(), siteId: id.optional(), sourceEvent: z.number().int().nonnegative().optional(), sourceRunId: id.optional(), loreFactId: id.optional() }).strict();
 export const ConfessionalSchema = z.object({ templateId: id, speakerId: id, text: z.string(), exit: z.boolean() }).strict();
 export const CombatRecordSchema = z.object({ variantIndex: z.number().int().nonnegative().optional(), attackerId: id, targetIds: z.array(id), method: CombatMethodSchema, armed: z.boolean(), weaponItemId: id.optional(), weaponDefinitionId: id.optional(), outcome: z.enum(['death', 'injury', 'unharmed']) }).strict();
 export const EventRecordSchema = z.object({ combat: CombatRecordSchema.optional(), sequence: z.number().int().nonnegative(), id, phase: PhaseSchema, templateId: id, bindings: z.record(z.string(), id), biome: BiomeIdSchema, effects: z.array(EffectSchema), facts: z.array(EventFactSchema), text: z.string(), confessional: ConfessionalSchema.nullable(), state: GameStateSchema }).strict();
-export const LoreFactSchema = z.object({ id, type: z.enum(['win', 'betrayal', 'revenge', 'transfer', 'nemesis', 'curse']), sourceRunId: id, playerIds: z.array(id).min(1), eventSequences: z.array(z.number().int().nonnegative()), itemDefinitionId: id.optional(), detail: z.string() }).strict();
+export const LoreFactSchema = z.object({ id, type: z.enum(LORE_TYPES), sourceRunId: id, playerIds: z.array(id).min(1), eventSequences: z.array(z.number().int().nonnegative()), itemDefinitionId: id.optional(), detail: z.string() }).strict();
 export const LoreContextSchema = z.object({ facts: z.array(LoreFactSchema).max(12) }).strict();
 export const RunInputSchema = z.object({ cast: CastSchema, settings: GameSettingsSchema, content: ContentPackSchema, lore: LoreContextSchema }).strict();
 const RecordedRunInputSchema = RunInputSchema.extend({ cast: StoredCastSchema });
@@ -219,6 +226,8 @@ export const RunRecordSchema = z.object({ id, engineVersion: id, input: Recorded
   };
   checkState(run.initialState, ['initialState']);
   let previous = run.initialState;
+  const historicalMemories = new Set<string>();
+  let lastHistoricalSequence = -Infinity, lastHistoricalPhase = -1;
   const eventIds = new Set<string>(); const assigned = new Map<number, Set<string>>(); const eliminatedAt = new Map<string, { sequence: number; rank: number }>();
   run.events.forEach((event, i) => {
     if (event.sequence !== i) add(['events', i, 'sequence'], 'Event sequences must be contiguous starting at zero.');
@@ -307,6 +316,19 @@ export const RunRecordSchema = z.object({ id, engineVersion: id, input: Recorded
       if (f.sourceEvent !== undefined && !f.sourceRunId && f.sourceEvent >= i) add(['events', i, 'facts', j, 'sourceEvent'], 'A local callback must cite an earlier event.');
       if (f.type === 'revenge' && (f.sourceEvent === undefined || !run.events[f.sourceEvent]?.facts.some(prior => (['theft', 'betrayal', 'elimination'].includes(prior.type) && prior.actorId === f.targetId && prior.targetId === f.actorId) || (prior.type === 'grudge' && prior.actorId === f.actorId && prior.targetId === f.targetId)))) add(['events', i, 'facts', j], 'Revenge must cite an earlier hostile action or a recorded grudge over an ally’s death.');
       if (f.type === 'lore' && !run.input.lore.facts.some(l => l.sourceRunId === f.sourceRunId && (f.sourceEvent === undefined || l.eventSequences.includes(f.sourceEvent)) && (!f.actorId || l.playerIds.includes(f.actorId)))) add(['events', i, 'facts', j], 'A historical callback must cite the snapshotted lore context.');
+      if (f.type === 'lore' && (major > 1 || (major === 1 && minor >= 29))) {
+        const lore = run.input.lore.facts.find(l => l.id === f.loreFactId);
+        if (!run.input.settings.loreCarryover || !lore || !template || f.sourceRunId !== lore.sourceRunId
+          || f.sourceEvent !== lore.eventSequences[0] || f.actorId !== lore.playerIds[0] || f.targetId !== lore.playerIds[1]
+          || !run.input.content.loreCallbacks?.some(c => c.type === lore.type)
+          || (lore.itemDefinitionId && !run.input.content.items.some(item => item.id === lore.itemDefinitionId))
+          || !matchesLoreScene(lore, template, event.bindings, event.facts, event.state, event.phase)) add(['events', i, 'facts', j], 'Historical callbacks must identify the exact memory and match the current scene.');
+        if (lore) {
+          const signature = loreSignature(lore);
+          if (historicalMemories.has(signature) || historicalMemories.size >= MAX_LORE_CALLBACKS || i - lastHistoricalSequence < LORE_CALLBACK_GAP || event.phase.index === lastHistoricalPhase) add(['events', i, 'facts', j], 'Historical callbacks must be spaced, unique and bounded.');
+          historicalMemories.add(signature); lastHistoricalSequence = i; lastHistoricalPhase = event.phase.index;
+        }
+      }
     });
     if (event.confessional) {
       const c = event.confessional; const beforeAlive = previous.players.find(p => p.id === c.speakerId)?.alive; const afterAlive = event.state.players.find(p => p.id === c.speakerId)?.alive;

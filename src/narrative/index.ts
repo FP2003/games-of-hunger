@@ -1,5 +1,6 @@
 import type { ConfessionalSelection, ConfessionalInput, EventNarrativeInput, NarrativeAdapter, PlayerDefinition, RandomSource } from '../domain';
 import { deathSiteCallback } from './site-memory';
+import { pastSeasonCallback } from './lore';
 
 function nameValue(player: PlayerDefinition, field: string): string {
   if (field === 'name') return player.name;
@@ -85,7 +86,8 @@ export function renderEvent(input: EventNarrativeInput): { text: string; wording
     const current = input.cast.players.find(p => p.id === tinTransfer.actorId)?.name;
     if (former && current) text += ` As the Whispering Tin changes hands, its curse deepens ${former}'s resentment toward ${current}.`;
   }
-  // Historical provenance remains in event facts, outside the story prose.
+  const historical = pastSeasonCallback(input);
+  if (historical) text += ` ${historical}`;
   return { text, wording };
 }
 
@@ -98,6 +100,7 @@ export function selectConfessional(input: ConfessionalInput): ConfessionalSelect
   // Reactions follow the main consequence, rather than incidental travel or loot.
   const priorities: Record<string, number> = { elimination: 10, revenge: 9, betrayal: 8, grudge: 7, theft: 6, curse: 5, alliance: 4, assistance: 3, acquire: 2, move: 1 };
   for (const template of input.content.confessionals) {
+    if (template.idea && input.usedIdeas?.includes(template.idea)) continue;
     if (input.personalityEnabled === false && template.traits.length) continue;
     if (template.eventIds && !template.eventIds.includes(input.template.id)) continue;
     // Interview lines with different wording can still make the same point.
@@ -105,7 +108,13 @@ export function selectConfessional(input: ConfessionalInput): ConfessionalSelect
     if (input.sequence - (input.lastUsed[template.id] ?? -Infinity) < Math.max(template.cooldown, 16)) continue;
     const triggering = input.facts.filter(f => template.triggers.includes(f.type));
     if (!triggering.length) continue;
+    // Quiet reflection does not describe an attack or an environmental close call.
+    if (!template.eventIds && triggering.every(f => f.type === 'survival')
+      && (input.template.combat || input.template.id.endsWith('-hazard-escape')
+        || ['forest-boar-escape', 'mountains-wolves-escape', 'swamp-crocodile-escape', 'pitfall-survived'].includes(input.template.id)
+        || input.template.category === 'hazard')) continue;
     for (const player of input.cast.players) {
+      if (template.speakerRole && input.bindings[template.speakerRole] !== player.id) continue;
       if (!involved.has(player.id) || input.usedThisPhase.includes(player.id)) continue;
       const alive = input.after.players.find(p => p.id === player.id)?.alive;
       const exit = justEliminated.has(player.id);
@@ -119,7 +128,7 @@ export function selectConfessional(input: ConfessionalInput): ConfessionalSelect
         if (!template.relationship) return true;
         const otherId = fact.actorId === player.id ? fact.targetId : fact.targetId === player.id ? fact.actorId : undefined;
         if (!otherId || otherId === player.id || !input.cast.players.some(p => p.id === otherId)) return false;
-        const opinion = input.after.relationships.find(r => r.from === player.id && r.to === otherId) ?? { trust: 0, grudge: 0 };
+        const opinion = (template.relationshipBasis === 'before' ? input.before : input.after).relationships.find(r => r.from === player.id && r.to === otherId) ?? { trust: 0, grudge: 0 };
         const gate = template.relationship;
         return (gate.minTrust === undefined || opinion.trust >= gate.minTrust)
           && (gate.maxTrust === undefined || opinion.trust <= gate.maxTrust)
@@ -134,7 +143,14 @@ export function selectConfessional(input: ConfessionalInput): ConfessionalSelect
       const bindings = { ...input.bindings };
       delete bindings.rival;
       if (rival) bindings.rival = rival;
+      delete bindings.other;
+      const factCounterpart = eligibleFacts.flatMap(f => f.actorId === player.id ? [f.targetId] : f.targetId === player.id ? [f.actorId] : [])
+        .find(id => id && id !== player.id && input.cast.players.some(p => p.id === id));
+      const others = [...involved].filter(id => id !== player.id);
+      const counterpart = factCounterpart ?? (template.eventIds?.length && others.length === 1 ? others[0] : undefined);
+      if (counterpart) bindings.other = counterpart;
       const variants = [...new Set(template.variants)].filter(text => {
+        if (text.includes('{other.') && !counterpart) return false;
         if (text.includes('{rival.') && !rival) return false;
         const rendered = renderTemplate(text, { ...input, bindings }, player);
         return !usedSayings.has(confessionalFingerprint(rendered, input));
@@ -151,10 +167,14 @@ export function selectConfessional(input: ConfessionalInput): ConfessionalSelect
   const priority = Math.max(...input.facts.map(fact => priorities[fact.type] ?? 0));
   const primary = candidates.filter(c => c.priority === priority && c.variants.length);
   if (!primary.length) return null;
-  const specific = primary.filter(c => c.template.traits.length);
-  const chosen = input.random.pick(specific.length ? specific : primary);
+  // Authored scene matches take precedence over broad personality reactions.
+  const contextual = primary.filter(c => c.template.eventIds?.length);
+  const grounded = contextual.filter(c => c.template.relationship);
+  const pool = grounded.length ? grounded : contextual.length ? contextual : primary;
+  const specific = pool.filter(c => c.template.traits.length);
+  const chosen = input.random.pick(specific.length ? specific : pool);
   const wording = pickWording(chosen.variants, input.lastWording?.[chosen.template.id], input.random);
-  return { templateId: chosen.template.id, speakerId: chosen.player.id, exit: chosen.exit, text: renderTemplate(wording, { ...input, bindings: chosen.bindings }, chosen.player), wording };
+  return { templateId: chosen.template.id, speakerId: chosen.player.id, exit: chosen.exit, text: renderTemplate(wording, { ...input, bindings: chosen.bindings }, chosen.player), wording, idea: chosen.template.idea };
 }
 
 export const narrativeAdapter: NarrativeAdapter = { renderEvent, selectConfessional };
