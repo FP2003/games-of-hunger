@@ -421,7 +421,7 @@ export function App({ services }: { services: AppServices }) {
             <div>
               <label className="field">
                 Names, one per line
-                <textarea rows={3} value={paste} onChange={e => setPaste(e.target.value)} aria-describedby={castIssue ? 'cast-issue' : undefined} />
+                <textarea aria-label="Names, one per line" rows={3} value={paste} onChange={e => setPaste(e.target.value)} aria-describedby={castIssue ? 'cast-issue' : undefined} />
               </label>
               <div className="button-row">
                 <button className={!valid && paste.trim() ? 'primary' : 'subtle'} onClick={addNames} disabled={!paste.trim() || cast.players.length >= 48}>Add to cast</button>

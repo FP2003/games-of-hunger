@@ -6,8 +6,9 @@ for (const width of [1280, 390]) test(`archive cast records persist, filter and 
   await page.setViewportSize({ width, height: 900 });
   await page.goto('/');
   await page.getByRole('button', { name: 'Season archive' }).click();
-  const records = page.getByRole('button', { name: 'Cast records', exact: true });
-  const seasons = page.getByRole('button', { name: /^Seasons/ });
+  const views = page.getByRole('group', { name: 'Archive view' });
+  const records = views.getByRole('button', { name: 'Cast records', exact: true });
+  const seasons = views.getByRole('button', { name: /^Seasons/ });
   await records.click();
   await expect(page.getByText('No cast records available.', { exact: false })).toBeVisible();
   await page.getByRole('button', { name: 'The cast', exact: true }).click();
