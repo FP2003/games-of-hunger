@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { CastSchema, StoredCastSchema, EditorDraftSchema, HistoryEnvelopeSchema, PlaybackSaveSchema, RepositoryError, RunRecordSchema, SeasonHistorySchema, canonicalStringify, type CastDefinition, type GameRepository, type PlaybackSave, type PortraitAsset, type RunRecord, type SeasonHistory, type UnfinishedRun } from '../domain';
+import { CastSchema, StoredCastSchema, EditorDraftSchema, HistoryEnvelopeSchema, WorkspaceBackupSchema, PlaybackSaveSchema, RepositoryError, RunRecordSchema, SeasonHistorySchema, canonicalStringify, type CastDefinition, type GameRepository, type HistoryEnvelope, type PlaybackSave, type PortraitAsset, type RunRecord, type SeasonHistory, type UnfinishedRun } from '../domain';
 import { applyCompletedRun, deriveLore } from '../lore';
 
 export const STORE_NAMES = ['casts', 'runs', 'meta', 'portraits'] as const;
@@ -46,13 +46,57 @@ async function savePosition(tx: Transaction, info: z.infer<typeof RunInfoSchema>
   await tx.put('meta', 'revision', revision);
   return save;
 }
+async function savedCastsIn(tx: Transaction) {
+  return (await tx.entries('casts')).map(([id, value]) => ({ id, cast: validate(StoredCastSchema, value) }));
+}
+
+function checkArchive({ history, runs }: HistoryEnvelope) {
+  // Archived summaries must agree with their recorded replays.
+  const runMap = new Map(runs.map(run => [run.id, run]));
+  for (const season of history.seasons) {
+    const run = runMap.get(season.runId)!;
+    if (season.winnerId !== run.winnerId || season.castTitle !== run.input.cast.title ||
+      canonicalStringify(season.lore) !== canonicalStringify(deriveLore(run)) ||
+      canonicalStringify(season.playerIds) !== canonicalStringify(run.input.cast.players.map(p => p.id))) {
+      throw new RepositoryError('invalid', 'A history summary disagrees with its recorded story. Existing history has been preserved.');
+    }
+  }
+}
+
+async function mergeArchive(tx: Transaction, { history, runs }: HistoryEnvelope) {
+  const current = await historyIn(tx);
+  const ids = new Set(current.seasons.map(season => season.runId));
+  for (const run of runs) await putRun(tx, run);
+  await tx.put('meta', 'history', {
+    ...current,
+    seasons: [...current.seasons, ...history.seasons.filter(season => !ids.has(season.runId))],
+  });
+}
+
+async function mergeSavedCasts(tx: Transaction, casts: Awaited<ReturnType<typeof savedCastsIn>>) {
+  const existing = new Map((await savedCastsIn(tx)).map(({ id, cast }) => [id, canonicalStringify(cast)]));
+  const incomingIds = new Set(casts.map(({ id }) => id));
+  for (const { id, cast } of casts) {
+    const serialized = canonicalStringify(cast);
+    let slot = id;
+    // Preserve changed local casts and reuse the same recovered slot on repeated imports.
+    let suffix = 2;
+    while (existing.has(slot) && existing.get(slot) !== serialized) {
+      do { slot = `${id}~${suffix++}`; } while (incomingIds.has(slot));
+    }
+    if (existing.has(slot)) continue;
+    await tx.put('casts', slot, cast);
+    existing.set(slot, serialized);
+  }
+}
+
 export function createRepository(db: Database): GameRepository {
   const execute = async <T>(write: boolean, fn: (tx: Transaction) => Promise<T>): Promise<T> => {
     try { return await db.transaction(write, fn); } catch (error) { throw storageError(error); }
   };
   return {
     listCasts: () => execute(false, async tx => (await tx.values('casts')).map(value => validate(StoredCastSchema, value))),
-    listSavedCasts: () => execute(false, async tx => (await tx.entries('casts')).map(([id, value]) => ({ id, cast: validate(StoredCastSchema, value) }))),
+    listSavedCasts: () => execute(false, savedCastsIn),
     getCast: id => execute(false, async tx => { const value = await tx.get('casts', id); return value === undefined ? null : validate(StoredCastSchema, value); }),
     saveCast: async (id, cast) => { const valid = validate(CastSchema, cast); if (!id.trim()) throw new RepositoryError('invalid', 'The saved cast needs an ID.'); return execute(true, tx => tx.put('casts', id, valid)); },
     deleteCast: id => execute(true, tx => tx.delete('casts', id)),
@@ -141,18 +185,29 @@ export function createRepository(db: Database): GameRepository {
     }),
     importHistory: async (history, runs) => {
       const envelope = validate(HistoryEnvelopeSchema, { kind: 'history', schemaVersion: 1, history, runs });
-      // Never trust imported win/lore summaries over the included structured replay.
-      const runMap = new Map(envelope.runs.map(run => [run.id, run]));
-      for (const season of envelope.history.seasons) {
-        const run = runMap.get(season.runId)!;
-        if (season.winnerId !== run.winnerId || season.castTitle !== run.input.cast.title || canonicalStringify(season.lore) !== canonicalStringify(deriveLore(run)) || canonicalStringify(season.playerIds) !== canonicalStringify(run.input.cast.players.map(p => p.id))) throw new RepositoryError('invalid', 'A history summary disagrees with its recorded story. Existing history has been preserved.');
+      checkArchive(envelope);
+      return execute(true, tx => mergeArchive(tx, envelope));
+    },
+    exportBackup: () => execute(false, async tx => {
+      const casts = await savedCastsIn(tx);
+      const history = await historyIn(tx);
+      const runs = [];
+      for (const season of history.seasons) {
+        const run = await runIn(tx, season.runId);
+        if (!run) throw new RepositoryError('missing', `Season "${season.castTitle}" has no recorded replay.`);
+        runs.push(run);
       }
+      return {
+        kind: 'workspace-backup', schemaVersion: 1, casts,
+        archive: { kind: 'history', schemaVersion: 1, history, runs },
+      };
+    }),
+    importBackup: async input => {
+      const backup = validate(WorkspaceBackupSchema, input);
+      checkArchive(backup.archive);
       return execute(true, async tx => {
-        const current = await historyIn(tx); const ids = new Set(current.seasons.map(s => s.runId));
-        for (const run of envelope.runs) await putRun(tx, run);
-        const next = structuredClone(current);
-        for (const season of envelope.history.seasons) if (!ids.has(season.runId)) { ids.add(season.runId); next.seasons.push(season); }
-        await tx.put('meta', 'history', next);
+        await mergeSavedCasts(tx, backup.casts);
+        await mergeArchive(tx, backup.archive);
       });
     },
     getPortrait: id => execute(false, async tx => { const value = await tx.get('portraits', id); return value instanceof Blob ? value : null; }),

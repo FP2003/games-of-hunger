@@ -353,6 +353,16 @@ export const SeasonHistorySchema = z.object({ version: z.literal(1), seasons: z.
 export const CastEnvelopeSchema = z.object({ kind: z.literal('cast'), schemaVersion: z.literal(1), cast: CastSchema }).strict();
 export const RunEnvelopeSchema = z.object({ kind: z.literal('run'), schemaVersion: z.literal(1), run: RunRecordSchema, cursor: z.number().int().nonnegative() }).strict().superRefine((v, ctx) => { if (v.cursor > v.run.events.length) ctx.addIssue({ code: 'custom', path: ['cursor'], message: 'Cursor exceeds the recorded event count.' }); });
 export const HistoryEnvelopeSchema = z.object({ kind: z.literal('history'), schemaVersion: z.literal(1), history: SeasonHistorySchema, runs: z.array(RunRecordSchema) }).strict().superRefine((v, ctx) => { const ids = new Set(v.runs.map(r => r.id)); if (ids.size !== v.runs.length) ctx.addIssue({ code: 'custom', path: ['runs'], message: 'Backup run IDs must be unique.' }); v.history.seasons.forEach((s, i) => { if (!ids.has(s.runId)) ctx.addIssue({ code: 'custom', path: ['history', 'seasons', i, 'runId'], message: 'History backup is missing a referenced run.' }); }); });
+export const WorkspaceBackupSchema = z.object({
+  kind: z.literal('workspace-backup'),
+  schemaVersion: z.literal(1),
+  casts: z.array(z.object({ id: z.string().refine(value => value.trim().length > 0), cast: StoredCastSchema }).strict()),
+  archive: HistoryEnvelopeSchema,
+}).strict().superRefine(({ casts }, ctx) => {
+  if (new Set(casts.map(cast => cast.id)).size !== casts.length) {
+    ctx.addIssue({ code: 'custom', path: ['casts'], message: 'Backup cast IDs must be unique.' });
+  }
+});
 
 export type BiomeId = z.infer<typeof BiomeIdSchema>;
 export type BiomeStatus = z.infer<typeof BiomeStatusSchema>;
@@ -392,4 +402,5 @@ export type SeasonHistory = z.infer<typeof SeasonHistorySchema>;
 export type CastEnvelope = z.infer<typeof CastEnvelopeSchema>;
 export type RunEnvelope = z.infer<typeof RunEnvelopeSchema>;
 export type HistoryEnvelope = z.infer<typeof HistoryEnvelopeSchema>;
+export type WorkspaceBackup = z.infer<typeof WorkspaceBackupSchema>;
 
