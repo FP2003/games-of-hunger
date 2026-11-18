@@ -400,6 +400,10 @@ export function App({ services }: { services: AppServices }) {
     !nextPhase ? 'View results' : cursor === 0 ? `Start ${nextPhase.kind === 'opening' ? 'bloodbath' : phaseLabel(nextPhase)}` :
     `Continue to ${phaseLabel(nextPhase)}`;
   const remaining = current?.players.filter(player => player.alive).length ?? 0;
+  const standings = finished && run ? [...run.placements].sort((a, b) => a.rank - b.rank) : [];
+  const tied = (rank: number) => standings.filter(placement => placement.rank === rank).length > 1;
+  const podium = standings.filter(placement => placement.rank <= 3);
+  const remainingStandings = standings.filter(placement => placement.rank > 3);
   const highlight = finished ? run?.events.filter(e => e.facts.some(fact => fact.type === 'elimination' && fact.actorId === run.winnerId)).at(-1) ?? run?.events.at(-1) : undefined;
   const replayTools = run && <>
     <button className="subtle" onClick={() => download('replay.json', { kind: 'run', schemaVersion: 1, run, cursor })}>Export full replay</button>
@@ -587,21 +591,41 @@ export function App({ services }: { services: AppServices }) {
             <button className="subtle" onClick={() => download('season-recap.txt', seasonRecap(run), true)}>Export recap</button>
           </div>
           {completionFailureRunId === run.id && <button onClick={() => { repository.recordCompleted(run).then(h => { setHistory(h); setCompletionFailureRunId(current => current === run.id ? null : current); completedIds.current.add(run.id); setNotice('Season history saved.'); }).catch(e => setError(message(e))); }}>Retry saving season</button>}
+          <h2>Final standings</h2>
+          <ol className="placements podium" aria-label="Top finishers">
+            {podium.map(placement => <li key={placement.playerId} value={placement.rank} data-rank={placement.rank}>
+              <p className="podium-rank">{['1st place', '2nd place', '3rd place'][placement.rank - 1]}{tied(placement.rank) && ' · tied'}</p>
+              <div className="podium-player">
+                <Portrait player={runPlayer(placement.playerId)} repository={repository} />
+                <strong>{name(placement.playerId)}</strong>
+              </div>
+            </li>)}
+          </ol>
+          {remainingStandings.length > 0 && <details className="remaining-standings">
+            <summary>Remaining standings · {remainingStandings.length} tributes</summary>
+            <ol className="placements" aria-label="Remaining finishers">
+              {remainingStandings.map(placement => <li key={placement.playerId} value={placement.rank}>
+                <span className="placement-rank">{placement.rank}{tied(placement.rank) ? '=' : ''}</span>
+                {name(placement.playerId)}
+              </li>)}
+            </ol>
+          </details>}
           {run.awards.length > 0 && <>
             <h2>Season awards</h2>
             <div className="awards">{run.awards.map(award => <article key={award.id}>
               <h3>{award.title}</h3>
               <strong>{award.recipientIds.map(name).join(' & ')}</strong>
               <p>{award.explanation}</p>
-              <div className="award-evidence">{award.eventSequences.map(sequence => <a key={sequence} href={`#event-${sequence}`} onClick={() => {
-                setPresentation(false);
-                if (revealedLog.current) revealedLog.current.open = true;
-                if (presentation) requestAnimationFrame(() => document.getElementById(`event-${sequence}`)?.scrollIntoView());
-              }}>Event {sequence + 1}</a>)}</div>
+              {award.eventSequences.length > 0 && <details className="award-evidence">
+                <summary>Event evidence <span>· {award.eventSequences.length}</span></summary>
+                <div>{award.eventSequences.map(sequence => <a key={sequence} href={`#event-${sequence}`} onClick={() => {
+                  setPresentation(false);
+                  if (revealedLog.current) revealedLog.current.open = true;
+                  if (presentation) requestAnimationFrame(() => document.getElementById(`event-${sequence}`)?.scrollIntoView());
+                }}>Event {sequence + 1}</a>)}</div>
+              </details>}
             </article>)}</div>
           </>}
-          <h2>Final standings</h2>
-          <ol className="placements">{[...run.placements].sort((a,b) => a.rank-b.rank).map(p => <li key={p.playerId}><span>{p.rank}{run.placements.filter(other => other.rank === p.rank).length > 1 ? '=' : ''}</span>{name(p.playerId)}</li>)}</ol>
           <details className="season-recap"><summary>Full season recap</summary>{run.recap.map((line, index) => <p key={index}>{recapText(run, line)}</p>)}</details>
         </section>}
         {cursor > 0 && <details className="revealed-log" ref={revealedLog}><summary>Event log · {cursor} events</summary>{run.events.slice(0,cursor).map(e => <article key={e.id} id={`event-${e.sequence}`}><span className="eyebrow">{phaseLabel(e.phase)} · {e.sequence+1}</span><p><CharacterText text={eventText(e)} players={run.input.cast.players} /></p>{e.confessional && <blockquote><strong><CharacterText text={confessionalLabel(run, e)} players={run.input.cast.players} /></strong><p><CharacterText text={e.confessional.text} players={run.input.cast.players} /></p></blockquote>}</article>)}</details>}

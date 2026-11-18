@@ -510,6 +510,12 @@ test('autoplay pauses on Escape and navigation, phase reveals finish the actual 
   }
   await expect(page.locator('.results')).toBeVisible();
   await expect(page.locator('.results .placements li')).toHaveCount(8);
+  await expect(page.getByRole('list', { name: 'Top finishers' }).getByText('1st place', { exact: true })).toBeVisible();
+  const remaining = page.getByText(/^Remaining standings/);
+  if (await remaining.count()) {
+    await remaining.click();
+    await expect(page.getByRole('list', { name: 'Remaining finishers' })).toBeVisible();
+  }
   await page.getByRole('button', { name: 'Season archive', exact: false }).click();
   await expect(page.locator('.season-card')).toHaveCount(1);
 });
@@ -529,7 +535,10 @@ test('imports validate safely, keyboard reveals unlock confessionals in history 
   await expect(page.locator('.phase-report')).toHaveCount(0);
   await page.getByRole('button', { name: 'View results' }).click();
   await expect(page.locator('.results')).toBeVisible();
-  await page.locator('.revealed-log > summary').click();
+  await expect(page.getByRole('link', { name: 'Event 1', exact: true })).toBeHidden();
+  await page.getByText(/Event evidence/).click();
+  await page.getByRole('link', { name: 'Event 1', exact: true }).click();
+  await expect(page.locator('.revealed-log')).toHaveAttribute('open', '');
   await expect(page.locator('.revealed-log')).toContainText('Exit interview / Riley');
   await expect(page.locator('.revealed-log')).toContainText(fixtureRun.events[0].confessional!.text);
   const pending = page.waitForEvent('download'); await page.getByRole('button', { name: 'Export recap', exact: true }).click();
