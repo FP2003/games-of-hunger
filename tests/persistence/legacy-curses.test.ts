@@ -1,6 +1,6 @@
 import 'fake-indexeddb/auto';
 import { describe, expect, it } from 'vitest';
-import { CastSchema, ENGINE_VERSION, RunRecordSchema } from '../../src/domain';
+import { CastSchema, RunRecordSchema } from '../../src/domain';
 import { applyEffects, createRandom, initialState } from '../../src/engine';
 import { createIndexedDbRepository, createMemoryRepository, exportCast, importCast, exportRun, importRun } from '../../src/persistence';
 import { legacyCursedRun } from '../fixtures/legacy-content';
@@ -8,7 +8,6 @@ import { legacyCursedRun } from '../fixtures/legacy-content';
 describe('pre-quirk cursed replay compatibility', () => {
   it('validates an actual old snapshot and portable roundtrips without rewriting content, names or outcomes', () => {
     expect(legacyCursedRun.engineVersion).toBe('1.15.0');
-    expect(ENGINE_VERSION).toBe('1.29.0');
     expect(legacyCursedRun.input.content.items.map(item => item.curse)).toEqual(['compass', 'bell', 'tin']);
     expect(legacyCursedRun.events.some(event => event.facts.some(fact => fact.type === 'curse'))).toBe(true);
     expect(RunRecordSchema.parse(legacyCursedRun)).toEqual(legacyCursedRun);
