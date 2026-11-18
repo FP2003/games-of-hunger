@@ -92,6 +92,7 @@ export function App({ services }: { services: AppServices }) {
   const [notice, setNotice] = useState(services.storageWarning || '');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
+  const [exportingBackup, setExportingBackup] = useState(false);
   const [auto, setAuto] = useState(false);
   const [speed, setSpeed] = useState(6000);
   const [presentation, setPresentation] = useState(false);
@@ -282,6 +283,21 @@ export function App({ services }: { services: AppServices }) {
     } catch (e) { setError(`Could not start the game: ${message(e)}`); }
     finally { setBusy(false); }
   };
+  const exportBackup = async () => {
+    setExportingBackup(true);
+    setError('');
+    try {
+      const backup = await repository.exportBackup();
+      const date = new Date().toLocaleDateString('sv-SE');
+      download(`games-of-hunger-backup-${date}.json`, JSON.stringify(backup), true);
+      setNotice('Backup downloaded with your saved casts and completed seasons.');
+    } catch (error) {
+      setError(`Could not export backup: ${message(error)}`);
+    } finally {
+      setExportingBackup(false);
+    }
+  };
+
   const importFile = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]; event.target.value = ''; if (!file) return;
     try {
@@ -293,6 +309,12 @@ export function App({ services }: { services: AppServices }) {
         // Validate and compare imported stories even if their canonical ID is already open.
         storedRuns.current.delete(checked.data.run.id);
         setRun(checked.data.run); setCursor(checked.data.cursor); selectBroadcastPage(checked.data.run, checked.data.cursor, checked.data.cursor === checked.data.run.events.length ? 'results' : 'phase'); go('watch'); await save(checked.data.run, checked.data.cursor, true);
+      } else if (kind === 'workspace-backup') {
+        await repository.importBackup(parsed.data);
+        const [casts, restoredHistory] = await Promise.all([repository.listSavedCasts(), repository.getHistory()]);
+        setLibrary(casts);
+        setHistory(restoredHistory);
+        setNotice('Saved casts and season replays restored. Existing saves were kept.');
       } else if (kind === 'history') {
         await services.importHistory(text); setHistory(await repository.getHistory()); setNotice('History imported. Existing seasons were kept and duplicates counted once.');
       } else {
@@ -451,6 +473,7 @@ export function App({ services }: { services: AppServices }) {
               <button className="subtle" onClick={() => download('cast.json', { kind: 'cast', schemaVersion: 1, cast })} disabled={!valid}>Export cast</button>
               <details className="cast-tools"><summary>Cast tools</summary><div className="cast-tools-menu">
                 {castId && <button className="subtle" onClick={() => { repository.deleteCast(castId).then(async () => { setCastId(undefined); setLibrary(await repository.listSavedCasts()); setNotice('Saved cast removed. Your current draft is still available.'); }).catch(e => setError(message(e))); }}>Delete saved cast</button>}
+                <button className="subtle" disabled={exportingBackup} onClick={() => void exportBackup()}>{exportingBackup ? 'Exporting backup…' : 'Export backup'}</button>
                 <button className="subtle" onClick={() => void cleanPortraits()}>Free unused portrait space</button>
                 <a className="example-link" href={`${import.meta.env.BASE_URL}examples/cast.json`} download>Download example cast JSON</a>
               </div></details>
@@ -606,6 +629,7 @@ export function App({ services }: { services: AppServices }) {
           </div>
           {archiveView === 'seasons' && <div className="button-row">
             <label className="button subtle">Import backup<input type="file" accept=".json,application/json" onChange={importFile} /></label>
+            <button className="subtle" disabled={exportingBackup} onClick={() => void exportBackup()}>{exportingBackup ? 'Exporting backup…' : 'Export backup'}</button>
             <button className="subtle" onClick={() => { services.exportHistory().then(text => download('history.json', text, true)).catch(e => setError(message(e))); }}>Export history</button>
           </div>}
         </div>
