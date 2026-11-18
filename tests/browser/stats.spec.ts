@@ -6,6 +6,9 @@ for (const width of [1280, 390]) test(`archive cast records persist, filter and 
   await page.setViewportSize({ width, height: 900 });
   await page.goto('/');
   await page.getByRole('button', { name: 'Season archive' }).click();
+  const records = page.getByRole('button', { name: 'Cast records', exact: true });
+  const seasons = page.getByRole('button', { name: /^Seasons/ });
+  await records.click();
   await expect(page.getByText('No cast records available.', { exact: false })).toBeVisible();
   await page.getByRole('button', { name: 'The cast', exact: true }).click();
   const second = structuredClone(fixtureRun);
@@ -20,6 +23,7 @@ for (const width of [1280, 390]) test(`archive cast records persist, filter and 
     await expect(page.locator('.season-card')).toHaveCount(run === fixtureRun ? 1 : 2);
     if (run === fixtureRun) await page.getByRole('button', { name: 'The cast', exact: true }).click();
   }
+  await records.click();
   const table = page.getByRole('table');
   await expect(table.getByRole('rowheader', { name: 'Returning Alex', exact: true })).toBeVisible();
   await expect(table.getByRole('row').filter({ hasText: 'Returning Alex' }).getByRole('cell').nth(2)).toHaveText('2');
@@ -36,9 +40,12 @@ for (const width of [1280, 390]) test(`archive cast records persist, filter and 
   await page.screenshot({ path: test.info().outputPath(`stats-${width}.png`), fullPage: true });
   await page.reload();
   await page.getByRole('button', { name: 'Season archive' }).click();
+  await records.click();
   await expect(table.getByRole('rowheader', { name: 'Returning Alex', exact: true })).toBeVisible();
+  await seasons.click();
   await page.getByRole('button', { name: `Delete season ${second.input.cast.title}`, exact: true }).click();
   await page.getByRole('button', { name: `Confirm deletion of season ${second.input.cast.title}`, exact: true }).click();
+  await records.click();
   await expect(table.getByRole('rowheader', { name: 'Alex', exact: true })).toBeVisible();
   await expect(table.getByRole('row').filter({ hasText: 'Alex' }).getByRole('cell').nth(2)).toHaveText('1');
 });

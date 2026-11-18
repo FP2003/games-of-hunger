@@ -98,6 +98,7 @@ export function App({ services }: { services: AppServices }) {
   const [showRelationships, setShowRelationships] = useState(false);
   const [selected, setSelected] = useState<string>();
   const [castView, setCastView] = useState<'cards' | 'network'>('cards');
+  const [archiveView, setArchiveView] = useState<'seasons' | 'records'>('seasons');
   const revision = useRef<number | undefined>(undefined);
   const writes = useRef<Promise<void>>(Promise.resolve());
   const draftWrites = useRef<Promise<void>>(Promise.resolve());
@@ -218,6 +219,7 @@ export function App({ services }: { services: AppServices }) {
     setPresentation(false);
     setShowRelationships(false);
     setScreen(next);
+    if (next === 'history') setArchiveView('seasons');
     setError('');
     window.scrollTo(0, 0);
   };
@@ -595,23 +597,48 @@ export function App({ services }: { services: AppServices }) {
           <details><summary>Mutual alliances</summary>{alliancePairs(current).length ? alliancePairs(current).map(r => <p key={`${r.from}:${r.to}`}>{name(r.from)} ↔ {name(r.to)}</p>) : <p className="muted">No mutual alliances yet.</p>}</details>
         </aside>}</div>
       </section>}
-      {screen === 'history' && <>
-        <section className="page-intro"><h1>Season <em>history.</em></h1></section>
-        <StatsBoard history={history} repository={repository} />
-        <div className="section-heading"><h2>Season archive <span className="count">{history.seasons.length}</span></h2><div className="button-row"><label className="button subtle">Import backup<input type="file" accept=".json,application/json" onChange={importFile} /></label><button className="subtle" onClick={() => { services.exportHistory().then(text => download('history.json',text,true)).catch(e => setError(message(e))); }}>Export history</button></div></div>
-        {history.seasons.length === 0 ? <section className="empty panel"><h3>No completed seasons</h3><p>Complete a game to see its results here.</p><button className="primary" onClick={() => go(run ? 'watch' : 'cast')}>Back to game →</button></section> : <div className="history-grid">{history.seasons.map((season,index) => <article className="panel season-card" key={season.runId}>
-          <p className="eyebrow">SEASON {String(index + 1).padStart(2,'0')}</p><h3>{season.castTitle}</h3><p className="muted">Completed {new Date(season.completedAt).toLocaleDateString()}</p>
-          <ul>{season.lore.filter(f => f.type === 'win').map(f => <li key={f.id}>{f.detail}</li>)}</ul>
-          <details><summary>Season events · {season.lore.length} facts</summary>{season.lore.map(f => <p key={f.id}>{f.detail}<small className="lore-source">Source: {f.sourceRunId} · events {f.eventSequences.map(n => n+1).join(', ') || 'final result'}</small></p>)}</details>
-          {pendingSeasonDeletion === season.runId ? <>
-            <p>Delete this season and its replay? This cannot be undone.</p>
-            <div className="button-row"><button className="delete-game" aria-label={`Confirm deletion of season ${season.castTitle}`} disabled={deletingRunId !== null} onClick={() => deleteSeason(season.runId, season.castTitle)}>{deletingRunId === season.runId ? 'Deleting…' : 'Delete season'}</button><button className="subtle" aria-label={`Cancel deletion of season ${season.castTitle}`} disabled={deletingRunId !== null} onClick={() => setPendingSeasonDeletion(null)}>Cancel</button></div>
-          </> : <div className="button-row">
-            <button disabled={deletingRunId !== null} onClick={() => { repository.getRun(season.runId).then(record => { if (!record) throw new RepositoryError('missing','This season replay is missing.'); storedRuns.current.add(record.id); setRun(record); setCursor(record.events.length); selectBroadcastPage(record, record.events.length, 'results'); go('watch'); }).catch(e => setError(message(e))); }}>Revisit season ↗</button>
-            <button className="subtle" aria-label={`Delete season ${season.castTitle}`} disabled={deletingRunId !== null} onClick={() => setPendingSeasonDeletion(season.runId)}>Delete season</button>
+      {screen === 'history' && <section className="archive-workspace" aria-labelledby="archive-title">
+        <header className="page-intro"><h1 id="archive-title">Season archive</h1></header>
+        <div className="archive-toolbar">
+          <div className="view-switch" role="group" aria-label="Archive view">
+            <button aria-pressed={archiveView === 'seasons'} onClick={() => setArchiveView('seasons')}>Seasons <span className="workspace-count">· {history.seasons.length}</span></button>
+            <button aria-pressed={archiveView === 'records'} onClick={() => setArchiveView('records')}>Cast records</button>
+          </div>
+          {archiveView === 'seasons' && <div className="button-row">
+            <label className="button subtle">Import backup<input type="file" accept=".json,application/json" onChange={importFile} /></label>
+            <button className="subtle" onClick={() => { services.exportHistory().then(text => download('history.json', text, true)).catch(e => setError(message(e))); }}>Export history</button>
           </div>}
-        </article>)}</div>}
-      </>}
+        </div>
+        {archiveView === 'records' ? <StatsBoard history={history} repository={repository} /> :
+          history.seasons.length === 0 ? <section className="empty panel">
+            <h2>No completed seasons</h2>
+            <p>Finished games are saved here for replay.</p>
+            <button className="primary" onClick={() => go(run ? 'watch' : 'cast')}>{run ? 'Return to the arena' : 'Set up a cast'}</button>
+          </section> :
+          <div className="archive-list">{[...history.seasons].reverse().map(season => <article className="season-card" key={season.runId}>
+            <div className="archive-season-heading">
+              <div>
+                <h2>{season.castTitle}</h2>
+                <p className="muted"><time dateTime={season.completedAt}>{new Date(season.completedAt).toLocaleDateString()}</time></p>
+                {season.lore.filter(fact => fact.type === 'win').map(fact => <p className="season-winner" key={fact.id}>{fact.detail}</p>)}
+              </div>
+              {pendingSeasonDeletion === season.runId ? <div>
+                <p>Delete this season and its replay? This cannot be undone.</p>
+                <div className="button-row">
+                  <button className="delete-game" aria-label={`Confirm deletion of season ${season.castTitle}`} disabled={deletingRunId !== null} onClick={() => deleteSeason(season.runId, season.castTitle)}>{deletingRunId === season.runId ? 'Deleting…' : 'Delete season'}</button>
+                  <button className="subtle" aria-label={`Cancel deletion of season ${season.castTitle}`} disabled={deletingRunId !== null} onClick={() => setPendingSeasonDeletion(null)}>Cancel</button>
+                </div>
+              </div> : <div className="button-row">
+                <button disabled={deletingRunId !== null} onClick={() => { repository.getRun(season.runId).then(record => { if (!record) throw new RepositoryError('missing','This season replay is missing.'); storedRuns.current.add(record.id); setRun(record); setCursor(record.events.length); selectBroadcastPage(record, record.events.length, 'results'); go('watch'); }).catch(e => setError(message(e))); }}>Revisit season</button>
+                <button className="subtle" aria-label={`Delete season ${season.castTitle}`} disabled={deletingRunId !== null} onClick={() => setPendingSeasonDeletion(season.runId)}>Delete season</button>
+              </div>}
+            </div>
+            {season.lore.length > 0 && <details>
+              <summary>Season events · {season.lore.length}</summary>
+              {season.lore.map(fact => <p key={fact.id}>{fact.detail}<small className="lore-source">Source: {fact.sourceRunId} · events {fact.eventSequences.map(sequence => sequence + 1).join(', ') || 'final result'}</small></p>)}
+            </details>}
+          </article>)}</div>}
+      </section>}
       </>}
       {notice && <footer><p role="status">{notice}</p></footer>}
     </main>
