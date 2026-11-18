@@ -26,7 +26,7 @@ label.button{position:relative;overflow:hidden}label.button input[type=file]{dis
 .cast-group-heading{margin:0 0 10px;padding-bottom:8px;border-bottom:1px solid var(--line);color:var(--team-colour,var(--muted));font-size:13px;font-weight:600}
 .cast-group:not(.ungrouped) .cast-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 .cast-group.ungrouped{grid-column:1 / -1}
-.cast-reorder-hint{margin:0 0 16px;font-size:11px;line-height:1.6;color:var(--muted)}
+.cast-reorder-hint{margin:var(--space-3) 0 var(--space-4);font-size:var(--text-xs);line-height:1.6;color:var(--muted)}
 .cast-card{position:relative}
 .mini-actions .cast-drag-handle{cursor:grab;touch-action:none;user-select:none;min-width:32px;min-height:30px;font-size:22px;line-height:1}
 .cast-drag-handle:active{cursor:grabbing}

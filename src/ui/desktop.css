@@ -110,6 +110,25 @@ button, .button { gap: var(--space-2); border-radius: var(--radius-md); }
 .settings-workspace .setup-form { padding: var(--space-8); }
 .settings-fields { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4); }
 .settings-fields .field { margin-bottom: var(--space-4); }
+.settings-select { position: relative; }
+.settings-select select { appearance: none; padding-inline-end: var(--space-12); }
+.settings-select::after {
+  content: "";
+  position: absolute;
+  inset-inline-end: var(--space-4);
+  top: 50%;
+  width: var(--space-2);
+  height: var(--space-2);
+  border-inline-end: 2px solid var(--muted);
+  border-bottom: 2px solid var(--muted);
+  transform: translateY(-70%) rotate(45deg);
+  pointer-events: none;
+}
+@media (forced-colors: active) {
+  .settings-select select { appearance: auto; padding-inline-end: var(--space-3); }
+  .settings-select::after { content: none; }
+}
+
 .settings-workspace .toggle { margin: 0; padding: var(--space-4) 0; font-size: var(--text-sm); }
 .settings-workspace .toggle small { font-size: var(--text-xs); }
 .settings-disclosure { border-top: 1px solid var(--line); padding: var(--space-4) 0 0; }

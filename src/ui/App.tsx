@@ -501,9 +501,9 @@ export function App({ services }: { services: AppServices }) {
         </header>
         <div className="panel setup-form">
           <div className="settings-fields">
-            <label className="field">Danger<select aria-label="Danger" value={settings.danger} onChange={e => setSettings({ ...settings, danger: e.target.value as GameSettings['danger'] })}><option value="low">Low</option><option value="normal">Normal</option><option value="high">High</option></select></label>
-            <label className="field">Story tone<select aria-label="Story tone" value={settings.tone} onChange={e => setSettings({ ...settings, tone: e.target.value as GameSettings['tone'] })}><option value="mixed">Mixed</option><option value="dramatic">Dramatic</option><option value="absurd">Absurd</option></select></label>
-            <label className="field">Personality influence<select aria-label="Personality influence" value={settings.personality} onChange={e => setSettings({ ...settings, personality: e.target.value as GameSettings['personality'] })}><option value="off">Off</option><option value="normal">Normal</option><option value="strong">Strong</option></select></label>
+            <label className="field">Danger<span className="settings-select"><select aria-label="Danger" value={settings.danger} onChange={e => setSettings({ ...settings, danger: e.target.value as GameSettings['danger'] })}><option value="low">Low</option><option value="normal">Normal</option><option value="high">High</option></select></span></label>
+            <label className="field">Story tone<span className="settings-select"><select aria-label="Story tone" value={settings.tone} onChange={e => setSettings({ ...settings, tone: e.target.value as GameSettings['tone'] })}><option value="mixed">Mixed</option><option value="dramatic">Dramatic</option><option value="absurd">Absurd</option></select></span></label>
+            <label className="field">Personality influence<span className="settings-select"><select aria-label="Personality influence" value={settings.personality} onChange={e => setSettings({ ...settings, personality: e.target.value as GameSettings['personality'] })}><option value="off">Off</option><option value="normal">Normal</option><option value="strong">Strong</option></select></span></label>
           </div>
           <label className="toggle">
             <input type="checkbox" checked={settings.loreCarryover} onChange={e => setSettings({ ...settings, loreCarryover: e.target.checked })} />
