@@ -194,6 +194,7 @@ function conditionsPass(conditions: Condition[], bindings: Record<string,string>
 /** Bounded DFS with early condition pruning; first role is the phase's chosen unassigned anchor. */
 export function findBindings(template: EventTemplate, state: GameState, cast: CastDefinition, content: ContentPack, available: string[], anchor: string, random: RandomSource, personalityEnabled = true): Record<string,string> | null {
   const ids = [...available].sort(compare); const offset = ids.length ? random.int(ids.length) : 0; const ordered = [...ids.slice(offset),...ids.slice(0,offset)]; let visits = 0;
+  const firstEffect = template.effects[0];
   const visit = (index: number, bindings: Record<string,string>): Record<string,string> | null => {
     if (++visits > 3000) return null;
     if (index === template.roles.length) return conditionsPass(template.conditions,bindings,state,cast,content,false) && (!personalityEnabled || loyaltyAllows(template.effects, bindings, state, cast)) ? bindings : null;
@@ -203,6 +204,8 @@ export function findBindings(template: EventTemplate, state: GameState, cast: Ca
       if (!p?.alive || Object.values(bindings).includes(id) || role.traits?.some(t => !definition?.traits.includes(t)) || (role.itemDefinitionId && !state.items.some(i => i.ownerId === id && !i.destroyed && i.definitionId === role.itemDefinitionId))) continue;
       if (role.traits?.includes('agile') && p.markers['sprained-ankle'] === true) continue;
       if (template.scope === 'local' && index && p.biome !== state.players.find(p => p.id === anchor)?.biome) continue;
+      if (firstEffect?.kind === 'move' && firstEffect.role === role.id && firstEffect.biome !== 'adjacent' &&
+        (!content.biomes.find(b => b.id === p.biome)?.adjacent.includes(firstEffect.biome) || !canEnter(state, firstEffect.biome))) continue;
       const next = { ...bindings,[role.id]:id }; if (!conditionsPass(template.conditions,next,state,cast,content,true)) continue;
       const found = visit(index+1,next); if (found) return found;
     }

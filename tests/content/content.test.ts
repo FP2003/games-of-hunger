@@ -102,6 +102,11 @@ describe('all shipped templates are mechanically reachable', () => {
           input.before.players.find(p => p.id === binding[condition.role])!.markers[condition.marker] = value;
         }
       }
+      // Border scenes derive the starting region from the active map.
+      const crossing = template.effects[0];
+      if (template.id.startsWith('crossing-') && crossing.kind === 'move') {
+        input.before.players.find(p => p.id === binding[crossing.role])!.biome = defaultContentPack.biomes.find(b => b.id === crossing.biome)!.adjacent[0];
+      }
       for (const effect of template.effects) {
         if (effect.kind === 'transferItem') addItem(binding[effect.from], effect.definitionId);
         if (effect.kind === 'dropItem' || effect.kind === 'destroyItem' || effect.kind === 'curse') addItem(binding[effect.role], effect.definitionId);

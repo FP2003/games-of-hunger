@@ -122,7 +122,7 @@ const resupply = publicResupplyScenes(items);
 const crossings = biomes.flatMap(destination => (['social', 'conflict'] as const).map(category => event(`crossing-${category}-${destination.id}`, category,
   category === 'social' ? `{actor.name} crosses into ${destination.name} and meets {target.name}. They share a safe route and part on friendly terms.` : `{actor.name} crosses into ${destination.name} and waits behind a border supply marker. When {target.name} passes, {actor.name} steps out and stabs {target.object} in the side with a sharpened scrap. {target.name} staggers off the trail but dies from blood loss before reaching cover.`,
   [{ kind: 'move', role: 'actor', biome: destination.id }, ...(category === 'social' ? [relation('target', 'actor', 25, 0, 'assistance')] : [{ kind: 'eliminate' as const, role: 'target', credit: 'actor' }])],
-  { scope: 'global', roles: pair, weight: 0.4, conditions: [{ kind: 'biome', role: 'actor', biomes: destination.adjacent }, { kind: 'biome', role: 'target', biomes: [destination.id] }] }
+  { scope: 'global', roles: pair, weight: 0.4, conditions: [{ kind: 'biome', role: 'target', biomes: [destination.id] }] }
 )));
 
 // Each biome has fifteen distinct everyday situations and two hazards. The shared
@@ -338,7 +338,7 @@ const confessionals: ConfessionalTemplate[] = reactions.map(([trait, triggers, v
 ].forEach(([trigger, text], i) => confessionals.push({ id: `interview-open-${i + 1}`, traits: [], tones: [...allTones], triggers: [trigger as FactType], speaker: trigger === 'elimination' ? 'eliminated' : 'any', variants: [text], cooldown: 8 }));
 
 const baseContentPack: ContentPack = ContentPackSchema.parse({
-  id: 'wild-broadcast', version: '1.35.0', title: 'The Wild Broadcast', biomes, items, loreCallbacks: pastSeasonCallbacks,
+  id: 'wild-broadcast', version: '1.36.0', title: 'The Wild Broadcast', biomes, items, loreCallbacks: pastSeasonCallbacks, arenaRoutes: 'seeded',
   markers: [
     { id: 'podium-resupply-collected', type: 'boolean', lifetime: 'season', description: 'This tribute collected supplies from the Center Podium delivery.' },
     { id: 'stolen-from', type: 'player', lifetime: 'season', description: 'The living player who stole from this participant.' },
