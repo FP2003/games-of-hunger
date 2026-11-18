@@ -152,6 +152,20 @@ button, .button { gap: var(--space-2); border-radius: var(--radius-md); }
   .cast-entry .cast-library-actions > * { flex: 1 1 auto; }
 }
 
+@media (max-width: 720px) {
+  .topbar nav {
+    height: auto;
+    flex-wrap: wrap;
+    row-gap: 0;
+  }
+  .topbar nav button {
+    flex: none;
+    height: auto;
+    min-height: 40px;
+    padding-inline: var(--space-3);
+  }
+}
+
 .broadcast-stage { padding-top: var(--space-2); }
 .arena-actions, .arena-toolbar, .playback, .presentation-actions {
   display: flex;
