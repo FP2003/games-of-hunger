@@ -5,6 +5,7 @@ import { ENGINE_VERSION } from '../domain';
 import { demoCast, demoMetrics, demoReport, emptyDemoStats, distribution, combatMethodDefinitions, type DemoStats } from '../analytics/demo';
 import './stats.css';
 import './demo.css';
+import { TraitImpact } from './TraitImpact';
 
 const storageKey = 'survival-demo-analytics-v1';
 export function DemoLab({ cast, settings, content }: { cast: CastDefinition; settings: GameSettings; content: ContentPack }) {
@@ -13,6 +14,7 @@ export function DemoLab({ cast, settings, content }: { cast: CastDefinition; set
   const [seed, setSeed] = useState(() => `demo-${Date.now()}`);
   const [useCast, setUseCast] = useState(false);
   const [running, setRunning] = useState(false);
+  const [traitsRunning, setTraitsRunning] = useState(false);
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState('');
   const [filter, setFilter] = useState('');
@@ -78,12 +80,13 @@ export function DemoLab({ cast, settings, content }: { cast: CastDefinition; set
       <p className="muted">Uses your current danger, tone and personality settings, with past-season lore disabled. Each game uses batch-seed-0, batch-seed-1, and so on.</p>
       <p className="muted">Loaded: engine {ENGINE_VERSION}, content {content.version}.{stats.games > 0 && ` Displayed results: engine ${stats.engineVersion}, content ${stats.contentVersion}.`}</p>
       {stats.games > 0 && (stats.engineVersion !== ENGINE_VERSION || stats.contentVersion !== content.version) && <p role="alert">Displayed results are from an older version. Export them and reset demo statistics to measure the updated loot.</p>}
-      <div className="button-row"><button className="primary" disabled={running || (useCast && cast.players.length < 2)} onClick={start}>Run demo batch</button><button disabled={!running} onClick={stop}>Stop batch</button><button disabled={!stats.games} onClick={exportData}>Export demo JSON</button><button onClick={reset}>Reset demo statistics</button></div>
-      <p role="status">{running ? `Running: ${progress} / ${count} games completed` : `${stats.games} demo games analysed`}</p>
+      <div className="button-row"><button className="primary" disabled={running || traitsRunning || (useCast && cast.players.length < 2)} onClick={start}>Run demo batch</button><button disabled={!running} onClick={stop}>Stop batch</button><button disabled={!stats.games} onClick={exportData}>Export demo JSON</button><button onClick={reset}>Reset demo statistics</button></div>
+      <p role="status" aria-label="Demo batch status">{running ? `Running: ${progress} / ${count} games completed` : `${stats.games} demo games analysed`}</p>
       {running && <progress max={count} value={progress} aria-label="Demo batch progress" />}
       {error && <p role="alert">{error}</p>}
       <p className="muted">Reset clears only demo statistics. Stop keeps completed games. Results save in this browser when a batch finishes or stops; export JSON to keep a separate copy.</p>
     </section>
+    <TraitImpact settings={settings} content={content} busy={running || traitsRunning} onBusy={setTraitsRunning} />
     <section className="panel stats-board"><h2>Sponsor drops and supply packs</h2>
       <p className="muted">Public resupply is the Center Podium refill scheduled from day 3 if the game reaches it. Its three-item crates vary, with a 10% chance per delivered crate of including one weapon; the recipient claims one item and leaves two on the ground. Sponsor drops are personal gifts and can include weapons. A sealed arena charge is a single-use remote explosive: it must be held before deployment, is consumed on use, and can kill, be evaded or backfire.</p>
       {!supplies ? <p>Supply observations require a fresh batch. Export your existing results, then reset demo statistics before running the updated content.</p> : <>
