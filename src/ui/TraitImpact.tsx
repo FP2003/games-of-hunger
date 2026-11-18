@@ -75,8 +75,35 @@ export function TraitImpact({ settings, content, busy, onBusy }: { settings: Gam
       <label className="field">Pairs per trait<input aria-label="Pairs per trait" type="number" min={1} max={2400} value={experiment?.target ?? target} disabled={frozen || busy} onChange={e => setTarget(Number(e.target.value))} /></label>
       <label className="field">Display category<select value={category} onChange={e => setCategory(e.target.value)}><option value="all">All traits</option><option value="positive">Positive traits</option><option value="normal">Normal traits</option></select></label>
     </div>
-    {!experiment && <><div className="button-row"><button disabled={busy} onClick={loadAudit}>Load included audit</button><button disabled={busy} onClick={() => setTarget(240)}>Quick: 240 pairs</button><button disabled={busy} onClick={() => setTarget(2400)}>Main: 2,400 pairs</button></div><label className="field trait-import">Import trait JSON<input type="file" accept=".json,application/json" disabled={busy} onChange={async event => { const file = event.target.files?.[0]; if (file) { try { importData(JSON.parse(await file.text())); } catch { setError('Invalid trait experiment JSON. No results were imported.'); } } }} /></label><details className="trait-study-options"><summary>Choose traits ({selected.length} selected)</summary><fieldset className="trait-study-selection"><legend className="sr-only">Traits to test</legend>{TRAITS.map(trait => <label key={trait}><input type="checkbox" disabled={busy} checked={selected.includes(trait)} onChange={e => setSelected(e.target.checked ? TRAITS.filter(t => t === trait || selected.includes(t)) : selected.filter(t => t !== trait))} />{TRAIT_LABELS[trait]}</label>)}</fieldset></details></>}
-    <p className="muted">Settings: danger {activeSettings.danger}; tone {activeSettings.tone}; personality {activeSettings.personality}; past-season lore off. {experiment ? 'Continuing uses the recorded settings.' : 'Uses your current game settings.'} Planned games: {((experiment?.target ?? target) * ((experiment?.traits.length ?? selected.length)+1)).toLocaleString()}. Large studies can take hours; the CLI supports long runs.</p>
+    {!experiment && <div className="trait-input-tools">
+      <div className="button-row">
+        <button disabled={busy} onClick={loadAudit}>Load included audit</button>
+        <button disabled={busy} onClick={() => setTarget(240)}>Quick: 240 pairs</button>
+        <button disabled={busy} onClick={() => setTarget(2400)}>Main: 2,400 pairs</button>
+      </div>
+      <label className="field trait-import">
+        Import trait JSON
+        <input type="file" accept=".json,application/json" disabled={busy} onChange={async event => {
+          const file = event.target.files?.[0];
+          if (!file) return;
+          try { importData(JSON.parse(await file.text())); }
+          catch { setError('Invalid trait experiment JSON. No results were imported.'); }
+        }} />
+      </label>
+      <details className="trait-study-options">
+        <summary>Choose traits ({selected.length} selected)</summary>
+        <fieldset className="trait-study-selection">
+          <legend className="sr-only">Traits to test</legend>
+          {TRAITS.map(trait => <label key={trait}>
+            <input type="checkbox" disabled={busy} checked={selected.includes(trait)} onChange={e => {
+              setSelected(e.target.checked ? TRAITS.filter(t => t === trait || selected.includes(t)) : selected.filter(t => t !== trait));
+            }} />
+            {TRAIT_LABELS[trait]}
+          </label>)}
+        </fieldset>
+      </details>
+    </div>}
+    <p className="muted trait-settings-note">Settings: danger {activeSettings.danger}; tone {activeSettings.tone}; personality {activeSettings.personality}; past-season lore off. {experiment ? 'Continuing uses the recorded settings.' : 'Uses your current game settings.'} Planned games: {((experiment?.target ?? target) * ((experiment?.traits.length ?? selected.length)+1)).toLocaleString()}. Large studies can take hours; the CLI supports long runs.</p>
     {activeSettings.personality === 'off' && <p>Personality Off is a control experiment. Tier rankings are disabled.</p>}
     {mismatch && <p role="alert">Displayed trait results use older engine/content versions. Export and reset to test the current version.</p>}
     <div className="button-row"><button className="primary" disabled={busy || running || !!mismatch || experiment?.completed === experiment?.target && !!experiment} onClick={start}>{experiment ? 'Continue trait experiment' : 'Run trait experiment'}</button><button disabled={!running} onClick={stop}>Stop trait experiment</button><button disabled={!experiment} onClick={exportData}>Export trait JSON</button><button className="subtle analytics-reset" disabled={busy && !running} onClick={reset}>Reset trait experiment</button></div>
