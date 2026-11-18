@@ -667,6 +667,23 @@ test('unused uploaded portraits are also reclaimed automatically after a quiet m
   })).toBe(0);
 });
 
+test('the recovered Legionairre title is renamed in the saved cast and draft', async ({ page }) => {
+  await open(page);
+  const title = 'The Legionairre Games';
+  await upload(page, { ...exampleCast, title: `${title} - Recovered` });
+  await page.getByRole('button', { name: 'Save cast', exact: true }).click();
+  const chooser = page.getByLabel('Saved casts', { exact: true });
+  await expect(chooser).toHaveValue(/.+/);
+  const savedId = await chooser.inputValue();
+  await expect(page.locator('.topbar').getByRole('status')).toHaveText('Draft saved');
+  await writeMeta(page, 'migration:legionairre-title-v1', false);
+
+  await page.reload();
+  await expect(page.getByLabel('Season title', { exact: true })).toHaveValue(title);
+  await expect(chooser).toHaveValue(savedId);
+  await expect(chooser.getByRole('option', { name: `${title} · 2 players`, exact: true })).toHaveCount(1);
+});
+
 test('new workspace controls fit a mobile viewport and support keyboard selection', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await open(page); await upload(page, exampleCast);
@@ -676,6 +693,7 @@ test('new workspace controls fit a mobile viewport and support keyboard selectio
   await expect(page.getByRole('button', { name: 'Use a sample cast' })).toBeVisible();
   await page.getByLabel('Saved casts', { exact: true }).selectOption({ label: `${exampleCast.title} · 2 players` });
   await expect(page.getByLabel('Season title', { exact: true })).toHaveValue(exampleCast.title);
+  await expect(page.locator('.topbar').getByRole('status')).toHaveText('Draft saved');
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   await page.screenshot({ path: test.info().outputPath('workspace-mobile.png'), fullPage: true });
 });
