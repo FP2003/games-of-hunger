@@ -1,0 +1,134 @@
+:root {
+  --font-ui: Inter, "Segoe UI", system-ui, sans-serif;
+  --font-story: "Source Serif 4", Georgia, serif;
+  --text-xs: 12px;
+  --text-sm: 14px;
+  --text-base: 16px;
+  --text-lg: 20px;
+  --text-xl: 24px;
+  --text-2xl: 32px;
+  --text-display: 48px;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --bg: oklch(0.20 0.015 157);
+  --input: oklch(0.18 0.016 157);
+  --panel: oklch(0.24 0.018 155);
+  --surface-2: oklch(0.29 0.024 150);
+  --text: oklch(0.94 0.024 101);
+  --muted: oklch(0.73 0.022 145);
+  --line: rgb(255 255 255 / 0.12);
+  --control-line: oklch(0.47 0.025 148);
+  --acid: oklch(0.91 0.11 120);
+  --accent-hover: oklch(0.95 0.085 120);
+  --accent-text: oklch(0.22 0.035 137);
+  --danger: oklch(0.79 0.09 34);
+}
+
+h1, h2, h3 { text-wrap: balance; }
+p { text-wrap: pretty; }
+button, .button, summary, .field, .field input, .field textarea, .field select { font-size: var(--text-sm); }
+button, .button { gap: var(--space-2); border-radius: var(--radius-md); }
+.panel { border-radius: var(--radius-lg); }
+.field { gap: var(--space-2); }
+.field :is(input, select, textarea) { border-radius: var(--radius-md); }
+::placeholder { color: var(--muted); opacity: 1; }
+
+.topbar { min-height: var(--space-16); height: auto; }
+.topbar nav { align-self: stretch; height: auto; }
+.topbar nav button { height: 100%; font-size: var(--text-sm); }
+.local-tag { font-size: var(--text-xs); letter-spacing: normal; }
+.page-intro { padding: var(--space-8) 0 var(--space-6); }
+.page-intro h1, .cast-masthead h1 {
+  font: 350 var(--text-display)/1.1 var(--font-story);
+  letter-spacing: normal;
+  margin: 0;
+}
+.page-intro p { font-size: var(--text-base); margin: var(--space-2) 0 0; }
+
+.cast-masthead {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-6) 0;
+  background: var(--bg);
+}
+.cast-masthead h1 { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-4); }
+.workspace-count {
+  display: inline-block;
+  color: var(--muted);
+  font: 500 var(--text-sm)/1.5 var(--font-ui);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.cast-entry { padding: var(--space-6); margin-bottom: var(--space-6); }
+.cast-compose {
+  display: grid;
+  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+  align-items: start;
+  gap: var(--space-8);
+}
+.cast-compose .field { margin-bottom: var(--space-3); }
+.cast-compose textarea { line-height: 1.5; }
+.cast-compose p { margin: var(--space-3) 0 0; }
+.cast-entry .cast-library {
+  margin: var(--space-6) 0 0;
+  padding: var(--space-4) 0 0;
+  border-top: 1px solid var(--line);
+  gap: var(--space-4);
+}
+.cast-entry .cast-library-actions { flex-wrap: wrap; gap: var(--space-2); }
+.cast-entry .cast-library-actions > *, .cast-entry .cast-tools > summary { font-size: var(--text-sm); }
+.cast-tools-menu { box-shadow: none; border-radius: var(--radius-md); background: var(--surface-2); }
+.cast-tools-menu button, .cast-tools-menu .example-link { font-size: var(--text-xs); }
+.cast-roster-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}
+.cast-roster-bar .cast-view-toggle { margin: 0; }
+.cast-roster-bar .cast-view-toggle button { font-size: var(--text-sm); }
+.draft-status { margin: var(--space-4) 0 0; }
+.cast-card .entry-number { font: 500 var(--text-xs)/1.5 var(--font-ui); font-variant-numeric: tabular-nums; color: var(--muted); }
+.cast-card .cast-person strong { font-family: var(--font-story); font-weight: 350; }
+
+.settings-workspace { max-width: 880px; margin-inline: auto; }
+.settings-workspace .setup-form { padding: var(--space-8); }
+.settings-fields { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4); }
+.settings-fields .field { margin-bottom: var(--space-4); }
+.settings-workspace .toggle { margin: 0; padding: var(--space-4) 0; font-size: var(--text-sm); }
+.settings-workspace .toggle small { font-size: var(--text-xs); }
+.settings-disclosure { border-top: 1px solid var(--line); padding: var(--space-4) 0 0; }
+.settings-disclosure summary { color: var(--text); }
+.settings-disclosure .field { max-width: 40ch; margin: var(--space-4) 0 0; }
+.settings-workspace .settings-actions { justify-content: flex-end; margin-top: var(--space-6); }
+.arena-guide { margin-top: var(--space-6); }
+.arena-routes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-6);
+  margin-top: var(--space-6);
+}
+.arena-routes h2 { display: flex; align-items: center; gap: var(--space-2); font: 350 var(--text-xl)/1.25 var(--font-story); }
+.arena-routes p { margin: var(--space-2) 0; }
+
+@media (max-width: 820px) {
+  .topbar nav button { font-size: var(--text-xs); }
+  .cast-compose, .settings-fields { grid-template-columns: 1fr; gap: var(--space-4); }
+  .cast-masthead h1 { font-size: var(--text-2xl); }
+  .cast-entry .cast-library-actions > * { flex: 1 1 auto; }
+}

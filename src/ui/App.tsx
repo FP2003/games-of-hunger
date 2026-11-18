@@ -5,6 +5,7 @@ import { DEFAULT_SETTINGS, validateCast, validateSettings, validateRunEnvelope, 
 import type { AppServices } from '../app/services';
 import { loadWorkspace } from '../app/loadWorkspace';
 import './styles.css';
+import './desktop.css';
 import { nextBroadcastStep, phaseReport, visiblePlayback, type BroadcastPage } from './playback';
 import { swapPlayers, restorePlayer } from './editor';
 import { confessionalLabel, phaseLabel, seasonRecap } from './recap';
@@ -24,6 +25,7 @@ import { DemoLab } from './DemoLab';
 type Screen = 'cast' | 'setup' | 'watch' | 'history' | 'demos';
 const freshCast = (): CastDefinition => ({ version: 1, title: 'The Group Chat Games', players: [], relationships: [] });
 const newPlayer = (name: string): PlayerDefinition => ({ id: crypto.randomUUID(), name, traits: [] });
+const sampleNames = ['Rowan', 'Cleo', 'Jules', 'Sage', 'Kit', 'Marlow', 'Rory', 'Wren'];
 const message = (error: unknown) => error instanceof Error ? error.message : 'Something went wrong. Your current game is still available for export.';
 
 function rememberedPage(run: RunRecord | null, cursor: number): BroadcastPage {
@@ -206,9 +208,22 @@ export function App({ services }: { services: AppServices }) {
     });
   }, [cursor, run, repository]);
 
-  const go = (next: Screen) => { setAuto(false); setPresentation(false); setShowRelationships(false); setScreen(next); setError(''); };
+  const go = (next: Screen) => {
+    setAuto(false);
+    setPresentation(false);
+    setShowRelationships(false);
+    setScreen(next);
+    setError('');
+    window.scrollTo(0, 0);
+  };
   const validation = validateCast(cast);
   const valid = validation.success;
+  const needsPlayers = cast.players.length < 2;
+  const unnamedPlayers = cast.players.some(player => !player.name.trim());
+  const castIssue = needsPlayers ? 'Add at least two named players.' :
+    unnamedPlayers ? 'Give every player a name.' :
+    !cast.title.trim() ? 'Enter a season title.' :
+    !valid ? 'Check the cast details before continuing.' : '';
   const editPlayer = (id: string, change: Partial<PlayerDefinition>) => setCast(current => ({ ...current, players: current.players.map(p => p.id === id ? { ...p, ...change } : p) }));
   const editRelationship = (from: string, to: string, status: RelationshipStatus) => setCast(current => ({
     ...current,
@@ -365,49 +380,112 @@ export function App({ services }: { services: AppServices }) {
         <button className={screen === 'history' ? 'active' : ''} onClick={() => go('history')}>Season archive <span className="count">{history.seasons.length}</span></button>
         <button className={screen === 'demos' ? 'active' : ''} onClick={() => go('demos')}>Demo statistics</button>
       </nav>
-      <span className="local-tag"><span /> SAVED IN THIS BROWSER</span>
+      <span className="local-tag">{services.storageWarning ? "Temporary session" : "Saved in this browser"}</span>
     </header>
     <main>
       {error && <div className="error" role="alert">{error}<button aria-label="Dismiss error" onClick={() => setError('')}>×</button></div>}
       {!ready ? <p role="status">Loading saved games…</p> : <>
       {screen === 'demos' && <DemoLab cast={cast} settings={settings} content={content} />}
-      {screen === 'cast' && <>
-        <section className="hero"><div><h1>Survival <em>games.</em></h1></div><div className="arena-preview" aria-label="Six connected locations"><span className="orbit orbit-one" /><span className="orbit orbit-two" /><span className="arena-symbol">✳</span><span className="map-label map-forest">FOREST</span><span className="map-label map-ruins">CENTER PODIUM</span><span className="map-label map-tundra">TUNDRA</span><span className="map-label map-swamp">SWAMP</span><p>6 LOCATIONS</p></div></section>
-        {resume && resume.cursor < resume.run.events.length && !history.seasons.some(season => season.runId === resume.run.id) && <div className="resume"><div><strong>Saved game</strong><p>{resume.run.input.cast.title} · {resume.cursor} events revealed</p></div><button className="primary" disabled={deletingRunId !== null} onClick={() => { setRun(resume.run); setCursor(resume.cursor); go('watch'); }}>Resume game ↗</button></div>}
+      {screen === 'cast' && <section className="cast-workspace" aria-labelledby="cast-title">
+        <header className="cast-masthead">
+          <h1 id="cast-title">Your cast <span className="workspace-count">{cast.players.length} / 48</span></h1>
+          <button className={valid ? 'primary' : 'subtle'} disabled={!valid} onClick={() => go('setup')}>Game settings <span aria-hidden="true">→</span></button>
+        </header>
+        {resume && resume.cursor < resume.run.events.length && !history.seasons.some(season => season.runId === resume.run.id) && <div className="resume"><div><strong>Saved game</strong><p>{resume.run.input.cast.title} · {resume.cursor} events revealed</p></div><button className="subtle" disabled={deletingRunId !== null} onClick={() => { setRun(resume.run); setCursor(resume.cursor); go('watch'); }}>Resume game ↗</button></div>}
         {unfinished.length > 0 && <section className="panel unfinished-panel" aria-label="Unfinished games"><h3>Unfinished games</h3>{unfinished.map(item => <div className="unfinished-row" key={item.runId}><div><strong>{item.title}</strong><small>{item.cursor} events revealed · {new Date(item.updatedAt).toLocaleString()}</small></div><div className="unfinished-actions">
           {pendingDeletion === item.runId ? <><p>Delete this saved game? This cannot be undone.</p><div className="button-row"><button className="delete-game" aria-label={`Confirm deletion of ${item.title}`} disabled={deletingRunId !== null} onClick={() => deleteUnfinished(item)}>{deletingRunId === item.runId ? 'Deleting…' : 'Delete game'}</button><button className="subtle" aria-label={`Cancel deletion of ${item.title}`} disabled={deletingRunId !== null} onClick={() => setPendingDeletion(null)}>Cancel</button></div></> : <><button disabled={deletingRunId !== null} onClick={() => void openUnfinished(item)}>Resume {item.title} ↗</button><button className="subtle" aria-label={`Delete ${item.title}`} disabled={deletingRunId !== null} onClick={() => setPendingDeletion(item.runId)}>Delete</button></>}
         </div></div>)}</section>}
-        <div className="section-heading"><div><p className="eyebrow">01 / CAST</p><h2>Your cast <span className="count">{cast.players.length} / 48</span></h2></div><div className="button-row"><label className="button subtle">Import JSON<input type="file" accept=".json,application/json" onChange={importFile} /></label><button className="subtle" onClick={() => download('cast.json', { kind: 'cast', schemaVersion: 1, cast })} disabled={!valid}>Export cast</button></div></div>
-        <section className="panel cast-library" aria-label="Cast library">
-          <label className="field">Saved casts<select aria-label="Saved casts" value={castId ?? ''} onChange={event => chooseCast(event.target.value)}>
-            <option value="" disabled>{cast.players.length ? 'Current unsaved cast' : 'Choose a saved cast'}</option>
-            {library.length > 0 && <optgroup label="Your saved casts">{library.map(item => <option key={item.id} value={item.id}>{item.cast.title} · {item.cast.players.length} players</option>)}</optgroup>}
-          </select></label>
-          <div className="cast-library-actions">
-            <button className="subtle" onClick={() => { setCast(freshCast()); setCastId(undefined); setUndo([]); setSelected(undefined); setPaste(''); }}>New cast</button>
-            <details className="cast-tools"><summary>Cast tools</summary><div className="cast-tools-menu">
-              {castId && <button className="subtle" onClick={() => { repository.deleteCast(castId).then(async () => { setCastId(undefined); setLibrary(await repository.listSavedCasts()); setNotice('Saved cast removed. Your current draft is still available.'); }).catch(e => setError(message(e))); }}>Delete saved cast</button>}
-              <button className="subtle" onClick={() => void cleanPortraits()}>Free unused portrait space</button>
-              <a className="example-link" href={`${import.meta.env.BASE_URL}examples/cast.json`} download>Download example cast JSON ↗</a>
-            </div></details>
+        <section className="panel cast-entry" aria-label="Cast setup">
+          <div className="cast-compose">
+            <div>
+              <label className="field">
+                Names, one per line
+                <textarea rows={3} value={paste} onChange={e => setPaste(e.target.value)} aria-describedby={castIssue ? 'cast-issue' : undefined} />
+              </label>
+              <div className="button-row">
+                <button className={!valid && paste.trim() ? 'primary' : 'subtle'} onClick={addNames} disabled={!paste.trim() || cast.players.length >= 48}>Add to cast</button>
+                {cast.players.length === 0 && <button className={paste.trim() ? "subtle" : "primary"} onClick={() => {
+                  setCast({ ...cast, players: sampleNames.map(newPlayer) });
+                  setCastId(undefined);
+                  setUndo([]);
+                  setPaste('');
+                }}>Use a sample cast</button>}
+                <button className="subtle" onClick={() => {
+                  const character = newPlayer('');
+                  setCast(current => ({ ...current, players: [...current.players, character] }));
+                }} disabled={cast.players.length >= 48}>Add a single character</button>
+              </div>
+              {castIssue && <p id="cast-issue" className="muted" role="status">{castIssue}</p>}
+            </div>
+            <label className="field">Season title<input value={cast.title} maxLength={120} onChange={e => setCast({ ...cast, title: e.target.value })} /></label>
+          </div>
+          <div className="cast-library" role="group" aria-label="Cast library">
+            <label className="field">Saved casts<select value={castId ?? ''} onChange={event => chooseCast(event.target.value)}>
+              <option value="" disabled>{cast.players.length ? 'Current unsaved cast' : 'Choose a saved cast'}</option>
+              {library.length > 0 && <optgroup label="Your saved casts">{library.map(item => <option key={item.id} value={item.id}>{item.cast.title} · {item.cast.players.length} players</option>)}</optgroup>}
+            </select></label>
+            <div className="cast-library-actions">
+              <button className="subtle" onClick={() => { setCast(freshCast()); setCastId(undefined); setUndo([]); setSelected(undefined); setPaste(''); }}>New cast</button>
+              <label className="button subtle">Import JSON<input type="file" accept=".json,application/json" onChange={importFile} /></label>
+              <button className="subtle" onClick={() => download('cast.json', { kind: 'cast', schemaVersion: 1, cast })} disabled={!valid}>Export cast</button>
+              <details className="cast-tools"><summary>Cast tools</summary><div className="cast-tools-menu">
+                {castId && <button className="subtle" onClick={() => { repository.deleteCast(castId).then(async () => { setCastId(undefined); setLibrary(await repository.listSavedCasts()); setNotice('Saved cast removed. Your current draft is still available.'); }).catch(e => setError(message(e))); }}>Delete saved cast</button>}
+                <button className="subtle" onClick={() => void cleanPortraits()}>Free unused portrait space</button>
+                <a className="example-link" href={`${import.meta.env.BASE_URL}examples/cast.json`} download>Download example cast JSON</a>
+              </div></details>
+            </div>
           </div>
         </section>
-        <aside className="cast-sidebar"><section className="panel add-panel" aria-labelledby="add-players-heading">
-          <h3 id="add-players-heading">Add players</h3>
-          <div className="add-panel-form">
-            <label className="field"><span className="sr-only">Names, one per line</span><textarea aria-label="Names, one per line" placeholder="One name per line" rows={3} value={paste} onChange={e => setPaste(e.target.value)} /></label>
-            <div className="add-panel-actions"><div className="button-row"><button className="subtle" onClick={() => setCast(currentCast => ({ ...currentCast, players: [...currentCast.players, newPlayer('')] }))} disabled={cast.players.length >= 48}>Add a single character</button><button className="primary" onClick={addNames} disabled={!paste.trim() || cast.players.length >= 48}>Add to cast</button></div></div>
-          </div>
-        </section></aside><div className="cast-layout"><section className="cast-main">
-          <label className="field title-field">Season title<input value={cast.title} maxLength={120} onChange={e => setCast({ ...cast, title: e.target.value })} /></label>
-          {cast.players.length > 0 && <div className="cast-view-toggle" role="group" aria-label="Cast view"><button aria-pressed={castView === 'cards'} onClick={() => setCastView('cards')}>Character cards</button><button aria-pressed={castView === 'network'} onClick={() => setCastView('network')}>Relationship network</button></div>}
-          {cast.players.length === 0 && <div className="empty"><span>↗</span><h3>No players added</h3><p>Enter player names or use a sample cast.</p><button onClick={() => { setCast({ ...freshCast(), players: ['Rowan', 'Cleo', 'Jules', 'Sage', 'Kit', 'Marlow', 'Rory', 'Wren'].map(newPlayer) }); setCastId(undefined); setUndo([]); }}>Use a sample cast</button></div>}
+        <section className="cast-main" aria-label="Cast roster">
+          {cast.players.length > 0 && <div className="cast-roster-bar">
+            <div className="cast-view-toggle" role="group" aria-label="Cast view"><button aria-pressed={castView === 'cards'} onClick={() => setCastView('cards')}>Character cards</button><button aria-pressed={castView === 'network'} onClick={() => setCastView('network')}>Relationship network</button></div>
+            <div className="button-row">
+              {undo.length > 0 && <button className="subtle" disabled={cast.players.length >= 48} onClick={undoRemoval}>Undo removal ({undo.length})</button>}
+              <button className="subtle" disabled={!valid} onClick={() => void storeCast()}>Save cast</button>
+              <button className="subtle" disabled={!valid} onClick={() => void storeCast(true)}>Save as new cast</button>
+            </div>
+          </div>}
           {castView === 'cards' ? <CastCards players={cast.players} selectedId={selected} onEdit={setSelected} onRemove={removePlayer} onSwap={swapCastPlayers} portrait={p => <Portrait player={p} repository={repository} large />} /> : <RelationshipNetwork players={cast.players} relationships={cast.relationships} onChange={editRelationship} portrait={p => <Portrait player={p} repository={repository} />} onEdit={setSelected} />}
           {player && <CharacterEditorDialog name={player.name} onClose={() => setSelected(undefined)}>{error && <p className="error" role="alert">{error}</p>}<div className="form-grid"><label className="field">Name<input autoFocus value={player.name} maxLength={120} onChange={e => editPlayer(player.id, { name: e.target.value })} /></label><PlayerGenderField pronouns={player.pronouns} onChange={pronouns => editPlayer(player.id, { pronouns })} /><label className="field">Signature item<input placeholder="e.g. an umbrella" value={player.signatureItem || ''} maxLength={120} onChange={e => editPlayer(player.id, { signatureItem: e.target.value || undefined })} /></label><label className="field">Team label<input value={player.team || ''} maxLength={120} onChange={e => editPlayer(player.id, { team: e.target.value || undefined })} /></label><label className="field">Portrait<select aria-label="Portrait" value={player.portrait?.startsWith('/assets/') ? player.portrait : ''} onChange={e => editPlayer(player.id, { portrait: e.target.value || undefined })}><option value="">Initials / uploaded image</option><option value="/assets/fern.svg">Fern emblem</option><option value="/assets/peak.svg">Mountain emblem</option></select></label></div><TraitPicker traits={player.traits} onChange={traits => editPlayer(player.id, { traits })} /><label className="button subtle">Upload portrait<input type="file" accept="image/png,image/jpeg,image/webp" onChange={e => void portraitUpload(player.id, e)} /></label><p className="muted">PNG, JPEG or WebP, up to 2 MB. Uploaded portraits stay in this browser and are not included in exported files.</p><RelationshipNetwork key={player.id} players={cast.players} relationships={cast.relationships} focalId={player.id} onChange={editRelationship} portrait={p => <Portrait player={p} repository={repository} />} /></CharacterEditorDialog>}
-        </section></div>
-        <div className="bottom-bar"><div><p className="draft-status" role="status">{draftStatus}</p>{!validation.success && <ul className="muted" aria-label="Cast issues">{validation.errors.map((issue, index) => <li key={index}>{issue.path}: {issue.message}</li>)}</ul>}<p><span className="status-dot" />{valid ? `${cast.players.length} players. Ready to start.` : 'Add 2–48 named players to continue.'}</p></div><div className="button-row">{undo.length > 0 && <button disabled={cast.players.length >= 48} onClick={undoRemoval}>Undo removal ({undo.length})</button>}<button className="subtle" disabled={!valid} onClick={() => void storeCast(true)}>Save as new cast</button><button className="subtle" disabled={!valid} onClick={() => void storeCast()}>Save cast</button><button className="primary" disabled={!valid} onClick={() => go('setup')}>Game settings <span>→</span></button></div></div>
-      </>}
-      {screen === 'setup' && <><section className="page-intro"><p className="eyebrow">02 / SETTINGS</p><h1>Game <em>settings.</em></h1><p>{cast.players.length} players selected.</p></section><div className="setup-layout"><section className="panel setup-form"><label className="field">Game seed<input aria-label="Game seed" value={settings.seed} maxLength={200} onChange={e => setSettings({ ...settings, seed: e.target.value })} /><small>The same cast, settings, and seed produce the same game. Change the seed for a different result.</small></label><div className="form-grid"><label className="field">Danger<select aria-label="Danger" value={settings.danger} onChange={e => setSettings({ ...settings, danger: e.target.value as GameSettings['danger'] })}><option value="low">Low</option><option value="normal">Normal</option><option value="high">High</option></select></label><label className="field">Story tone<select aria-label="Story tone" value={settings.tone} onChange={e => setSettings({ ...settings, tone: e.target.value as GameSettings['tone'] })}><option value="mixed">Mixed</option><option value="dramatic">Dramatic</option><option value="absurd">Absurd</option></select></label><label className="field">Personality influence<select aria-label="Personality influence" value={settings.personality} onChange={e => setSettings({ ...settings, personality: e.target.value as GameSettings['personality'] })}><option value="off">Off</option><option value="normal">Normal</option><option value="strong">Strong</option></select></label></div><label className="toggle"><input type="checkbox" checked={settings.loreCarryover} onChange={e => setSettings({ ...settings, loreCarryover: e.target.checked })} /><span><strong>Include past season events</strong><small>Refer to past events for returning players. Each player starts the new game with fresh health and supplies.</small></span></label><p className="muted">{history.seasons.length ? `${history.seasons.length} saved seasons available. Renaming a returning character keeps their history.` : 'No completed seasons yet.'}</p><div className="button-row"><button onClick={() => go('cast')}>← Back to cast</button><button className="primary" disabled={busy || !valid || !settings.seed.trim()} onClick={() => void start()}>{busy ? 'Starting game…' : 'Start game ↗'}</button></div></section><section className="biome-grid">{content.biomes.map((b, i) => <article className={`biome biome-${b.id}`} key={b.id}><span className="eyebrow">ZONE 0{i + 1}</span><h3>{b.name}</h3><p>{b.description}</p><small>Connected to {b.adjacent.map(id => content.biomes.find(x => x.id === id)?.name).join(', ')}</small></article>)}</section></div></>}
+        </section>
+        <p className="draft-status muted" role="status">{draftStatus}</p>
+      </section>}
+      {screen === 'setup' && <section className="settings-workspace" aria-labelledby="settings-title">
+        <header className="page-intro">
+          <h1 id="settings-title">Game settings</h1>
+          <p>{cast.title} · {cast.players.length} players</p>
+        </header>
+        <div className="panel setup-form">
+          <div className="settings-fields">
+            <label className="field">Danger<select aria-label="Danger" value={settings.danger} onChange={e => setSettings({ ...settings, danger: e.target.value as GameSettings['danger'] })}><option value="low">Low</option><option value="normal">Normal</option><option value="high">High</option></select></label>
+            <label className="field">Story tone<select aria-label="Story tone" value={settings.tone} onChange={e => setSettings({ ...settings, tone: e.target.value as GameSettings['tone'] })}><option value="mixed">Mixed</option><option value="dramatic">Dramatic</option><option value="absurd">Absurd</option></select></label>
+            <label className="field">Personality influence<select aria-label="Personality influence" value={settings.personality} onChange={e => setSettings({ ...settings, personality: e.target.value as GameSettings['personality'] })}><option value="off">Off</option><option value="normal">Normal</option><option value="strong">Strong</option></select></label>
+          </div>
+          <label className="toggle">
+            <input type="checkbox" checked={settings.loreCarryover} onChange={e => setSettings({ ...settings, loreCarryover: e.target.checked })} />
+            <span><strong>Include past season events</strong><small>{history.seasons.length ? 'Returning players can recall past events. Everyone starts with fresh health and supplies.' : 'No completed seasons yet.'}</small></span>
+          </label>
+          <details className="settings-disclosure">
+            <summary>Advanced settings</summary>
+            <label className="field">Game seed<input value={settings.seed} maxLength={200} onChange={e => setSettings({ ...settings, seed: e.target.value })} /><small>The same cast, settings, and seed produce the same game.</small></label>
+          </details>
+          {!settings.seed.trim() && <p className="muted" role="status">Enter a seed in Advanced settings to start.</p>}
+          <div className="settings-actions button-row">
+            <button className="subtle" onClick={() => go('cast')}>Back to cast</button>
+            <button className="primary" disabled={busy || !valid || !settings.seed.trim()} onClick={() => void start()}>{busy ? 'Starting game…' : 'Start game'}</button>
+          </div>
+        </div>
+        <details className="settings-disclosure arena-guide">
+          <summary>Arena routes</summary>
+          <div className="arena-routes">
+            {content.biomes.map(biome => <section className="region-theme" data-region={biome.id} key={biome.id}>
+              <h2><BiomeSymbol biome={biome.id} /> {biome.name}</h2>
+              <p>{biome.description}</p>
+              <p className="muted">Connected to {biome.adjacent.map(id => content.biomes.find(b => b.id === id)?.name).join(', ')}</p>
+            </section>)}
+          </div>
+        </details>
+      </section>}
       {screen === 'watch' && run && current && <>
         <div className="broadcast-heading"><div><p className="eyebrow"><span className="live-dot" />{finished ? 'GAME COMPLETE' : 'GAME IN PROGRESS'}</p><h2>{run.input.cast.title}</h2></div><div className="button-row"><button className="subtle" onClick={() => download('replay.json', { kind: 'run', schemaVersion: 1, run, cursor })}>Export full replay</button><button className="subtle" onClick={() => { setAuto(false); setShowRelationships(true); }}>Relationship network</button><button className="subtle" onClick={() => setPresentation(!presentation)}>{presentation ? 'Exit presentation' : 'Presentation mode'}</button></div></div>
         {showRelationships && <GameRelationshipsDialog players={run.input.cast.players} state={current} phase={event ? phaseLabel(event.phase) : 'Before the bloodbath'} onClose={() => setShowRelationships(false)} portrait={p => <Portrait player={p} repository={repository} />} />}
