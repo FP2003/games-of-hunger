@@ -70,6 +70,8 @@ Portrait image bytes are omitted from JSON; missing local portraits fall back to
 
 Completed seasons count once per canonical run ID. An identical seed, cast, settings, content and lore is the same season; choose a new seed for another season. Lore is optional, factual, source-backed and matched by player ID. It never restores previous survival state or inventory.
 
+Engine 1.29/content 1.35 adds 72 natural past-season callback lines for champions, prior kills, help, alliances, betrayal, revenge, nemeses, theft and item exchanges. Up to four spaced references recall actual completed-season events when the current scene fits; pair memories require both returning players and a relevant action between them. Names follow the current cast. History selection balances players and topics and reserves champion history. New seasons record kills, assistance, alliances and theft separately; older summaries and saved replays keep their original data. The [five-season audit](examples/past-season-audit/review.md) covers six histories and 60 paired runs, verifying unchanged gameplay with lore enabled or disabled.
+
 There are no accounts, cloud sync, AI calls or external runtime content requests. Core gameplay works without network access after assets load. Cold-start offline installation and online multiplayer are backlog items. No website deployment is configured. Vite uses a relative asset base for repository-subpath hosting if deployment is added later.
 
 ## Demo statistics
