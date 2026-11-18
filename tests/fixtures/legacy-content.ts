@@ -9,3 +9,7 @@ export const retiredDefaultEventIds = new Set(legacyCursedItems.flatMap(item => 
 
 // Retired voluntary abandonment scenes could discard useful weapons without cause.
 for (const biome of ['forest', 'swamp', 'mountains', 'desert', 'tundra', 'ruins']) retiredDefaultEventIds.add(`${biome}-life-6`);
+
+// Public resupply now uses authored delivery bundles.
+retiredDefaultEventIds.add('podium-resupply');
+retiredDefaultEventIds.add('podium-resupply-arrival');

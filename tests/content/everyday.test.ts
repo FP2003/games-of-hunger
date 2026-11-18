@@ -9,11 +9,14 @@ import { renderTemplate } from '../../src/narrative';
 describe('everyday biome scenes', () => {
   it('ships fourteen distinct scenes per biome with solo, pair, trio and four-player options', () => {
     for (const biome of defaultContentPack.biomes) {
-      const scenes = defaultContentPack.events.filter(t => t.id.startsWith(`${biome.id}-life-`));
+      const scenes = defaultContentPack.events.filter(t => new RegExp(`^${biome.id}-life-[0-9]+$`).test(t.id));
       expect(scenes).toHaveLength(14);
       expect(everydayWording[biome.id]).toHaveLength(15);
       expect(scenes.map(t => t.id)).toEqual(Array.from({ length: 15 }, (_, i) => `${biome.id}-life-${i + 1}`).filter(id => !id.endsWith('-6')));
-      expect(new Set(scenes.map(t => t.variants[0])).size).toBe(14);
+      const caches = scenes.filter(template => template.lootSource === 'supply-pack');
+      expect(caches).toHaveLength(2);
+      const distinctScenes = scenes.filter(template => template.lootSource !== 'supply-pack');
+      expect(new Set(distinctScenes.map(template => template.variants[0])).size).toBe(12);
       expect(new Set(scenes.map(t => t.roles.length))).toEqual(new Set([1, 2, 3, 4]));
     }
   });

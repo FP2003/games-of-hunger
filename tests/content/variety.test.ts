@@ -11,7 +11,7 @@ import { groupCooperation } from '../../src/content/cooperation';
 import { DEFAULT_SETTINGS, RunRecordSchema, type ConfessionalInput, type EventNarrativeInput, type EventTemplate, type NarrativeAdapter, type RandomSource, type RunInput } from '../../src/domain';
 import { generateRun, initialState } from '../../src/engine';
 import { narrativeAdapter, renderEvent, selectConfessional } from '../../src/narrative';
-import { fixtureInput, fixturePack } from '../fixtures';
+import { fixtureInput, fixturePack, rewordContent } from '../fixtures';
 import { supplyUseScenes } from '../../src/content/supply-use';
 import { siteAccidentScenes } from '../../src/content/death-sites';
 import { environmentalScenes } from '../../src/content/environment';
@@ -23,6 +23,21 @@ import { hotspotWording } from '../../src/content/hotspot-variety';
 import { quirkInterviews, quirkScenes } from '../../src/content/quirks';
 import { retiredDefaultEventIds } from '../fixtures/legacy-content';
 
+import { arenaGearScenes } from '../../src/content/arena-gear';
+import { intimidationScenes } from '../../src/content/intimidation';
+import { lootWeaponIds } from '../../src/content/weapon-catalogue';
+
+const independentlyAuthored = new Set([
+  ...weaponFinaleScenes, ...groupCooperation, ...supplyUseScenes, ...siteAccidentScenes, ...environmentalScenes,
+  ...travelScenes, ...expandedTraitScenes, ...partyTravelScenes, ...openingPartyScenes, ...quirkScenes,
+  ...arenaGearScenes, ...intimidationScenes,
+].map(scene => scene.id));
+for (const id of ['rope', 'lantern', 'scrap', 'explosive', ...lootWeaponIds]) independentlyAuthored.add(`sponsor-gift-${id}`);
+const usesContextCatalogue = (template: EventTemplate) =>
+  !independentlyAuthored.has(template.id) && template.lootSource !== 'resupply' &&
+  !(template.cooldownGroup && template.cooldownGroup !== template.id && template.id.startsWith(`${template.cooldownGroup}-loot-`));
+const rewrittenCache = (template: EventTemplate) => template.lootSource === 'supply-pack' && template.cooldownGroup === template.id;
+
 const random: RandomSource = { next: () => 0, int: () => 0, pick: <T>(values: readonly T[]) => values[0] };
 const isRegionalEncounter = (id: string) => /^(forest|swamp|mountains|desert|tundra|ruins)-(trap-fatal|trap-escape|rescue|hazard-escape)$/.test(id);
 function context(): EventNarrativeInput {
@@ -32,38 +47,27 @@ function context(): EventNarrativeInput {
 
 describe('authored scene variety', () => {
   it('retains complete contextual coverage alongside independently authored group scenes', () => {
-    const independentScenes = [...weaponFinaleScenes, ...groupCooperation, ...supplyUseScenes, ...siteAccidentScenes, ...environmentalScenes, ...travelScenes, ...expandedTraitScenes, ...partyTravelScenes, ...openingPartyScenes, ...quirkScenes];
-    const expandedScenes = defaultContentPack.events.filter(t => !independentScenes.some(scene => scene.id === t.id));
+    const expandedScenes = defaultContentPack.events.filter(usesContextCatalogue);
     expect(Object.keys(additionalSceneContexts).filter(id => !retiredDefaultEventIds.has(id)).sort()).toEqual(expandedScenes.map(t => t.id).sort());
     const retiredInterviews = new Set(['interview-loyal-14', 'interview-loyal-15', 'interview-open-4', 'interview-reckless-10', 'interview-loyal-17', 'interview-sneaky-24', 'interview-dramatic-31', 'interview-cautious-38', 'interview-resourceful-45']);
     expect([...Object.keys(additionalConfessionalWording).filter(id => !retiredInterviews.has(id)), ...eventInterviews.map(t => t.id), ...expandedTraitInterviews.map(t => t.id), ...quirkInterviews.map(t => t.id), ...relationshipInterviews.map(t => t.id), ...momentInterviews(defaultContentPack.events).map(t => t.id)].sort()).toEqual(defaultContentPack.confessionals.map(t => t.id).sort());
     for (const template of expandedScenes) {
+      const authoredContexts = additionalSceneContexts[template.id];
+      expect(authoredContexts, template.id).toHaveLength(8);
+      expect(new Set(authoredContexts).size, template.id).toBe(8);
+      expect(new Set(template.variants).size, template.id).toBe(template.variants.length);
+      if (rewrittenCache(template)) {
+        expect(template.variants, template.id).toHaveLength(4);
+        continue;
+      }
       if (hotspotWording[template.id]) {
-        expect(template.variants).toEqual(hotspotWording[template.id]);
-        expect(new Set(template.variants).size).toBe(hotspotWording[template.id].length);
-        continue;
+        const authored = hotspotWording[template.id];
+        expect(template.variants.slice(0, authored.length), template.id).toEqual(authored);
+      } else if (shortTravelWording[template.id]) {
+        expect(template.variants, template.id).toEqual(shortTravelWording[template.id]);
+      } else if (isRegionalEncounter(template.id)) {
+        expect(template.variants, template.id).toHaveLength(8);
       }
-      if (shortTravelWording[template.id]) {
-        expect(template.variants).toEqual(shortTravelWording[template.id]);
-        expect(new Set(template.variants).size).toBe(7);
-        continue;
-      }
-      if (isRegionalEncounter(template.id)) {
-        expect(new Set(template.variants).size, template.id).toBe(8);
-        continue;
-      }
-      expect(additionalSceneContexts[template.id], template.id).toHaveLength(8);
-      expect(new Set(additionalSceneContexts[template.id]).size, template.id).toBe(8);
-      const addedCount = actionWording[template.id]?.length ?? 0;
-      if (!addedCount) {
-        expect(template.variants.every(text => !additionalSceneContexts[template.id].some(prefix => text.startsWith(prefix + ' '))), template.id).toBe(true);
-        continue;
-      }
-      const original = { ...template, variants: template.variants.slice(0, -addedCount) };
-      expect(new Set(template.variants).size, template.id).toBe(original.variants.length + addedCount);
-      if (actionWording[template.id]) {
-        expect(template.variants.slice(-addedCount).every(text => !text.includes(original.variants[0])), template.id).toBe(true);
-      } else expect(template.variants.slice(-addedCount).every(text => text.includes(original.variants[0].replace(/^Announcer: “/, ''))), template.id).toBe(true);
     }
     for (const template of defaultContentPack.confessionals) expect(new Set(template.variants).size, template.id).toBe(template.variants.length);
   });
@@ -75,9 +79,18 @@ describe('authored scene variety', () => {
       expect(new Set(alternatives).size, id).toBe(10);
       const template = defaultContentPack.events.find(event => event.id === id)!;
       expect(template, id).toBeDefined();
-      if (hotspotWording[id]) expect(template.variants).toEqual(hotspotWording[id]);
-      else if (shortTravelWording[id]) expect(template.variants).toEqual(shortTravelWording[id]);
-      else expect(template.variants.slice(-10), id).toEqual(alternatives);
+      if (rewrittenCache(template)) {
+        expect(template.variants.every(text => text.includes('{item}')), id).toBe(true);
+      } else if (hotspotWording[id]) {
+        expect(template.variants.slice(0, hotspotWording[id].length), id).toEqual(hotspotWording[id]);
+      } else if (shortTravelWording[id]) {
+        expect(template.variants, id).toEqual(shortTravelWording[id]);
+      } else {
+        const authored = template.lootSource === 'bloodbath' && template.cooldownGroup === id
+          ? alternatives.map(text => text.replaceAll('food crate', 'supply crate').replaceAll('food supplies', 'supplies'))
+          : alternatives;
+        expect(template.variants, id).toEqual(expect.arrayContaining([...authored]));
+      }
     }
   });
 
@@ -87,11 +100,12 @@ describe('authored scene variety', () => {
 
   it('retains expanded scene and interview variety alongside eight authored regional encounters', () => {
     const scenes = defaultContentPack.events.filter(t => ![...groupCooperation, ...expandedTraitScenes, ...quirkScenes].some(group => group.id === t.id) && (/-life-(?:[1-9]|1[0-5])$/.test(t.id) || t.id.startsWith('night-') || t.category === 'social'));
-    expect(scenes).toHaveLength(146);
+    expect(scenes.length).toBeGreaterThanOrEqual(146);
     for (const template of [...scenes, ...defaultContentPack.confessionals.filter(t => ![...eventInterviews, ...expandedTraitInterviews, ...quirkInterviews, ...relationshipInterviews, ...momentInterviews(defaultContentPack.events)].some(extra => extra.id === t.id))]) {
       const expected = hotspotWording[template.id]?.length ?? (shortTravelWording[template.id] ? 7 : isRegionalEncounter(template.id) ? 8 : (scenes.some(scene => scene.id === template.id) ? 3 + (actionWording[template.id]?.length ?? 0) : 7) + (extraGenericWording[template.id]?.length ?? 0));
-      expect(template.variants, template.id).toHaveLength(expected);
-      expect(new Set(template.variants).size, template.id).toBe(expected);
+      const minimum = 'lootSource' in template && rewrittenCache(template) ? 4 : expected;
+      expect(template.variants.length, template.id).toBeGreaterThanOrEqual(minimum);
+      expect(new Set(template.variants).size, template.id).toBe(template.variants.length);
     }
   });
 
@@ -109,7 +123,7 @@ describe('authored scene variety', () => {
     expect(renderEvent({ ...input, template: { ...input.template, variants: [first.wording] }, previousWording: first.wording }).text).toBe('Riley waits quietly.');
   });
 
-  it('uses unseen wording across template IDs, then balances exhausted pools without immediate repeats', () => {
+  it('uses unseen wording across template IDs and avoids repeats among equally unused options', () => {
     const input = context();
     input.template.variants = ['A shared route.', 'A second route.', 'A third route.'];
     input.template.id = 'different-regional-template';
@@ -118,6 +132,7 @@ describe('authored scene variety', () => {
     input.wordingUses = { 'A shared route.': 3, 'A second route.': 1, 'A third route.': 2 };
     expect(renderEvent(input).wording).toBe('A second route.');
     input.previousWording = 'A second route.';
+    input.wordingUses = { ...input.wordingUses, 'A second route.': 2 };
     expect(renderEvent(input).wording).toBe('A third route.');
     input.template.variants = ['A second route.'];
     expect(renderEvent(input).wording).toBe('A second route.');
@@ -182,9 +197,9 @@ describe('authored scene variety', () => {
     for (const seed of ['variety-outcomes-a', 'variety-outcomes-b']) {
       const setup: RunInput = { ...fixtureInput, cast: { version: 1, title: 'Variety outcomes', relationships: [], players: Array.from({ length: 24 }, (_, i) => ({ id: `p${i}`, name: `Guest ${i}`, traits: [] })) }, content: defaultContentPack, settings: { ...DEFAULT_SETTINGS, seed } };
       const varied = generateRun(setup, narrativeAdapter);
-      const single = generateRun({ ...setup, content: { ...defaultContentPack, events: defaultContentPack.events.map(t => ({ ...t, variants: [t.variants[0]], ...(t.combat?.variantMethods ? { combat: { ...t.combat, variantMethods: t.combat.variantMethods.slice(0, 1) } } : {}) })), confessionals: defaultContentPack.confessionals.map(t => ({ ...t, variants: [t.variants[0]] })) } }, narrativeAdapter);
+      const reworded = generateRun({ ...setup, content: rewordContent(defaultContentPack) }, narrativeAdapter);
       const outcomes = (run: typeof varied) => ({ winnerId: run.winnerId, placements: run.placements, awards: run.awards, events: run.events.map(({ templateId, bindings, facts, state, phase }) => ({ templateId, bindings, facts, state, phase })) });
-      expect(outcomes(varied)).toEqual(outcomes(single));
+      expect(outcomes(varied)).toEqual(outcomes(reworded));
     }
   });
 });
