@@ -1,0 +1,811 @@
+{
+  "experiment": {
+    "version": 1,
+    "method": "paired-exact-union-v1",
+    "engineVersion": "1.29.0",
+    "contentVersion": "1.35.0",
+    "seed": "trait-off-v1",
+    "target": 24,
+    "traits": [
+      "reckless",
+      "loyal",
+      "sneaky",
+      "dramatic",
+      "cautious",
+      "resourceful",
+      "disloyal",
+      "grudge",
+      "agile",
+      "weak-constitution",
+      "perceptive",
+      "love-hate",
+      "tracker",
+      "medic",
+      "patient",
+      "loud",
+      "clumsy",
+      "gullible",
+      "early-riser",
+      "night-owl",
+      "on-guard",
+      "forest-wise",
+      "kleptomaniac",
+      "curious",
+      "compulsive-eater",
+      "afraid-of-dark"
+    ],
+    "settings": {
+      "seed": "trait-off-v1",
+      "danger": "normal",
+      "tone": "mixed",
+      "personality": "off",
+      "loreCarryover": false
+    },
+    "cast": "neutral-24-v1",
+    "threshold": 1,
+    "completed": 24,
+    "baselineWins": 0,
+    "seats": [
+      2,
+      1,
+      2,
+      2,
+      0,
+      0,
+      1,
+      1,
+      3,
+      2,
+      0,
+      2,
+      0,
+      1,
+      1,
+      1,
+      1,
+      0,
+      1,
+      0,
+      1,
+      2,
+      0,
+      0
+    ],
+    "rows": {
+      "reckless": {
+        "neither": 24,
+        "treatmentOnly": 0,
+        "baselineOnly": 0,
+        "both": 0
+      },
+      "loyal": {
+        "neither": 24,
+        "treatmentOnly": 0,
+        "baselineOnly": 0,
+        "both": 0
+      },
+      "sneaky": {
+        "neither": 24,
+        "treatmentOnly": 0,
+        "baselineOnly": 0,
+        "both": 0
+      },
+      "dramatic": {
+        "neither": 24,
+        "treatmentOnly": 0,
+        "baselineOnly": 0,
+        "both": 0
+      },
+      "cautious": {
+        "neither": 24,
+        "treatmentOnly": 0,
+        "baselineOnly": 0,
+        "both": 0
+      },
+      "resourceful": {
+        "neither": 24,
+        "treatmentOnly": 0,
+        "baselineOnly": 0,
+        "both": 0
+      },
+      "disloyal": {
+        "neither": 24,
+        "treatmentOnly": 0,
+        "baselineOnly": 0,
+        "both": 0
+      },
+      "grudge": {
+        "neither": 24,
+        "treatmentOnly": 0,
+        "baselineOnly": 0,
+        "both": 0
+      },
+      "agile": {
+        "neither": 24,
+        "treatmentOnly": 0,
+        "baselineOnly": 0,
+        "both": 0
+      },
+      "weak-constitution": {
+        "neither": 24,
+        "treatmentOnly": 0,
+        "baselineOnly": 0,
+        "both": 0
+      },
+      "perceptive": {
+        "neither": 24,
+        "treatmentOnly": 0,
+        "baselineOnly": 0,
+        "both": 0
+      },
+      "love-hate": {
+        "neither": 24,
+        "treatmentOnly": 0,
+        "baselineOnly": 0,
+        "both": 0
+      },
+      "tracker": {
+        "neither": 24,
+        "treatmentOnly": 0,
+        "baselineOnly": 0,
+        "both": 0
+      },
+      "medic": {
+        "neither": 24,
+        "treatmentOnly": 0,
+        "baselineOnly": 0,
+        "both": 0
+      },
+      "patient": {
+        "neither": 24,
+        "treatmentOnly": 0,
+        "baselineOnly": 0,
+        "both": 0
+      },
+      "loud": {
+        "neither": 24,
+        "treatmentOnly": 0,
+        "baselineOnly": 0,
+        "both": 0
+      },
+      "clumsy": {
+        "neither": 24,
+        "treatmentOnly": 0,
+        "baselineOnly": 0,
+        "both": 0
+      },
+      "gullible": {
+        "neither": 24,
+        "treatmentOnly": 0,
+        "baselineOnly": 0,
+        "both": 0
+      },
+      "early-riser": {
+        "neither": 24,
+        "treatmentOnly": 0,
+        "baselineOnly": 0,
+        "both": 0
+      },
+      "night-owl": {
+        "neither": 24,
+        "treatmentOnly": 0,
+        "baselineOnly": 0,
+        "both": 0
+      },
+      "on-guard": {
+        "neither": 24,
+        "treatmentOnly": 0,
+        "baselineOnly": 0,
+        "both": 0
+      },
+      "forest-wise": {
+        "neither": 24,
+        "treatmentOnly": 0,
+        "baselineOnly": 0,
+        "both": 0
+      },
+      "kleptomaniac": {
+        "neither": 24,
+        "treatmentOnly": 0,
+        "baselineOnly": 0,
+        "both": 0
+      },
+      "curious": {
+        "neither": 24,
+        "treatmentOnly": 0,
+        "baselineOnly": 0,
+        "both": 0
+      },
+      "compulsive-eater": {
+        "neither": 24,
+        "treatmentOnly": 0,
+        "baselineOnly": 0,
+        "both": 0
+      },
+      "afraid-of-dark": {
+        "neither": 24,
+        "treatmentOnly": 0,
+        "baselineOnly": 0,
+        "both": 0
+      }
+    }
+  },
+  "provisional": false,
+  "games": 648,
+  "methodology": "Paired discordant-cell exact Clopper–Pearson intervals with union bounds; 95% per-trait and 95% simultaneous Bonferroni across selected traits. Conservative; neutral opponents only. Threshold 1 pp. Partial results provisional.",
+  "identity": "{\"baselineWins\":0,\"cast\":\"neutral-24-v1\",\"completed\":0,\"contentVersion\":\"1.35.0\",\"engineVersion\":\"1.29.0\",\"method\":\"paired-exact-union-v1\",\"rows\":{},\"seats\":[],\"seed\":\"trait-off-v1\",\"settings\":{\"danger\":\"normal\",\"loreCarryover\":false,\"personality\":\"off\",\"seed\":\"trait-off-v1\",\"tone\":\"mixed\"},\"target\":24,\"threshold\":1,\"traits\":[\"reckless\",\"loyal\",\"sneaky\",\"dramatic\",\"cautious\",\"resourceful\",\"disloyal\",\"grudge\",\"agile\",\"weak-constitution\",\"perceptive\",\"love-hate\",\"tracker\",\"medic\",\"patient\",\"loud\",\"clumsy\",\"gullible\",\"early-riser\",\"night-owl\",\"on-guard\",\"forest-wise\",\"kleptomaniac\",\"curious\",\"compulsive-eater\",\"afraid-of-dark\"],\"version\":1}",
+  "rows": [
+    {
+      "trait": "afraid-of-dark",
+      "neither": 24,
+      "treatmentOnly": 0,
+      "baselineOnly": 0,
+      "both": 0,
+      "wins": 0,
+      "entrants": 24,
+      "rate": 0,
+      "baselineRate": 0,
+      "effect": 0,
+      "relativeChange": null,
+      "interval": [
+        -16.688570980489636,
+        16.688570980489636
+      ],
+      "simultaneous": [
+        -27.26434383760772,
+        27.26434383760772
+      ],
+      "tier": "Uncertain"
+    },
+    {
+      "trait": "agile",
+      "neither": 24,
+      "treatmentOnly": 0,
+      "baselineOnly": 0,
+      "both": 0,
+      "wins": 0,
+      "entrants": 24,
+      "rate": 0,
+      "baselineRate": 0,
+      "effect": 0,
+      "relativeChange": null,
+      "interval": [
+        -16.688570980489636,
+        16.688570980489636
+      ],
+      "simultaneous": [
+        -27.26434383760772,
+        27.26434383760772
+      ],
+      "tier": "Uncertain"
+    },
+    {
+      "trait": "cautious",
+      "neither": 24,
+      "treatmentOnly": 0,
+      "baselineOnly": 0,
+      "both": 0,
+      "wins": 0,
+      "entrants": 24,
+      "rate": 0,
+      "baselineRate": 0,
+      "effect": 0,
+      "relativeChange": null,
+      "interval": [
+        -16.688570980489636,
+        16.688570980489636
+      ],
+      "simultaneous": [
+        -27.26434383760772,
+        27.26434383760772
+      ],
+      "tier": "Uncertain"
+    },
+    {
+      "trait": "clumsy",
+      "neither": 24,
+      "treatmentOnly": 0,
+      "baselineOnly": 0,
+      "both": 0,
+      "wins": 0,
+      "entrants": 24,
+      "rate": 0,
+      "baselineRate": 0,
+      "effect": 0,
+      "relativeChange": null,
+      "interval": [
+        -16.688570980489636,
+        16.688570980489636
+      ],
+      "simultaneous": [
+        -27.26434383760772,
+        27.26434383760772
+      ],
+      "tier": "Uncertain"
+    },
+    {
+      "trait": "compulsive-eater",
+      "neither": 24,
+      "treatmentOnly": 0,
+      "baselineOnly": 0,
+      "both": 0,
+      "wins": 0,
+      "entrants": 24,
+      "rate": 0,
+      "baselineRate": 0,
+      "effect": 0,
+      "relativeChange": null,
+      "interval": [
+        -16.688570980489636,
+        16.688570980489636
+      ],
+      "simultaneous": [
+        -27.26434383760772,
+        27.26434383760772
+      ],
+      "tier": "Uncertain"
+    },
+    {
+      "trait": "curious",
+      "neither": 24,
+      "treatmentOnly": 0,
+      "baselineOnly": 0,
+      "both": 0,
+      "wins": 0,
+      "entrants": 24,
+      "rate": 0,
+      "baselineRate": 0,
+      "effect": 0,
+      "relativeChange": null,
+      "interval": [
+        -16.688570980489636,
+        16.688570980489636
+      ],
+      "simultaneous": [
+        -27.26434383760772,
+        27.26434383760772
+      ],
+      "tier": "Uncertain"
+    },
+    {
+      "trait": "disloyal",
+      "neither": 24,
+      "treatmentOnly": 0,
+      "baselineOnly": 0,
+      "both": 0,
+      "wins": 0,
+      "entrants": 24,
+      "rate": 0,
+      "baselineRate": 0,
+      "effect": 0,
+      "relativeChange": null,
+      "interval": [
+        -16.688570980489636,
+        16.688570980489636
+      ],
+      "simultaneous": [
+        -27.26434383760772,
+        27.26434383760772
+      ],
+      "tier": "Uncertain"
+    },
+    {
+      "trait": "dramatic",
+      "neither": 24,
+      "treatmentOnly": 0,
+      "baselineOnly": 0,
+      "both": 0,
+      "wins": 0,
+      "entrants": 24,
+      "rate": 0,
+      "baselineRate": 0,
+      "effect": 0,
+      "relativeChange": null,
+      "interval": [
+        -16.688570980489636,
+        16.688570980489636
+      ],
+      "simultaneous": [
+        -27.26434383760772,
+        27.26434383760772
+      ],
+      "tier": "Uncertain"
+    },
+    {
+      "trait": "early-riser",
+      "neither": 24,
+      "treatmentOnly": 0,
+      "baselineOnly": 0,
+      "both": 0,
+      "wins": 0,
+      "entrants": 24,
+      "rate": 0,
+      "baselineRate": 0,
+      "effect": 0,
+      "relativeChange": null,
+      "interval": [
+        -16.688570980489636,
+        16.688570980489636
+      ],
+      "simultaneous": [
+        -27.26434383760772,
+        27.26434383760772
+      ],
+      "tier": "Uncertain"
+    },
+    {
+      "trait": "forest-wise",
+      "neither": 24,
+      "treatmentOnly": 0,
+      "baselineOnly": 0,
+      "both": 0,
+      "wins": 0,
+      "entrants": 24,
+      "rate": 0,
+      "baselineRate": 0,
+      "effect": 0,
+      "relativeChange": null,
+      "interval": [
+        -16.688570980489636,
+        16.688570980489636
+      ],
+      "simultaneous": [
+        -27.26434383760772,
+        27.26434383760772
+      ],
+      "tier": "Uncertain"
+    },
+    {
+      "trait": "grudge",
+      "neither": 24,
+      "treatmentOnly": 0,
+      "baselineOnly": 0,
+      "both": 0,
+      "wins": 0,
+      "entrants": 24,
+      "rate": 0,
+      "baselineRate": 0,
+      "effect": 0,
+      "relativeChange": null,
+      "interval": [
+        -16.688570980489636,
+        16.688570980489636
+      ],
+      "simultaneous": [
+        -27.26434383760772,
+        27.26434383760772
+      ],
+      "tier": "Uncertain"
+    },
+    {
+      "trait": "gullible",
+      "neither": 24,
+      "treatmentOnly": 0,
+      "baselineOnly": 0,
+      "both": 0,
+      "wins": 0,
+      "entrants": 24,
+      "rate": 0,
+      "baselineRate": 0,
+      "effect": 0,
+      "relativeChange": null,
+      "interval": [
+        -16.688570980489636,
+        16.688570980489636
+      ],
+      "simultaneous": [
+        -27.26434383760772,
+        27.26434383760772
+      ],
+      "tier": "Uncertain"
+    },
+    {
+      "trait": "kleptomaniac",
+      "neither": 24,
+      "treatmentOnly": 0,
+      "baselineOnly": 0,
+      "both": 0,
+      "wins": 0,
+      "entrants": 24,
+      "rate": 0,
+      "baselineRate": 0,
+      "effect": 0,
+      "relativeChange": null,
+      "interval": [
+        -16.688570980489636,
+        16.688570980489636
+      ],
+      "simultaneous": [
+        -27.26434383760772,
+        27.26434383760772
+      ],
+      "tier": "Uncertain"
+    },
+    {
+      "trait": "loud",
+      "neither": 24,
+      "treatmentOnly": 0,
+      "baselineOnly": 0,
+      "both": 0,
+      "wins": 0,
+      "entrants": 24,
+      "rate": 0,
+      "baselineRate": 0,
+      "effect": 0,
+      "relativeChange": null,
+      "interval": [
+        -16.688570980489636,
+        16.688570980489636
+      ],
+      "simultaneous": [
+        -27.26434383760772,
+        27.26434383760772
+      ],
+      "tier": "Uncertain"
+    },
+    {
+      "trait": "love-hate",
+      "neither": 24,
+      "treatmentOnly": 0,
+      "baselineOnly": 0,
+      "both": 0,
+      "wins": 0,
+      "entrants": 24,
+      "rate": 0,
+      "baselineRate": 0,
+      "effect": 0,
+      "relativeChange": null,
+      "interval": [
+        -16.688570980489636,
+        16.688570980489636
+      ],
+      "simultaneous": [
+        -27.26434383760772,
+        27.26434383760772
+      ],
+      "tier": "Uncertain"
+    },
+    {
+      "trait": "loyal",
+      "neither": 24,
+      "treatmentOnly": 0,
+      "baselineOnly": 0,
+      "both": 0,
+      "wins": 0,
+      "entrants": 24,
+      "rate": 0,
+      "baselineRate": 0,
+      "effect": 0,
+      "relativeChange": null,
+      "interval": [
+        -16.688570980489636,
+        16.688570980489636
+      ],
+      "simultaneous": [
+        -27.26434383760772,
+        27.26434383760772
+      ],
+      "tier": "Uncertain"
+    },
+    {
+      "trait": "medic",
+      "neither": 24,
+      "treatmentOnly": 0,
+      "baselineOnly": 0,
+      "both": 0,
+      "wins": 0,
+      "entrants": 24,
+      "rate": 0,
+      "baselineRate": 0,
+      "effect": 0,
+      "relativeChange": null,
+      "interval": [
+        -16.688570980489636,
+        16.688570980489636
+      ],
+      "simultaneous": [
+        -27.26434383760772,
+        27.26434383760772
+      ],
+      "tier": "Uncertain"
+    },
+    {
+      "trait": "night-owl",
+      "neither": 24,
+      "treatmentOnly": 0,
+      "baselineOnly": 0,
+      "both": 0,
+      "wins": 0,
+      "entrants": 24,
+      "rate": 0,
+      "baselineRate": 0,
+      "effect": 0,
+      "relativeChange": null,
+      "interval": [
+        -16.688570980489636,
+        16.688570980489636
+      ],
+      "simultaneous": [
+        -27.26434383760772,
+        27.26434383760772
+      ],
+      "tier": "Uncertain"
+    },
+    {
+      "trait": "on-guard",
+      "neither": 24,
+      "treatmentOnly": 0,
+      "baselineOnly": 0,
+      "both": 0,
+      "wins": 0,
+      "entrants": 24,
+      "rate": 0,
+      "baselineRate": 0,
+      "effect": 0,
+      "relativeChange": null,
+      "interval": [
+        -16.688570980489636,
+        16.688570980489636
+      ],
+      "simultaneous": [
+        -27.26434383760772,
+        27.26434383760772
+      ],
+      "tier": "Uncertain"
+    },
+    {
+      "trait": "patient",
+      "neither": 24,
+      "treatmentOnly": 0,
+      "baselineOnly": 0,
+      "both": 0,
+      "wins": 0,
+      "entrants": 24,
+      "rate": 0,
+      "baselineRate": 0,
+      "effect": 0,
+      "relativeChange": null,
+      "interval": [
+        -16.688570980489636,
+        16.688570980489636
+      ],
+      "simultaneous": [
+        -27.26434383760772,
+        27.26434383760772
+      ],
+      "tier": "Uncertain"
+    },
+    {
+      "trait": "perceptive",
+      "neither": 24,
+      "treatmentOnly": 0,
+      "baselineOnly": 0,
+      "both": 0,
+      "wins": 0,
+      "entrants": 24,
+      "rate": 0,
+      "baselineRate": 0,
+      "effect": 0,
+      "relativeChange": null,
+      "interval": [
+        -16.688570980489636,
+        16.688570980489636
+      ],
+      "simultaneous": [
+        -27.26434383760772,
+        27.26434383760772
+      ],
+      "tier": "Uncertain"
+    },
+    {
+      "trait": "reckless",
+      "neither": 24,
+      "treatmentOnly": 0,
+      "baselineOnly": 0,
+      "both": 0,
+      "wins": 0,
+      "entrants": 24,
+      "rate": 0,
+      "baselineRate": 0,
+      "effect": 0,
+      "relativeChange": null,
+      "interval": [
+        -16.688570980489636,
+        16.688570980489636
+      ],
+      "simultaneous": [
+        -27.26434383760772,
+        27.26434383760772
+      ],
+      "tier": "Uncertain"
+    },
+    {
+      "trait": "resourceful",
+      "neither": 24,
+      "treatmentOnly": 0,
+      "baselineOnly": 0,
+      "both": 0,
+      "wins": 0,
+      "entrants": 24,
+      "rate": 0,
+      "baselineRate": 0,
+      "effect": 0,
+      "relativeChange": null,
+      "interval": [
+        -16.688570980489636,
+        16.688570980489636
+      ],
+      "simultaneous": [
+        -27.26434383760772,
+        27.26434383760772
+      ],
+      "tier": "Uncertain"
+    },
+    {
+      "trait": "sneaky",
+      "neither": 24,
+      "treatmentOnly": 0,
+      "baselineOnly": 0,
+      "both": 0,
+      "wins": 0,
+      "entrants": 24,
+      "rate": 0,
+      "baselineRate": 0,
+      "effect": 0,
+      "relativeChange": null,
+      "interval": [
+        -16.688570980489636,
+        16.688570980489636
+      ],
+      "simultaneous": [
+        -27.26434383760772,
+        27.26434383760772
+      ],
+      "tier": "Uncertain"
+    },
+    {
+      "trait": "tracker",
+      "neither": 24,
+      "treatmentOnly": 0,
+      "baselineOnly": 0,
+      "both": 0,
+      "wins": 0,
+      "entrants": 24,
+      "rate": 0,
+      "baselineRate": 0,
+      "effect": 0,
+      "relativeChange": null,
+      "interval": [
+        -16.688570980489636,
+        16.688570980489636
+      ],
+      "simultaneous": [
+        -27.26434383760772,
+        27.26434383760772
+      ],
+      "tier": "Uncertain"
+    },
+    {
+      "trait": "weak-constitution",
+      "neither": 24,
+      "treatmentOnly": 0,
+      "baselineOnly": 0,
+      "both": 0,
+      "wins": 0,
+      "entrants": 24,
+      "rate": 0,
+      "baselineRate": 0,
+      "effect": 0,
+      "relativeChange": null,
+      "interval": [
+        -16.688570980489636,
+        16.688570980489636
+      ],
+      "simultaneous": [
+        -27.26434383760772,
+        27.26434383760772
+      ],
+      "tier": "Uncertain"
+    }
+  ]
+}
