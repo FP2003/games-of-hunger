@@ -1,0 +1,115 @@
+{
+  "experiment": {
+    "version": 1,
+    "method": "paired-exact-union-v1",
+    "engineVersion": "1.29.0",
+    "contentVersion": "1.35.0",
+    "seed": "parallel-smoke",
+    "target": 2,
+    "traits": [
+      "agile",
+      "clumsy"
+    ],
+    "settings": {
+      "seed": "parallel-smoke",
+      "danger": "normal",
+      "tone": "mixed",
+      "personality": "normal",
+      "loreCarryover": false
+    },
+    "cast": "neutral-24-v1",
+    "threshold": 1,
+    "completed": 2,
+    "baselineWins": 0,
+    "seats": [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "rows": {
+      "agile": {
+        "neither": 2,
+        "treatmentOnly": 0,
+        "baselineOnly": 0,
+        "both": 0
+      },
+      "clumsy": {
+        "neither": 2,
+        "treatmentOnly": 0,
+        "baselineOnly": 0,
+        "both": 0
+      }
+    }
+  },
+  "provisional": false,
+  "games": 6,
+  "methodology": "Paired discordant-cell exact Clopper–Pearson intervals with union bounds; 95% per-trait and 95% simultaneous Bonferroni across selected traits. Conservative; neutral opponents only. Threshold 1 pp. Partial results provisional.",
+  "identity": "{\"baselineWins\":0,\"cast\":\"neutral-24-v1\",\"completed\":0,\"contentVersion\":\"1.35.0\",\"engineVersion\":\"1.29.0\",\"method\":\"paired-exact-union-v1\",\"rows\":{},\"seats\":[],\"seed\":\"parallel-smoke\",\"settings\":{\"danger\":\"normal\",\"loreCarryover\":false,\"personality\":\"normal\",\"seed\":\"parallel-smoke\",\"tone\":\"mixed\"},\"target\":2,\"threshold\":1,\"traits\":[\"agile\",\"clumsy\"],\"version\":1}",
+  "rows": [
+    {
+      "trait": "agile",
+      "neither": 2,
+      "treatmentOnly": 0,
+      "baselineOnly": 0,
+      "both": 0,
+      "wins": 0,
+      "entrants": 2,
+      "rate": 0,
+      "baselineRate": 0,
+      "effect": 0,
+      "relativeChange": null,
+      "interval": [
+        -88.81966011250117,
+        88.81966011250117
+      ],
+      "simultaneous": [
+        -92.09430584957889,
+        92.09430584957889
+      ],
+      "tier": "Uncertain"
+    },
+    {
+      "trait": "clumsy",
+      "neither": 2,
+      "treatmentOnly": 0,
+      "baselineOnly": 0,
+      "both": 0,
+      "wins": 0,
+      "entrants": 2,
+      "rate": 0,
+      "baselineRate": 0,
+      "effect": 0,
+      "relativeChange": null,
+      "interval": [
+        -88.81966011250117,
+        88.81966011250117
+      ],
+      "simultaneous": [
+        -92.09430584957889,
+        92.09430584957889
+      ],
+      "tier": "Uncertain"
+    }
+  ]
+}
