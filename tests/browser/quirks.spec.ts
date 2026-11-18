@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
+import { ENGINE_VERSION } from '../../src/domain';
 import { legacyCursedRun } from '../fixtures/legacy-content';
 
 const drawbacks = ['Kleptomaniac', 'Curious', 'Compulsive Eater', 'Afraid of the Dark'];
@@ -40,7 +41,7 @@ for (const width of [1280, 390]) test(`DD quirks persist, respect slots and expo
   const replay = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Export full replay', exact: true }).click();
   const saved = JSON.parse(await readFile((await (await replay).path())!, 'utf8'));
-  expect(saved.run.engineVersion).toBe('1.29.0');
+  expect(saved.run.engineVersion).toBe(ENGINE_VERSION);
   expect(saved.run.input.cast.players[0].traits).toEqual(cast.cast.players[0].traits);
   expect(saved.run.input.content.items.some((item: { curse?: string }) => item.curse)).toBe(false);
   expect(JSON.stringify(saved.run.input.content)).not.toMatch(/crooked-compass|whispering-tin|dinner-bell/);

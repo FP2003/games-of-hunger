@@ -1,5 +1,6 @@
 import { RunInputSchema, RunRecordSchema, ENGINE_VERSION, canonicalRunId, type RunInput, type RunRecord, type NarrativeAdapter, type EventTemplate, type EventRecord, type Phase, type GameState, type RandomSource, type Placement } from '../domain';
 import { createRandom } from './random';
+import { arenaLayout } from './routes';
 import { combatRecord } from './combat';
 import { chooseCombatMethod, preferUnusedCombatChoices, type CombatChoice } from './combat-selection';
 import { initialState, applyEffects, findBindings, clearPhaseMarkers } from './mechanics';
@@ -84,6 +85,7 @@ export function createOutcomeSimulator(rawInput: RunInput, narrative: NarrativeA
 }
 
 function simulate(input: RunInput, narrative: NarrativeAdapter, outcomeOnly: boolean): RunRecord | string {
+  if (input.content.arenaRoutes === 'seeded') input.content = { ...input.content, biomes: arenaLayout(input.content, input.settings.seed) };
   if(!input.settings.loreCarryover)input.lore={facts:[]};
   const id=outcomeOnly ? '' : canonicalRunId(input); const mechanics=createRandom(`${input.settings.seed}:mechanics`), wording=createRandom(`${input.settings.seed}:wording`), confessionals=createRandom(`${input.settings.seed}:confessionals`);
   const arenaRandom=createRandom(`${input.settings.seed}:arena`);
