@@ -43,4 +43,23 @@ describe('confessional pacing', () => {
     expect(withInterviews.events.map(({ confessional, ...event }) => event)).toEqual(without.events.map(({ confessional, ...event }) => event));
     expect(withInterviews.placements).toEqual(without.placements);
   });
+  it.each(['moment-isolation-a', 'moment-isolation-b', 'moment-isolation-c'])('preserves full gameplay with contextual interviews: %s', seed => {
+    const setup = input(seed);
+    setup.content = defaultContentPack;
+    setup.cast.players.forEach((player, i) => { player.traits = i % 2 ? ['loyal', 'perceptive'] : ['reckless', 'sneaky']; });
+    const enabled = generateRun(setup, narrativeAdapter);
+    const silent = generateRun(setup, { ...narrativeAdapter, selectConfessional: () => null });
+    expect(enabled.events.some(event => event.confessional)).toBe(true);
+    expect(enabled.events.map(({ confessional, ...event }) => event)).toEqual(silent.events.map(({ confessional, ...event }) => event));
+    expect(enabled.winnerId).toBe(silent.winnerId);
+    expect(enabled.placements).toEqual(silent.placements);
+    expect(enabled.awards).toEqual(silent.awards);
+    const ideas = enabled.events.flatMap(event => {
+      if (!event.confessional) return [];
+      const template = setup.content.confessionals.find(t => t.id === event.confessional!.templateId)!;
+      return [template.idea ?? template.id];
+    });
+    expect(new Set(ideas).size).toBe(ideas.length);
+  });
+
 });
