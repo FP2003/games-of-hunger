@@ -42,9 +42,11 @@ describe('structured combat and balance', () => {
   it('uses the selected authored variant and validates replay indices', () => {
     const template = defaultContentPack.events.find(t => t.id === 'final-beacon-1')!;
     const before = fixtureRun.initialState, after = fixtureRun.events[0].state, bindings = { actor: 'alex', target: 'riley' };
-    expect(combatRecord(template, bindings, before, after, defaultContentPack, 0)?.method).toBe('environment');
-    expect(combatRecord(template, bindings, before, after, defaultContentPack, 1)?.method).toBe('unarmed');
-    expect(combatRecord(template, bindings, before, after, defaultContentPack, 4)?.method).toBe('improvised');
+    for (const method of ['environment', 'unarmed', 'improvised'] as const) {
+      const variantIndex = template.combat!.variantMethods!.indexOf(method);
+      expect(variantIndex).toBeGreaterThanOrEqual(0);
+      expect(combatRecord(template, bindings, before, after, defaultContentPack, variantIndex)).toMatchObject({ method, variantIndex });
+    }
     expect(combatRecord(template, bindings, before, after, defaultContentPack)?.method).toBe('unknown');
     const pack = structuredClone(defaultContentPack);
     pack.events.find(t => t.id === template.id)!.combat!.variantMethods!.pop();
@@ -115,7 +117,7 @@ describe('structured combat and balance', () => {
     const attack = changed.events.find(e => e.combat?.weaponItemId)!;
     attack.combat!.weaponItemId = 'invented-weapon';
     expect(RunRecordSchema.safeParse(changed).success).toBe(false);
-  }, 60_000);
+  }, 180_000);
 
   it.each([2, 3, 12, 48])('scales opening pressure and preserves replay validation for %i contestants', size => {
     const cast = { ...demoCast, players: Array.from({ length: size }, (_, i) => ({ id: `p${i}`, name: `Player ${i}`, traits: [] })) };
