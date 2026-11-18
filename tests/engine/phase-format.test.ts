@@ -10,11 +10,11 @@ const input = (seed: string): RunInput => ({
 });
 
 describe('bloodbath, travel and sponsors', () => {
-  const runs = Array.from({ length: 5 }, (_, i) => generateRun(input(`regional-${i}`), narrativeAdapter));
+  const runs = Array.from({ length: 24 }, (_, i) => generateRun(input(`regional-${i}`), narrativeAdapter));
   it('offers lethal central supplies and safe escapes to all five outer regions', () => {
     const opening = runs.flatMap(r => r.events.filter(e => e.phase.kind === 'opening'));
     expect(opening.some(e => e.facts.some(f => f.type === 'elimination'))).toBe(true);
-    expect(new Set(opening.flatMap(e => e.facts.filter(f => f.type === 'move').map(f => f.biome))).size).toBe(5);
+    expect(new Set(opening.flatMap(e => e.facts.filter(f => f.type === 'move').map(f => f.biome)))).toEqual(new Set(['forest', 'swamp', 'mountains', 'desert', 'tundra']));
     for (const run of runs) {
       const phase = run.events.filter(e => e.phase.kind === 'opening');
       const escaped = phase.flatMap(e => e.facts.filter(f => f.type === 'move').map(f => f.actorId));

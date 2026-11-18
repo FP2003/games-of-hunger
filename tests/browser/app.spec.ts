@@ -24,6 +24,7 @@ async function startSample(page: Page, title = 'First broadcast', seed = 'browse
   await page.getByRole('button', { name: 'Use a sample cast' }).click();
   await page.getByLabel('Season title', { exact: true }).fill(title);
   await page.getByRole('button', { name: 'Game settings' }).click();
+  await page.getByText('Advanced settings', { exact: true }).click();
   await page.getByLabel('Game seed', { exact: true }).fill(seed);
   await page.getByRole('button', { name: 'Start game' }).click();
   await expect(page.locator('.broadcast')).toHaveAttribute('data-revealed', '0');
@@ -110,7 +111,10 @@ for (const viewport of [{ width: 1280, height: 900 }, { width: 390, height: 844 
     await open(page);
     await expect(page.getByRole('button', { name: 'Load Season 2 cast' })).toHaveCount(0);
     await page.screenshot({ path: test.info().outputPath('cast-empty.png'), fullPage: true });
-    if (viewport.width === 1280) await page.screenshot({ path: test.info().outputPath('cast-controls.png'), clip: { x: 44, y: 470, width: 1192, height: 550 } });
+    if (viewport.width === 1280) {
+      await expect(page.getByRole('button', { name: 'Use a sample cast' })).toBeInViewport();
+      await page.screenshot({ path: test.info().outputPath('cast-controls.png'), clip: { x: 44, y: 64, width: 1192, height: 480 } });
+    }
     await page.getByText('Cast tools', { exact: true }).click();
     await expect(page.getByRole('button', { name: 'Free unused portrait space', exact: true })).toBeVisible();
     const tools = await page.locator('.cast-tools-menu').boundingBox();
@@ -126,6 +130,10 @@ for (const viewport of [{ width: 1280, height: 900 }, { width: 390, height: 844 
     await expect(page.getByLabel('Saved casts', { exact: true }).locator('optgroup[label="Built-in casts"]')).toHaveCount(0);
     await upload(page, season2Cast);
     await expect(page.locator('.cast-card')).toHaveCount(24);
+    if (viewport.width === 1280) {
+      await page.locator('.cast-card').last().scrollIntoViewIfNeeded();
+      await expect(page.getByRole('button', { name: 'Game settings' })).toBeInViewport();
+    }
     await page.getByRole('button', { name: 'Save cast', exact: true }).click();
     await expect(page.getByLabel('Saved casts', { exact: true })).toHaveValue(/.+/);
     const savedId = await page.getByLabel('Saved casts', { exact: true }).inputValue();
@@ -336,6 +344,7 @@ test('grouped cards number players in display order even when the saved cast int
 test('reload restores incomplete draft fields, customization, relationships, pasted names and settings', async ({ page }) => {
   await open(page); await upload(page, exampleCast);
   await page.getByRole('button', { name: 'Game settings' }).click();
+  await page.getByText('Advanced settings', { exact: true }).click();
   await page.getByLabel('Game seed', { exact: true }).fill('');
   await page.getByLabel('Danger', { exact: true }).selectOption('high');
   await page.getByRole('button', { name: 'Back to cast' }).click();
@@ -361,6 +370,7 @@ test('reload restores incomplete draft fields, customization, relationships, pas
   await page.getByRole('button', { name: 'Done', exact: true }).click();
   await page.getByLabel('Season title', { exact: true }).fill('Restored draft');
   await page.getByRole('button', { name: 'Game settings' }).click();
+  await page.getByText('Advanced settings', { exact: true }).click();
   await expect(page.getByLabel('Game seed', { exact: true })).toHaveValue('');
   await expect(page.getByLabel('Danger', { exact: true })).toHaveValue('high');
 });
@@ -411,6 +421,7 @@ test('multiple unfinished broadcasts retain their own cursors without replacing 
   await page.getByRole('button', { name: 'The cast', exact: true }).click();
   await page.getByLabel('Season title', { exact: true }).fill('Second broadcast');
   await page.getByRole('button', { name: 'Game settings' }).click();
+  await page.getByText('Advanced settings', { exact: true }).click();
   await page.getByLabel('Game seed', { exact: true }).fill('second-browser-seed');
   await page.getByRole('button', { name: 'Start game' }).click();
   await page.locator('.playback button.primary').click();
@@ -499,6 +510,12 @@ test('autoplay pauses on Escape and navigation, phase reveals finish the actual 
   }
   await expect(page.locator('.results')).toBeVisible();
   await expect(page.locator('.results .placements li')).toHaveCount(8);
+  await expect(page.getByRole('list', { name: 'Top finishers' }).getByText('1st place', { exact: true })).toBeVisible();
+  const remaining = page.getByText(/^Remaining standings/);
+  if (await remaining.count()) {
+    await remaining.click();
+    await expect(page.getByRole('list', { name: 'Remaining finishers' })).toBeVisible();
+  }
   await page.getByRole('button', { name: 'Season archive', exact: false }).click();
   await expect(page.locator('.season-card')).toHaveCount(1);
 });
@@ -518,7 +535,10 @@ test('imports validate safely, keyboard reveals unlock confessionals in history 
   await expect(page.locator('.phase-report')).toHaveCount(0);
   await page.getByRole('button', { name: 'View results' }).click();
   await expect(page.locator('.results')).toBeVisible();
-  await page.locator('.revealed-log > summary').click();
+  await expect(page.getByRole('link', { name: 'Event 1', exact: true })).toBeHidden();
+  await page.getByText(/Event evidence/).click();
+  await page.getByRole('link', { name: 'Event 1', exact: true }).click();
+  await expect(page.locator('.revealed-log')).toHaveAttribute('open', '');
   await expect(page.locator('.revealed-log')).toContainText('Exit interview / Riley');
   await expect(page.locator('.revealed-log')).toContainText(fixtureRun.events[0].confessional!.text);
   const pending = page.waitForEvent('download'); await page.getByRole('button', { name: 'Export recap', exact: true }).click();

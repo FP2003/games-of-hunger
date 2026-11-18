@@ -4,7 +4,15 @@ for (const width of [1280, 390]) test(`demo batches persist, export and reset at
   test.setTimeout(120_000);
   await page.setViewportSize({ width, height: 900 });
   await page.goto('/');
-  await page.getByRole('button', { name: 'Demo statistics', exact: true }).click();
+  const demoNavigation = page.getByRole('button', { name: 'Demo statistics', exact: true });
+  if (width === 390) {
+    // Wider fallback fonts can wrap the navigation to an additional row.
+    await page.addStyleTag({ content: '.topbar nav button { font-size: 18px; }' });
+    const header = await page.locator('.topbar').boundingBox();
+    const control = await demoNavigation.boundingBox();
+    expect(control!.y + control!.height).toBeLessThanOrEqual(header!.y + header!.height);
+  }
+  await demoNavigation.click();
   await expect(page.getByRole('status', { name: 'Demo batch status' })).toHaveText('0 demo games analysed');
   await expect(page.getByLabel('Games per batch')).toHaveValue('100');
   await page.getByLabel('Games per batch').fill('2');

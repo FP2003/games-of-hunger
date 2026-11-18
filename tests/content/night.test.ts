@@ -21,13 +21,15 @@ describe('night scenes use the current scenario', () => {
     expect(bind('weather-shelter', state)).toBeNull();
   });
 
-  it('requires personal delivery history and still-held food for the resupply callback', () => {
+  it('requires personal delivery history even after the supplies change hands', () => {
     const state = setup();
     state.items.push({ id: 'food', definitionId: 'ration', name: 'sealed rations', ownerId: 'a', biome: 'forest', destroyed: false });
     expect(bind('resupply-preparation', state)).toBeNull();
     state.players[0].markers['podium-resupply-collected'] = true;
     expect(bind('resupply-preparation', state)).not.toBeNull();
     state.items[0].ownerId = 'b';
+    expect(bind('resupply-preparation', state)).not.toBeNull();
+    delete state.players[0].markers['podium-resupply-collected'];
     expect(bind('resupply-preparation', state)).toBeNull();
   });
 

@@ -5,6 +5,7 @@ import { hotspotWording } from '../../src/content/hotspot-variety';
 import { weaponExchangeScenes, weaponItems, weaponScenes, weaponTrapScenes } from '../../src/content/weapons';
 import { arenaGearItems, arenaGearScenes } from '../../src/content/arena-gear';
 import { lootWeaponIds } from '../../src/content/weapon-catalogue';
+import { rareExplosiveIds } from '../../src/content/loot-rarity';
 import { withLootVariety } from '../../src/content/loot-variety';
 import { DEFAULT_SETTINGS, type EventTemplate, type GameState, type RunInput } from '../../src/domain';
 import { applyEffects, createRandom, findBindings, initialState } from '../../src/engine';
@@ -159,10 +160,16 @@ describe('weapon and trap outcomes', () => {
   it('includes every weapon and special item in caches and sponsor drops without increasing their shared loot budget', () => {
     const cache = withLootVariety({ ...weaponScenes[0], id: 'forest-life-3', weight: 1 });
     expect(cache.reduce((total, scene) => total + scene.weight, 0)).toBeCloseTo(1);
-    const drops = defaultContentPack.events.filter(scene => lootWeaponIds.some(id => scene.id === `sponsor-gift-${id}`));
-    expect(drops).toHaveLength(lootWeaponIds.length);
-    expect(drops.reduce((total, scene) => total + scene.weight, 0)).toBeCloseTo(0.45 * 0.25);
-    for (const id of lootWeaponIds) {
+    const weaponIds = [...lootWeaponIds, 'explosive'];
+    const sponsorDrops = defaultContentPack.events.filter(scene => scene.lootSource === 'sponsor');
+    const weaponDrops = sponsorDrops.filter(scene => weaponIds.some(id => scene.id === `sponsor-gift-${id}`));
+    const rareDrops = weaponDrops.filter(scene => rareExplosiveIds.has(scene.id.replace('sponsor-gift-', '')));
+    const totalWeight = (scenes: typeof sponsorDrops) => scenes.reduce((total, scene) => total + scene.weight, 0);
+    expect(weaponDrops).toHaveLength(weaponIds.length);
+    expect(totalWeight(sponsorDrops)).toBeCloseTo(0.25);
+    expect(totalWeight(weaponDrops) / totalWeight(sponsorDrops)).toBeCloseTo(0.50);
+    expect(totalWeight(rareDrops) / totalWeight(sponsorDrops)).toBeCloseTo(0.01, 5);
+    for (const id of weaponIds) {
       expect(cache.some(scene => scene.effects.some(effect => effect.kind === 'createItem' && effect.definitionId === id)), id).toBe(true);
     }
     for (const item of arenaGearItems) for (const kind of ['opening', 'find']) {

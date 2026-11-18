@@ -9,6 +9,8 @@ import { quirkWeight } from '../../src/engine/quirks';
 import { toggleTrait } from '../../src/ui/editor';
 import { narrativeAdapter, selectConfessional } from '../../src/narrative';
 
+import { rewordContent } from '../fixtures';
+
 const additions: Trait[] = ['early-riser', 'night-owl', 'on-guard', 'forest-wise', 'kleptomaniac', 'curious', 'compulsive-eater', 'afraid-of-dark'];
 const phase = (kind: Phase['kind'] = 'day'): Phase => ({ kind, index: 1, day: 1 });
 const random = () => createRandom('quirks');
@@ -212,9 +214,7 @@ describe('full replay behavior', () => {
     const run = generateRun(input, narrativeAdapter);
     expect(generateRun(input, narrativeAdapter)).toEqual(run);
     expect(RunRecordSchema.safeParse(run).success).toBe(true);
-    const changed = structuredClone(input); changed.content.events.forEach(template => { template.variants = ['{actor.name} spends a turn.']; if (template.combat?.variantMethods) template.combat.variantMethods = template.combat.variantMethods.slice(0, 1); });
-    // Announcements have no actor, so keep their original prose.
-    changed.content.events.filter(template => !template.roles.length).forEach(template => { template.variants = input.content.events.find(original => original.id === template.id)!.variants; });
+    const changed = { ...input, content: rewordContent(input.content) };
     const other = generateRun(changed, narrativeAdapter);
     expect(other.events.map(event => [event.templateId, event.bindings, event.facts, event.state])).toEqual(run.events.map(event => [event.templateId, event.bindings, event.facts, event.state]));
     expect(defaultContentPack.items.some(item => item.curse)).toBe(false);

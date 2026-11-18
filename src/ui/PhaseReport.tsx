@@ -1,24 +1,22 @@
-import { useRef, type ReactNode } from 'react';
+import type { ReactNode, RefObject } from 'react';
 import type { PlayerDefinition, RunRecord } from '../domain';
 import { phaseReport } from './playback';
 import { confessionalLabel, phaseLabel } from './recap';
 import { CharacterText } from './CharacterText';
 import { BiomeSymbol } from './BiomeSymbol';
-import { SceneExport } from './SceneExport';
 import { eventText } from './eventText';
 
-export function PhaseReport({ run, cursor, portrait, onExport }: { run: RunRecord; cursor: number; portrait: (player: PlayerDefinition) => ReactNode; onExport?: () => void }) {
-  const exportTarget = useRef<HTMLElement>(null);
+export function PhaseReport({ run, cursor, portrait, exportTarget }: { run: RunRecord; cursor: number; portrait: (player: PlayerDefinition) => ReactNode; exportTarget: RefObject<HTMLElement | null> }) {
   const report = phaseReport(run, cursor);
   const phase = report.events[0]?.phase;
   const player = (id: string) => run.input.cast.players.find(p => p.id === id)!;
   const regionName = (id: string) => run.input.content.biomes.find(b => b.id === id)?.name ?? id;
-  return <>
-    {phase && <SceneExport key={`${run.id}:${cursor}`} target={exportTarget} title={`${run.input.cast.title} - ${phaseLabel(phase)}`} onExport={onExport} />}
-    <article ref={exportTarget} className="event-card phase-report" aria-label={phase ? `${phaseLabel(phase)} report` : 'Game ready'}>
+  return <article ref={exportTarget} className="event-card phase-report" aria-label={phase ? `${phaseLabel(phase)} report` : 'Game ready'}>
     {phase ? <>
-      <p className="scene-season-title">{run.input.cast.title}</p>
-      <header className="phase-heading"><h1 aria-live="polite">{phaseLabel(phase)}</h1><p className="muted">{phase.kind === 'finale' && `Day ${phase.day} · `}{report.events.length} events across the arena · {report.events.at(-1)!.state.players.filter(p => p.alive).length} tributes remain</p></header>
+      <header className="phase-heading">
+        <h1 aria-live="polite">{phaseLabel(phase)}</h1>
+        <p className="scene-season-title">{run.input.cast.title} · {phase.kind === 'finale' && `Day ${phase.day} · `}{report.events.length} {report.events.length === 1 ? 'event' : 'events'}</p>
+      </header>
       {run.input.content.biomes.map(biome => {
         const events = report.events.filter(e => e.biome === biome.id);
         if (!events.length) return null;
@@ -33,8 +31,11 @@ export function PhaseReport({ run, cursor, portrait, onExport }: { run: RunRecor
           </article>)}
         </section>;
       })}
-    </> : <><div className="gates-symbol">✳</div><h1>Game <em>ready.</em></h1><p className="muted">{run.input.cast.players.length} tributes. Start with the bloodbath, then follow each day and night together.</p><p className="muted">The Center Podium offers supplies and danger. Escaping leads to the outer regions. Sponsor gifts can arrive during the game.</p></>}
-  </article></>;
+    </> : <header className="phase-heading">
+      <h1>{run.input.cast.title}</h1>
+      <p className="scene-season-title">The tributes are gathered at the Center Podium.</p>
+    </header>}
+  </article>;
 }
 
 export function FallenTributes({ run, cursor, portrait }: { run: RunRecord; cursor: number; portrait: (player: PlayerDefinition) => ReactNode }) {
@@ -43,7 +44,7 @@ export function FallenTributes({ run, cursor, portrait }: { run: RunRecord; curs
   if (!report.showFallen || !phase) return null;
   const player = (id: string) => run.input.cast.players.find(p => p.id === id)!;
   return <section className="event-card fallen-tributes" aria-label="Fallen tributes">
-    <header className="phase-heading"><span className="eyebrow">IN MEMORIAM</span><h1>Fallen tributes</h1><p className="muted">{cursor === run.events.length ? 'The final roll call · since the last night' : `Day ${phase.day}${phase.day === 1 ? ' · including the bloodbath' : ''}`}</p></header>
+    <header className="phase-heading"><h1 aria-live="polite">Fallen tributes</h1><p className="scene-season-title">{run.input.cast.title} · {cursor === run.events.length ? 'The final roll call · since the last night' : `Day ${phase.day}${phase.day === 1 ? ' · including the bloodbath' : ''}`}</p></header>
     {report.fallenIds.length ? <div className="fallen-grid">{report.fallenIds.map(id => <article key={id}>{portrait(player(id))}<strong><CharacterText text={player(id).name} players={[player(id)]} /></strong><small>{player(id).team}</small></article>)}</div> : <p>No tributes fell today.</p>}
   </section>;
 }

@@ -1,4 +1,4 @@
-import type { CastDefinition, ContentPack, Confessional, EditorDraft, EventFact, EventRecord, EventTemplate, GameState, LoreContext, PlaybackSave, RunInput, RunRecord, SeasonHistory, Phase, ConfessionalTemplate } from './schemas';
+import type { WorkspaceBackup, CastDefinition, ContentPack, Confessional, EditorDraft, EventFact, EventRecord, EventTemplate, GameState, LoreContext, PlaybackSave, RunInput, RunRecord, SeasonHistory, Phase, ConfessionalTemplate } from './schemas';
 
 export interface RandomSource {
   next(): number;
@@ -73,6 +73,8 @@ export interface GameRepository {
   /** Removes one archived season, its replay and progress in one transaction. */
   deleteCompletedRun(runId: string): Promise<{ history: SeasonHistory; playback: PlaybackSave | null }>;
   importHistory(history: SeasonHistory, runs: RunRecord[]): Promise<void>;
+  exportBackup(): Promise<WorkspaceBackup>;
+  importBackup(input: unknown): Promise<void>;
   getPortrait(id: string): Promise<Blob | null>;
   savePortrait(asset: PortraitAsset): Promise<void>;
   collectUnusedPortraits(protectedAssetIds?: string[]): Promise<number>;

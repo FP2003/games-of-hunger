@@ -76,6 +76,11 @@ for (const width of [1280, 390]) test(`whole phases, regions, gifts and roll cal
     }
     if (phase.index <= 2) await page.screenshot({ path: test.info().outputPath(`phase-${phase.kind}-${width}.png`), fullPage: true });
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
+    if (width === 1280 && phase.kind === 'opening') {
+      await page.locator('.phase-event').last().scrollIntoViewIfNeeded();
+      await expect(page.getByRole('group', { name: 'Playback controls' })).toBeInViewport();
+      await expect(page.getByRole('button', { name: 'Autoplay' })).toBeInViewport();
+    }
     if (report.showFallen) {
       await page.getByRole('button', { name: 'Continue to Fallen tributes' }).click();
       await expect(page.locator('.broadcast')).toHaveAttribute('data-revealed', String(cursor));

@@ -9,6 +9,7 @@ import { TraitImpact } from './TraitImpact';
 
 const storageKey = 'survival-demo-analytics-v1';
 export function DemoLab({ cast, settings, content }: { cast: CastDefinition; settings: GameSettings; content: ContentPack }) {
+  const [view, setView] = useState<'batches' | 'traits'>('batches');
   const [stats, setStats] = useState<DemoStats>(emptyDemoStats);
   const [count, setCount] = useState(100);
   const [seed, setSeed] = useState(() => `demo-${Date.now()}`);
@@ -70,23 +71,36 @@ export function DemoLab({ cast, settings, content }: { cast: CastDefinition; set
   const supplies = stats.supplies ? supplyReport(stats.supplies) : null;
   const percent = (value: number | null) => value === null ? '—' : `${value.toFixed(2)}%`;
   return <section className="demo-lab">
-    <div className="page-intro"><p className="eyebrow">SIMULATION LAB</p><h1>Demo <em>statistics.</em></h1><p>Run hundreds of full games and find patterns in outcomes and wording. Demo results are separate from the season archive.</p></div>
-    <section className="panel stats-board">
+    <header className="page-intro"><h1>Demo statistics</h1></header>
+    <div className="view-switch" role="group" aria-label="Demo statistics view">
+      <button aria-pressed={view === 'batches'} onClick={() => setView('batches')}>Demo batches</button>
+      <button aria-pressed={view === 'traits'} onClick={() => setView('traits')}>Trait impact</button>
+    </div>
+    {view === 'batches' && traitsRunning && <p className="muted" role="status">A trait experiment is running.</p>}
+    {view === 'traits' && running && <p className="muted" role="status">A demo batch is running.</p>}
+    <div hidden={view !== 'traits'}>
+      <TraitImpact settings={settings} content={content} busy={running || traitsRunning} onBusy={setTraitsRunning} />
+    </div>
+    <div hidden={view !== 'batches'}>
+    <section className="panel stats-board demo-batch">
+      <h2>Run a demo batch</h2>
       <div className="stats-controls">
         <label className="field">Games per batch<input aria-label="Games per batch" type="number" min="1" max="1000" value={count} disabled={running} onChange={e => setCount(Number(e.target.value))} /></label>
         <label className="field">Batch seed<input aria-label="Batch seed" maxLength={180} value={seed} disabled={running} onChange={e => setSeed(e.target.value)} /></label>
         <label className="field">Cast<select aria-label="Demo cast" disabled={running} value={useCast ? 'current' : 'demo'} onChange={e => setUseCast(e.target.value === 'current')}><option value="demo">24 neutral demo tributes</option><option value="current">Current cast ({cast.players.length} players)</option></select></label>
       </div>
-      <p className="muted">Uses your current danger, tone and personality settings, with past-season lore disabled. Each game uses batch-seed-0, batch-seed-1, and so on.</p>
-      <p className="muted">Loaded: engine {ENGINE_VERSION}, content {content.version}.{stats.games > 0 && ` Displayed results: engine ${stats.engineVersion}, content ${stats.contentVersion}.`}</p>
+      <p className="muted">Runs with your current game settings and keeps its results separate from the season archive.</p>
       {stats.games > 0 && (stats.engineVersion !== ENGINE_VERSION || stats.contentVersion !== content.version) && <p role="alert">Displayed results are from an older version. Export them and reset demo statistics to measure the updated loot.</p>}
-      <div className="button-row"><button className="primary" disabled={running || traitsRunning || (useCast && cast.players.length < 2)} onClick={start}>Run demo batch</button><button disabled={!running} onClick={stop}>Stop batch</button><button disabled={!stats.games} onClick={exportData}>Export demo JSON</button><button onClick={reset}>Reset demo statistics</button></div>
+      <div className="button-row"><button className="primary" disabled={running || traitsRunning || (useCast && cast.players.length < 2)} onClick={start}>Run demo batch</button><button disabled={!running} onClick={stop}>Stop batch</button><button disabled={!stats.games} onClick={exportData}>Export demo JSON</button><button className="subtle analytics-reset" onClick={reset}>Reset demo statistics</button></div>
       <p role="status" aria-label="Demo batch status">{running ? `Running: ${progress} / ${count} games completed` : `${stats.games} demo games analysed`}</p>
       {running && <progress max={count} value={progress} aria-label="Demo batch progress" />}
       {error && <p role="alert">{error}</p>}
-      <p className="muted">Reset clears only demo statistics. Stop keeps completed games. Results save in this browser when a batch finishes or stops; export JSON to keep a separate copy.</p>
+      <details><summary>Batch details</summary>
+        <p className="muted">Past-season lore is disabled. Each game uses the batch seed plus its own index. Finished and stopped batches save completed games in this browser.</p>
+        <p className="muted">Loaded engine {ENGINE_VERSION} and content {content.version}.{stats.games > 0 && ` Results use engine ${stats.engineVersion} and content ${stats.contentVersion}.`}</p>
+      </details>
     </section>
-    <TraitImpact settings={settings} content={content} busy={running || traitsRunning} onBusy={setTraitsRunning} />
+    {stats.games > 0 && <>
     <section className="panel stats-board"><h2>Sponsor drops and supply packs</h2>
       <p className="muted">Public resupply is the Center Podium refill scheduled from day 3 if the game reaches it. Its three-item crates vary, with a 10% chance per delivered crate of including one weapon; the recipient claims one item and leaves two on the ground. Sponsor drops are personal gifts and can include weapons. A sealed arena charge is a single-use remote explosive: it must be held before deployment, is consumed on use, and can kill, be evaded or backfire.</p>
       {!supplies ? <p>Supply observations require a fresh batch. Export your existing results, then reset demo statistics before running the updated content.</p> : <>
@@ -118,5 +132,7 @@ export function DemoLab({ cast, settings, content }: { cast: CastDefinition; set
     </section>
     <section className="panel stats-board"><h2>Scene coverage gaps</h2><p>{templates.filter(t => t.count === 0).length} / {templates.length} scenes not seen. Rare scenes and unmet trait or inventory requirements can explain gaps.</p><p className="muted">Showing the 100 least-used scenes. Full usage counts are in the JSON export.</p><div className="stats-table-scroll"><table className="stats-table"><caption>Least-used scenes</caption><thead><tr><th>Scene</th><th>Uses</th><th>Available variants</th></tr></thead><tbody>{templates.slice(0, 100).map(t => <tr key={t.id}><th scope="row">{t.id}</th><td>{t.count}</td><td>{t.variants}</td></tr>)}</tbody></table></div></section>
     <section className="panel stats-board"><h2>Regional movement and loot</h2><div className="demo-breakdowns"><div><h3>Arrivals by region</h3>{content.biomes.map(b => <p key={b.id}>{b.name}: {stats.regions[b.id] ?? 0}</p>)}</div><div><h3>Acquisitions by item</h3>{Object.entries(stats.items).sort((a, b) => b[1] - a[1]).map(([id, n]) => <p key={id}>{content.items.find(i => i.id === id)?.name ?? id}: {n}</p>)}</div></div></section>
+    </>}
+    </div>
   </section>;
 }

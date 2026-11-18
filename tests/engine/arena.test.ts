@@ -29,13 +29,24 @@ describe('warned arena disruptions and rare multikills', () => {
         expect(event.phase).toMatchObject({ kind: 'day', day: 3 });
         expect(event.biome).toBe('ruins');
         expect(event.state.players.find(p => p.id === event.bindings.actor)?.biome).toBe('ruins');
-        expect(event.facts).toEqual(expect.arrayContaining([
-          expect.objectContaining({ type: 'acquire', actorId: event.bindings.actor, itemDefinitionId: 'ration' }),
-          expect.objectContaining({ type: 'drop', itemDefinitionId: 'flask' }),
-          expect.objectContaining({ type: 'drop', itemDefinitionId: 'blanket' }),
-        ]));
-        const ground = event.state.items.filter(i => i.biome === 'ruins' && !i.ownerId && !i.destroyed);
-        expect(ground.map(i => i.definitionId)).toEqual(expect.arrayContaining(['flask', 'blanket']));
+        const recipient = event.bindings.actor;
+        const acquired = event.facts.filter(fact => fact.type === 'acquire');
+        const dropped = event.facts.filter(fact => fact.type === 'drop');
+        expect(acquired).toHaveLength(3);
+        expect(new Set(acquired.map(fact => fact.itemId)).size).toBe(3);
+        expect(dropped.map(fact => fact.itemDefinitionId)).toEqual(acquired.slice(1).map(fact => fact.itemDefinitionId));
+        expect(new Set(dropped.map(fact => fact.itemId)).size).toBe(2);
+        expect(event.state.players.find(p => p.id === recipient)?.markers['podium-resupply-collected']).toBe(true);
+        expect(acquired.every(fact => fact.actorId === recipient)).toBe(true);
+        const kept = acquired[0];
+        expect(event.state.items.find(item => item.id === kept.itemId)?.ownerId).toBe(recipient);
+        for (const fact of dropped) {
+          expect(fact.actorId).toBe(recipient);
+          expect(event.state.items.find(item => item.id === fact.itemId)).toMatchObject({
+            definitionId: fact.itemDefinitionId, ownerId: null,
+            biome: 'ruins', destroyed: false,
+          });
+        }
         expect(run.events.filter(e => e.phase.index === event.phase.index && Object.values(e.bindings).includes(event.bindings.actor))).toHaveLength(1);
       }
     }

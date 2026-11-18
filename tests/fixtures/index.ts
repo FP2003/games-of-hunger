@@ -22,3 +22,13 @@ export const fixtureRun: RunRecord = {
 };
 export const invalidCast = { version: 1, title: 'Invalid cast', players: [{ id: 'same', name: 'Alex' }, { id: 'same', name: 'Riley' }] };
 export const invalidCastExpectedPath = 'players.1.id';
+
+/** Change phrasing while retaining variant positions and shared wording pools. */
+export function rewordContent(content: ContentPack): ContentPack {
+  const reword = (text: string) => `Broadcast passage: ${text}`;
+  return {
+    ...content,
+    events: content.events.map(template => ({ ...template, variants: template.variants.map(reword) })),
+    confessionals: content.confessionals.map(template => ({ ...template, variants: template.variants.map(reword) })),
+  };
+}

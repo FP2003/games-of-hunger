@@ -155,9 +155,9 @@ for (const width of [1280, 390]) {
     const chart = page.getByRole('region', { name: 'Cast relationship network', exact: true });
     await expect(chart.locator('.network-node')).toHaveCount(24);
     const bounds = await chart.boundingBox();
-    const addPanel = await page.locator('.add-panel').boundingBox();
-    expect(addPanel!.y + addPanel!.height).toBeLessThan(bounds!.y);
-    expect(bounds!.width).toBeCloseTo(addPanel!.width, 0);
+    const castSetup = await page.getByRole('region', { name: 'Cast setup', exact: true }).boundingBox();
+    expect(castSetup!.y + castSetup!.height).toBeLessThan(bounds!.y);
+    expect(bounds!.width).toBeCloseTo(castSetup!.width, 0);
     await expectReadableNetwork(chart, width > 720 ? 13 : 12);
     await expectCircularNetwork(chart, 24);
     await chart.screenshot({ path: test.info().outputPath(`readable-network-${width}.png`) });

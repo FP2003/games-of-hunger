@@ -58,6 +58,45 @@ for (const adapter of adapters) describe(`${adapter.name} repository contract`, 
     expect(await repo.getRun(other.id)).toBeNull();
     expect((await repo.getHistory()).seasons).toHaveLength(1);
   });
+  it('backs up named casts and two seasons, keeping edited local cast slots on repeated restores', async () => {
+    const source = await create();
+    const cast = { ...exampleCast, relationships: [{ from: 'alex', to: 'riley', trust: 60, grudge: 0 }] };
+    const second = structuredClone(fixtureRun);
+    second.input.settings.seed = 'backup-second-season';
+    second.id = canonicalRunId(second.input);
+    await source.saveCast('saved-cast', cast);
+    await source.recordCompleted(fixtureRun);
+    await source.recordCompleted(second);
+    const backup = JSON.parse(JSON.stringify(await source.exportBackup()));
+
+    const restored = await create();
+    await restored.importBackup(backup);
+    expect(await restored.exportBackup()).toEqual(await source.exportBackup());
+
+    const local = await create();
+    const localCast = { ...cast, title: 'Edited locally' };
+    await local.saveCast('saved-cast', localCast);
+    await local.importBackup(backup);
+    await local.importBackup(backup);
+    expect(await local.listSavedCasts()).toEqual([
+      { id: 'saved-cast', cast: localCast },
+      { id: 'saved-cast~2', cast },
+    ]);
+    expect(await local.getHistory()).toEqual(await source.getHistory());
+    expect(await local.getRun(second.id)).toEqual(second);
+  });
+  it('leaves both casts and seasons untouched when a backup replay conflicts', async () => {
+    const source = await create();
+    await source.saveCast('new-cast', exampleCast);
+    await source.recordCompleted(fixtureRun);
+    const target = await create();
+    const altered = structuredClone(fixtureRun);
+    altered.events[0].text = 'A different saved narration.';
+    await target.recordCompleted(altered);
+    await expect(target.importBackup(await source.exportBackup())).rejects.toMatchObject({ code: 'conflict' });
+    expect(await target.listSavedCasts()).toEqual([]);
+    expect(await target.getRun(fixtureRun.id)).toEqual(altered);
+  });
   it('stores portrait assets separately and handles missing references', async () => {
     const repo = await create(); expect(await repo.getPortrait('missing')).toBeNull();
     await repo.savePortrait({ id: 'portrait-1', blob: new Blob(['image data'], { type: 'image/png' }) });
