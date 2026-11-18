@@ -441,7 +441,7 @@ export function App({ services }: { services: AppServices }) {
             <label className="field">Season title<input value={cast.title} maxLength={120} onChange={e => setCast({ ...cast, title: e.target.value })} /></label>
           </div>
           <div className="cast-library" role="group" aria-label="Cast library">
-            <label className="field">Saved casts<select value={castId ?? ''} onChange={event => chooseCast(event.target.value)}>
+            <label className="field">Saved casts<select aria-label="Saved casts" value={castId ?? ''} onChange={event => chooseCast(event.target.value)}>
               <option value="" disabled>{cast.players.length ? 'Current unsaved cast' : 'Choose a saved cast'}</option>
               {library.length > 0 && <optgroup label="Your saved casts">{library.map(item => <option key={item.id} value={item.id}>{item.cast.title} · {item.cast.players.length} players</option>)}</optgroup>}
             </select></label>
@@ -488,7 +488,7 @@ export function App({ services }: { services: AppServices }) {
           </label>
           <details className="settings-disclosure">
             <summary>Advanced settings</summary>
-            <label className="field">Game seed<input value={settings.seed} maxLength={200} onChange={e => setSettings({ ...settings, seed: e.target.value })} /><small>The same cast, settings, and seed produce the same game.</small></label>
+            <label className="field">Game seed<input aria-label="Game seed" aria-describedby="seed-description" value={settings.seed} maxLength={200} onChange={e => setSettings({ ...settings, seed: e.target.value })} /><small id="seed-description">The same cast, settings, and seed produce the same game.</small></label>
           </details>
           {!settings.seed.trim() && <p className="muted" role="status">Enter a seed in Advanced settings to start.</p>}
           <div className="settings-actions button-row">
@@ -525,7 +525,7 @@ export function App({ services }: { services: AppServices }) {
               <button className="primary" onClick={advanceBroadcast}>{nextAction} <span aria-hidden="true">→</span></button>
               {broadcastPage === 'fallen' && <button className="subtle" onClick={() => selectBroadcastPage(run, cursor, 'phase')}>Back to {phaseLabel(event?.phase)}</button>}
               <button className="subtle" aria-pressed={auto} onClick={() => setAuto(!auto)}>{auto ? 'Pause' : 'Autoplay'}</button>
-              <label className="speed"><span className="sr-only">Autoplay pace</span><select value={speed} onChange={e => setSpeed(Number(e.target.value))}><option value={15000}>Slow · 15s</option><option value={6000}>Normal · 6s</option><option value={1000}>Fast · 1s</option></select></label>
+              <label className="speed"><span className="sr-only">Autoplay pace</span><select aria-label="Autoplay pace" value={speed} onChange={e => setSpeed(Number(e.target.value))}><option value={15000}>Slow · 15s</option><option value={6000}>Normal · 6s</option><option value={1000}>Fast · 1s</option></select></label>
             </div>
           </div>}
           {presentation ? <div className="presentation-actions">
