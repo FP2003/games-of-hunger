@@ -422,14 +422,13 @@ export function App({ services }: { services: AppServices }) {
 
   return <div className={`app ${presentation ? 'presentation' : ''}`}>
     <header className="topbar">
-      <button className="brand" onClick={() => go('cast')} aria-label="Games of Hunger cast editor"><span className="brand-mark">✳</span> GAMES <span className="brand-of">OF</span> HUNGER</button>
       <nav aria-label="Main navigation">
         <button className={screen === 'cast' || screen === 'setup' ? 'active' : ''} onClick={() => go('cast')}>The cast</button>
         {run && <button className={screen === 'watch' ? 'active' : ''} disabled={deletingRunId !== null} onClick={() => go('watch')}>The arena</button>}
         <button className={screen === 'history' ? 'active' : ''} onClick={() => go('history')}>Season archive <span className="count">{history.seasons.length}</span></button>
         <button className={screen === 'demos' ? 'active' : ''} onClick={() => go('demos')}>Demo statistics</button>
       </nav>
-      <span className="local-tag">{services.storageWarning ? "Temporary session" : "Saved in this browser"}</span>
+      <span className="draft-status" role="status">{draftStatus}</span>
     </header>
     <main>
       {error && <div className="error" role="alert">{error}<button aria-label="Dismiss error" onClick={() => setError('')}>×</button></div>}
@@ -469,10 +468,10 @@ export function App({ services }: { services: AppServices }) {
             <label className="field">Season title<input value={cast.title} maxLength={120} onChange={e => setCast({ ...cast, title: e.target.value })} /></label>
           </div>
           <div className="cast-library" role="group" aria-label="Cast library">
-            <label className="field">Saved casts<select aria-label="Saved casts" value={castId ?? ''} onChange={event => chooseCast(event.target.value)}>
+            <label className="field">Saved casts<span className="select-control"><select aria-label="Saved casts" value={castId ?? ''} onChange={event => chooseCast(event.target.value)}>
               <option value="" disabled>{cast.players.length ? 'Current unsaved cast' : 'Choose a saved cast'}</option>
               {library.length > 0 && <optgroup label="Your saved casts">{library.map(item => <option key={item.id} value={item.id}>{item.cast.title} · {item.cast.players.length} players</option>)}</optgroup>}
-            </select></label>
+            </select></span></label>
             <div className="cast-library-actions">
               <button className="subtle" onClick={() => { setCast(freshCast()); setCastId(undefined); setUndo([]); setSelected(undefined); setPaste(''); }}>New cast</button>
               <label className="button subtle">Import JSON<input type="file" accept=".json,application/json" onChange={importFile} /></label>
@@ -498,7 +497,6 @@ export function App({ services }: { services: AppServices }) {
           {castView === 'cards' ? <CastCards players={cast.players} selectedId={selected} onEdit={setSelected} onRemove={removePlayer} onSwap={swapCastPlayers} portrait={p => <Portrait player={p} repository={repository} large />} /> : <RelationshipNetwork players={cast.players} relationships={cast.relationships} onChange={editRelationship} portrait={p => <Portrait player={p} repository={repository} />} onEdit={setSelected} />}
           {player && <CharacterEditorDialog name={player.name} onClose={() => setSelected(undefined)}>{error && <p className="error" role="alert">{error}</p>}<div className="form-grid"><label className="field">Name<input autoFocus value={player.name} maxLength={120} onChange={e => editPlayer(player.id, { name: e.target.value })} /></label><PlayerGenderField pronouns={player.pronouns} onChange={pronouns => editPlayer(player.id, { pronouns })} /><label className="field">Signature item<input placeholder="e.g. an umbrella" value={player.signatureItem || ''} maxLength={120} onChange={e => editPlayer(player.id, { signatureItem: e.target.value || undefined })} /></label><label className="field">Team label<input value={player.team || ''} maxLength={120} onChange={e => editPlayer(player.id, { team: e.target.value || undefined })} /></label><label className="field">Portrait<select aria-label="Portrait" value={player.portrait?.startsWith('/assets/') ? player.portrait : ''} onChange={e => editPlayer(player.id, { portrait: e.target.value || undefined })}><option value="">Initials / uploaded image</option><option value="/assets/fern.svg">Fern emblem</option><option value="/assets/peak.svg">Mountain emblem</option></select></label></div><TraitPicker traits={player.traits} onChange={traits => editPlayer(player.id, { traits })} /><label className="button subtle">Upload portrait<input type="file" accept="image/png,image/jpeg,image/webp" onChange={e => void portraitUpload(player.id, e)} /></label><p className="muted">PNG, JPEG or WebP, up to 2 MB. Uploaded portraits stay in this browser and are not included in exported files.</p><RelationshipNetwork key={player.id} players={cast.players} relationships={cast.relationships} focalId={player.id} onChange={editRelationship} portrait={p => <Portrait player={p} repository={repository} />} /></CharacterEditorDialog>}
         </section>
-        <p className="draft-status muted" role="status">{draftStatus}</p>
       </section>}
       {screen === 'setup' && <section className="settings-workspace" aria-labelledby="settings-title">
         <header className="page-intro">
@@ -507,9 +505,9 @@ export function App({ services }: { services: AppServices }) {
         </header>
         <div className="panel setup-form">
           <div className="settings-fields">
-            <label className="field">Danger<span className="settings-select"><select aria-label="Danger" value={settings.danger} onChange={e => setSettings({ ...settings, danger: e.target.value as GameSettings['danger'] })}><option value="low">Low</option><option value="normal">Normal</option><option value="high">High</option></select></span></label>
-            <label className="field">Story tone<span className="settings-select"><select aria-label="Story tone" value={settings.tone} onChange={e => setSettings({ ...settings, tone: e.target.value as GameSettings['tone'] })}><option value="mixed">Mixed</option><option value="dramatic">Dramatic</option><option value="absurd">Absurd</option></select></span></label>
-            <label className="field">Personality influence<span className="settings-select"><select aria-label="Personality influence" value={settings.personality} onChange={e => setSettings({ ...settings, personality: e.target.value as GameSettings['personality'] })}><option value="off">Off</option><option value="normal">Normal</option><option value="strong">Strong</option></select></span></label>
+            <label className="field">Danger<span className="select-control"><select aria-label="Danger" value={settings.danger} onChange={e => setSettings({ ...settings, danger: e.target.value as GameSettings['danger'] })}><option value="low">Low</option><option value="normal">Normal</option><option value="high">High</option></select></span></label>
+            <label className="field">Story tone<span className="select-control"><select aria-label="Story tone" value={settings.tone} onChange={e => setSettings({ ...settings, tone: e.target.value as GameSettings['tone'] })}><option value="mixed">Mixed</option><option value="dramatic">Dramatic</option><option value="absurd">Absurd</option></select></span></label>
+            <label className="field">Personality influence<span className="select-control"><select aria-label="Personality influence" value={settings.personality} onChange={e => setSettings({ ...settings, personality: e.target.value as GameSettings['personality'] })}><option value="off">Off</option><option value="normal">Normal</option><option value="strong">Strong</option></select></span></label>
           </div>
           <label className="toggle">
             <input type="checkbox" checked={settings.loreCarryover} onChange={e => setSettings({ ...settings, loreCarryover: e.target.checked })} />
