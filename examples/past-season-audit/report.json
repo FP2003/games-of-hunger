@@ -1,0 +1,1490 @@
+{
+  "engineVersion": "1.29.0",
+  "contentVersion": "1.35.0",
+  "methodology": "Six independent five-season histories: 12/24 returning players, three danger levels, mixed traits, rename after season two. Each of 30 games is paired with the identical seed/cast/content/settings and lore disabled. Assert identical scene IDs, bindings, effects, states, combat records, interviews, placements and awards; only source-backed callback suffixes may differ. Replay round trips, memory uniqueness, spacing and source history are checked. This is a fixed sample, not a promised callback frequency.",
+  "summary": {
+    "seasons": 30,
+    "pairedRuns": 60,
+    "returningSeasons": 24,
+    "visibleCallbacks": 49,
+    "pairCallbacks": 25,
+    "returningSeasonsWithoutCallback": 0,
+    "callbackTypes": {
+      "assistance": 5,
+      "elimination": 12,
+      "nemesis": 5,
+      "revenge": 1,
+      "transfer": 2,
+      "win": 24
+    },
+    "authoredTypes": 9,
+    "authoredVariants": 72
+  },
+  "scenarios": [
+    {
+      "size": 12,
+      "danger": "low",
+      "seasons": [
+        {
+          "season": 1,
+          "seed": "past-season-audit-12-low-0",
+          "runId": "run-a5d19cb2a1f2019e8b4a8df9720c3c5a",
+          "events": 44,
+          "contextFacts": 0,
+          "contextPlayerCoverage": 0,
+          "derivedFacts": {
+            "win": 1,
+            "elimination": 11,
+            "assistance": 6,
+            "nemesis": 8
+          },
+          "callbacks": []
+        },
+        {
+          "season": 2,
+          "seed": "past-season-audit-12-low-1",
+          "runId": "run-a8e6a9b96f7d6484b3a0c4ba0fc653c8",
+          "events": 33,
+          "contextFacts": 12,
+          "contextPlayerCoverage": 12,
+          "derivedFacts": {
+            "win": 1,
+            "elimination": 10,
+            "nemesis": 9,
+            "assistance": 4,
+            "theft": 2
+          },
+          "callbacks": [
+            {
+              "sequence": 8,
+              "phase": {
+                "kind": "day",
+                "index": 1,
+                "day": 1
+              },
+              "type": "assistance",
+              "playerIds": [
+                "friend-8",
+                "friend-3"
+              ],
+              "sourceRunId": "run-a5d19cb2a1f2019e8b4a8df9720c3c5a",
+              "sourceEvent": 11,
+              "sourceFactId": "run-a5d19cb2a1f2019e8b4a8df9720c3c5a:11:0",
+              "sourceDetail": "Friend 8 helped Friend 3.",
+              "scene": "Friend 3 knocks a support from a ruined balcony, but Friend 8 grips a window frame and climbs into the building before the floor falls.",
+              "callback": "There was a helping hand between them once: Friend 8 assisted Friend 3 in a previous season."
+            },
+            {
+              "sequence": 19,
+              "phase": {
+                "kind": "night",
+                "index": 4,
+                "day": 2
+              },
+              "type": "win",
+              "playerIds": [
+                "friend-9"
+              ],
+              "sourceRunId": "run-a5d19cb2a1f2019e8b4a8df9720c3c5a",
+              "sourceEvent": 43,
+              "sourceFactId": "run-a5d19cb2a1f2019e8b4a8df9720c3c5a:win",
+              "sourceDetail": "Friend 9 won Returning 12.",
+              "scene": "Friend 9 finds a raised slab in The Center Podium where two people can stay off the damp ground. Friend 7 is invited up, and together they brush the sharp grit from the surface.",
+              "callback": "Friend 9 has won this game before. This season is still anyone’s to take."
+            }
+          ]
+        },
+        {
+          "season": 3,
+          "seed": "past-season-audit-12-low-2",
+          "runId": "run-7da324260fbacbb30dd5ff6870b7d3ad",
+          "events": 57,
+          "contextFacts": 12,
+          "contextPlayerCoverage": 12,
+          "derivedFacts": {
+            "win": 1,
+            "elimination": 11,
+            "nemesis": 11,
+            "assistance": 9,
+            "theft": 1
+          },
+          "callbacks": [
+            {
+              "sequence": 7,
+              "phase": {
+                "kind": "opening",
+                "index": 0,
+                "day": 0
+              },
+              "type": "win",
+              "playerIds": [
+                "friend-7"
+              ],
+              "sourceRunId": "run-a8e6a9b96f7d6484b3a0c4ba0fc653c8",
+              "sourceEvent": 32,
+              "sourceFactId": "run-a8e6a9b96f7d6484b3a0c4ba0fc653c8:win",
+              "sourceDetail": "Friend 7 won Returning 12.",
+              "scene": "Friend 7 rescues oil lantern from a toppled supply crate.",
+              "callback": "Friend 7 once finished a season as the last survivor. There is a long way to go this time."
+            },
+            {
+              "sequence": 30,
+              "phase": {
+                "kind": "day",
+                "index": 5,
+                "day": 3
+              },
+              "type": "win",
+              "playerIds": [
+                "friend-9"
+              ],
+              "sourceRunId": "run-a5d19cb2a1f2019e8b4a8df9720c3c5a",
+              "sourceEvent": 43,
+              "sourceFactId": "run-a5d19cb2a1f2019e8b4a8df9720c3c5a:win",
+              "sourceDetail": "Friend 9 won Returning 12.",
+              "scene": "Friend 6 recognizes Friend 9 at a trail shelter in The Center Podium and plants a foot across the entrance. Neither trusts the other enough to close the distance. After a long silence, Friend 9 backs away from the doorway, leaving the grudge unsettled.",
+              "callback": "For Friend 9, winning the arena is something that has happened before."
+            }
+          ]
+        },
+        {
+          "season": 4,
+          "seed": "past-season-audit-12-low-3",
+          "runId": "run-789b4bbd82671d43f7c179997a3cb5d6",
+          "events": 69,
+          "contextFacts": 12,
+          "contextPlayerCoverage": 12,
+          "derivedFacts": {
+            "win": 1,
+            "elimination": 9,
+            "assistance": 13,
+            "nemesis": 13,
+            "theft": 1,
+            "transfer": 1
+          },
+          "callbacks": [
+            {
+              "sequence": 5,
+              "phase": {
+                "kind": "opening",
+                "index": 0,
+                "day": 0
+              },
+              "type": "win",
+              "playerIds": [
+                "friend-1"
+              ],
+              "sourceRunId": "run-7da324260fbacbb30dd5ff6870b7d3ad",
+              "sourceEvent": 56,
+              "sourceFactId": "run-7da324260fbacbb30dd5ff6870b7d3ad:win",
+              "sourceDetail": "Friend 1 won Returning 12.",
+              "scene": "Friend 1 takes a bow and a quiver of arrows from the Center Podium weapon rack and retreats from the scramble.",
+              "callback": "A past victory follows Friend 1 back into the arena."
+            },
+            {
+              "sequence": 14,
+              "phase": {
+                "kind": "night",
+                "index": 2,
+                "day": 1
+              },
+              "type": "win",
+              "playerIds": [
+                "friend-7"
+              ],
+              "sourceRunId": "run-a8e6a9b96f7d6484b3a0c4ba0fc653c8",
+              "sourceEvent": 32,
+              "sourceFactId": "run-a8e6a9b96f7d6484b3a0c4ba0fc653c8:win",
+              "sourceDetail": "Friend 7 won Returning 12.",
+              "scene": "A sponsor parachute settles beside Friend 7 in The Tundra. Inside the padded parcel is spiked mace.",
+              "callback": "Friend 7 returns with a place among the winners of earlier seasons."
+            },
+            {
+              "sequence": 40,
+              "phase": {
+                "kind": "night",
+                "index": 6,
+                "day": 3
+              },
+              "type": "elimination",
+              "playerIds": [
+                "friend-1",
+                "friend-11"
+              ],
+              "sourceRunId": "run-7da324260fbacbb30dd5ff6870b7d3ad",
+              "sourceEvent": 1,
+              "sourceFactId": "run-7da324260fbacbb30dd5ff6870b7d3ad:1:1",
+              "sourceDetail": "Friend 1 killed Friend 11.",
+              "scene": "Friend 11 tries to slip behind Friend 1's resting platform in The Center Podium. The support carries every footstep; warned by its vibration, Friend 1 blocks the gap and drives Friend 11 back.",
+              "callback": "Friend 11 has already lost a life to Friend 1 in an earlier season’s arena."
+            },
+            {
+              "sequence": 61,
+              "phase": {
+                "kind": "night",
+                "index": 10,
+                "day": 5
+              },
+              "type": "elimination",
+              "playerIds": [
+                "friend-4",
+                "friend-11"
+              ],
+              "sourceRunId": "run-a8e6a9b96f7d6484b3a0c4ba0fc653c8",
+              "sourceEvent": 0,
+              "sourceFactId": "run-a8e6a9b96f7d6484b3a0c4ba0fc653c8:0:1",
+              "sourceDetail": "Friend 4 killed Friend 11.",
+              "scene": "Friend 4 kneels to free a boot snag in The Desert as Friend 11 thrusts the spear into Friend 4's thigh; abandoning the snagged clothing, Friend 4 crawls through a fence gap with the thigh still bleeding.",
+              "callback": "The earlier seasons have a grim entry for this pair: Friend 4 killed Friend 11."
+            }
+          ]
+        },
+        {
+          "season": 5,
+          "seed": "past-season-audit-12-low-4",
+          "runId": "run-4a03b141b66ccf891d06586e00ff0856",
+          "events": 44,
+          "contextFacts": 12,
+          "contextPlayerCoverage": 12,
+          "derivedFacts": {
+            "win": 1,
+            "elimination": 11,
+            "assistance": 11,
+            "nemesis": 6
+          },
+          "callbacks": [
+            {
+              "sequence": 0,
+              "phase": {
+                "kind": "opening",
+                "index": 0,
+                "day": 0
+              },
+              "type": "elimination",
+              "playerIds": [
+                "friend-1",
+                "friend-2"
+              ],
+              "sourceRunId": "run-7da324260fbacbb30dd5ff6870b7d3ad",
+              "sourceEvent": 56,
+              "sourceFactId": "run-7da324260fbacbb30dd5ff6870b7d3ad:56:1",
+              "sourceDetail": "Friend 1 killed Friend 2.",
+              "scene": "Friend 2 loses footing when Friend 1 trips the approaching tribute beside the central water cache. Friend 1 pushes the heavy tank off its stand. It crushes Friend 2 to death; Friend 1 takes emergency blanket.",
+              "callback": "In another season, Friend 1 was responsible for Friend 2’s death. This is a new meeting."
+            },
+            {
+              "sequence": 8,
+              "phase": {
+                "kind": "day",
+                "index": 1,
+                "day": 1
+              },
+              "type": "win",
+              "playerIds": [
+                "friend-7"
+              ],
+              "sourceRunId": "run-a8e6a9b96f7d6484b3a0c4ba0fc653c8",
+              "sourceEvent": 32,
+              "sourceFactId": "run-a8e6a9b96f7d6484b3a0c4ba0fc653c8:win",
+              "sourceDetail": "Friend 7 won Returning 12.",
+              "scene": "The case lid lifts to reveal a sickle in The Mountains. Friend 7 takes the weapon.",
+              "callback": "The arena has crowned Friend 7 before; a new season asks for another winner."
+            },
+            {
+              "sequence": 24,
+              "phase": {
+                "kind": "night",
+                "index": 4,
+                "day": 2
+              },
+              "type": "assistance",
+              "playerIds": [
+                "friend-11",
+                "friend-3"
+              ],
+              "sourceRunId": "run-789b4bbd82671d43f7c179997a3cb5d6",
+              "sourceEvent": 9,
+              "sourceFactId": "run-789b4bbd82671d43f7c179997a3cb5d6:9:0",
+              "sourceDetail": "Friend 11 helped Friend 3.",
+              "scene": "Friend 11 takes the first turn watching the trail in The Center Podium as Renamed Friend screens a campfire with stones and Friend 3 feeds it fallen wood. Later they exchange duties, keeping the embers tended and the approach guarded. Each gets time to rest beside the fire.",
+              "callback": "In a previous season, Friend 3 received help from Friend 11."
+            },
+            {
+              "sequence": 33,
+              "phase": {
+                "kind": "night",
+                "index": 6,
+                "day": 3
+              },
+              "type": "elimination",
+              "playerIds": [
+                "friend-3",
+                "friend-0"
+              ],
+              "sourceRunId": "run-789b4bbd82671d43f7c179997a3cb5d6",
+              "sourceEvent": 1,
+              "sourceFactId": "run-789b4bbd82671d43f7c179997a3cb5d6:1:1",
+              "sourceDetail": "Friend 3 killed Renamed Friend.",
+              "scene": "As Renamed Friend rounds a trail barrier in The Center Podium, Friend 3 cuts Renamed Friend's side with a scythe. Pushing a supply crate into the gap between them, Renamed Friend reaches cover. Renamed Friend survives, though the side wound keeps bleeding.",
+              "callback": "Friend 3 killed Renamed Friend in an earlier season. This encounter gives their story another chapter."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "size": 12,
+      "danger": "normal",
+      "seasons": [
+        {
+          "season": 1,
+          "seed": "past-season-audit-12-normal-0",
+          "runId": "run-dc161a4ce1d884bdf72a3769d8be416f",
+          "events": 39,
+          "contextFacts": 0,
+          "contextPlayerCoverage": 0,
+          "derivedFacts": {
+            "win": 1,
+            "elimination": 11,
+            "assistance": 2,
+            "nemesis": 5,
+            "theft": 1,
+            "revenge": 1
+          },
+          "callbacks": []
+        },
+        {
+          "season": 2,
+          "seed": "past-season-audit-12-normal-1",
+          "runId": "run-1fe6c68a1a0e05d2cceb2bb06689b7de",
+          "events": 35,
+          "contextFacts": 12,
+          "contextPlayerCoverage": 12,
+          "derivedFacts": {
+            "win": 1,
+            "elimination": 11,
+            "nemesis": 6,
+            "theft": 1,
+            "assistance": 10
+          },
+          "callbacks": [
+            {
+              "sequence": 3,
+              "phase": {
+                "kind": "opening",
+                "index": 0,
+                "day": 0
+              },
+              "type": "revenge",
+              "playerIds": [
+                "friend-0",
+                "friend-4"
+              ],
+              "sourceRunId": "run-dc161a4ce1d884bdf72a3769d8be416f",
+              "sourceEvent": 21,
+              "sourceFactId": "run-dc161a4ce1d884bdf72a3769d8be416f:21:3",
+              "sourceDetail": "Friend 0 took revenge against Friend 4.",
+              "scene": "Friend 4 loses footing when Friend 0 trips the approaching tribute beside the central water cache. Friend 0 pushes the heavy tank off its stand. It crushes Friend 4 to death; Friend 0 takes oil lantern.",
+              "callback": "Friend 0 took revenge against Friend 4 in an earlier season. Here they are again."
+            },
+            {
+              "sequence": 11,
+              "phase": {
+                "kind": "day",
+                "index": 1,
+                "day": 1
+              },
+              "type": "win",
+              "playerIds": [
+                "friend-1"
+              ],
+              "sourceRunId": "run-dc161a4ce1d884bdf72a3769d8be416f",
+              "sourceEvent": 38,
+              "sourceFactId": "run-dc161a4ce1d884bdf72a3769d8be416f:win",
+              "sourceDetail": "Friend 1 won Returning 12.",
+              "scene": "Friend 1 invites Friend 3 to a brief meal in The Center Podium. The rations are shared and finished, earning a grateful nod.",
+              "callback": "There is a previous champion in the scene: Friend 1."
+            },
+            {
+              "sequence": 20,
+              "phase": {
+                "kind": "night",
+                "index": 4,
+                "day": 2
+              },
+              "type": "nemesis",
+              "playerIds": [
+                "friend-5",
+                "friend-3"
+              ],
+              "sourceRunId": "run-dc161a4ce1d884bdf72a3769d8be416f",
+              "sourceEvent": 15,
+              "sourceFactId": "run-dc161a4ce1d884bdf72a3769d8be416f:15:1",
+              "sourceDetail": "Friend 5 became a nemesis of Friend 3.",
+              "scene": "Friend 5 tries to climb a steep cut bank in The Center Podium rather than face Friend 3. Friend 3 stamps on the reaching fingers; the fall onto the hard footing below kills Friend 5.",
+              "callback": "Friend 3 has been Friend 5’s nemesis before, in a different season."
+            }
+          ]
+        },
+        {
+          "season": 3,
+          "seed": "past-season-audit-12-normal-2",
+          "runId": "run-912b19644d4bb1bde6a16db39b369a13",
+          "events": 40,
+          "contextFacts": 12,
+          "contextPlayerCoverage": 12,
+          "derivedFacts": {
+            "win": 1,
+            "elimination": 11,
+            "nemesis": 7,
+            "alliance": 1,
+            "theft": 1,
+            "assistance": 7
+          },
+          "callbacks": [
+            {
+              "sequence": 9,
+              "phase": {
+                "kind": "day",
+                "index": 1,
+                "day": 1
+              },
+              "type": "win",
+              "playerIds": [
+                "friend-0"
+              ],
+              "sourceRunId": "run-1fe6c68a1a0e05d2cceb2bb06689b7de",
+              "sourceEvent": 34,
+              "sourceFactId": "run-1fe6c68a1a0e05d2cceb2bb06689b7de:win",
+              "sourceDetail": "Friend 0 won Returning 12.",
+              "scene": "Renamed Friend finds crossbow behind a tray at a rack of bolts in The Center Podium.",
+              "callback": "There is a previous champion in the scene: Renamed Friend."
+            },
+            {
+              "sequence": 28,
+              "phase": {
+                "kind": "night",
+                "index": 4,
+                "day": 2
+              },
+              "type": "elimination",
+              "playerIds": [
+                "friend-6",
+                "friend-10"
+              ],
+              "sourceRunId": "run-dc161a4ce1d884bdf72a3769d8be416f",
+              "sourceEvent": 1,
+              "sourceFactId": "run-dc161a4ce1d884bdf72a3769d8be416f:1:1",
+              "sourceDetail": "Friend 6 killed Friend 10.",
+              "scene": "At a narrow trail in The Center Podium, Friend 10 shouts a warning at Friend 6. The two face each other until Friend 6 gives ground. Nobody is hurt.",
+              "callback": "These two have faced a final encounter before: Friend 6 killed Friend 10 in another season."
+            }
+          ]
+        },
+        {
+          "season": 4,
+          "seed": "past-season-audit-12-normal-3",
+          "runId": "run-22eacca07299013eba7c9cbe0cb08cf7",
+          "events": 44,
+          "contextFacts": 12,
+          "contextPlayerCoverage": 12,
+          "derivedFacts": {
+            "win": 1,
+            "elimination": 9,
+            "nemesis": 5,
+            "transfer": 1,
+            "assistance": 3,
+            "theft": 1,
+            "alliance": 1
+          },
+          "callbacks": [
+            {
+              "sequence": 1,
+              "phase": {
+                "kind": "opening",
+                "index": 0,
+                "day": 0
+              },
+              "type": "assistance",
+              "playerIds": [
+                "friend-1",
+                "friend-2"
+              ],
+              "sourceRunId": "run-1fe6c68a1a0e05d2cceb2bb06689b7de",
+              "sourceEvent": 12,
+              "sourceFactId": "run-1fe6c68a1a0e05d2cceb2bb06689b7de:12:0",
+              "sourceDetail": "Friend 1 helped Friend 2.",
+              "scene": "Friend 2 closes on the central tool rack just as Friend 1 pulls an iron bar free. Friend 1 swings at Friend 2's head, killing the approaching tribute, then leaves with sealed rations.",
+              "callback": "Friend 1 helped Friend 2 in an earlier season. There is more to their history than this meeting."
+            },
+            {
+              "sequence": 30,
+              "phase": {
+                "kind": "night",
+                "index": 6,
+                "day": 3
+              },
+              "type": "nemesis",
+              "playerIds": [
+                "friend-11",
+                "friend-1"
+              ],
+              "sourceRunId": "run-dc161a4ce1d884bdf72a3769d8be416f",
+              "sourceEvent": 13,
+              "sourceFactId": "run-dc161a4ce1d884bdf72a3769d8be416f:13:0",
+              "sourceDetail": "Friend 11 became a nemesis of Friend 1.",
+              "scene": "As Friend 11 rounds a trail barrier in The Center Podium, Friend 1 thrusts a trident past Friend 11. Friend 11 escapes unharmed while Friend 1 recovers from the missed attack.",
+              "callback": "In a previous season, Friend 11 singled out Friend 1 as a nemesis."
+            }
+          ]
+        },
+        {
+          "season": 5,
+          "seed": "past-season-audit-12-normal-4",
+          "runId": "run-ab8b58a12654925e5bc7a46958e7d8ed",
+          "events": 37,
+          "contextFacts": 12,
+          "contextPlayerCoverage": 12,
+          "derivedFacts": {
+            "win": 1,
+            "elimination": 10,
+            "nemesis": 9,
+            "assistance": 3,
+            "theft": 1
+          },
+          "callbacks": [
+            {
+              "sequence": 1,
+              "phase": {
+                "kind": "opening",
+                "index": 0,
+                "day": 0
+              },
+              "type": "elimination",
+              "playerIds": [
+                "friend-5",
+                "friend-6"
+              ],
+              "sourceRunId": "run-22eacca07299013eba7c9cbe0cb08cf7",
+              "sourceEvent": 2,
+              "sourceFactId": "run-22eacca07299013eba7c9cbe0cb08cf7:2:1",
+              "sourceDetail": "Friend 5 killed Friend 6.",
+              "scene": "A loose bar becomes a weapon in Friend 5's hands beside the central tools. The strike hits Friend 6 in the head and proves fatal. Friend 5 takes emergency blanket from the supplies.",
+              "callback": "Once before, in a different game, Friend 5 ended Friend 6’s season by killing Friend 6."
+            },
+            {
+              "sequence": 15,
+              "phase": {
+                "kind": "night",
+                "index": 2,
+                "day": 1
+              },
+              "type": "win",
+              "playerIds": [
+                "friend-1"
+              ],
+              "sourceRunId": "run-dc161a4ce1d884bdf72a3769d8be416f",
+              "sourceEvent": 38,
+              "sourceFactId": "run-dc161a4ce1d884bdf72a3769d8be416f:win",
+              "sourceDetail": "Friend 1 won Returning 12.",
+              "scene": "Friend 1 approaches Friend 3 with empty hands in The Forest and offers an apology. After a long pause, Friend 3 agrees to let the words stand without another argument.",
+              "callback": "The arena has crowned Friend 1 before; a new season asks for another winner."
+            },
+            {
+              "sequence": 34,
+              "phase": {
+                "kind": "night",
+                "index": 6,
+                "day": 3
+              },
+              "type": "elimination",
+              "playerIds": [
+                "friend-1",
+                "friend-10"
+              ],
+              "sourceRunId": "run-1fe6c68a1a0e05d2cceb2bb06689b7de",
+              "sourceEvent": 1,
+              "sourceFactId": "run-1fe6c68a1a0e05d2cceb2bb06689b7de:1:1",
+              "sourceDetail": "Friend 1 killed Friend 10.",
+              "scene": "Friend 1 reaches for Friend 10's offered hand across the drainage shaft in The Center Podium. Friend 10 pulls hard and releases the grip over the opening; Friend 1 falls to death inside the shaft. The same drainage shaft where Friend 4 died earlier has now claimed Friend 1.",
+              "callback": "Once before, in a different game, Friend 1 ended Friend 10’s season by killing Friend 10."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "size": 12,
+      "danger": "high",
+      "seasons": [
+        {
+          "season": 1,
+          "seed": "past-season-audit-12-high-0",
+          "runId": "run-20574a3192ecfa48905ddf6533cdb3fd",
+          "events": 21,
+          "contextFacts": 0,
+          "contextPlayerCoverage": 0,
+          "derivedFacts": {
+            "win": 1,
+            "elimination": 10,
+            "nemesis": 3,
+            "assistance": 1
+          },
+          "callbacks": []
+        },
+        {
+          "season": 2,
+          "seed": "past-season-audit-12-high-1",
+          "runId": "run-abc4e6e03172c7b281effe5b8460b005",
+          "events": 31,
+          "contextFacts": 12,
+          "contextPlayerCoverage": 11,
+          "derivedFacts": {
+            "win": 1,
+            "elimination": 10,
+            "assistance": 3,
+            "nemesis": 4
+          },
+          "callbacks": [
+            {
+              "sequence": 5,
+              "phase": {
+                "kind": "opening",
+                "index": 0,
+                "day": 0
+              },
+              "type": "win",
+              "playerIds": [
+                "friend-7"
+              ],
+              "sourceRunId": "run-20574a3192ecfa48905ddf6533cdb3fd",
+              "sourceEvent": 20,
+              "sourceFactId": "run-20574a3192ecfa48905ddf6533cdb3fd:win",
+              "sourceDetail": "Friend 7 won Returning 12.",
+              "scene": "Friend 7 claims a combat axe from the central weapon rack and moves clear of the opening fight.",
+              "callback": "A past victory follows Friend 7 back into the arena."
+            }
+          ]
+        },
+        {
+          "season": 3,
+          "seed": "past-season-audit-12-high-2",
+          "runId": "run-55ce0fe240b5922106fa5dbbf2f945bf",
+          "events": 34,
+          "contextFacts": 12,
+          "contextPlayerCoverage": 12,
+          "derivedFacts": {
+            "win": 1,
+            "elimination": 10,
+            "nemesis": 9,
+            "assistance": 1
+          },
+          "callbacks": [
+            {
+              "sequence": 0,
+              "phase": {
+                "kind": "opening",
+                "index": 0,
+                "day": 0
+              },
+              "type": "nemesis",
+              "playerIds": [
+                "friend-2",
+                "friend-4"
+              ],
+              "sourceRunId": "run-abc4e6e03172c7b281effe5b8460b005",
+              "sourceEvent": 13,
+              "sourceFactId": "run-abc4e6e03172c7b281effe5b8460b005:13:0",
+              "sourceDetail": "Friend 2 became a nemesis of Friend 4.",
+              "scene": "A trip sends Friend 4 down beside the central water supplies. Friend 2 follows by toppling the heavy tank onto Friend 4, causing fatal injuries, then gathers oil lantern.",
+              "callback": "For Friend 2, this is a meeting with someone who was a nemesis in another game: Friend 4."
+            },
+            {
+              "sequence": 11,
+              "phase": {
+                "kind": "day",
+                "index": 1,
+                "day": 1
+              },
+              "type": "elimination",
+              "playerIds": [
+                "friend-7",
+                "friend-11"
+              ],
+              "sourceRunId": "run-20574a3192ecfa48905ddf6533cdb3fd",
+              "sourceEvent": 7,
+              "sourceFactId": "run-20574a3192ecfa48905ddf6533cdb3fd:7:0",
+              "sourceDetail": "Friend 7 killed Friend 11.",
+              "scene": "Beside the trail barrier in The Center Podium, Friend 7 has little warning before Friend 11 emerges from cover and pierces Friend 7's thigh with a trident. Friend 7 pushes a supply crate between them and reaches cover, surviving with a bleeding thigh wound.",
+              "callback": "The earlier seasons have a grim entry for this pair: Friend 7 killed Friend 11."
+            }
+          ]
+        },
+        {
+          "season": 4,
+          "seed": "past-season-audit-12-high-3",
+          "runId": "run-270df202d798f59e5345df7b38158cad",
+          "events": 35,
+          "contextFacts": 12,
+          "contextPlayerCoverage": 12,
+          "derivedFacts": {
+            "win": 1,
+            "elimination": 11,
+            "assistance": 1,
+            "nemesis": 6,
+            "transfer": 1
+          },
+          "callbacks": [
+            {
+              "sequence": 13,
+              "phase": {
+                "kind": "day",
+                "index": 1,
+                "day": 1
+              },
+              "type": "win",
+              "playerIds": [
+                "friend-2"
+              ],
+              "sourceRunId": "run-abc4e6e03172c7b281effe5b8460b005",
+              "sourceEvent": 30,
+              "sourceFactId": "run-abc4e6e03172c7b281effe5b8460b005:win",
+              "sourceDetail": "Friend 2 won Returning 12.",
+              "scene": "Friend 2 opens a sealed equipment case in The Center Podium and takes blowgun and poison darts.",
+              "callback": "There is a previous champion in the scene: Friend 2."
+            },
+            {
+              "sequence": 28,
+              "phase": {
+                "kind": "night",
+                "index": 4,
+                "day": 2
+              },
+              "type": "assistance",
+              "playerIds": [
+                "friend-3",
+                "friend-7"
+              ],
+              "sourceRunId": "run-55ce0fe240b5922106fa5dbbf2f945bf",
+              "sourceEvent": 18,
+              "sourceFactId": "run-55ce0fe240b5922106fa5dbbf2f945bf:18:0",
+              "sourceDetail": "Friend 3 helped Friend 7.",
+              "scene": "Friend 7 uses a rope to rig a falling log above a supply trail in The Center Podium, then waits for Friend 3 to pass beneath it. The released log strikes Friend 3 in the head. Friend 3 dies from the impact as the log rolls clear and the rope falls slack.",
+              "callback": "This pair’s past includes a moment of assistance from Friend 3 to Friend 7."
+            }
+          ]
+        },
+        {
+          "season": 5,
+          "seed": "past-season-audit-12-high-4",
+          "runId": "run-16c6b22f7d68a12765c0fe12d474f095",
+          "events": 39,
+          "contextFacts": 12,
+          "contextPlayerCoverage": 12,
+          "derivedFacts": {
+            "win": 1,
+            "elimination": 10,
+            "assistance": 5,
+            "nemesis": 5,
+            "transfer": 1,
+            "theft": 1,
+            "alliance": 1
+          },
+          "callbacks": [
+            {
+              "sequence": 3,
+              "phase": {
+                "kind": "opening",
+                "index": 0,
+                "day": 0
+              },
+              "type": "win",
+              "playerIds": [
+                "friend-11"
+              ],
+              "sourceRunId": "run-270df202d798f59e5345df7b38158cad",
+              "sourceEvent": 34,
+              "sourceFactId": "run-270df202d798f59e5345df7b38158cad:win",
+              "sourceDetail": "Friend 11 won Returning 12.",
+              "scene": "Friend 11 snatches a crossbow from the Center Podium rack and backs clear.",
+              "callback": "The arena has crowned Friend 11 before; a new season asks for another winner."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "size": 24,
+      "danger": "low",
+      "seasons": [
+        {
+          "season": 1,
+          "seed": "past-season-audit-24-low-0",
+          "runId": "run-6f60064c89b077bfdb2729675e577329",
+          "events": 85,
+          "contextFacts": 0,
+          "contextPlayerCoverage": 0,
+          "derivedFacts": {
+            "win": 1,
+            "elimination": 20,
+            "nemesis": 20,
+            "assistance": 8,
+            "theft": 3,
+            "alliance": 1,
+            "betrayal": 1
+          },
+          "callbacks": []
+        },
+        {
+          "season": 2,
+          "seed": "past-season-audit-24-low-1",
+          "runId": "run-d2372b4e67709ca4af380bfb5bf93d24",
+          "events": 88,
+          "contextFacts": 12,
+          "contextPlayerCoverage": 21,
+          "derivedFacts": {
+            "win": 1,
+            "elimination": 22,
+            "assistance": 12,
+            "nemesis": 23,
+            "transfer": 3,
+            "theft": 2
+          },
+          "callbacks": [
+            {
+              "sequence": 5,
+              "phase": {
+                "kind": "opening",
+                "index": 0,
+                "day": 0
+              },
+              "type": "win",
+              "playerIds": [
+                "friend-7"
+              ],
+              "sourceRunId": "run-6f60064c89b077bfdb2729675e577329",
+              "sourceEvent": 84,
+              "sourceFactId": "run-6f60064c89b077bfdb2729675e577329:win",
+              "sourceDetail": "Friend 7 won Returning 24.",
+              "scene": "Friend 7 takes a supply case holding blowgun and poison darts from the Center Podium and leaves the scramble.",
+              "callback": "Friend 7 already has a season victory to look back on."
+            }
+          ]
+        },
+        {
+          "season": 3,
+          "seed": "past-season-audit-24-low-2",
+          "runId": "run-e5ca48bec29d268f91b9211ddc384748",
+          "events": 104,
+          "contextFacts": 12,
+          "contextPlayerCoverage": 22,
+          "derivedFacts": {
+            "win": 1,
+            "elimination": 21,
+            "assistance": 17,
+            "nemesis": 24,
+            "alliance": 2,
+            "theft": 3,
+            "transfer": 2
+          },
+          "callbacks": [
+            {
+              "sequence": 11,
+              "phase": {
+                "kind": "opening",
+                "index": 0,
+                "day": 0
+              },
+              "type": "win",
+              "playerIds": [
+                "friend-8"
+              ],
+              "sourceRunId": "run-d2372b4e67709ca4af380bfb5bf93d24",
+              "sourceEvent": 87,
+              "sourceFactId": "run-d2372b4e67709ca4af380bfb5bf93d24:win",
+              "sourceDetail": "Friend 8 won Returning 24.",
+              "scene": "Friend 8, Friend 7, Friend 9 and Renamed Friend leave the opening chaos together and reach The Forest.",
+              "callback": "The arena has crowned Friend 8 before; a new season asks for another winner."
+            }
+          ]
+        },
+        {
+          "season": 4,
+          "seed": "past-season-audit-24-low-3",
+          "runId": "run-44795366355dab5378d9c0640b36cc4c",
+          "events": 81,
+          "contextFacts": 12,
+          "contextPlayerCoverage": 22,
+          "derivedFacts": {
+            "win": 1,
+            "elimination": 22,
+            "nemesis": 23,
+            "assistance": 22,
+            "transfer": 2,
+            "theft": 1
+          },
+          "callbacks": [
+            {
+              "sequence": 13,
+              "phase": {
+                "kind": "opening",
+                "index": 0,
+                "day": 0
+              },
+              "type": "win",
+              "playerIds": [
+                "friend-7"
+              ],
+              "sourceRunId": "run-6f60064c89b077bfdb2729675e577329",
+              "sourceEvent": 84,
+              "sourceFactId": "run-6f60064c89b077bfdb2729675e577329:win",
+              "sourceDetail": "Friend 7 won Returning 24.",
+              "scene": "Friend 18 and Friend 7 help each other take the desert exit into The Desert.",
+              "callback": "There is a previous champion in the scene: Friend 7."
+            },
+            {
+              "sequence": 22,
+              "phase": {
+                "kind": "day",
+                "index": 1,
+                "day": 1
+              },
+              "type": "win",
+              "playerIds": [
+                "friend-20"
+              ],
+              "sourceRunId": "run-e5ca48bec29d268f91b9211ddc384748",
+              "sourceEvent": 103,
+              "sourceFactId": "run-e5ca48bec29d268f91b9211ddc384748:win",
+              "sourceDetail": "Friend 20 won Returning 24.",
+              "scene": "Friend 20 opens a catch beneath a small work stand in The Center Podium and retrieves hunting knife.",
+              "callback": "There is a previous champion in the scene: Friend 20."
+            },
+            {
+              "sequence": 65,
+              "phase": {
+                "kind": "day",
+                "index": 7,
+                "day": 4
+              },
+              "type": "transfer",
+              "playerIds": [
+                "friend-9",
+                "friend-8"
+              ],
+              "sourceRunId": "run-e5ca48bec29d268f91b9211ddc384748",
+              "sourceEvent": 52,
+              "sourceFactId": "run-e5ca48bec29d268f91b9211ddc384748:52:0",
+              "sourceDetail": "Friend 9 exchanged an item with Friend 8.",
+              "scene": "Friend 9 traps Friend 8's weapon arm against a supply barrier in The Center Podium and prises the set of spiked brass knuckles free. Friend 8 pulls away uninjured while Friend 9 holds onto the weapon.",
+              "callback": "In another game, Friend 9 and Friend 8 were involved in an item transfer."
+            }
+          ]
+        },
+        {
+          "season": 5,
+          "seed": "past-season-audit-24-low-4",
+          "runId": "run-39e3e779fb08a2c4d5365a840c851751",
+          "events": 97,
+          "contextFacts": 12,
+          "contextPlayerCoverage": 23,
+          "derivedFacts": {
+            "win": 1,
+            "elimination": 23,
+            "assistance": 15,
+            "nemesis": 15,
+            "transfer": 2,
+            "theft": 2,
+            "revenge": 1
+          },
+          "callbacks": [
+            {
+              "sequence": 61,
+              "phase": {
+                "kind": "day",
+                "index": 5,
+                "day": 3
+              },
+              "type": "elimination",
+              "playerIds": [
+                "friend-17",
+                "friend-2"
+              ],
+              "sourceRunId": "run-44795366355dab5378d9c0640b36cc4c",
+              "sourceEvent": 0,
+              "sourceFactId": "run-44795366355dab5378d9c0640b36cc4c:0:1",
+              "sourceDetail": "Friend 17 killed Friend 2.",
+              "scene": "An empty delivery sack catches Friend 17's attention in The Swamp, and Friend 2 thrusts the spear into Friend 17's thigh; Friend 17 flings the sack into the attacker's face and gets away with the thigh bleeding.",
+              "callback": "A previous game ended for Friend 2 at Friend 17’s hands. They have crossed paths again."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "size": 24,
+      "danger": "normal",
+      "seasons": [
+        {
+          "season": 1,
+          "seed": "past-season-audit-24-normal-0",
+          "runId": "run-2d04067119244d857e16d107117eff90",
+          "events": 85,
+          "contextFacts": 0,
+          "contextPlayerCoverage": 0,
+          "derivedFacts": {
+            "win": 1,
+            "elimination": 22,
+            "assistance": 8,
+            "nemesis": 15,
+            "theft": 2,
+            "transfer": 3
+          },
+          "callbacks": []
+        },
+        {
+          "season": 2,
+          "seed": "past-season-audit-24-normal-1",
+          "runId": "run-4648dfaa72a9492aa27e521bf574e460",
+          "events": 74,
+          "contextFacts": 12,
+          "contextPlayerCoverage": 21,
+          "derivedFacts": {
+            "win": 1,
+            "elimination": 21,
+            "assistance": 10,
+            "theft": 1,
+            "nemesis": 14,
+            "transfer": 2
+          },
+          "callbacks": [
+            {
+              "sequence": 10,
+              "phase": {
+                "kind": "opening",
+                "index": 0,
+                "day": 0
+              },
+              "type": "win",
+              "playerIds": [
+                "friend-11"
+              ],
+              "sourceRunId": "run-2d04067119244d857e16d107117eff90",
+              "sourceEvent": 84,
+              "sourceFactId": "run-2d04067119244d857e16d107117eff90:win",
+              "sourceDetail": "Friend 11 won Returning 24.",
+              "scene": "Friend 11 claims a slingshot from the central weapon rack and moves clear of the opening fight.",
+              "callback": "Friend 11 has won this game before. This season is still anyone’s to take."
+            }
+          ]
+        },
+        {
+          "season": 3,
+          "seed": "past-season-audit-24-normal-2",
+          "runId": "run-fc3b26411c72967a3a194a51c5479492",
+          "events": 85,
+          "contextFacts": 12,
+          "contextPlayerCoverage": 20,
+          "derivedFacts": {
+            "win": 1,
+            "elimination": 22,
+            "assistance": 9,
+            "transfer": 1,
+            "nemesis": 18,
+            "theft": 3
+          },
+          "callbacks": [
+            {
+              "sequence": 10,
+              "phase": {
+                "kind": "opening",
+                "index": 0,
+                "day": 0
+              },
+              "type": "win",
+              "playerIds": [
+                "friend-11"
+              ],
+              "sourceRunId": "run-4648dfaa72a9492aa27e521bf574e460",
+              "sourceEvent": 73,
+              "sourceFactId": "run-4648dfaa72a9492aa27e521bf574e460:win",
+              "sourceDetail": "Friend 11 won Returning 24.",
+              "scene": "The opening scramble leaves a broadsword within reach on the Center Podium rack. Friend 11 takes it and backs away.",
+              "callback": "For Friend 11, winning the arena is something that has happened before."
+            },
+            {
+              "sequence": 80,
+              "phase": {
+                "kind": "finale",
+                "index": 12,
+                "day": 6
+              },
+              "type": "elimination",
+              "playerIds": [
+                "friend-16",
+                "friend-4"
+              ],
+              "sourceRunId": "run-4648dfaa72a9492aa27e521bf574e460",
+              "sourceEvent": 4,
+              "sourceFactId": "run-4648dfaa72a9492aa27e521bf574e460:4:1",
+              "sourceDetail": "Friend 16 killed Friend 4.",
+              "scene": "Friend 4 rushes Friend 16 across the open ground in The Swamp. Friend 16 drops beneath the reaching arms, takes the back, and holds a choke until Friend 4 dies.",
+              "callback": "In another season, Friend 16 was responsible for Friend 4’s death. This is a new meeting."
+            }
+          ]
+        },
+        {
+          "season": 4,
+          "seed": "past-season-audit-24-normal-3",
+          "runId": "run-0f0487166af49f72af98b6ea44fe0d2e",
+          "events": 77,
+          "contextFacts": 12,
+          "contextPlayerCoverage": 23,
+          "derivedFacts": {
+            "win": 1,
+            "elimination": 21,
+            "assistance": 20,
+            "nemesis": 13,
+            "transfer": 1,
+            "theft": 2
+          },
+          "callbacks": [
+            {
+              "sequence": 23,
+              "phase": {
+                "kind": "night",
+                "index": 2,
+                "day": 1
+              },
+              "type": "win",
+              "playerIds": [
+                "friend-18"
+              ],
+              "sourceRunId": "run-fc3b26411c72967a3a194a51c5479492",
+              "sourceEvent": 84,
+              "sourceFactId": "run-fc3b26411c72967a3a194a51c5479492:win",
+              "sourceDetail": "Friend 18 won Returning 24.",
+              "scene": "Beside a camera post in The Center Podium, Friend 8 deliberately gives wooden club to Friend 18. The open handover leaves no doubt about its new owner.",
+              "callback": "Friend 18 has won this game before. This season is still anyone’s to take."
+            },
+            {
+              "sequence": 42,
+              "phase": {
+                "kind": "night",
+                "index": 4,
+                "day": 2
+              },
+              "type": "nemesis",
+              "playerIds": [
+                "friend-0",
+                "friend-6"
+              ],
+              "sourceRunId": "run-fc3b26411c72967a3a194a51c5479492",
+              "sourceEvent": 21,
+              "sourceFactId": "run-fc3b26411c72967a3a194a51c5479492:21:1",
+              "sourceDetail": "Renamed Friend became a nemesis of Friend 6.",
+              "scene": "Friend 6 distracts Renamed Friend with a stone thrown around a trail bend in The Center Podium. The set of spiked brass knuckles behind the shelter changes hands during the search for the sound. Renamed Friend returns and sees Friend 6 leaving with it.",
+              "callback": "For Renamed Friend, this is a meeting with someone who was a nemesis in another game: Friend 6."
+            }
+          ]
+        },
+        {
+          "season": 5,
+          "seed": "past-season-audit-24-normal-4",
+          "runId": "run-e92d212e3d847c57dfb7e68641957ff3",
+          "events": 94,
+          "contextFacts": 12,
+          "contextPlayerCoverage": 23,
+          "derivedFacts": {
+            "win": 1,
+            "elimination": 23,
+            "assistance": 32,
+            "nemesis": 20,
+            "transfer": 2,
+            "theft": 2,
+            "revenge": 1
+          },
+          "callbacks": [
+            {
+              "sequence": 7,
+              "phase": {
+                "kind": "opening",
+                "index": 0,
+                "day": 0
+              },
+              "type": "win",
+              "playerIds": [
+                "friend-11"
+              ],
+              "sourceRunId": "run-0f0487166af49f72af98b6ea44fe0d2e",
+              "sourceEvent": 76,
+              "sourceFactId": "run-0f0487166af49f72af98b6ea44fe0d2e:win",
+              "sourceDetail": "Friend 11 won Returning 24.",
+              "scene": "At the Center Podium, Friend 11 grabs a whip from the rack and slips away from the fighting.",
+              "callback": "Friend 11 has won this game before. This season is still anyone’s to take."
+            },
+            {
+              "sequence": 24,
+              "phase": {
+                "kind": "day",
+                "index": 1,
+                "day": 1
+              },
+              "type": "elimination",
+              "playerIds": [
+                "friend-19",
+                "friend-2"
+              ],
+              "sourceRunId": "run-0f0487166af49f72af98b6ea44fe0d2e",
+              "sourceEvent": 1,
+              "sourceFactId": "run-0f0487166af49f72af98b6ea44fe0d2e:1:1",
+              "sourceDetail": "Friend 19 killed Friend 2.",
+              "scene": "Friend 19 tackles Friend 2 at a trail bend in The Center Podium and opens the side with a jagged tile. Friend 2 rolls with the tackle, pushes off the ground, and scrambles up the bank with the side wound untreated.",
+              "callback": "In another season, Friend 19 was responsible for Friend 2’s death. This is a new meeting."
+            },
+            {
+              "sequence": 71,
+              "phase": {
+                "kind": "day",
+                "index": 7,
+                "day": 4
+              },
+              "type": "assistance",
+              "playerIds": [
+                "friend-1",
+                "friend-7"
+              ],
+              "sourceRunId": "run-0f0487166af49f72af98b6ea44fe0d2e",
+              "sourceEvent": 13,
+              "sourceFactId": "run-0f0487166af49f72af98b6ea44fe0d2e:13:3",
+              "sourceDetail": "Friend 1 helped Friend 7.",
+              "scene": "Above a supply trail in The Center Podium, Friend 7 rigs a log with a rope and waits for Friend 1 to walk underneath. Friend 1 dives away, but a broken branch on the falling log cuts the thigh. The log rolls clear, leaving the rope slack. Friend 1 escapes alive with a bleeding thigh.",
+              "callback": "Friend 1 has come to Friend 7’s aid before, in another season’s arena."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "size": 24,
+      "danger": "high",
+      "seasons": [
+        {
+          "season": 1,
+          "seed": "past-season-audit-24-high-0",
+          "runId": "run-e64457ea85dfe760fd8996d9bd145ba2",
+          "events": 78,
+          "contextFacts": 0,
+          "contextPlayerCoverage": 0,
+          "derivedFacts": {
+            "win": 1,
+            "elimination": 20,
+            "assistance": 14,
+            "nemesis": 14,
+            "transfer": 1
+          },
+          "callbacks": []
+        },
+        {
+          "season": 2,
+          "seed": "past-season-audit-24-high-1",
+          "runId": "run-6d6bc49b6fb71bf13ec2e8778b8a0ba5",
+          "events": 58,
+          "contextFacts": 12,
+          "contextPlayerCoverage": 23,
+          "derivedFacts": {
+            "win": 1,
+            "elimination": 20,
+            "nemesis": 7,
+            "assistance": 13,
+            "transfer": 2
+          },
+          "callbacks": [
+            {
+              "sequence": 8,
+              "phase": {
+                "kind": "opening",
+                "index": 0,
+                "day": 0
+              },
+              "type": "win",
+              "playerIds": [
+                "friend-19"
+              ],
+              "sourceRunId": "run-e64457ea85dfe760fd8996d9bd145ba2",
+              "sourceEvent": 77,
+              "sourceFactId": "run-e64457ea85dfe760fd8996d9bd145ba2:win",
+              "sourceDetail": "Friend 19 won Returning 24.",
+              "scene": "Friend 19 takes a supply case holding coil of conductive wire from the Center Podium and leaves the scramble.",
+              "callback": "For Friend 19, winning the arena is something that has happened before."
+            },
+            {
+              "sequence": 26,
+              "phase": {
+                "kind": "night",
+                "index": 2,
+                "day": 1
+              },
+              "type": "nemesis",
+              "playerIds": [
+                "friend-20",
+                "friend-12"
+              ],
+              "sourceRunId": "run-e64457ea85dfe760fd8996d9bd145ba2",
+              "sourceEvent": 18,
+              "sourceFactId": "run-e64457ea85dfe760fd8996d9bd145ba2:18:1",
+              "sourceDetail": "Friend 20 became a nemesis of Friend 12.",
+              "scene": "Friend 20 crawls beneath a loose cover beside the drainage shaft in The Center Podium. When Friend 12 approaches to investigate, Friend 20 thrusts the cover upward against the knees, sending Friend 12 into the shaft to die.",
+              "callback": "In a previous season, Friend 20 singled out Friend 12 as a nemesis."
+            },
+            {
+              "sequence": 36,
+              "phase": {
+                "kind": "day",
+                "index": 3,
+                "day": 2
+              },
+              "type": "elimination",
+              "playerIds": [
+                "friend-9",
+                "friend-1"
+              ],
+              "sourceRunId": "run-e64457ea85dfe760fd8996d9bd145ba2",
+              "sourceEvent": 2,
+              "sourceFactId": "run-e64457ea85dfe760fd8996d9bd145ba2:2:1",
+              "sourceDetail": "Friend 9 killed Friend 1.",
+              "scene": "Friend 9 catches Friend 1 squeezing around an equipment frame in The Center Podium and drives a metal shard into the side. Friend 1 reaches the far opening but dies there from the wound.",
+              "callback": "A previous game ended for Friend 1 at Friend 9’s hands. They have crossed paths again."
+            }
+          ]
+        },
+        {
+          "season": 3,
+          "seed": "past-season-audit-24-high-2",
+          "runId": "run-f1d84e4a60ddd0ddbef3477756703646",
+          "events": 51,
+          "contextFacts": 12,
+          "contextPlayerCoverage": 22,
+          "derivedFacts": {
+            "win": 1,
+            "elimination": 17,
+            "assistance": 2,
+            "theft": 1,
+            "nemesis": 4
+          },
+          "callbacks": [
+            {
+              "sequence": 7,
+              "phase": {
+                "kind": "opening",
+                "index": 0,
+                "day": 0
+              },
+              "type": "win",
+              "playerIds": [
+                "friend-6"
+              ],
+              "sourceRunId": "run-6d6bc49b6fb71bf13ec2e8778b8a0ba5",
+              "sourceEvent": 57,
+              "sourceFactId": "run-6d6bc49b6fb71bf13ec2e8778b8a0ba5:win",
+              "sourceDetail": "Friend 6 won Returning 24.",
+              "scene": "Friend 6 takes a supply case holding electric baton from the Center Podium and leaves the scramble.",
+              "callback": "Friend 6 has won this game before. This season is still anyone’s to take."
+            },
+            {
+              "sequence": 24,
+              "phase": {
+                "kind": "night",
+                "index": 2,
+                "day": 1
+              },
+              "type": "transfer",
+              "playerIds": [
+                "friend-22",
+                "friend-19"
+              ],
+              "sourceRunId": "run-6d6bc49b6fb71bf13ec2e8778b8a0ba5",
+              "sourceEvent": 28,
+              "sourceFactId": "run-6d6bc49b6fb71bf13ec2e8778b8a0ba5:28:0",
+              "sourceDetail": "Friend 22 exchanged an item with Friend 19.",
+              "scene": "Friend 19 offers to steady oil lantern while Friend 22 steps over a low barrier in The Center Podium. Once the barrier is between them, Friend 19 keeps the item and backs away despite the protest.",
+              "callback": "Their shared arena history includes an item changing hands between Friend 22 and Friend 19."
+            }
+          ]
+        },
+        {
+          "season": 4,
+          "seed": "past-season-audit-24-high-3",
+          "runId": "run-42d0b4468d324e48a5bbeff0e479e63a",
+          "events": 54,
+          "contextFacts": 12,
+          "contextPlayerCoverage": 21,
+          "derivedFacts": {
+            "win": 1,
+            "elimination": 22,
+            "assistance": 4,
+            "theft": 1,
+            "nemesis": 3,
+            "transfer": 1
+          },
+          "callbacks": [
+            {
+              "sequence": 11,
+              "phase": {
+                "kind": "opening",
+                "index": 0,
+                "day": 0
+              },
+              "type": "win",
+              "playerIds": [
+                "friend-14"
+              ],
+              "sourceRunId": "run-f1d84e4a60ddd0ddbef3477756703646",
+              "sourceEvent": 50,
+              "sourceFactId": "run-f1d84e4a60ddd0ddbef3477756703646:win",
+              "sourceDetail": "Friend 14 won Returning 24.",
+              "scene": "Friend 20, Friend 14, Friend 19 and Friend 4 take the desert exit into The Desert.",
+              "callback": "Friend 14 once finished a season as the last survivor. There is a long way to go this time."
+            }
+          ]
+        },
+        {
+          "season": 5,
+          "seed": "past-season-audit-24-high-4",
+          "runId": "run-8b7ccf9d798db97f9adf9a4ac7911392",
+          "events": 59,
+          "contextFacts": 12,
+          "contextPlayerCoverage": 23,
+          "derivedFacts": {
+            "win": 1,
+            "elimination": 18,
+            "assistance": 8,
+            "nemesis": 7,
+            "transfer": 1,
+            "theft": 1
+          },
+          "callbacks": [
+            {
+              "sequence": 6,
+              "phase": {
+                "kind": "opening",
+                "index": 0,
+                "day": 0
+              },
+              "type": "win",
+              "playerIds": [
+                "friend-4"
+              ],
+              "sourceRunId": "run-42d0b4468d324e48a5bbeff0e479e63a",
+              "sourceEvent": 53,
+              "sourceFactId": "run-42d0b4468d324e48a5bbeff0e479e63a:win",
+              "sourceDetail": "Friend 4 won Returning 24.",
+              "scene": "A quick reach into the Center Podium rack gives Friend 4 a machete. Friend 4 retreats with it.",
+              "callback": "Friend 4 already has a season victory to look back on."
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+ FAIL  tests/engine/arena.test.ts > warned arena disruptions and rare multikills > resupplies the podium once from Day 3, leaving collectible supplies and using one assignment
+ FAIL  tests/engine/combat-metrics.test.ts > structured combat and balance > uses the selected authored variant and validates replay indices
+ FAIL  tests/engine/phase-format.test.ts > bloodbath, travel and sponsors > offers lethal central supplies and safe escapes to all five outer regions
+ FAIL  tests/engine/quirks.test.ts > full replay behavior > repeats versioned inputs exactly, keeps outcomes independent of wording, and records no cursed equipment in new games
+ FAIL  tests/content/everyday.test.ts > everyday biome scenes > ships fourteen distinct scenes per biome with solo, pair, trio and four-player options
+ FAIL  tests/content/hotspot-variety.test.ts > renders all complete hotspot situations with the bound participants and no added effects
+ FAIL  tests/content/night.test.ts > night scenes use the current scenario > requires personal delivery history and still-held food for the resupply callback
+ FAIL  tests/content/variety.test.ts > authored scene variety > retains complete contextual coverage alongside independently authored group scenes
+ FAIL  tests/content/variety.test.ts > authored scene variety > provides ten distinct complete alternatives for every action-wording option
+ FAIL  tests/content/variety.test.ts > authored scene variety > retains expanded scene and interview variety alongside eight authored regional encounters
+ FAIL  tests/content/variety.test.ts > authored scene variety > uses unseen wording across template IDs, then balances exhausted pools without immediate repeats
+ FAIL  tests/content/variety.test.ts > authored scene variety > preserves full-pack events, inventory, relationships and winner when only wording varies
+ FAIL  tests/content/weapons.test.ts > weapon and trap outcomes > includes every weapon and special item in caches and sponsor drops without increasing their shared loot budget
+ Test Files  9 failed (9)
+      Tests  13 failed | 54 passed (67)
