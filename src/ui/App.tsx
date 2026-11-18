@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type ChangeEvent } from 'react';
 import { DEFAULT_SETTINGS, validateCast, validateSettings, validateRunEnvelope, parseJson, RepositoryError, type CastDefinition, type GameSettings, type RunRecord, type SeasonHistory, type PlayerDefinition, type GameRepository, type GameState, type SavedCast, type UnfinishedRun, type RemovedPlayer } from '../domain';
 import type { AppServices } from '../app/services';
 import { loadWorkspace } from '../app/loadWorkspace';
+import { arenaLayout } from '../engine/routes';
 import './styles.css';
 import './desktop.css';
 import { nextBroadcastStep, phaseReport, visiblePlayback, type BroadcastPage } from './playback';
@@ -68,6 +69,7 @@ export function App({ services }: { services: AppServices }) {
   const [screen, setScreen] = useState<Screen>('cast');
   const [cast, setCast] = useState<CastDefinition>(freshCast);
   const [settings, setSettings] = useState<GameSettings>({ ...DEFAULT_SETTINGS });
+  const setupBiomes = screen === 'setup' && settings.seed.trim() ? arenaLayout(content, settings.seed.trim()) : undefined;
   const [paste, setPaste] = useState('');
   const [run, setRun] = useState<RunRecord | null>(null);
   const [cursor, setCursor] = useState(0);
@@ -526,10 +528,10 @@ export function App({ services }: { services: AppServices }) {
         <details className="settings-disclosure arena-guide">
           <summary>Arena routes</summary>
           <div className="arena-routes">
-            {content.biomes.map(biome => <section className="region-theme" data-region={biome.id} key={biome.id}>
+            {(setupBiomes ?? content.biomes).map(biome => <section className="region-theme" data-region={biome.id} key={biome.id}>
               <h2><BiomeSymbol biome={biome.id} /> {biome.name}</h2>
               <p>{biome.description}</p>
-              <p className="muted">Connected to {biome.adjacent.map(id => content.biomes.find(b => b.id === id)?.name).join(', ')}</p>
+              {setupBiomes && <p className="muted">Connected to {biome.adjacent.map(id => setupBiomes.find(b => b.id === id)?.name).join(', ')}</p>}
             </section>)}
           </div>
         </details>
@@ -637,9 +639,11 @@ export function App({ services }: { services: AppServices }) {
           })}</div>
           <details><summary>Eliminated tributes · {current.players.filter(p => !p.alive).length}</summary>{current.players.filter(p => !p.alive).map(p => <p key={p.id}>{name(p.id)}</p>)}</details>
           <details><summary>Arena routes</summary>{run.input.content.biomes.map(b => {
-            const closed = current.arena?.some(region => region.biome === b.id && region.status === 'closed');
+            const status = current.arena?.find(region => region.biome === b.id)?.status;
             const accessible = b.adjacent.filter(id => !current.arena?.some(region => region.biome === id && ['closed', 'evacuating'].includes(region.status)));
-            return <div className="location-row" key={b.id}><strong>{b.name}</strong><small>{closed ? 'Closed' : `↔ ${accessible.map(id => run.input.content.biomes.find(region => region.id === id)?.name).join(', ')}`}</small></div>;
+            const destinations = accessible.map(id => run.input.content.biomes.find(region => region.id === id)?.name).join(', ');
+            const routes = destinations ? `${status === 'evacuating' ? '→' : '↔'} ${destinations}` : 'No open routes';
+            return <div className="location-row" key={b.id}><strong>{b.name}</strong><small>{status === 'closed' ? 'Closed' : routes}</small></div>;
           })}</details>
           <details><summary>Mutual alliances</summary>{alliancePairs(current).length ? alliancePairs(current).map(r => <p key={`${r.from}:${r.to}`}>{name(r.from)} ↔ {name(r.to)}</p>) : <p className="muted">No mutual alliances yet.</p>}</details>
         </aside>}</div>
