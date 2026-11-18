@@ -1,7 +1,12 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 import { experimentSchema, newExperiment, TRAIT_STORAGE_KEY, traitReport } from '../../src/analytics/traits';
 import { defaultContentPack } from '../../src/content';
 import { DEFAULT_SETTINGS } from '../../src/domain';
+
+async function openTraitImpact(page: Page) {
+  await page.getByRole('button', { name: 'Demo statistics', exact: true }).click();
+  await page.getByRole('button', { name: 'Trait impact', exact: true }).click();
+}
 
 for (const width of [1280, 390]) test(`trait tiers, category outlines and export at ${width}px`, async ({ page }) => {
   const e = newExperiment('browser-trait-fixture', 2400, ['agile','clumsy','loyal'], DEFAULT_SETTINGS, defaultContentPack);
@@ -11,7 +16,7 @@ for (const width of [1280, 390]) test(`trait tiers, category outlines and export
   e.rows.loyal = { neither: 2300, both: 100, treatmentOnly: 0, baselineOnly: 0 };
   await page.setViewportSize({ width, height: 900 });
   await page.addInitScript(({key, experiment}) => { localStorage.setItem(key, JSON.stringify(experiment)); localStorage.setItem('keep-demo-marker','yes'); }, {key: TRAIT_STORAGE_KEY, experiment: e});
-  await page.goto('/'); await page.getByRole('button', { name: 'Demo statistics', exact: true }).click();
+  await page.goto('/'); await openTraitImpact(page);
   const panel = page.getByRole('region', { name: 'Trait impact', exact: true });
   await expect(panel.getByRole('status')).toContainText('2400 / 2400');
   await expect(panel.locator('.tier-S')).toContainText('Agile');
@@ -38,31 +43,36 @@ for (const width of [1280, 390]) test(`trait tiers, category outlines and export
 
 test('real trait worker completes, persists and isolates demo batches', async ({ page }) => {
   test.setTimeout(120000);
-  await page.goto('/'); await page.getByRole('button', { name: 'Demo statistics', exact: true }).click();
+  await page.goto('/'); await openTraitImpact(page);
   const panel = page.getByRole('region', { name: 'Trait impact', exact: true });
   await panel.getByLabel('Pairs per trait').fill('2');
   await panel.getByRole('button', { name: 'Run trait experiment' }).click();
-  await expect(page.getByRole('button', { name: 'Run demo batch', exact: true })).toBeDisabled();
+  await expect(page.getByRole('button', { name: 'Run demo batch', exact: true })).toHaveCount(0);
   await expect(panel.getByRole('status')).toContainText('2 / 2 complete', { timeout: 90000 });
   const saved = await page.evaluate(key => JSON.parse(localStorage.getItem(key)!), TRAIT_STORAGE_KEY);
   expect(saved.completed).toBe(2); expect(Object.keys(saved.rows)).toHaveLength(26);
   await expect(panel.locator('.tier-Uncertain .trait-card')).toHaveCount(26);
-  await page.reload(); await page.getByRole('button', { name: 'Demo statistics', exact: true }).click();
+  await page.reload(); await openTraitImpact(page);
   await expect(panel.getByRole('status')).toContainText('2 / 2 complete');
+  await page.getByRole('button', { name: 'Demo batches', exact: true }).click();
   await page.getByRole('button', { name: 'Reset demo statistics', exact: true }).click();
+  await page.getByRole('button', { name: 'Trait impact', exact: true }).click();
   await expect(panel.getByRole('status')).toContainText('2 / 2 complete');
 });
 
 test('stop and continue resumes saved complete blocks with frozen settings', async ({ page }) => {
   await page.route('**/assets/traits.worker-*.js', route => route.fulfill({ contentType: 'text/javascript', body: `self.onmessage=({data:{experiment:e}})=>{const tick=()=>{e.completed++;e.seats[0]++;for(const c of Object.values(e.rows))c.neither++;self.postMessage({experiment:e,done:e.completed===e.target});if(e.completed<e.target)setTimeout(tick,1000)};tick()}` }));
-  await page.goto('/'); await page.getByRole('button', { name: 'Demo statistics', exact: true }).click();
+  await page.goto('/'); await openTraitImpact(page);
   const panel = page.getByRole('region', { name: 'Trait impact', exact: true });
   await panel.getByLabel('Pairs per trait').fill('3');
   await panel.getByRole('button', { name: 'Run trait experiment' }).click();
   await expect(panel.getByRole('status')).toContainText('1 / 3');
+  await page.getByRole('button', { name: 'Demo batches', exact: true }).click();
+  await expect(page.getByRole('button', { name: 'Run demo batch', exact: true })).toBeDisabled();
+  await page.getByRole('button', { name: 'Trait impact', exact: true }).click();
   await panel.getByRole('button', { name: 'Stop trait experiment', exact: true }).click();
   await expect(panel.getByLabel('Pairs per trait')).toBeDisabled();
-  await page.reload(); await page.getByRole('button', { name: 'Demo statistics', exact: true }).click();
+  await page.reload(); await openTraitImpact(page);
   await panel.getByRole('button', { name: 'Continue trait experiment', exact: true }).click();
   await expect(panel.getByRole('status')).toContainText('3 / 3');
   expect(await page.evaluate(key => JSON.parse(localStorage.getItem(key)!).completed, TRAIT_STORAGE_KEY)).toBe(3);
@@ -72,7 +82,7 @@ test('loads audit counters, recomputes tiers and validates imported checkpoints'
   const e = newExperiment('included-audit-fixture', 3, ['agile'], DEFAULT_SETTINGS, defaultContentPack);
   e.completed = 1; e.seats[0] = 1; e.rows.agile.neither = 1;
   await page.route('**/trait-audit.json', route => route.fulfill({ json: { experiment: e, rows: [{ trait: 'agile', tier: 'S' }] } }));
-  await page.goto('/'); await page.getByRole('button', { name: 'Demo statistics', exact: true }).click();
+  await page.goto('/'); await openTraitImpact(page);
   const panel = page.getByRole('region', { name: 'Trait impact', exact: true });
   await expect(panel.getByLabel('Import trait JSON')).toBeVisible();
   await panel.getByRole('button', { name: 'Load included audit', exact: true }).click();
@@ -91,7 +101,7 @@ test('a storage failure leaves imported results exportable and reports the probl
   const e = newExperiment('storage-failure', 1, ['agile'], DEFAULT_SETTINGS, defaultContentPack);
   await page.addInitScript(key => { const original = Storage.prototype.setItem; Storage.prototype.setItem = function(name,value) { if (name === key) throw new DOMException('Full', 'QuotaExceededError'); return original.call(this,name,value); }; }, TRAIT_STORAGE_KEY);
   await page.route('**/trait-audit.json', route => route.fulfill({ json: { experiment: e } }));
-  await page.goto('/'); await page.getByRole('button', { name: 'Demo statistics', exact: true }).click();
+  await page.goto('/'); await openTraitImpact(page);
   const panel = page.getByRole('region', { name: 'Trait impact', exact: true });
   await panel.getByRole('button', { name: 'Load included audit', exact: true }).click();
   await expect(panel.getByRole('alert')).toContainText('could not be saved');
@@ -105,7 +115,7 @@ test('the shipped main audit is complete, reproducible from counters and availab
   const e = experimentSchema.parse(report.experiment);
   expect(e.completed).toBe(2400); expect(e.target).toBe(2400); expect(e.traits).toHaveLength(26);
   expect(traitReport(e).rows).toEqual(report.rows);
-  await page.goto('/'); await page.getByRole('button', { name: 'Demo statistics', exact: true }).click();
+  await page.goto('/'); await openTraitImpact(page);
   const panel = page.getByRole('region', { name: 'Trait impact', exact: true });
   await panel.getByRole('button', { name: 'Load included audit', exact: true }).click();
   await expect(panel.getByRole('status')).toContainText('2400 / 2400');

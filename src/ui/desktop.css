@@ -331,3 +331,12 @@ button, .button { gap: var(--space-2); border-radius: var(--radius-md); }
 .archive-workspace .stats-board .section-heading { border: 0; padding: 0; margin-bottom: var(--space-4); }
 .record-label { color: var(--muted); margin: 0 0 var(--space-2); }
 .records-notes { color: var(--muted); }
+
+.demo-lab .stats-board { border-radius: var(--radius-lg); }
+.demo-lab .stats-board > h2 { margin: 0; font: 350 var(--text-2xl)/1.2 var(--font-story); }
+.demo-lab .stats-board > p { max-width: 65ch; }
+.demo-lab .stats-board .button-row { gap: var(--space-2); }
+.demo-lab .stats-board :is(button, summary, select, input) { font-size: var(--text-sm); }
+.demo-lab .analytics-reset { color: var(--danger); }
+.trait-study-options { margin-bottom: var(--space-4); }
+.trait-study-options .trait-study-selection { border: 0; margin: var(--space-2) 0 0; padding: 0; }
