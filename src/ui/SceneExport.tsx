@@ -6,7 +6,6 @@ async function scenePng(node: HTMLElement): Promise<Blob> {
   await document.fonts.ready;
   await Promise.all(Array.from(node.querySelectorAll('img'), image => image.decode().catch(() => undefined)));
   const blob = await toBlob(node, {
-    backgroundColor: '#111714',
     pixelRatio: 2,
     preferredFontFormat: 'woff2',
   });

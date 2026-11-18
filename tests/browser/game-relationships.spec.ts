@@ -57,9 +57,10 @@ for (const width of [1280, 390]) test(`game relationship modal is read-only, rev
   await expect(page.locator('.broadcast')).toHaveAttribute('data-revealed', String(cursor));
 
   await page.getByRole('button', { name: 'Presentation mode', exact: true }).click();
-  await page.getByRole('button', { name: '▷ Autoplay' }).click();
+  await page.getByRole('button', { name: 'Autoplay' }).click();
+  await page.getByText('Presentation tools', { exact: true }).click();
   await trigger.click();
   await page.keyboard.press('Escape');
-  await expect(page.getByRole('button', { name: '▷ Autoplay' })).toHaveAttribute('aria-pressed', 'false');
+  await expect(page.getByRole('button', { name: 'Autoplay' })).toHaveAttribute('aria-pressed', 'false');
   await expect(page.getByRole('button', { name: 'Exit presentation', exact: true })).toBeVisible();
 });
