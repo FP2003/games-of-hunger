@@ -45,9 +45,11 @@ const shoulderStrainWording = {
     '{actor.name} drops the broadsword mid-swing as pain shoots through {actor.possessive} shoulder. {target.name} slips away.',
   ],
   'combat-axe': [
-    '{actor.name} raises the combat axe over {target.name}, then drops it as pain hits {actor.possessive} shoulder.',
-    '{target.name} ducks. Pain in {actor.possessive} shoulder makes {actor.name} drop the combat axe.',
+    '{actor.name} lifts the axe over {target.name}, then drops it with a sharp pain in {actor.possessive} shoulder.',
+    '{target.name} ducks. {actor.name} grabs {actor.possessive} sore shoulder as the axe falls.',
     '{actor.name} swings at {target.name}, but pain shoots through {actor.possessive} shoulder and the axe slips free.',
+    "{actor.name}'s shoulder hurts too much to finish the swing. The axe drops at {target.name}'s feet.",
+    '{target.name} backs away as {actor.name} brings up the axe. A sharp pain in {actor.possessive} shoulder, and the axe slips free.',
   ],
 };
 const heavyWeaponIds = new Set(Object.keys(shoulderStrainWording));
@@ -82,8 +84,10 @@ export const weaponScenes: EventTemplate[] = weapons.flatMap(weapon => {
 const kneeHitWording = {
   bow: [
     '{target.name} tries to run, but {actor.name} shoots {target.object} in the knee. {target.name} dives into cover and stays low.',
-    '{actor.name}\'s arrow catches {target.name} in the knee, leaving {target.object} limping into cover.',
-    '{actor.name} fires as {target.name} runs. The arrow hits {target.possessive} knee and sends {target.object} sprawling behind cover.',
+    "{actor.name}'s arrow catches {target.name} in the knee, leaving {target.object} limping into cover.",
+    '{actor.name} fires as {target.name} runs. An arrow to the knee sends {target.object} tumbling into cover.',
+    '{target.name} is almost across the clearing when {actor.name} hits {target.object} in the knee. The last few feet are a crawl.',
+    '{actor.name} shoots low. The arrow hits {target.name} in the knee, and a sprint turns into a limp.',
   ],
   'capitol-bow': [
     "An arrow from {actor.name}'s silver bow catches {target.name} in the knee and leaves {target.object} limping.",

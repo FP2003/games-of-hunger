@@ -40,8 +40,10 @@ const kneeWound: Condition = { kind: 'marker', role: 'actor', marker: 'bleeding-
 export const kneeFollowups: EventTemplate[] = [
   scene('wound-knee-slow-escape', 'hazard', [
     'The path gives way. With a bad knee, {actor.name} drops {actor.possessive} {item} and crawls to safety.',
-    "The bank crumbles. Unable to jump on a bad knee, {actor.name} drops {actor.possessive} {item} and grabs the edge.",
-    'The injured knee makes {actor.name} miss the jump. To pull up, {actor.subject} must let go of {actor.possessive} {item}.',
+    "The bank crumbles. {actor.name} can't jump on the injured knee and drops {actor.possessive} {item} to grab the edge.",
+    '{actor.name} falls short of the jump on a bad knee and lets go of {actor.possessive} {item} to pull up.',
+    "{actor.name} can't put weight on the injured knee. At the broken steps, both hands go to the rail and {actor.possessive} {item} falls.",
+    "{actor.name} can't run on the injured knee and leaves {actor.possessive} {item} behind to scramble up the bank.",
   ], [{ kind: 'dropItem', role: 'actor' }], {
     roles: [{ id: 'actor' }], conditions: [kneeWound, { kind: 'item', role: 'actor' }], weight: 11, cooldown: 2,
   }),

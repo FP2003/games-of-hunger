@@ -41,9 +41,11 @@ export const environmentalScenes: EventTemplate[] = [
     'The chase in {biome} ends at a leaning tree. {target.name} climbs, moves along a sturdy branch and drops behind a fallen trunk before {actor.name} can follow.',
   ], [hostility], [...here('forest'), { kind: 'marker', role: 'target', marker: 'bleeding-shoulder', exists: false }], { category: 'conflict', roles: pair }),
   scene('tree-pursuit-shoulder', [
-    '{actor.name} grabs a branch, then lets go at a jolt of shoulder pain. The trail into {biome} gets {actor.object} clear of {target.name}.',
+    "{actor.name} grabs a branch, but the sore shoulder won't hold. {target.name} loses sight of {actor.object} on the trail into {biome}.",
     '{target.name} gives chase. With a sore shoulder, {actor.name} skips the climb and flees into {biome}.',
     "{actor.name} can't climb with a bad shoulder and loses {target.name} on the trail into {biome}.",
+    '{actor.name} drops to the ground with a sore shoulder and shakes {target.name} on the lower trail into {biome}.',
+    '{target.name} closes in at the tree. One pull on a branch sends {actor.name} running for {biome}, clutching {actor.possessive} shoulder.',
   ], [
     { kind: 'move', role: 'actor', biome: 'adjacent', avoidDanger: true },
     { ...hostility, from: 'actor', to: 'target' },
@@ -126,6 +128,8 @@ export const environmentalScenes: EventTemplate[] = [
     '{actor.name} pulls {target.name} back from a tripwire. They take the long way into {biome}.',
     '{actor.name} points out the wire to {target.name}. They follow the bank into {biome}.',
     '{actor.name} stops {target.name} just short of a tripwire. Both head into {biome}.',
+    'A wire glints across the boardwalk. {actor.name} waves {target.name} back, and they reach {biome} by the dry path.',
+    'Just as {target.name} steps forward, {actor.name} calls out a warning. They leave the wire alone and follow the bank into {biome}.',
   ], [
     { kind: 'moveGroup', roles: ['actor', 'target'], biome: 'adjacent', avoidDanger: true },
     { kind: 'relationship', from: 'target', to: 'actor', trust: 25, grudge: -10, fact: 'assistance' },
@@ -137,8 +141,10 @@ export const environmentalScenes: EventTemplate[] = [
   ], { category: 'social', roles: pair, weight: 6, cooldownGroup: 'swamp-tripwire' }),
   scene('swamp-tripwire-rival', [
     '{actor.name} spots a wire across the boardwalk and says nothing. {target.name} trips and cuts {target.possessive} leg on a broken plank.',
-    '{actor.name} steps over the wire without a word. {target.name} trips over it and limps off with a bloody leg.',
-    '{actor.name} stays quiet about the wire. {target.name} goes down hard and gets up with blood running down one leg.',
+    '{actor.name} steps over the wire without a word. It catches {target.name}, who limps off with a bloody leg.',
+    '{actor.name} sees the wire and keeps quiet. {target.name} hits the boards hard and gets up with blood running down one leg.',
+    '{actor.name} lets {target.name} walk right into the wire. A splintered plank cuts {target.possessive} leg on the way down.',
+    "{actor.name} walks past the wire in silence. {target.name}'s boot catches it a step later. The fall leaves a cut across {target.possessive} leg.",
   ], [settleTripwire, hostility, { kind: 'setMarker', role: 'target', marker: 'bleeding-thigh', value: true }], [
     ...freshTripwire, ...unhurt('target'),
     { kind: 'relationship', from: 'actor', to: 'target', minGrudge: 40, maxTrust: 39 },
