@@ -3,6 +3,7 @@ import { defaultContentPack } from '../../src/content';
 import { DEFAULT_SETTINGS, type GameState, type RunInput } from '../../src/domain';
 import { applyEffects, createRandom, findBindings, generateRun, initialState } from '../../src/engine';
 import { clearPhaseMarkers } from '../../src/engine/mechanics';
+import { combatRecord } from '../../src/engine/combat';
 import { narrativeAdapter } from '../../src/narrative';
 import { contextualEncounters, survivalCloseCalls } from '../../src/content/encounters';
 
@@ -60,6 +61,58 @@ describe('injury stories and their consequences', () => {
     const before = initialState(input);
     for (const p of before.players) p.markers['bleeding-thigh'] = true;
     for (const site of ['thigh', 'shoulder', 'side']) expect(eligible(`wound-${site}-escape`, before, 'a')).toBeNull();
+  });
+
+  it.each(['bow', 'capitol-bow'])('remembers a %s knee hit and makes the next escape slower and costly', weapon => {
+    const agileInput = { ...input, cast: { ...input.cast, players: input.cast.players.map(player =>
+      player.id === 'b' ? { ...player, traits: ['agile' as const] } : player) } };
+    const hit = event(`weapon-${weapon}-knee-survived`);
+    const slowEscape = event('wound-knee-slow-escape');
+    const agile = event('agile-pursuit');
+    const bindings = { actor: 'a', target: 'b' };
+    const escapeBindings = { actor: 'b', target: 'a' };
+    const fastEscape = (state: GameState) => findBindings(agile, state, agileInput.cast, input.content, ['a', 'b'], 'b', random());
+    const before = initialState(agileInput);
+    expect(findBindings(hit, before, agileInput.cast, input.content, ['a', 'b'], 'a', random())).toBeNull();
+    const equipped = applyEffects(before, [
+      { kind: 'createItem', role: 'actor', definitionId: weapon },
+      { kind: 'createItem', role: 'target', definitionId: 'ration' },
+    ], bindings, input.content, random())!.state;
+    expect(fastEscape(equipped)).toEqual(escapeBindings);
+    expect(eligible(slowEscape.id, equipped, 'b')).toBeNull();
+    expect(findBindings(hit, equipped, agileInput.cast, input.content, ['a', 'b'], 'a', random())).toEqual(bindings);
+    const wounded = applyEffects(equipped, hit.effects, bindings, input.content, random())!.state;
+    expect(combatRecord(hit, bindings, equipped, wounded, input.content)).toMatchObject({ weaponDefinitionId: weapon, outcome: 'injury' });
+    const nextPhase = clearPhaseMarkers(wounded, input.content);
+    expect(nextPhase.players[1].markers['bleeding-knee']).toBe(true);
+    expect(fastEscape(nextPhase)).toBeNull();
+    expect(eligible(slowEscape.id, nextPhase, 'b')).toEqual({ actor: 'b' });
+    const escaped = applyEffects(nextPhase, slowEscape.effects, { actor: 'b' }, input.content, random())!;
+    expect(escaped.facts).toContainEqual({ type: 'drop', actorId: 'b', itemId: equipped.items[1].id, itemDefinitionId: 'ration' });
+    expect(escaped.state.players[1].markers['bleeding-knee']).toBe(true);
+    expect(eligible(slowEscape.id, escaped.state, 'b')).toBeNull();
+    const treated = applyEffects(escaped.state, event('wound-knee-bandage').effects, { actor: 'b' }, input.content, random())!.state;
+    expect(fastEscape(treated)).toEqual(escapeBindings);
+    expect(treated.players[1].markers['bleeding-knee']).toBeUndefined();
+  });
+
+  it.each(['broadsword', 'combat-axe'])('makes a shoulder wound spoil a swing with a %s', weapon => {
+    const equipped = applyEffects(initialState(input), [
+      { kind: 'createItem', role: 'actor', definitionId: 'ration' },
+      { kind: 'createItem', role: 'actor', definitionId: weapon },
+    ], { actor: 'b' }, input.content, random())!.state;
+    const miss = event(`weapon-${weapon}-shoulder-dropped`);
+    const normalAttack = `weapon-${weapon}-fatal`;
+    expect(eligible(normalAttack, equipped, 'b')).not.toBeNull();
+    expect(eligible(miss.id, equipped, 'b')).toBeNull();
+    const hurt = applyEffects(equipped, event('wound-shoulder-escape').effects, { actor: 'a', target: 'b' }, input.content, random())!.state;
+    expect(eligible(normalAttack, hurt, 'b')).toBeNull();
+    const bindings = eligible(miss.id, hurt, 'b')!;
+    expect(bindings.actor).toBe('b');
+    const dropped = applyEffects(hurt, miss.effects, bindings, input.content, random())!;
+    expect(dropped.state.items).toEqual([equipped.items[0], { ...equipped.items[1], ownerId: null }]);
+    expect(dropped.state.players.every(player => player.alive)).toBe(true);
+    expect(combatRecord(miss, bindings, hurt, dropped.state, input.content)).toMatchObject({ weaponDefinitionId: weapon, outcome: 'unharmed' });
   });
 
   it('keeps rescue encounters local and requires actual supplies when the scene uses an item', () => {

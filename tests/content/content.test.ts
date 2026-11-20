@@ -20,7 +20,7 @@ describe('release content inventory and references', () => {
     expect(ContentPackSchema.safeParse(defaultContentPack).success).toBe(true);
     const inventory = contentInventory();
     expect(inventory.events).toBeGreaterThanOrEqual(120);
-    expect(inventory.categories).toEqual({ opening: 75, survival: 899, social: 70, conflict: 260, curse: 0, hazard: 34, finale: 99, announcement: 30 });
+    expect(inventory.categories).toEqual({ opening: 75, survival: 896, social: 73, conflict: 266, curse: 0, hazard: 35, finale: 99, announcement: 30 });
     expect(Object.values(inventory.biomes).every(n => n >= 8)).toBe(true);
     expect(inventory.confessionals).toBeGreaterThanOrEqual(40);
     expect(inventory.curses).toBe(0);

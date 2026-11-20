@@ -117,9 +117,11 @@ Review examples for both features are in `examples/supplies-and-site-memory.txt`
 
 ## Environment and wildlife in the existing regions
 
-The arena retains exactly its original six biome IDs and adjacency graph. `src/content/environment.ts` adds eighteen scenarios, each with seven complete variants: tree scouting and climbing to escape pursuit in the Forest; familiar berry patches in the Forest and Swamp; boars in the Forest, wolves in the Mountains and crocodiles in the Swamp; hidden pit falls; tripwire avoidance; and tracked arena-charge encounters. Each animal has an unharmed escape and a fatal attack, restricted to its region. Animal deaths have no contestant kill credit.
+The arena retains its six biome IDs. The Forest has climbable trees and boars, the Mountains have wolves, and the Swamp has crocodiles and boardwalk tripwires. Each animal has an unharmed escape and a fatal attack restricted to its region. Animal deaths have no contestant kill credit.
 
-Berry foraging can provide an immediate meal without inventory creation, or one saved handful tagged `berries`. Gathering requires that the actor is not already carrying berries. Eating uses up that exact item through `consumeItem`. A survived pit fall leaves the existing treatable bleeding-thigh marker and cannot stack another untreated bleeding wound. Fatal pit encounters carry explicit site metadata for recorded callbacks.
+An arrow to the knee blocks Agile escape scenes until treatment. A wounded tribute can also lose a carried item while scrambling to safety. A bleeding shoulder blocks the forest climb and forces a chased tribute onto an adjacent route. It can also make a tribute drop a heavy weapon mid-swing. A swamp tripwire lets a tribute warn an ally and leave together, or stay quiet and let a rival suffer a treatable thigh wound. Each tribute can act on a swamp tripwire once per game. Ordinary berry foraging, pickup and eating scenes were retired in content 1.37. Poisonous nightlock remains available.
+
+A survived pit fall leaves the treatable bleeding-thigh marker and cannot stack another untreated bleeding wound. Fatal pit encounters carry explicit site metadata for recorded callbacks.
 
 A `sealed arena charge` is one tracked item bundled with its remote. Discoveries cannot stack another held charge. Fatal attacks, unharmed escapes and self-inflicted backfires all consume that charge before any elimination, so it cannot be reused or dropped as live loot. Fatal attacks require a living local target and credit the holder; backfires kill the holder without crediting another contestant. These are fictional encounter outcomes, with no persistent armed-device state.
 

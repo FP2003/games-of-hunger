@@ -3,18 +3,18 @@ import { pastSeasonCallbacks } from './past-season-callbacks';
 import { momentInterviews } from './moment-interviews';
 import { relationshipInterviews } from './relationship-interviews';
 import { ContentPackSchema, type BiomeId, type ContentPack, type EventTemplate, type Effect, type Condition, type ConfessionalTemplate, type Trait, type FactType } from '../domain';
-import { contextualEncounters, finalConfrontations, injuryEncounters, openingEscapes, survivalCloseCalls, woundMarkers } from './encounters';
+import { contextualEncounters, finalConfrontations, injuryEncounters, kneeFollowups, openingEscapes, survivalCloseCalls, woundMarkers } from './encounters';
 import { arenaScenes } from './arena';
 import { multikillScenes } from './multikills';
 import { personalityMarkers, personalityScenes } from './personality';
 import { nightScenes } from './night';
-import { weaponExchangeScenes, weaponFinaleScenes, weaponItems, weaponScenes, weaponTrapScenes } from './weapons';
+import { weaponExchangeScenes, weaponFinaleScenes, weaponInjuryScenes, weaponItems, weaponScenes, weaponTrapScenes } from './weapons';
 import { withConfessionalVariety, withSceneVariety } from './variety';
 import { eventInterviews } from './interview-expansion';
 import { groupCooperation } from './cooperation';
 import { supplyUseScenes, withSupplyBalance } from './supply-use';
 import { siteAccidentScenes, withDeathSite } from './death-sites';
-import { environmentalItems, environmentalScenes } from './environment';
+import { environmentalItems, environmentalMarkers, environmentalScenes } from './environment';
 import { travelScenes } from './travel';
 import { extraEverydayScenes } from './everyday-scenes';
 import { expandedTraitInterviews, expandedTraitScenes } from './trait-expansion';
@@ -44,8 +44,8 @@ const holds = (role: string, definitionId?: string): Condition => ({ kind: 'item
 const relation = (from: string, to: string, trust: number, grudge = 0, fact?: 'assistance' | 'alliance' | 'betrayal' | 'revenge'): Effect => ({ kind: 'relationship', from, to, trust, grudge, ...(fact ? { fact } : {}) });
 
 export const biomes: ContentPack['biomes'] = [
-  { id: 'forest', name: 'The Forest', description: 'Climbable trees, berry patches and boars hidden in dense brush.', adjacent: ['swamp', 'mountains', 'ruins'] },
-  { id: 'swamp', name: 'The Swamp', description: 'Raised boardwalks cross crocodile channels; berry bushes crowd the banks.', adjacent: ['forest', 'desert', 'ruins'] },
+  { id: 'forest', name: 'The Forest', description: 'Climbable trees and boars hidden in dense brush.', adjacent: ['swamp', 'mountains', 'ruins'] },
+  { id: 'swamp', name: 'The Swamp', description: 'Raised boardwalks cross channels where crocodiles wait beneath the planks.', adjacent: ['forest', 'desert', 'ruins'] },
   { id: 'mountains', name: 'The Mountains', description: 'Exposed ridges overlook gullies where wolf packs hunt.', adjacent: ['forest', 'tundra', 'ruins'] },
   { id: 'desert', name: 'The Desert', description: 'Open sand and scarce water put every bargain under pressure.', adjacent: ['swamp', 'ruins'] },
   { id: 'tundra', name: 'The Tundra', description: 'A quiet white expanse where shelter becomes a currency.', adjacent: ['mountains', 'ruins'] },
@@ -338,7 +338,7 @@ const confessionals: ConfessionalTemplate[] = reactions.map(([trait, triggers, v
 ].forEach(([trigger, text], i) => confessionals.push({ id: `interview-open-${i + 1}`, traits: [], tones: [...allTones], triggers: [trigger as FactType], speaker: trigger === 'elimination' ? 'eliminated' : 'any', variants: [text], cooldown: 8 }));
 
 const baseContentPack: ContentPack = ContentPackSchema.parse({
-  id: 'wild-broadcast', version: '1.36.0', title: 'The Wild Broadcast', biomes, items, loreCallbacks: pastSeasonCallbacks, arenaRoutes: 'seeded',
+  id: 'wild-broadcast', version: '1.37.0', title: 'The Wild Broadcast', biomes, items, loreCallbacks: pastSeasonCallbacks, arenaRoutes: 'seeded',
   markers: [
     { id: 'podium-resupply-collected', type: 'boolean', lifetime: 'season', description: 'This tribute collected supplies from the Center Podium delivery.' },
     { id: 'stolen-from', type: 'player', lifetime: 'season', description: 'The living player who stole from this participant.' },
@@ -346,9 +346,9 @@ const baseContentPack: ContentPack = ContentPackSchema.parse({
     { id: 'debt-to', type: 'player', lifetime: 'season', description: 'The player who offered shelter.' },
     { id: 'debt-repaid', type: 'boolean', lifetime: 'season', description: 'The shelter favor was repaid.' },
     { id: 'omen', type: 'number', lifetime: 'season', description: 'Progress decoding the trail warning, from one to three.' },
-    ...woundMarkers, ...personalityMarkers,
+    ...woundMarkers, ...personalityMarkers, ...environmentalMarkers,
   ],
-  events: [...[...opening, ...openingEscapes, ...survival, ...survivalCloseCalls, ...sponsorships, ...social, ...crossings, ...conflict, ...injuryEncounters, ...contextualEncounters, ...hazard, ...finale, ...arenaScenes, ...multikillScenes, ...personalityScenes, ...nightScenes, ...weaponScenes, ...weaponTrapScenes, ...weaponExchangeScenes].map(withSceneVariety), ...weaponFinaleScenes, ...extraSponsorGifts, ...resupply, ...groupCooperation, ...supplyUseScenes, ...siteAccidentScenes, ...environmentalScenes, ...arenaGearScenes, ...travelScenes, ...expandedTraitScenes, ...partyTravelScenes, ...openingPartyScenes, ...quirkScenes, ...intimidationScenes].map(withSupplyBalance).map(withDeathSite).map(withShortTravel).map(withHotspotVariety).map(withQuirkBehaviors).map(withCombatPacing).map(withCombatMethods).map(withCombatVariety).map(withLootSource).flatMap(withLootVariety).filter(scene => !/^(forest|swamp|mountains|desert|tundra|ruins)-life-6$/.test(scene.id)), confessionals: [...confessionals.map(withConfessionalVariety), ...eventInterviews, ...expandedTraitInterviews, ...quirkInterviews, ...relationshipInterviews].map(interview => ({ ...interview, triggers: interview.triggers.filter(trigger => trigger !== 'curse') })).filter(interview => interview.triggers.length > 0),
+  events: [...[...opening, ...openingEscapes, ...survival, ...survivalCloseCalls, ...sponsorships, ...social, ...crossings, ...conflict, ...injuryEncounters, ...contextualEncounters, ...hazard, ...finale, ...arenaScenes, ...multikillScenes, ...personalityScenes, ...nightScenes, ...weaponScenes, ...weaponTrapScenes, ...weaponExchangeScenes].map(withSceneVariety), ...weaponFinaleScenes, ...weaponInjuryScenes, ...extraSponsorGifts, ...resupply, ...groupCooperation, ...supplyUseScenes, ...siteAccidentScenes, ...kneeFollowups, ...environmentalScenes, ...arenaGearScenes, ...travelScenes, ...expandedTraitScenes, ...partyTravelScenes, ...openingPartyScenes, ...quirkScenes, ...intimidationScenes].map(withSupplyBalance).map(withDeathSite).map(withShortTravel).map(withHotspotVariety).map(withQuirkBehaviors).map(withCombatPacing).map(withCombatMethods).map(withCombatVariety).map(withLootSource).flatMap(withLootVariety).filter(scene => !/^(forest|swamp|mountains|desert|tundra|ruins)-life-6$/.test(scene.id)), confessionals: [...confessionals.map(withConfessionalVariety), ...eventInterviews, ...expandedTraitInterviews, ...quirkInterviews, ...relationshipInterviews].map(interview => ({ ...interview, triggers: interview.triggers.filter(trigger => trigger !== 'curse') })).filter(interview => interview.triggers.length > 0),
 });
 
 export const defaultContentPack: ContentPack = ContentPackSchema.parse({ ...baseContentPack, confessionals: [...groundInterviewTopics(baseContentPack.confessionals, baseContentPack.events), ...momentInterviews(baseContentPack.events)] });

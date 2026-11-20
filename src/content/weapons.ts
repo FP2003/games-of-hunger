@@ -1,6 +1,7 @@
 import type { Condition, ContentPack, Effect, EventTemplate } from '../domain';
 import { trapWording, weaponWording, woundedEscapeWording } from './weapon-wording';
 import { additionalWeapons, additionalWeaponWording, killAndLootWording } from './weapon-expansion';
+import { woundSites } from './encounters';
 
 type Weapon = { id: string; name: string; description: string; fatal: string[]; hit: (site: string) => string; miss: string };
 const weapons: Weapon[] = [
@@ -35,14 +36,29 @@ for (const weapon of additionalWeapons) {
 
 export const weaponItems: ContentPack['items'] = weapons.map(({ id, name, description }) => ({ id, name, description, tags: ['weapon'] }));
 const sites = ['thigh', 'shoulder', 'side'] as const;
-const unwounded: Condition[] = sites.map(site => ({ kind: 'marker', role: 'target', marker: `bleeding-${site}`, exists: false }));
+const unwounded: Condition[] = woundSites.map(site => ({ kind: 'marker', role: 'target', marker: `bleeding-${site}`, exists: false }));
 const hostility: Effect = { kind: 'relationship', from: 'target', to: 'actor', trust: -35, grudge: 45 };
+const shoulderStrainWording = {
+  broadsword: [
+    '{actor.name} swings {actor.possessive} broadsword at {target.name}. The wounded shoulder gives out, and the blade hits the ground.',
+    "{actor.name} lifts the broadsword, but the sore shoulder won't hold. {target.name} backs away as the sword falls.",
+    '{actor.name} tries to swing the broadsword. Pain shoots through the shoulder, and {target.name} slips away as it drops.',
+  ],
+  'combat-axe': [
+    '{actor.name} raises the combat axe over {target.name}. The injured shoulder gives out, and the axe drops.',
+    "{target.name} ducks as {actor.name} swings the combat axe. The wounded shoulder won't take the weight, and the axe falls.",
+    '{actor.name} tries to bring the combat axe down on {target.name}. The shoulder buckles, and the axe hits the ground.',
+  ],
+};
+const heavyWeaponIds = new Set(Object.keys(shoulderStrainWording));
+const shoulderWound = { kind: 'marker', role: 'actor', marker: 'bleeding-shoulder', exists: true } as const;
 function scene(id: string, variants: string | string[], effects: Effect[], conditions: Condition[], extra: Partial<EventTemplate> = {}): EventTemplate {
   return { id, category: 'conflict', phases: ['day', 'night'], tones: ['dramatic', 'absurd', 'mixed'], scope: 'local', roles: [{ id: 'actor' }, { id: 'target' }], conditions, effects, variants: typeof variants === 'string' ? [variants] : variants, weight: 1, cooldown: 5, ...extra };
 }
 
 export const weaponScenes: EventTemplate[] = weapons.flatMap(weapon => {
   const held: Condition[] = [{ kind: 'item', role: 'actor', definitionId: weapon.id }];
+  if (heavyWeaponIds.has(weapon.id)) held.push({ ...shoulderWound, exists: false });
   const equipment = weapon.id === 'bow' ? 'a bow and a quiver of arrows' : `a ${weapon.name}`;
   const expanded = additionalWeaponWording[weapon.id];
   const wording = expanded ? { fatal: expanded.fatal.slice(1, 3), hit: (site: string) => expanded.hit(site).slice(1, 3), missed: expanded.missed.slice(1, 3) } : weaponWording[weapon.id];
@@ -62,6 +78,30 @@ export const weaponScenes: EventTemplate[] = weapons.flatMap(weapon => {
     scene(`weapon-${weapon.id}-missed`, [weapon.miss, ...wording.missed], [hostility], held, { weight: 1.1 }),
   ];
 });
+
+const kneeHitWording = {
+  bow: [
+    '{actor.name} shoots {target.name} in the knee. {target.name} tries to run, but has to crawl into cover.',
+    '{actor.name} hits {target.name} in the knee with an arrow. The knee gives out, and {target.name} limps out of sight.',
+    '{actor.name} fires as {target.name} runs. The arrow hits the knee and sends {target.name} down behind cover.',
+  ],
+  'capitol-bow': [
+    "An arrow from {actor.name}'s silver bow hits {target.name} in the knee. {target.name} limps into cover.",
+    '{target.name} tries to run as {actor.name} raises the silver bow. An arrow hits the knee and stops the sprint.',
+    '{actor.name} fires the silver bow. {target.name} takes an arrow to the knee and crawls out of sight.',
+  ],
+};
+const kneeHitScenes = Object.entries(kneeHitWording).map(([id, variants]) => scene(`weapon-${id}-knee-survived`, variants,
+  [hostility, { kind: 'setMarker', role: 'target', marker: 'bleeding-knee', value: true }], [
+    { kind: 'item', role: 'actor', definitionId: id }, ...unwounded,
+  ], { weight: 0.85 }));
+
+const shoulderStrainScenes = Object.entries(shoulderStrainWording).map(([id, variants]) => scene(`weapon-${id}-shoulder-dropped`, variants,
+  [{ kind: 'dropItem', role: 'actor', definitionId: id }, hostility], [
+  { kind: 'item', role: 'actor', definitionId: id }, shoulderWound,
+], { weight: 2 }));
+
+export const weaponInjuryScenes = [...kneeHitScenes, ...shoulderStrainScenes];
 
 // Finalists may converge from different regions while retaining their own weapon.
 // Three location cases avoid no-op moves and keep every route explicit.

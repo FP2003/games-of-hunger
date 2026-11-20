@@ -1,5 +1,6 @@
 import { momentInterviews } from '../../src/content/moment-interviews';
-import { weaponFinaleScenes } from '../../src/content/weapons';
+import { weaponFinaleScenes, weaponInjuryScenes } from '../../src/content/weapons';
+import { kneeFollowups } from '../../src/content/encounters';
 import { relationshipInterviews } from '../../src/content/relationship-interviews';
 import { describe, expect, it } from 'vitest';
 import { defaultContentPack } from '../../src/content';
@@ -28,7 +29,7 @@ import { intimidationScenes } from '../../src/content/intimidation';
 import { lootWeaponIds } from '../../src/content/weapon-catalogue';
 
 const independentlyAuthored = new Set([
-  ...weaponFinaleScenes, ...groupCooperation, ...supplyUseScenes, ...siteAccidentScenes, ...environmentalScenes,
+  ...weaponFinaleScenes, ...weaponInjuryScenes, ...kneeFollowups, ...groupCooperation, ...supplyUseScenes, ...siteAccidentScenes, ...environmentalScenes,
   ...travelScenes, ...expandedTraitScenes, ...partyTravelScenes, ...openingPartyScenes, ...quirkScenes,
   ...arenaGearScenes, ...intimidationScenes,
 ].map(scene => scene.id));

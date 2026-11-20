@@ -17,7 +17,7 @@ const equip = (definitionId: string) => applyEffects(initialState(input), [{ kin
 
 describe('weapon and trap outcomes', () => {
   it('keeps useful weapons instead of abandoning them or repeatedly finding replacements', () => {
-    expect(defaultContentPack.events.some(template => template.effects.some(effect => effect.kind === 'dropItem' && !effect.definitionId) &&
+    expect(defaultContentPack.events.some(template => template.id !== 'wound-knee-slow-escape' && template.effects.some(effect => effect.kind === 'dropItem' && !effect.definitionId) &&
       !template.roles.some(role => role.traits?.includes('clumsy')) && !template.conditions.some(condition => condition.kind === 'trait' && condition.trait === 'clumsy'))).toBe(false);
     const armed = equip('machete');
     for (const weapon of weaponItems) {

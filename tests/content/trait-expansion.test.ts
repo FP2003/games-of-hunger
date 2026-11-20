@@ -26,7 +26,7 @@ describe('six additional distinct traits', () => {
   });
 
   it('supplies seven complete variants per encounter and interview and requires the actual trait', () => {
-    expect(expandedTraitScenes).toHaveLength(11);
+    expect(expandedTraitScenes).toHaveLength(12);
     expect(expandedTraitInterviews).toHaveLength(6);
     for (const template of [...expandedTraitScenes, ...expandedTraitInterviews]) {
       expect(template.variants, template.id).toHaveLength(7);
@@ -40,7 +40,7 @@ describe('six additional distinct traits', () => {
 
   it('treats each actual wound, credits the medic and refuses absent or distant patients', () => {
     const input = setup(['medic']);
-    for (const site of ['thigh', 'shoulder', 'side']) {
+    for (const site of ['thigh', 'shoulder', 'side', 'knee']) {
       const template = scene(`trait-medic-${site}`), before = initialState(input);
       expect(findBindings(template, before, input.cast, input.content, ['a', 'b'], 'a', random())).toBeNull();
       before.players[1].markers[`bleeding-${site}`] = true;
