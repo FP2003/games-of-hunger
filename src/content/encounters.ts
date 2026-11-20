@@ -39,9 +39,9 @@ export const injuryEncounters: EventTemplate[] = wounds.flatMap(({ site, attack,
 const kneeWound: Condition = { kind: 'marker', role: 'actor', marker: 'bleeding-knee', exists: true };
 export const kneeFollowups: EventTemplate[] = [
   scene('wound-knee-slow-escape', 'hazard', [
-    '{actor.name} tries to run as the path gives way. The injured knee buckles. {actor.name} drops {actor.possessive} {item} and crawls clear.',
-    "The bank crumbles under {actor.name}. The bad knee won't hold, so {actor.name} drops {actor.possessive} {item} and grabs the edge.",
-    '{actor.name} tries to jump a gap, but the injured knee gives out. {actor.name} drops {actor.possessive} {item} to pull up.',
+    'The path gives way. With a bad knee, {actor.name} drops {actor.possessive} {item} and crawls to safety.',
+    "The bank crumbles. Unable to jump on a bad knee, {actor.name} drops {actor.possessive} {item} and grabs the edge.",
+    'The injured knee makes {actor.name} miss the jump. To pull up, {actor.subject} must let go of {actor.possessive} {item}.',
   ], [{ kind: 'dropItem', role: 'actor' }], {
     roles: [{ id: 'actor' }], conditions: [kneeWound, { kind: 'item', role: 'actor' }], weight: 11, cooldown: 2,
   }),

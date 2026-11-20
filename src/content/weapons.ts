@@ -40,14 +40,14 @@ const unwounded: Condition[] = woundSites.map(site => ({ kind: 'marker', role: '
 const hostility: Effect = { kind: 'relationship', from: 'target', to: 'actor', trust: -35, grudge: 45 };
 const shoulderStrainWording = {
   broadsword: [
-    '{actor.name} swings {actor.possessive} broadsword at {target.name}. The wounded shoulder gives out, and the blade hits the ground.',
-    "{actor.name} lifts the broadsword, but the sore shoulder won't hold. {target.name} backs away as the sword falls.",
-    '{actor.name} tries to swing the broadsword. Pain shoots through the shoulder, and {target.name} slips away as it drops.',
+    '{actor.name} swings the broadsword at {target.name}, feels a jolt in {actor.possessive} shoulder, and drops it.',
+    '{actor.name} grabs {actor.possessive} sore shoulder and drops the broadsword. {target.name} backs away.',
+    '{actor.name} drops the broadsword mid-swing as pain shoots through {actor.possessive} shoulder. {target.name} slips away.',
   ],
   'combat-axe': [
-    '{actor.name} raises the combat axe over {target.name}. The injured shoulder gives out, and the axe drops.',
-    "{target.name} ducks as {actor.name} swings the combat axe. The wounded shoulder won't take the weight, and the axe falls.",
-    '{actor.name} tries to bring the combat axe down on {target.name}. The shoulder buckles, and the axe hits the ground.',
+    '{actor.name} raises the combat axe over {target.name}, then drops it as pain hits {actor.possessive} shoulder.',
+    '{target.name} ducks. Pain in {actor.possessive} shoulder makes {actor.name} drop the combat axe.',
+    '{actor.name} swings at {target.name}, but pain shoots through {actor.possessive} shoulder and the axe slips free.',
   ],
 };
 const heavyWeaponIds = new Set(Object.keys(shoulderStrainWording));
@@ -81,14 +81,14 @@ export const weaponScenes: EventTemplate[] = weapons.flatMap(weapon => {
 
 const kneeHitWording = {
   bow: [
-    '{actor.name} shoots {target.name} in the knee. {target.name} tries to run, but has to crawl into cover.',
-    '{actor.name} hits {target.name} in the knee with an arrow. The knee gives out, and {target.name} limps out of sight.',
-    '{actor.name} fires as {target.name} runs. The arrow hits the knee and sends {target.name} down behind cover.',
+    '{target.name} tries to run, but {actor.name} shoots {target.object} in the knee. {target.name} dives into cover and stays low.',
+    '{actor.name}\'s arrow catches {target.name} in the knee, leaving {target.object} limping into cover.',
+    '{actor.name} fires as {target.name} runs. The arrow hits {target.possessive} knee and sends {target.object} sprawling behind cover.',
   ],
   'capitol-bow': [
-    "An arrow from {actor.name}'s silver bow hits {target.name} in the knee. {target.name} limps into cover.",
-    '{target.name} tries to run as {actor.name} raises the silver bow. An arrow hits the knee and stops the sprint.',
-    '{actor.name} fires the silver bow. {target.name} takes an arrow to the knee and crawls out of sight.',
+    "An arrow from {actor.name}'s silver bow catches {target.name} in the knee and leaves {target.object} limping.",
+    '{target.name} breaks into a run, but {actor.name} stops {target.object} with an arrow to the knee.',
+    '{actor.name} draws the silver bow and hits {target.name} in the knee, forcing {target.object} to crawl into cover.',
   ],
 };
 const kneeHitScenes = Object.entries(kneeHitWording).map(([id, variants]) => scene(`weapon-${id}-knee-survived`, variants,
