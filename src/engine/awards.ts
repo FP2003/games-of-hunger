@@ -14,7 +14,7 @@ export function computeAwards(events: EventRecord[], input: RunInput): Award[] {
     const counts = new Map<string,number[]>();
     const totals = new Map<string,number>();
     for (const event of events) for (const fact of event.facts) if (fact.type === type && fact.actorId) {
-      if (type === 'revenge' && (fact.sourceEvent === undefined || fact.sourceEvent >= event.sequence)) continue;
+      if (type === 'revenge' && (fact.sourceEvent === undefined || (!fact.sourceRunId && fact.sourceEvent >= event.sequence))) continue;
       const sequences = counts.get(fact.actorId) ?? [];
       if (type === 'elimination' || !sequences.includes(event.sequence)) totals.set(fact.actorId,(totals.get(fact.actorId) ?? 0)+1);
       if (!sequences.includes(event.sequence)) sequences.push(event.sequence); counts.set(fact.actorId,sequences);

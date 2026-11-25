@@ -136,13 +136,15 @@ describe('past-season memories', () => {
 describe('consecutive real seasons', () => {
   it.each(['low', 'normal', 'high'] as const)('preserves evidence, gameplay and portable history across four %s-danger seasons', async danger => {
     const cast: RunInput['cast'] = { version: 1, title: 'Returning friends', relationships: [], players: Array.from({ length: 12 }, (_, i) => ({ id: `friend-${i}`, name: `Friend ${i}`, traits: i % 3 === 0 ? ['disloyal'] : i % 3 === 1 ? ['grudge'] : ['medic'] })) };
+    // These sequences exercise callbacks to an earlier season between two returning contestants.
+    const seedPrefix = danger === 'normal' ? 'past-season-normal-returning' : `past-season-${danger}`;
     let history: SeasonHistory = { version: 1, seasons: [] };
     let visible = 0, paired = 0;
     const repo = createMemoryRepository(), imported = createMemoryRepository();
     try {
       for (let season = 0; season < 4; season++) {
         if (season === 2) cast.players[0].name = 'Renamed {pastActor}';
-        const input: RunInput = { cast, settings: { ...DEFAULT_SETTINGS, danger, seed: `past-season-${danger}-${season}` }, content: defaultContentPack, lore: selectLoreContext(history, cast, defaultContentPack) };
+        const input: RunInput = { cast, settings: { ...DEFAULT_SETTINGS, danger, seed: `${seedPrefix}-${season}` }, content: defaultContentPack, lore: selectLoreContext(history, cast, defaultContentPack) };
         const run = generateRun(input, narrativeAdapter);
         const disabled = generateRun({ ...input, settings: { ...input.settings, loreCarryover: false } }, narrativeAdapter);
         expect(run.events.map(e => e.state)).toEqual(disabled.events.map(e => e.state));
