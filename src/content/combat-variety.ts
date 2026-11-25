@@ -4,16 +4,11 @@ type Method = NonNullable<EventTemplate['combat']>['method'];
 // Generic single-victim bouts: actor is always the credited killer. These add
 // different tactics to narrow ordinary pools without changing their effects.
 const lethal: Partial<Record<Method, string[]>> = {
-  unarmed: [
-    '{actor.name} feints a retreat in {biome}, then turns into {target.name}\'s pursuit with an elbow to the temple. {target.name} collapses and dies from the blow.',
-    '{target.name} reaches around {actor.name}\'s waist in {biome}. {actor.name} catches the wrist, turns behind the shoulder and brings {target.name} down, then lands a fatal knee to the head.',
-  ],
   improvised: [
     '{actor.name} picks up a loose tent peg beside an abandoned resting place in {biome}. When {target.name} approaches, {actor.name} drives its point into the chest. {target.name} dies; the peg is left beside the body.',
     '{target.name} catches {actor.name} searching beside an empty delivery box in {biome}. {actor.name} lifts the detached lid and strikes its metal edge against {target.name}\'s neck, causing a fatal wound, then drops it.',
   ],
   environment: [
-    '{actor.name} leads {target.name} across the damaged cover of an inspection shaft in {biome}, then stamps its loose end. The cover tips beneath {target.name}, whose fall down the shaft is fatal.',
     '{target.name} moves beneath a leaning service sign in {biome}. {actor.name} pulls away its last support, bringing the sign down onto {target.name} with fatal force.',
   ],
 };
@@ -120,7 +115,8 @@ export function withCombatVariety(template: EventTemplate): EventTemplate {
   const combat = template.combat;
   if (!combat) return template;
   const additions = extra[template.id];
-  if (additions) return { ...template, variants: [...template.variants, ...additions] };
+  if (additions) return { ...template, variants: [...template.variants, ...additions],
+    ...(template.variantSituations && { variantSituations: [...template.variantSituations, ...additions.map(() => null)] }) };
   // Multi-victim and opening-loot scenes need bespoke prose for their effects.
   const kills = template.effects.filter(e => e.kind === 'eliminate');
   if (template.phases.includes('opening') || kills.length !== 1 || kills[0].credit !== combat.attacker || combat.attacker !== 'actor') return template;
@@ -129,6 +125,7 @@ export function withCombatVariety(template: EventTemplate): EventTemplate {
   const expanded = narrow.flatMap(method => lethal[method]!.map(text => ({ method, text: template.id.startsWith('crossing-conflict-') ? `{actor.name} crosses into {biome}. ${text}` : text })));
   return expanded.length ? {
     ...template, variants: [...template.variants, ...expanded.map(entry => entry.text)],
+    ...(template.variantSituations && { variantSituations: [...template.variantSituations, ...expanded.map(() => null)] }),
     combat: { ...combat, variantMethods: [...methods, ...expanded.map(entry => entry.method)] },
   } : template;
 }

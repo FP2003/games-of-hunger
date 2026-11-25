@@ -21,7 +21,7 @@ export function publicResupplyScenes(items: ContentPack['items']): EventTemplate
   };
   return bundles.flatMap(bundle => [false, true].map<EventTemplate>(arriving => {
     const [kept, ...ground] = bundle.contents;
-    const keptName = name(kept), groundNames = ground.map(name).join(' and ');
+    const keptName = `the ${name(kept)}`, groundNames = ground.map(id => `the ${name(id)}`).join(' and ');
     const approach = arriving ? '{actor.name} follows the delivery beacon back to the Center Podium' : '{actor.name} opens the newly delivered crate at the Center Podium';
     const effects: Effect[] = [
       ...(arriving ? [{ kind: 'move' as const, role: 'actor', biome: 'ruins' as const }] : []),
@@ -41,7 +41,7 @@ export function publicResupplyScenes(items: ContentPack['items']): EventTemplate
       variants: [
         `A cargo drone lowers a fresh supply crate onto the podium. ${approach} and claims ${keptName}, leaving ${groundNames} on the ground for another tribute.`,
         `The public delivery beacon lights up. ${approach}, takes ${keptName}, and sets out ${groundNames} beside the crate for whoever comes next.`,
-        `A new shipment arrives beneath a cargo drone. ${approach} and collects ${keptName}. ${groundNames} remain on the podium ground for another visitor.`,
+        `A new shipment arrives beneath a cargo drone. ${approach} and collects ${keptName}, while ${groundNames} remain on the podium ground for another visitor.`,
       ],
     };
   }));

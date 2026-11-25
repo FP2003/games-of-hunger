@@ -19,9 +19,9 @@ const regional: Record<string, Method[]> = {
   'ruins-contest-2': [E,I,U,E,E,I,I,E,I],
   'arena-contest-1': [E,I,E,U,E,I,E,U,E],
   'arena-contest-2': [E,E,E,E,E,E,E,E,E],
-  'arena-contest-3': [I,E,E,U,I,E,E,E,E],
+  'arena-contest-3': [I,E,E,I,E,E,E,E],
   'arena-contest-4': [E,E,I,I,E,E,E,E,I],
-  'arena-contest-5': [I,I,I,I,E,I,U,I,E],
+  'arena-contest-5': [I,I,I,I,E,I,I,E],
   'arena-contest-6': [E,I,E,U,E,I,I,E,I],
   'supply-bag-feint': [I,I,E,E,I,E,I,E,E],
 };
@@ -33,13 +33,20 @@ const crossings: Record<string, Method[]> = {
 const finalMethods = finaleEncounters.map(encounter => encounter.method);
 function variants(template: EventTemplate, methods: Method[]): EventTemplate {
   if (methods.length !== template.variants.length) throw new Error(`Review combat methods after wording changes: ${template.id}`);
-  return { ...template, combat: { attacker: 'actor', method: 'unknown', variantMethods: methods } };
+  const situationLabels = template.variants.map((_, index) => {
+    if (template.id === 'arena-contest-2' || (template.id === 'crossing-conflict-ruins' && index === 1)) return 'drainage-shaft-contest';
+    return null;
+  });
+  return { ...template, ...(situationLabels.some(Boolean) ? { variantSituations: situationLabels } : {}),
+    combat: { attacker: 'actor', method: 'unknown', variantMethods: methods } };
 }
 export function withCombatMethods(template: EventTemplate): EventTemplate {
   const id = template.id;
   if (regional[id]) return variants(template, regional[id]);
   if (id.startsWith('crossing-conflict-')) return variants(template, crossings[id.slice('crossing-conflict-'.length)]);
-  if (id.startsWith('final-beacon-') || id.startsWith('final-converge-')) return variants(template, finalMethods);
+  if (id.startsWith('final-beacon-') || id.startsWith('final-converge-')) {
+    return { ...variants(template, finalMethods), variantSituations: finaleEncounters.map(encounter => encounter.id) };
+  }
   const acquisition = template.effects.find(e => e.kind === 'acquireItem' && e.from && e.definitionId);
   if (id.startsWith('weapon-') && id.endsWith('-kill-and-loot') && acquisition?.kind === 'acquireItem') {
     return { ...template, combat: { attacker: acquisition.role, method: 'seized-weapon', weaponDefinitionId: acquisition.definitionId } };
