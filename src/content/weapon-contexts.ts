@@ -1,4 +1,5 @@
 import { weaponNames } from './weapon-expansion';
+import { expandedWeaponOutcomes } from './weapon-outcomes';
 
 /** Every situation preserves the held weapon, ownership outcome and wound site.
  * Scenery supplies cover and leverage; no extra equipment enters inventory. */
@@ -57,28 +58,30 @@ for (const [id, p] of Object.entries(profiles)) {
   for (const site of ['thigh', 'shoulder', 'side']) {
     weaponContextWording[`weapon-${id}-${site}-survived`] = injurySituations[site].map(scene => scene(p.hit(site)));
   }
-  weaponContextWording[`weapon-${id}-fatal`] = [
-    `{target.name} kneels to inspect fresh tracks in {biome} when {actor.name} ${p.fatal}; caught facing the wrong way, {target.name} dies from the ${weapon} attack.`,
-    `{actor.name} calls {target.name} toward a supposedly safe meeting place in {biome}, then ${p.fatal}; the invitation ends in a fatal ${weapon} wound.`,
-    `{target.name} tries to rush past {actor.name} at a trail junction in {biome}, but {actor.name} ${p.fatal}; the failed breakout leaves {target.name} dead from the ${weapon} injury.`,
-    `{actor.name} waits inside an empty delivery recess in {biome} and ${p.fatal} when {target.name} reaches in; the ${weapon} attack kills {target.object} at the opening.`,
-    `{target.name} challenges {actor.name} to come out of cover in {biome}; {actor.name} steps into the open and ${p.fatal}, inflicting a fatal injury with the ${weapon}.`,
-    `{target.name} turns back to remove a trail marker in {biome}, allowing {actor.name} to close in and ${p.fatal}; the ${weapon} wound kills {target.object} beside the disturbed marker.`,
-    `{actor.name} lies still in a shallow hollow in {biome}, then rises and ${p.fatal} when {target.name} approaches; {target.name} dies from the ${weapon} injury after mistaking the stillness for safety.`,
-    `{target.name} tries to climb a steep bank in {biome} to avoid a fight, but {actor.name} ${p.fatal} before the crest is reached; the ${weapon} attack is fatal.`,
-    `{actor.name} pretends to withdraw along a fenced lane in {biome}, then turns and ${p.fatal} as {target.name} follows; {target.name} dies from the ${weapon} wound before reaching the next opening.`,
-  ];
-  weaponContextWording[`weapon-${id}-missed`] = [
-    `{actor.name} ${p.miss} at what seems to be {target.name} crouching in {biome}; the shape is a discarded sack, and {target.name} escapes the ${weapon} attack unhurt from the other side of the path.`,
-    `{target.name} notices the shadow of the ${weapon} across a low wall in {biome} before {actor.name} ${p.miss}; a quick backward step leaves {target.name} untouched.`,
-    `{actor.name} ${p.miss} as {target.name} suddenly sits to check a boot in {biome}; the accidental change of height defeats the ${weapon} attack and gives {target.name} time to flee unharmed.`,
-    `A brittle branch cracks beneath {actor.name}'s foot in {biome} just before {actor.name} ${p.miss}; warned by the sound, {target.name} dives away from the ${weapon} without injury.`,
-    `{target.name} pretends to stumble in an exposed lane in {biome}; {actor.name} ${p.miss} at the expected landing place while {target.name} rolls the other way and escapes the ${weapon} unharmed.`,
-    `{actor.name} ${p.miss} during an argument at a shelter entrance in {biome}; {target.name} slams the door across the attack and leaves through its rear gap without a ${weapon} injury.`,
-    `{actor.name} ${p.miss} as {target.name} reaches a sharp trail bend in {biome}; {target.name} takes the inside of the bend, keeping its earthen bank between body and ${weapon}, and escapes unhurt.`,
-    `Loose rubble shifts under {actor.name} in {biome} as {actor.name} ${p.miss}; the broken footing spoils the ${weapon} attack, letting {target.name} retreat without being struck.`,
-    `{target.name} sees {actor.name} preparing the ${weapon} in {biome} and refuses to approach; when {actor.name} ${p.miss}, {target.name} is already retreating beyond reach and gets away unharmed.`,
-  ];
+  if (!expandedWeaponOutcomes[id]) {
+    weaponContextWording[`weapon-${id}-fatal`] = [
+      `{target.name} kneels to inspect fresh tracks in {biome} when {actor.name} ${p.fatal}; caught facing the wrong way, {target.name} dies from the ${weapon} attack.`,
+      `{actor.name} calls {target.name} toward a supposedly safe meeting place in {biome}, then ${p.fatal}; the invitation ends in a fatal ${weapon} wound.`,
+      `{target.name} tries to rush past {actor.name} at a trail junction in {biome}, but {actor.name} ${p.fatal}; the failed breakout leaves {target.name} dead from the ${weapon} injury.`,
+      `{actor.name} waits inside an empty delivery recess in {biome} and ${p.fatal} when {target.name} reaches in; the ${weapon} attack kills {target.object} at the opening.`,
+      `{target.name} challenges {actor.name} to come out of cover in {biome}; {actor.name} steps into the open and ${p.fatal}, inflicting a fatal injury with the ${weapon}.`,
+      `{target.name} turns back to remove a trail marker in {biome}, allowing {actor.name} to close in and ${p.fatal}; the ${weapon} wound kills {target.object} beside the disturbed marker.`,
+      `{actor.name} lies still in a shallow hollow in {biome}, then rises and ${p.fatal} when {target.name} approaches; {target.name} dies from the ${weapon} injury after mistaking the stillness for safety.`,
+      `{target.name} tries to climb a steep bank in {biome} to avoid a fight, but {actor.name} ${p.fatal} before the crest is reached; the ${weapon} attack is fatal.`,
+      `{actor.name} pretends to withdraw along a fenced lane in {biome}, then turns and ${p.fatal} as {target.name} follows; {target.name} dies from the ${weapon} wound before reaching the next opening.`,
+    ];
+    weaponContextWording[`weapon-${id}-missed`] = [
+      `{actor.name} ${p.miss} at what seems to be {target.name} crouching in {biome}; the shape is a discarded sack, and {target.name} escapes the ${weapon} attack unhurt from the other side of the path.`,
+      `{target.name} notices the shadow of the ${weapon} across a low wall in {biome} before {actor.name} ${p.miss}; a quick backward step leaves {target.name} untouched.`,
+      `{actor.name} ${p.miss} as {target.name} suddenly sits to check a boot in {biome}; the accidental change of height defeats the ${weapon} attack and gives {target.name} time to flee unharmed.`,
+      `A brittle branch cracks beneath {actor.name}'s foot in {biome} just before {actor.name} ${p.miss}; warned by the sound, {target.name} dives away from the ${weapon} without injury.`,
+      `{target.name} pretends to stumble in an exposed lane in {biome}; {actor.name} ${p.miss} at the expected landing place while {target.name} rolls the other way and escapes the ${weapon} unharmed.`,
+      `{actor.name} ${p.miss} during an argument at a shelter entrance in {biome}; {target.name} slams the door across the attack and leaves through its rear gap without a ${weapon} injury.`,
+      `{actor.name} ${p.miss} as {target.name} reaches a sharp trail bend in {biome}; {target.name} takes the inside of the bend, keeping its earthen bank between body and ${weapon}, and escapes unhurt.`,
+      `Loose rubble shifts under {actor.name} in {biome} as {actor.name} ${p.miss}; the broken footing spoils the ${weapon} attack, letting {target.name} retreat without being struck.`,
+      `{target.name} sees {actor.name} preparing the ${weapon} in {biome} and refuses to approach; when {actor.name} ${p.miss}, {target.name} is already retreating beyond reach and gets away unharmed.`,
+    ];
+  }
   weaponContextWording[`weapon-${id}-disarmed`] = [
     `{target.name} lays the ${weapon} across a knee to retie a boot in {biome}; {actor.name} snatches it and backs away before {target.name} can stand, leaving the former owner alive and uninjured.`,
     `{actor.name} offers to demonstrate a different grip on the ${weapon} in {biome}; {target.name} hands it over and realizes too late that {actor.name} intends to keep it, then withdraws unharmed.`,
