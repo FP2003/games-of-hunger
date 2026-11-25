@@ -5,6 +5,7 @@ import { defaultContentPack } from '../../src/content';
 import { generateRun } from '../../src/engine';
 import { narrativeAdapter } from '../../src/narrative';
 import { ContentPackSchema, RunRecordSchema } from '../../src/domain';
+import { combatSituationKey } from '../../src/domain/situations';
 import { fixtureRun } from '../fixtures';
 
 describe('structured combat and balance', () => {
@@ -56,6 +57,36 @@ describe('structured combat and balance', () => {
     const event = run.events.find(e => e.combat?.variantIndex !== undefined)!;
     expect(event).toBeDefined(); event.combat!.variantIndex = 9999;
     expect(RunRecordSchema.safeParse(run).success).toBe(false);
+  });
+
+  it('groups local and converging finales across passages and separates the finale phase', () => {
+    const scene = (id: string) => defaultContentPack.events.find(t => t.id === id)!;
+    const local = scene('final-beacon-1');
+    const converge = scene('final-converge-forest-tundra');
+    expect(combatSituationKey(local, 0)).toBe(combatSituationKey(converge, 0));
+    expect(combatSituationKey(local, 0)).not.toBe(combatSituationKey(local, 1));
+
+    const knife = scene('weapon-knife-fatal');
+    const weaponConvergence = scene('weapon-knife-final-converge-0');
+    expect(combatSituationKey(knife, 0)).toBe(combatSituationKey(weaponConvergence, 1));
+    const run = structuredClone(fixtureRun);
+    const event = run.events[0];
+    const method = combatRecord(knife, event.bindings, run.initialState, event.state, defaultContentPack, 0);
+    const qualification = scene('final-ally-qualification');
+    run.input.content.events = [knife, weaponConvergence, qualification];
+    run.events = [
+      { ...event, phase: { ...event.phase, kind: 'day' }, templateId: knife.id, combat: method },
+      { ...event, templateId: knife.id, combat: method },
+      { ...event, templateId: weaponConvergence.id, combat: { ...method!, variantIndex: 1 } },
+      { ...event, templateId: qualification.id },
+    ];
+    const stats = emptyDemoStats();
+    addDemoRun(stats, run);
+    const report = demoReport(stats, defaultContentPack);
+    expect(report.finaleSituationLeaderboard).toEqual([
+      expect.objectContaining({ id: 'finale-armed-knife', count: 2, games: 1, repeatsWithinGames: 1, templates: [knife.id, weaponConvergence.id] }),
+      expect.objectContaining({ id: 'finale-ally-qualification', count: 1, games: 1, repeatsWithinGames: 0 }),
+    ]);
   });
 
   it('records seized weapons without counting them as prior-owned use, and counts deployed charges', () => {
@@ -125,6 +156,9 @@ describe('structured combat and balance', () => {
     expect(RunRecordSchema.safeParse(JSON.parse(JSON.stringify(run))).success).toBe(true);
     const openingDeaths = run.events.filter(e => e.phase.kind === 'opening').flatMap(e => e.facts.filter(f => f.type === 'elimination')).length;
     expect(openingDeaths).toBeLessThanOrEqual(Math.floor(size / 2));
-    expect(openingDeaths).toBeGreaterThan(0);
+    if (size === 2) {
+      expect(openingDeaths).toBe(0);
+      expect(run.events.some(event => event.phase.kind === 'opening')).toBe(true);
+    } else expect(openingDeaths).toBeGreaterThan(0);
   });
 });

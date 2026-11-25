@@ -29,8 +29,9 @@ export { validateCast, validateSettings } from ${path('src/domain/index.ts')};`,
   const stats = app.emptyDemoStats();
   stats.batches.push({ seed, requested: count, completed: 0, cast: cast.title, castDefinition: cast, players: cast.players.length, settings });
   for (let i = 0; i < count; i++) {
-    const run = app.generateRun({ cast, settings: { ...settings, seed: `${seed}-${i}` }, content: app.defaultContentPack, lore: { facts: [] } }, app.narrativeAdapter);
-    app.addDemoRun(stats, run); stats.batches[0].completed++;
+    const eligible = new Set();
+    const run = app.generateRun({ cast, settings: { ...settings, seed: `${seed}-${i}` }, content: app.defaultContentPack, lore: { facts: [] } }, app.narrativeAdapter, id => eligible.add(id));
+    app.addDemoRun(stats, run, eligible); stats.batches[0].completed++;
     if ((i + 1) % 10 === 0) process.stderr.write(`${i + 1}/${count} games complete\n`);
   }
   const metrics = app.demoMetrics(stats).map(m => ({ ...m, average: m.denominator ? m.value / m.denominator : null }));

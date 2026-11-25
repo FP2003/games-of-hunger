@@ -1,6 +1,7 @@
 import { addSupplyRun, emptySupplyStats, supplyReport, type SupplyStats } from './supplies';
 import type { CastDefinition, ContentPack, GameSettings, RunRecord, EventRecord, GameState } from '../domain';
 import { DEFAULT_SETTINGS } from '../domain';
+import { armedFinaleSituation, situationLabel } from '../domain/situations';
 
 export const combatMethodDefinitions = [
   { method: 'held-weapon', label: 'Held inventory weapons', description: 'Attacks with a weapon already owned before the encounter.' },
@@ -17,8 +18,12 @@ export const combatMethodDefinitions = [
 
 export const demoCast: CastDefinition = { version: 1, title: 'Demo analytics cast', players: Array.from({ length: 24 }, (_, i) => ({ id: `demo-${i + 1}`, name: `Tribute ${i + 1}`, traits: [] })), relationships: [] };
 export const demoSettings: GameSettings = { ...DEFAULT_SETTINGS, loreCarryover: false };
-export type WordingRow = { text: string; example: string; count: number; games: number; repeatsWithinGames: number; templates: string[] };
+export type WordingRow = { text: string; example: string; count: number; games: number; repeatsWithinGames: number; templates: string[]; combat?: boolean };
+type SituationRows = Record<string, { count: number; games: number; repeatsWithinGames: number; example: string; seed: string; templates: string[] }>;
 export type DemoStats = {
+  situations?: SituationRows;
+  finaleSituations?: SituationRows;
+  eligibility?: Record<string, number>;
   supplies?: SupplyStats;
   version: 2; engineVersion: string; contentVersion: string; games: number;
   batches: { seed: string; requested: number; completed: number; cast: string; castDefinition: CastDefinition; players: number; settings: GameSettings }[];
@@ -59,18 +64,38 @@ export function classifyFight(event: EventRecord, before: GameState, run: RunRec
   return { fight, weapon: fight && usedWeapon, environment: fight && environment, escape, unusedWeapon: fight && heldWeapon && !usedWeapon, selfDeaths };
 }
 
-export function addDemoRun(stats: DemoStats, run: RunRecord): void {
+export function addDemoRun(stats: DemoStats, run: RunRecord, eligible?: ReadonlySet<string>): void {
   if (stats.games && (stats.engineVersion !== run.engineVersion || stats.contentVersion !== run.input.content.version)) throw new Error('Versions changed. Export and reset demo statistics before running this content.');
   stats.engineVersion = run.engineVersion; stats.contentVersion = run.input.content.version; stats.games++;
+  if (eligible) {
+    const counts = stats.eligibility ??= {};
+    for (const id of eligible) Object.defineProperty(counts, id, {
+      value: (Object.hasOwn(counts, id) ? counts[id] : 0) + 1, enumerable: true, writable: true, configurable: true,
+    });
+  }
   addSupplyRun(stats.supplies ??= emptySupplyStats(), run);
   const t = stats.totals;
   const phases = [...new Map(run.events.map(e => [e.phase.index, e.phase])).values()];
   t.days += Math.max(...phases.map(p => p.day));
   t.rounds += phases.length; t.dayRounds += phases.filter(p => p.kind === 'day').length; t.nightRounds += phases.filter(p => p.kind === 'night').length;
   const seen = new Set<string>();
-  const recordText = (kind: string, text: string, template: string) => {
+  const situationsSeen = new Set<string>();
+  const finaleSituationsSeen = new Set<string>();
+  const recordSituation = (rows: SituationRows, seen: Set<string>, id: string, event: EventRecord) => {
+    if (!Object.hasOwn(rows, id)) Object.defineProperty(rows, id, {
+      value: { count: 0, games: 0, repeatsWithinGames: 0, seed: run.input.settings.seed, example: event.text, templates: [] },
+      enumerable: true,
+    });
+    const row = rows[id];
+    row.count++;
+    if (seen.has(id)) row.repeatsWithinGames++;
+    else { row.games++; seen.add(id); }
+    if (!row.templates.includes(event.templateId)) row.templates.push(event.templateId);
+  };
+  const recordText = (kind: string, text: string, template: string, combat = false) => {
     const normalized = normalizeWording(text, run), key = JSON.stringify([kind, normalized]);
     const row = stats.wording[key] ??= { text: `${kind}: ${normalized}`, example: text, count: 0, games: 0, repeatsWithinGames: 0, templates: [] };
+    if (combat) row.combat = true;
     row.count++; if (!seen.has(key)) row.games++; else row.repeatsWithinGames++;
     seen.add(key); if (!row.templates.includes(template)) row.templates.push(template);
   };
@@ -81,6 +106,16 @@ export function addDemoRun(stats: DemoStats, run: RunRecord): void {
     const template = run.input.content.events.find(t => t.id === event.templateId);
     const ordinary = event.phase.kind === 'day' || event.phase.kind === 'night';
     const c = event.combat;
+    const situationLabels = template?.variantSituations;
+    const authoredSituation = c?.variantIndex === undefined
+      ? (situationLabels?.every(label => label === situationLabels[0]) ? situationLabels[0] : undefined)
+      : situationLabels?.[c.variantIndex];
+    const finale = event.phase.kind === 'finale';
+    const situation = authoredSituation ?? (finale && template ? armedFinaleSituation(template) : undefined);
+    if (situation) {
+      recordSituation(stats.situations ??= Object.create(null), situationsSeen, situation, event);
+      if (finale) recordSituation(stats.finaleSituations ??= Object.create(null), finaleSituationsSeen, situation, event);
+    }
     if (c) {
       t.combatFights++; increment(stats.combatMethods, c.method);
       if (c.armed) { t.armedAttacks++; sample.armedAttacks++; }
@@ -103,7 +138,7 @@ export function addDemoRun(stats: DemoStats, run: RunRecord): void {
     if (event.phase.kind === 'finale') t.finaleDeaths += deaths.length;
     t.creditedDeaths += deaths.filter(f => f.actorId && f.actorId !== f.targetId).length;
     t.environmentalDeaths += deaths.filter(f => !f.actorId || f.actorId === f.targetId).length;
-    t.events++; increment(stats.templates, event.templateId); recordText('Event', event.text, event.templateId);
+    t.events++; increment(stats.templates, event.templateId); recordText('Event', event.text, event.templateId, !!c);
     if (event.confessional) { t.interviews++; recordText('Interview', event.confessional.text, event.confessional.templateId); }
     for (const fact of event.facts) {
       if (fact.type === 'elimination') { t.deaths++; if (event.phase.kind === 'opening') t.bloodbathDeaths++; if (event.phase.kind === 'day') t.dayDeaths++; if (event.phase.kind === 'night') t.nightDeaths++; }
@@ -187,12 +222,22 @@ export function demoReport(stats: DemoStats, content: ContentPack) {
       movement: 'Passages and individual move facts reported separately. Opening departures, forced weather/closure departures, voluntary noncombat travel and encounter/finale movement are disjoint. Combat-to-travel ratio uses day/night fights and voluntary passages.',
       combat: 'Combat records use authored template and wording-variant metadata plus committed effects, never keyword inference. Variant index identifies the selected authored method. Inventory weapon use includes held weapons and arena charges possessed before the attack; weapons seized during a fight are reported separately. Outcome death/injury/unharmed is mutually exclusive; injury uses newly applied bleeding markers. Unknown methods remain explicit. Legacy keyword estimates are retained only in raw totals and fightExamples; metrics use structured records.',
       repetitions: 'Exact full passages after masking player and region names; events and interviews separate. Within-game repeats exclude the first occurrence in each game. No fragment or semantic matching.',
+      finaleSituations: 'Counts tagged encounters during the finale. Local and converging held-weapon bouts are grouped by weapon.',
       seeds: 'Each batch uses seed-0 through seed-(completed-1). Lore disabled. Cast and settings are recorded per batch.',
     },
     metrics: demoMetrics(stats).map(m => ({ ...m, average: m.denominator ? m.value / m.denominator : null })),
     repetitionLeaderboard: Object.values(stats.wording).filter(r => r.count > 1).sort((a, b) => b.count - a.count).slice(0, 100),
-    sceneCoverage: content.events.map(t => ({ templateId: t.id, uses: stats.templates[t.id] ?? 0, availableVariants: t.variants.length })).sort((a, b) => a.uses - b.uses || a.templateId.localeCompare(b.templateId)),
+    combatRepetitionLeaderboard: Object.values(stats.wording).filter(r => r.combat && r.games > 1).sort((a, b) => b.games - a.games || b.count - a.count).slice(0, 100),
+    situationLeaderboard: demoSituations(stats),
+    finaleSituationLeaderboard: demoSituations(stats, 'finaleSituations'),
+    sceneCoverage: content.events.map(t => ({ templateId: t.id, uses: stats.templates[t.id] ?? 0, availableVariants: t.variants.length, eligibleGames: stats.eligibility ? (stats.eligibility[t.id] ?? 0) : null })).sort((a, b) => a.uses - b.uses || a.templateId.localeCompare(b.templateId)),
   };
+}
+
+export function demoSituations(stats: DemoStats, scope: 'situations' | 'finaleSituations' = 'situations') {
+  return Object.entries(stats[scope] ?? {}).map(([id, row]) => ({
+    id, label: situationLabel(id), ...row,
+  })).sort((a, b) => b.games - a.games || b.count - a.count);
 }
 
 export function distribution(values: number[]) {
