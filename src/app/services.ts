@@ -3,7 +3,7 @@ import type { CastDefinition, ContentPack, GameRepository, LoreContext, RunInput
 export interface AppServices {
   repository: GameRepository;
   content: ContentPack;
-  generate(input: RunInput): RunRecord;
+  generate(input: RunInput): Promise<RunRecord>;
   lore(history: SeasonHistory, cast: CastDefinition, enabled: boolean): LoreContext;
   exportHistory(): Promise<string>;
   importHistory(text: string): Promise<void>;
