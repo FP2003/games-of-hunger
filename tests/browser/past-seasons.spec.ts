@@ -21,6 +21,7 @@ for (const width of [1280, 390]) test(`past-season callbacks remain visible in p
   await page.locator('input[type=file]').first().setInputFiles({ name: 'returning-season.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({ kind: 'run', schemaVersion: 1, run: second, cursor: event.sequence + 1 })) });
   await expect(page.locator('.phase-report')).toContainText(event.text);
   await expect(page.locator('.phase-report')).not.toContainText(ref.sourceRunId!);
+  await expect(page.locator('footer').getByRole('status')).toContainText(`Progress saved · ${event.sequence + 1} events revealed`);
   await page.reload();
   await page.getByRole('button', { name: 'Resume game', exact: false }).click();
   await expect(page.locator('.phase-report')).toContainText(event.text);
