@@ -3,14 +3,12 @@ import { biomeStatus, canEnter } from './arena';
 import { BIOME_TRANSITIONS } from '../domain';
 import { allied, loyaltyAllows } from './personality';
 import { createRandom } from './random';
+import { getNemesis, RIVAL_GRUDGE } from '../domain/rivalries';
+import { applyCampaignGrudges } from '../domain/campaignGrudges';
+export { getNemesis } from '../domain/rivalries';
 
 const clone = <T>(v: T): T => structuredClone(v);
 const compare = (a: string, b: string) => a < b ? -1 : a > b ? 1 : 0;
-export function getNemesis(state: GameState, playerId: string): string | null {
-  if (!state.players.find(p => p.id === playerId)?.alive) return null;
-  return state.relationships.filter(r => r.from === playerId && r.grudge >= 40 && state.players.find(p => p.id === r.to)?.alive)
-    .sort((a, b) => b.grudge - a.grudge || compare(a.to, b.to))[0]?.to ?? null;
-}
 export function getAlliances(state: GameState): [string, string][] {
   return state.relationships.filter(r => r.trust >= 40 && compare(r.from, r.to) < 0 && state.players.find(p => p.id === r.from)?.alive && state.players.find(p => p.id === r.to)?.alive && state.relationships.some(s => s.from === r.to && s.to === r.from && s.trust >= 40)).map(r => [r.from, r.to]);
 }
@@ -24,6 +22,7 @@ export function initialState(input: RunInput): GameState {
       else relationships.push({ from: p.id, to: other.id, trust: love ? 80 : -80, grudge: love ? 0 : 60 });
     }
   }
+  if (input.settings.grudgeCarryover) applyCampaignGrudges(relationships, input.lore.rivalryEvidence ?? []);
   return {
     players: input.cast.players.map(p => ({ id: p.id, alive: true, biome: 'ruins', markers: {} })),
     relationships,
@@ -40,7 +39,7 @@ function adjust(state: GameState, from: string, to: string, trust: number, grudg
 }
 export interface EffectResult { state: GameState; facts: EventFact[] }
 /** Failed transactions return null and leave the caller's state untouched. */
-export function applyEffects(before: GameState, effects: readonly Effect[], bindings: Record<string, string>, content: ContentPack, random: RandomSource, sequence = 0, history: { sequence: number; facts: EventFact[] }[] = [], personality?: Pick<RunInput, 'cast' | 'settings'>): EffectResult | null {
+export function applyEffects(before: GameState, effects: readonly Effect[], bindings: Record<string, string>, content: ContentPack, random: RandomSource, sequence = 0, history: { sequence: number; facts: EventFact[] }[] = [], personality?: Pick<RunInput, 'cast' | 'settings'> & Partial<Pick<RunInput, 'lore'>>): EffectResult | null {
   const enabled = personality && personality.settings.personality !== 'off';
   if (enabled && !loyaltyAllows(effects, bindings, before, personality.cast)) return null;
   const state = clone(before); const facts: EventFact[] = [];
@@ -55,9 +54,18 @@ export function applyEffects(before: GameState, effects: readonly Effect[], bind
       const rel = edge(state, from, to); rel.grudge = 100; rel.trust = Math.min(-40, rel.trust);
     }
   };
-  const revengeSource = (actor: string, target: string) => [...history].reverse().find(e => e.facts.some(f =>
-    (['theft','betrayal','elimination'].includes(f.type) && f.actorId === target && f.targetId === actor)
-    || (enabled && f.type === 'grudge' && f.actorId === actor && f.targetId === target)));
+  const revengeSource = (actor: string, target: string): Pick<EventFact, 'sourceEvent' | 'sourceRunId'> | undefined => {
+    for (let index = history.length - 1; index >= 0; index--) {
+      const event = history[index];
+      if (event.facts.some(fact =>
+        (['theft', 'betrayal', 'elimination'].includes(fact.type) && fact.actorId === target && fact.targetId === actor)
+          || (enabled && fact.type === 'grudge' && fact.actorId === actor && fact.targetId === target))) return { sourceEvent: event.sequence };
+    }
+    if (!personality?.settings.grudgeCarryover || !before.relationships.some(edge => edge.from === actor && edge.to === target && edge.grudge >= RIVAL_GRUDGE)) return;
+    if (history.some(event => event.facts.some(fact => fact.type === 'revenge' && fact.actorId === actor && fact.targetId === target))) return;
+    const memory = personality.lore?.rivalryEvidence?.find(fact => fact.from === actor && fact.to === target && fact.kind !== 'reconciliation');
+    if (memory) return { sourceRunId: memory.sourceRunId, sourceEvent: memory.sourceEvent };
+  };
   const player = (role: string) => { const p = state.players.find(p => p.id === bindings[role]); if (!p?.alive) throw new Error('Participant is unavailable.'); return p; };
   const item = (role: string, definitionId?: string) => { const p = player(role); const result = state.items.filter(i => i.ownerId === p.id && !i.destroyed && (!definitionId || i.definitionId === definitionId)).sort((a,b) => compare(a.id,b.id))[0]; if (!result) throw new Error('Item is unavailable.'); return result; };
   const record = (fact: EventFact) => facts.push(fact);
@@ -118,7 +126,7 @@ export function applyEffects(before: GameState, effects: readonly Effect[], bind
           if (effect.fact) {
             if (effect.fact === 'revenge') {
               const prior = revengeSource(from.id, to.id);
-              if (!prior) throw new Error('Revenge needs a previous hostile action.'); record({ type: 'revenge', actorId: from.id, targetId: to.id, sourceEvent: prior.sequence });
+              if (!prior) throw new Error('Revenge needs a previous hostile action.'); record({ type: 'revenge', actorId: from.id, targetId: to.id, ...prior });
             } else {
               // Assistance/betrayal updates the affected person's opinion of
               // the helper/betrayer. Credit the actual action, not its observer.
@@ -141,7 +149,7 @@ export function applyEffects(before: GameState, effects: readonly Effect[], bind
           p.alive = false; p.markers = {}; record({ type: 'elimination', targetId: p.id, ...(credit ? { actorId: credit } : {}), biome: p.biome });
           for (const held of state.items.filter(i => i.ownerId === p.id)) { held.ownerId = null; held.biome = p.biome; record({ type: 'drop', actorId: p.id, itemId: held.id, itemDefinitionId: held.definitionId }); }
           for (const other of state.players) for (const marker of content.markers.filter(m => m.type === 'player')) if (other.markers[marker.id] === p.id) delete other.markers[marker.id];
-          if (credit) { const prior = revengeSource(credit, p.id); if (prior) record({ type: 'revenge', actorId: credit, targetId: p.id, sourceEvent: prior.sequence }); }
+          if (credit) { const prior = revengeSource(credit, p.id); if (prior) record({ type: 'revenge', actorId: credit, targetId: p.id, ...prior }); }
           break;
         }
         case 'curse': {
