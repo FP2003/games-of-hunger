@@ -1,10 +1,12 @@
 import { expect, test, type Page } from '@playwright/test';
 import { source } from 'axe-core';
 
+declare const axe: typeof import('axe-core');
+
 async function expectAccessible(page: Page, label: string) {
-  await page.evaluate(source);
+  await page.addScriptTag({ content: source });
   const violations = await page.evaluate(async () => {
-    const results = await window.axe.run({
+    const results = await axe.run({
       runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'] },
     });
     return results.violations.map(({ id, nodes }) => ({
