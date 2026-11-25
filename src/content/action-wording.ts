@@ -1,4 +1,5 @@
-import { additionalWeapons, additionalWeaponWording, killAndLootWording, weaponNames } from './weapon-expansion';
+import { additionalWeapons, expandedWeaponHits, killAndLootWording, weaponNames } from './weapon-expansion';
+import { weaponWoundSites, woundedEscapeWording } from './weapon-wording';
 
 // Complete alternatives for frequently selected scenes. These replace contextual
 // prefixes, preserving the recorded mechanism, participants and inventory effects.
@@ -371,10 +372,7 @@ for (const weapon of additionalWeapons) {
     `{target.name} loses a grip on the ${name} when {actor.name} pins the weapon arm against a barrier in {biome}. {actor.name} keeps it as {target.name} retreats unharmed.`,
     `{actor.name} forces {target.name}'s weapon arm against a barrier in {biome}, then pulls away the ${name}. With the weapon lost, {target.name} escapes without injury.`,
   ];
-  const wording = additionalWeaponWording[weapon.id];
-  actionWording[`weapon-${weapon.id}-fatal`] = wording.fatal.slice(3) as unknown as Ten;
-  actionWording[`weapon-${weapon.id}-missed`] = wording.missed.slice(3) as unknown as Ten;
-  for (const site of ['thigh', 'shoulder', 'side']) {
-    actionWording[`weapon-${weapon.id}-${site}-survived`] = wording.hit(site).slice(3).map(text => `${text} {target.name} pushes a supply crate between them and reaches cover, surviving with a bleeding ${site} wound.`) as unknown as Ten;
+  for (const site of weaponWoundSites) {
+    actionWording[`weapon-${weapon.id}-${site}-survived`] = expandedWeaponHits(weapon, site).slice(3).map((attack, i) => `${attack} ${woundedEscapeWording(site, i + 3)}`) as unknown as Ten;
   }
 }
