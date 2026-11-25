@@ -196,10 +196,10 @@ for (const width of [1280, 390]) {
       expect(box.bottom).toBeLessThanOrEqual(viewport!.y + viewport!.height);
     }
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
-    const source = chart.getByRole('button', { name: 'Select Alex, cast entry 1', exact: true });
+    const source = chart.getByRole('button', { name: 'Select Alex #1, cast entry 1', exact: true });
     await source.focus();
     await page.keyboard.press('Enter');
-    await chart.getByRole('button', { name: 'Select Alex, cast entry 2', exact: true }).click();
+    await chart.getByRole('button', { name: 'Select Alex #2, cast entry 2', exact: true }).click();
     // The two directed controls remain independent even when names are identical.
     await chart.getByRole('button', { name: 'Alex #1 toward Alex #2: Rival', exact: true }).click();
     await expect(chart.getByRole('button', { name: 'Alex #1 toward Alex #2: Rival', exact: true })).toHaveAttribute('aria-pressed', 'true');
