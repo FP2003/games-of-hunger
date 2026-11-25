@@ -360,7 +360,7 @@ test('reload restores incomplete draft fields, customization, relationships, pas
   await expect(page.getByText('Draft saved', { exact: true })).toBeVisible();
   await page.reload(); await expect(page.getByLabel('Season title', { exact: true })).toHaveValue('');
   await expect(page.getByLabel('Names, one per line', { exact: true })).toHaveValue('Still waiting\nAnother name');
-  await page.getByRole('button', { name: 'Edit character, cast entry 1', exact: true }).click();
+  await page.getByRole('button', { name: 'Edit Unnamed player, cast entry 1', exact: true }).click();
   await expect(page.getByLabel('Name', { exact: true })).toHaveValue('');
   await expect(page.getByLabel('Sneaky', { exact: true })).toBeChecked();
   await expect(page.getByLabel('Portrait', { exact: true })).toHaveValue('/assets/fern.svg');
