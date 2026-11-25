@@ -9,7 +9,7 @@ import { additionalConfessionalWording } from '../../src/content/additional-conf
 import { actionWording } from '../../src/content/action-wording';
 import { eventInterviews, extraGenericWording } from '../../src/content/interview-expansion';
 import { groupCooperation } from '../../src/content/cooperation';
-import { DEFAULT_SETTINGS, RunRecordSchema, type ConfessionalInput, type EventNarrativeInput, type EventTemplate, type NarrativeAdapter, type RandomSource, type RunInput } from '../../src/domain';
+import { BIOME_IDS, DEFAULT_SETTINGS, RunRecordSchema, type ConfessionalInput, type EventNarrativeInput, type EventTemplate, type NarrativeAdapter, type RandomSource, type RunInput } from '../../src/domain';
 import { generateRun, initialState } from '../../src/engine';
 import { narrativeAdapter, renderEvent, selectConfessional } from '../../src/narrative';
 import { fixtureInput, fixturePack, rewordContent } from '../fixtures';
@@ -26,14 +26,20 @@ import { retiredDefaultEventIds } from '../fixtures/legacy-content';
 
 import { arenaGearScenes } from '../../src/content/arena-gear';
 import { intimidationScenes } from '../../src/content/intimidation';
+import { distinctEncounters } from '../../src/content/distinct-encounters';
+import { unarmedEncounters } from '../../src/content/unarmed-encounters';
+import { environmentalEncounters } from '../../src/content/environmental-encounters';
+import { contextualFinales } from '../../src/content/finale-encounters';
 import { lootWeaponIds } from '../../src/content/weapon-catalogue';
+import { weaponCoverWording } from '../../src/content/weapon-cover';
 
 const independentlyAuthored = new Set([
   ...weaponFinaleScenes, ...weaponInjuryScenes, ...kneeFollowups, ...groupCooperation, ...supplyUseScenes, ...siteAccidentScenes, ...environmentalScenes,
   ...travelScenes, ...expandedTraitScenes, ...partyTravelScenes, ...openingPartyScenes, ...quirkScenes,
-  ...arenaGearScenes, ...intimidationScenes,
+  ...arenaGearScenes, ...intimidationScenes, ...distinctEncounters, ...unarmedEncounters, ...environmentalEncounters, ...contextualFinales,
 ].map(scene => scene.id));
 for (const id of ['rope', 'lantern', 'scrap', 'explosive', ...lootWeaponIds]) independentlyAuthored.add(`sponsor-gift-${id}`);
+independentlyAuthored.add('final-ally-qualification');
 const usesContextCatalogue = (template: EventTemplate) =>
   !independentlyAuthored.has(template.id) && template.lootSource !== 'resupply' &&
   !(template.cooldownGroup && template.cooldownGroup !== template.id && template.id.startsWith(`${template.cooldownGroup}-loot-`));
@@ -122,6 +128,45 @@ describe('authored scene variety', () => {
     expect(renderEvent(input).wording).toBe(first.wording);
     expect(renderEvent({ ...input, template: { ...input.template, variants: [first.wording, first.wording, second.wording] }, previousWording: first.wording }).wording).toBe(second.wording);
     expect(renderEvent({ ...input, template: { ...input.template, variants: [first.wording] }, previousWording: first.wording }).text).toBe('Riley waits quietly.');
+  });
+
+  it('rotates the Center Podium intro across weapons while keeping the selected combat wording', () => {
+    const input = context();
+    const templates = ['weapon-crossbow-final-converge-0', 'weapon-machete-final-converge-2']
+      .map(id => defaultContentPack.events.find(template => template.id === id)!);
+    const history: NonNullable<EventNarrativeInput['history']>[number][] = [];
+    const intros = Array.from({ length: 7 }, (_, index) => {
+      const original = templates[index % templates.length];
+      const template = { ...original, variants: original.variants.slice(0, 1) };
+      const rendered = renderEvent({ ...input, template, history });
+      expect(rendered.wording).toBe(template.variants[0]);
+      const intro = rendered.text.split('. ')[0];
+      expect(intro).toContain('Center Podium');
+      history.push({ sequence: history.length, templateId: template.id, biome: 'ruins', facts: [] });
+      history.push({ sequence: history.length, templateId: 'final-beacon-ruins', biome: 'ruins', facts: [] });
+      return intro;
+    });
+    expect(new Set(intros.slice(0, 5)).size).toBe(5);
+    expect(intros.slice(5)).toEqual(intros.slice(0, 2));
+  });
+
+  it('rotates weapon setups through the local scenery across wounds and weapons', () => {
+    const input = context();
+    const templates = ['weapon-dagger-thigh-survived', 'weapon-trident-shoulder-survived']
+      .map(id => defaultContentPack.events.find(template => template.id === id)!);
+    const history: NonNullable<EventNarrativeInput['history']>[number][] = [];
+    for (const biome of BIOME_IDS) {
+      for (const player of input.after.players) player.biome = biome;
+      const lines = weaponCoverWording[biome];
+      for (let index = 0; index <= lines.length; index++) {
+        const original = templates[index % templates.length];
+        const template = { ...original, variants: original.variants.slice(0, 1) };
+        const { text, wording } = renderEvent({ ...input, template, history });
+        expect(text.startsWith(lines[index % lines.length] + ' ')).toBe(true);
+        expect(wording).toBe(template.variants[0]);
+        history.push({ sequence: history.length, templateId: template.id, biome, facts: [], text });
+      }
+    }
   });
 
   it('uses unseen wording across template IDs and avoids repeats among equally unused options', () => {

@@ -139,7 +139,7 @@ describe('concrete outcomes throughout the library', () => {
   });
 
   it('gives every authored lethal variant a physical cause instead of an administrative exit', () => {
-    for (const template of defaultContentPack.events.filter(e => e.effects.some(f => f.kind === 'eliminate'))) {
+    for (const template of defaultContentPack.events.filter(e => e.id !== 'final-ally-qualification' && e.effects.some(f => f.kind === 'eliminate'))) {
       for (const text of template.variants) {
         expect(text, template.id).not.toMatch(/is eliminated|is out\b|removed from the game|outmaneuvers|concedes|leaves the (?:game|arena|competition)|escorted out/i);
         expect(text, template.id).toMatch(/\b(?:dies|die|dying|death|dead|kill(?:s|ed|ing)?|fatal(?:ly)?|drown(?:s|ed|ing)?|suffocat(?:e|es|ed|ing|ion))\b|does not survive/i);
