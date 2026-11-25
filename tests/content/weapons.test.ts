@@ -3,6 +3,7 @@ import { defaultContentPack } from '../../src/content';
 import { actionWording } from '../../src/content/action-wording';
 import { hotspotWording } from '../../src/content/hotspot-variety';
 import { weaponExchangeScenes, weaponItems, weaponScenes, weaponTrapScenes } from '../../src/content/weapons';
+import { additionalWeapons } from '../../src/content/weapon-expansion';
 import { arenaGearItems, arenaGearScenes } from '../../src/content/arena-gear';
 import { lootWeaponIds } from '../../src/content/weapon-catalogue';
 import { rareExplosiveIds } from '../../src/content/loot-rarity';
@@ -49,10 +50,17 @@ describe('weapon and trap outcomes', () => {
     }
   });
 
-  it('provides three distinct wording variants for every weapon, trap and exchange scenario', () => {
+  it('provides five short variants for expanded weapon misses and kills, and three for other base scenes', () => {
+    const rewritten = new Set(additionalWeapons.flatMap(({ id }) => [`weapon-${id}-missed`, `weapon-${id}-fatal`]));
     for (const template of [...weaponScenes, ...weaponTrapScenes, ...weaponExchangeScenes]) {
-      expect(template.variants, template.id).toHaveLength(3);
-      expect(new Set(template.variants).size, template.id).toBe(3);
+      const expected = rewritten.has(template.id) ? 5 : 3;
+      expect(template.variants, template.id).toHaveLength(expected);
+      expect(new Set(template.variants).size, template.id).toBe(expected);
+      if (rewritten.has(template.id)) {
+        const shipped = defaultContentPack.events.find(event => event.id === template.id)!;
+        expect(shipped.variants, template.id).toEqual(template.variants);
+        for (const text of shipped.variants) expect(text.split(/\s+/).length, template.id).toBeLessThanOrEqual(30);
+      }
     }
   });
 
