@@ -130,12 +130,13 @@ label.button{position:relative;overflow:hidden}label.button input[type=file]{dis
 .event-card.phase-report{display:block;min-height:300px;padding:32px;text-align:left;background:var(--bg);border-color:var(--line);color:var(--text)}
 .phase-heading{border-bottom:1px solid var(--line);padding-bottom:16px;margin-bottom:12px}
 .phase-heading h1{font-size:42px;margin:12px 0;color:var(--text)}
-.region-theme[data-region=forest]{--region-colour:#a5d698;--region-background:#a5d6980f}
-.region-theme[data-region=swamp]{--region-colour:#8fd4c0;--region-background:#8fd4c00f}
-.region-theme[data-region=mountains]{--region-colour:#c1b7ec;--region-background:#c1b7ec0f}
-.region-theme[data-region=desert]{--region-colour:#f3ce8e;--region-background:#f3ce8e0f}
-.region-theme[data-region=tundra]{--region-colour:#9cd7ff;--region-background:#9cd7ff0f}
-.region-theme[data-region=ruins]{--region-colour:#e6b299;--region-background:#e6b2990f}
+.region-theme{--region-background:color-mix(in srgb,var(--region-colour) 6%,transparent)}
+.region-theme[data-region=forest]{--region-colour:oklch(0.80 0.12 140)}
+.region-theme[data-region=swamp]{--region-colour:oklch(0.80 0.10 173)}
+.region-theme[data-region=mountains]{--region-colour:oklch(0.80 0.09 296)}
+.region-theme[data-region=desert]{--region-colour:oklch(0.85 0.11 80)}
+.region-theme[data-region=tundra]{--region-colour:oklch(0.84 0.10 235)}
+.region-theme[data-region=ruins]{--region-colour:oklch(0.81 0.09 51)}
 .survivors{align-items:start}
 .region-report{padding:14px 16px 2px;margin:12px 0;background:var(--region-background);border:1px solid #ffffff18;border-left:3px solid var(--region-colour);border-radius:6px}
 .region-report h2{display:flex;align-items:center;gap:10px;font:400 23px Georgia,serif;margin:0 0 4px;color:var(--region-colour)}
@@ -174,8 +175,9 @@ label.button{position:relative;overflow:hidden}label.button input[type=file]{dis
 .network-viewport{overflow:clip}
 .game-relationships-modal{width:min(1200px,calc(100% - 32px))}
 .game-relationships-modal .relationship-network{margin-top:16px}
-.game-relationships-modal .network-node.eliminated{opacity:.5}
+.game-relationships-modal .network-node.eliminated{color:var(--muted);border-style:dashed}
 .game-relationships-modal .network-node.eliminated .network-node-name{text-decoration:line-through}
+.game-relationships-modal .network-node.eliminated .portrait{filter:grayscale(1)}
 .network-status-readout{font-size:11px;line-height:1.7}
 .network-edge.nemesis .network-edge-line{stroke-width:3.5;opacity:1}
 .network-bundle.nemesis .network-bundle-trunk{stroke-width:3.5}
@@ -187,3 +189,9 @@ label.button{position:relative;overflow:hidden}label.button input[type=file]{dis
 .scene-export-controls button,.scene-export-controls a{font-size:11px}
 .scene-export-controls [role=status]{font-size:11px;line-height:1.6;color:var(--muted);flex:1;min-width:160px}
 .scene-season-title{font:11px/1.6 monospace;letter-spacing:1.4px;color:var(--acid);margin:0 0 16px;overflow-wrap:anywhere}
+.rivalry-timeline {
+  margin-block: 1rem;
+}
+.rivalry-timeline li + li {
+  margin-top: .5rem;
+}
