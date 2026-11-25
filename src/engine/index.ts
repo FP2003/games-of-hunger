@@ -2,7 +2,8 @@ import { RunInputSchema, RunRecordSchema, ENGINE_VERSION, canonicalRunId, type R
 import { createRandom } from './random';
 import { arenaLayout } from './routes';
 import { combatRecord } from './combat';
-import { chooseCombatMethod, preferUnusedCombatChoices, type CombatChoice } from './combat-selection';
+import { chooseCombatMethod, chooseCombatSituation, preferUnusedCombatChoices, varyFinaleWeapon, type CombatChoice } from './combat-selection';
+import { combatSituationKey } from '../domain/situations';
 import { initialState, applyEffects, findBindings, clearPhaseMarkers } from './mechanics';
 import { computeAwards } from './awards';
 import { allied, hostilePairs } from './personality';
@@ -13,6 +14,7 @@ import { requestedTravel } from './travel';
 import { expandedTraitWeight } from './trait-expansion';
 import { quirkWeight } from './quirks';
 import { isSponsorGift, MAX_SPONSOR_GIFTS, sponsorChance } from './sponsors';
+import { narrowingChance, openingCasualtyBudget } from './pacing';
 export { createRandom } from './random';
 export { initialState, applyEffects, findBindings, getNemesis, getAlliances } from './mechanics';
 export { computeAwards } from './awards';
@@ -69,8 +71,8 @@ export function eventWeight(template: EventTemplate, bindings: Record<string,str
   return result * expandedTraitWeight(template, bindings, input) * quirkWeight(template, bindings, state, input, phase) * environmentWeight(template, bindings, state, phase);
 }
 
-export function generateRun(rawInput: RunInput, narrative: NarrativeAdapter): RunRecord {
-  return simulate(RunInputSchema.parse(rawInput), narrative, false) as RunRecord;
+export function generateRun(rawInput: RunInput, narrative: NarrativeAdapter, onEligible?: (templateId: string) => void): RunRecord {
+  return simulate(RunInputSchema.parse(rawInput), narrative, false, onEligible) as RunRecord;
 }
 
 /** Analytics only: validate fixed content/settings once, retain the same simulation,
@@ -84,17 +86,21 @@ export function createOutcomeSimulator(rawInput: RunInput, narrative: NarrativeA
   };
 }
 
-function simulate(input: RunInput, narrative: NarrativeAdapter, outcomeOnly: boolean): RunRecord | string {
+function simulate(input: RunInput, narrative: NarrativeAdapter, outcomeOnly: boolean, onEligible?: (templateId: string) => void): RunRecord | string {
   if (input.content.arenaRoutes === 'seeded') input.content = { ...input.content, biomes: arenaLayout(input.content, input.settings.seed) };
-  if(!input.settings.loreCarryover)input.lore={facts:[]};
+  if (!input.settings.loreCarryover) input.lore = { ...input.lore, facts: [] };
+  if (!input.settings.grudgeCarryover) delete input.lore.rivalryEvidence;
   const id=outcomeOnly ? '' : canonicalRunId(input); const mechanics=createRandom(`${input.settings.seed}:mechanics`), wording=createRandom(`${input.settings.seed}:wording`), confessionals=createRandom(`${input.settings.seed}:confessionals`);
   const arenaRandom=createRandom(`${input.settings.seed}:arena`);
   const lastEventWording: Record<string, string> = {}, lastInterviewWording: Record<string, string> = {};
   const wordingUses: Record<string, number> = Object.create(null);
+  const combatSituationUses = new Map<string, number>();
+  const combatSituationOpportunities = new Map<string, number>();
   const usedInterviewTexts = new Set<string>();
   const usedInterviewIdeas = new Set<string>();
   const scheduledRandom = createRandom(`${input.settings.seed}:scheduled`);
   const sponsorRandom = createRandom(`${input.settings.seed}:sponsors`);
+  const pacingRandom = createRandom(`${input.settings.seed}:pacing`);
   const loreRandom = createRandom(`${input.settings.seed}:lore-wording`);
   const historicalCallback = createLoreTracker();
   let sponsorGifts = 0;
@@ -113,7 +119,8 @@ function simulate(input: RunInput, narrative: NarrativeAdapter, outcomeOnly: boo
     const phase:Phase={kind:phaseIndex===0?'opening':finale?'finale':phaseIndex%2?'day':'night',index:phaseIndex,day:finaleDay ?? day};
     state=clearPhaseMarkers(state,input.content);const assigned=new Set<string>();const usedSpeakers:string[]=[];
     type Candidate=CombatChoice & {result:NonNullable<ReturnType<typeof applyEffects>>};
-    const record = ({ template, bindings, result, preferredMethod }: Candidate) => {
+    const record = ({ template, bindings, result, preferredMethod, preferredVariants, offeredSituations }: Candidate) => {
+      onEligible?.(template.id);
       if (isSponsorGift(template)) sponsorGifts++;
       const sequence=events.length, anchor=Object.values(bindings)[0], before=state; state=result.state;
       if(!result.facts.length && anchor)result.facts.push({type:'survival',actorId:anchor,biome:state.players.find(p=>p.id===anchor)!.biome});
@@ -125,17 +132,35 @@ function simulate(input: RunInput, narrative: NarrativeAdapter, outcomeOnly: boo
       const narrativeInput={template,bindings,cast:input.cast,content:input.content,before,after:state,facts:result.facts,phase,sequence,random:wording,loreRandom,lore:input.lore,previousWording:lastEventWording[template.id],wordingUses:{...wordingUses},history:events,personalityEnabled:input.settings.personality!=='off'};
       // Keep the original template for recorded variant indices and replay checks.
       // Only wording selection is restricted to the chosen authored method.
-      const methodVariants = preferredMethod && template.combat?.variantMethods
-        ? template.variants.filter((_, index) => template.combat!.variantMethods![index] === preferredMethod) : undefined;
-      const rendered=narrative.renderEvent(methodVariants?.length ? { ...narrativeInput, template: { ...template, variants: methodVariants } } : narrativeInput);const selection=anchor && usedSpeakers.length < MAX_CONFESSIONALS_PER_ROUND && confessionals.next() < CONFESSIONAL_CHANCE ? narrative.selectConfessional({...narrativeInput,random:confessionals,usedThisPhase:[...usedSpeakers],lastUsed:{...lastConfessional},lastWording:{...lastInterviewWording},usedTexts:[...usedInterviewTexts],usedIdeas:[...usedInterviewIdeas]}) : null;
+      const methodIndices = preferredVariants ?? (preferredMethod && template.combat?.variantMethods
+        ? template.variants.flatMap((_, index) => template.combat!.variantMethods![index] === preferredMethod ? [index] : []) : []);
+      const spokenTemplate = methodIndices.length ? {
+        ...template, variants: methodIndices.map(index => template.variants[index]),
+        variantSituations: template.variantSituations && methodIndices.map(index => template.variantSituations![index]),
+        ...(template.combat?.variantMethods && { combat: { ...template.combat, variantMethods: methodIndices.map(index => template.combat!.variantMethods![index]) } }),
+      } : template;
+      const rendered=narrative.renderEvent({ ...narrativeInput, template: spokenTemplate });const selection=anchor && usedSpeakers.length < MAX_CONFESSIONALS_PER_ROUND && confessionals.next() < CONFESSIONAL_CHANCE ? narrative.selectConfessional({...narrativeInput,random:confessionals,usedThisPhase:[...usedSpeakers],lastUsed:{...lastConfessional},lastWording:{...lastInterviewWording},usedTexts:[...usedInterviewTexts],usedIdeas:[...usedInterviewIdeas]}) : null;
+      const variantIndex = rendered.wording === undefined ? undefined : template.variants.indexOf(rendered.wording);
+      for (const key of offeredSituations ?? []) {
+        combatSituationOpportunities.set(key, (combatSituationOpportunities.get(key) ?? 0) + 1);
+      }
+      if (template.combat && variantIndex !== undefined && variantIndex >= 0) {
+        const key = combatSituationKey(template, variantIndex);
+        combatSituationUses.set(key, (combatSituationUses.get(key) ?? 0) + 1);
+      }
       if (rendered.wording !== undefined) {
         lastEventWording[template.id] = rendered.wording;
         wordingUses[rendered.wording] = (wordingUses[rendered.wording] ?? 0) + 1;
+        const situation = variantIndex === undefined ? undefined : template.variantSituations?.[variantIndex];
+        if (situation) {
+          const key = `situation:${situation}`;
+          wordingUses[key] = (wordingUses[key] ?? 0) + 1;
+        }
       }
       const confessional = selection ? (({ wording: _wording, idea: _idea, ...saved }) => saved)(selection) : null;
       const validConfessional=confessional && !usedSpeakers.includes(confessional.speakerId) && (state.players.find(p=>p.id===confessional.speakerId)?.alive || (confessional.exit && before.players.find(p=>p.id===confessional.speakerId)?.alive && !state.players.find(p=>p.id===confessional.speakerId)?.alive))?confessional:null;
       if(validConfessional){usedSpeakers.push(validConfessional.speakerId);usedInterviewTexts.add(validConfessional.text);if(selection?.idea)usedInterviewIdeas.add(selection.idea);lastConfessional[validConfessional.templateId]=sequence;if(selection?.wording !== undefined)lastInterviewWording[validConfessional.templateId]=selection.wording;}
-      events.push({combat:combatRecord(template, bindings, before, state, input.content, rendered.wording === undefined ? undefined : template.variants.indexOf(rendered.wording)),sequence,id:`event-${sequence}`,phase:{...phase},templateId:template.id,bindings,biome,effects:structuredClone(template.effects),facts:result.facts,text:rendered.text,confessional:validConfessional,state:structuredClone(state)});
+      events.push({combat:combatRecord(template, bindings, before, state, input.content, variantIndex),sequence,id:`event-${sequence}`,phase:{...phase},templateId:template.id,bindings,biome,effects:structuredClone(template.effects),facts:result.facts,text:rendered.text,confessional:validConfessional,state:structuredClone(state)});
       const eliminated=before.players.filter(p=>p.alive&&!state.players.find(s=>s.id===p.id)!.alive), rank=state.players.filter(p=>p.alive).length+1;
       eliminated.forEach(p=>placements.push({playerId:p.id,rank,eventSequence:sequence}));Object.values(bindings).forEach(p=>assigned.add(p));lastUsed[cooldownKey(template)]=phaseIndex;
     };
@@ -150,12 +175,13 @@ function simulate(input: RunInput, narrative: NarrativeAdapter, outcomeOnly: boo
     if (phase.kind === 'opening' && input.content.id === 'wild-broadcast') {
       const openingRandom = createRandom(`${input.settings.seed}:opening`);
       const desired = weighted([5,18,30,28,13,5,1].map((weight, i) => ({ value: i + 3, weight })), openingRandom);
-      const budget = Math.min(Math.floor(survivors / 2), Math.max(1, Math.round(desired * survivors / 24)));
+      const budget = openingCasualtyBudget(survivors, desired);
       const lethal = templates.filter(t => t.phases.includes('opening') && t.effects.some(e => e.kind === 'eliminate' && e.credit));
       for (let death = 0; death < budget && lethal.length; death++) {
         const available = state.players.filter(p => p.alive && !assigned.has(p.id)).map(p => p.id).sort();
         const candidates = lethal.flatMap(template => {
           const bindings = findBindings(template, state, input.cast, input.content, available, openingRandom.pick(available), openingRandom, input.settings.personality !== 'off');
+          if (bindings) onEligible?.(template.id);
           return bindings ? [{ value: { template, bindings }, weight: eventWeight(template, bindings, state, input, phase) }] : [];
         });
         if (!candidates.length) break;
@@ -175,6 +201,7 @@ function simulate(input: RunInput, narrative: NarrativeAdapter, outcomeOnly: boo
         const anchor = weaponRandom.pick(available);
         const candidates = weaponPickups.flatMap(template => {
           const bindings = findBindings(template, state, input.cast, input.content, available, anchor, weaponRandom, input.settings.personality !== 'off');
+          if (bindings) onEligible?.(template.id);
           return bindings ? [{ value: { template, bindings }, weight: eventWeight(template, bindings, state, input, phase) }] : [];
         });
         if (!candidates.length) break;
@@ -211,7 +238,10 @@ function simulate(input: RunInput, narrative: NarrativeAdapter, outcomeOnly: boo
           for (const template of entries) {
             for (const anchor of available) {
               const bindings = findBindings(template, state, input.cast, input.content, available, anchor, scheduledRandom, input.settings.personality !== 'off');
-              if (bindings && stage(template, bindings)) { delivered = true; break; }
+              if (bindings) {
+                onEligible?.(template.id);
+                if (stage(template, bindings)) { delivered = true; break; }
+              }
             }
             if (delivered) break;
           }
@@ -230,7 +260,10 @@ function simulate(input: RunInput, narrative: NarrativeAdapter, outcomeOnly: boo
           for (const template of alternatives) {
             for (const anchor of available) {
               const bindings = findBindings(template, state, input.cast, input.content, available, anchor, scheduledRandom, input.settings.personality !== 'off');
-              if (bindings) { candidate = { template, bindings }; break; }
+              if (bindings) {
+                onEligible?.(template.id);
+                candidate = { template, bindings }; break;
+              }
             }
             if (candidate) break;
           }
@@ -261,28 +294,35 @@ function simulate(input: RunInput, narrative: NarrativeAdapter, outcomeOnly: boo
       const overdue = available.filter(id => plans.get(id) === 'roam');
       const anchor=mechanics.pick(urgent.length ? urgent : overdue.length ? overdue : available);const sequence=events.length;
       const travel = plans.get(anchor) ?? null;
+      const pressure = !finale && !travel && input.content.id === 'wild-broadcast'
+        ? narrowingChance(input.cast.players.length, state.players.filter(player => player.alive).length, phase.day) : 0;
+      const narrow = pressure > 0 && pacingRandom.next() < pressure;
       const allowMultikill=phase.day>=2 && !events.some(e=>e.effects.filter(f=>f.kind==='eliminate').length>1) && arenaRandom.next()<0.06;
       let candidates:{value:Omit<Candidate, 'result'>;weight:number}[]=[];
-      const addCandidate = (template: EventTemplate) => {
+      const addCandidate = (template: EventTemplate, candidateAnchor = anchor) => {
         // The opening equipment pool already assigned its limited weapon pickups.
         if (phase.kind === 'opening' && input.content.id === 'wild-broadcast' && template.effects.some(e =>
           e.kind === 'createItem' && input.content.items.some(i => i.id === e.definitionId && i.tags.includes('weapon')))) return;
         // Solo departures obey the same residence/weather gate as parties.
-        if (template.travel && plans.get(anchor) !== template.travel) return;
+        if (template.travel && plans.get(candidateAnchor) !== template.travel) return;
         if (input.settings.personality === 'off' && (template.roles.some(r => r.traits?.length) || template.conditions.some(c => c.kind === 'trait'))) return;
         const party = template.travel && template.roles.length > 1;
-        if (party && plans.get(anchor) !== template.travel) return;
         const participants = party ? available.filter(id => plans.get(id) === template.travel) : available;
-        const bindings=findBindings(template,state,input.cast,input.content,participants,anchor,mechanics,input.settings.personality!=='off');if(!bindings)return;
+        const bindings=findBindings(template,state,input.cast,input.content,participants,candidateAnchor,mechanics,input.settings.personality!=='off');if(!bindings)return;
+        onEligible?.(template.id);
         candidates.push({value:{template,bindings},weight:eventWeight(template,bindings,state,input,phase)});
       };
       const chooseValid = (): Candidate | null => {
         while (candidates.length) {
           const largest = travel ? Math.max(...candidates.map(candidate => candidate.value.template.roles.length)) : 1;
-          const pool = travel ? candidates.filter(candidate => candidate.value.template.roles.length === largest) : candidates;
+          let pool = travel ? candidates.filter(candidate => candidate.value.template.roles.length === largest) : candidates;
+          if (narrow) {
+            const decisive = pool.filter(candidate => candidate.value.template.effects.some(effect => effect.kind === 'eliminate'));
+            if (decisive.length) pool = decisive;
+          }
           let selected = weighted(pool, mechanics);
           if (!travel && input.content.id === 'wild-broadcast' && combatRecord(selected.template, selected.bindings, state, state, input.content)) {
-            selected = chooseCombatMethod(pool, events, mechanics, wordingUses) ?? selected;
+            selected = chooseCombatMethod(pool, events, mechanics, input.cast.players.length, wordingUses, combatSituationUses, combatSituationOpportunities, finale) ?? selected;
           }
           if (!travel && !['held-weapon', 'explosive'].includes(selected.template.combat?.method ?? '')) {
             const { template, bindings } = selected;
@@ -292,8 +332,16 @@ function simulate(input: RunInput, narrative: NarrativeAdapter, outcomeOnly: boo
             if (preview?.armed && mechanics.next() < 0.95) {
               const weaponAttacks = pool.filter(c => c.value.template.combat && ['held-weapon', 'explosive'].includes(c.value.template.combat.method) &&
                 c.value.bindings[c.value.template.combat.attacker] === preview.attackerId);
-              if (weaponAttacks.length) selected = weighted(preferUnusedCombatChoices(weaponAttacks, wordingUses), mechanics);
+                if (weaponAttacks.length) {
+                  const attack = input.content.id === 'wild-broadcast'
+                    ? chooseCombatSituation(weaponAttacks, mechanics, combatSituationUses, wordingUses, { opportunities: combatSituationOpportunities })
+                    : weighted(preferUnusedCombatChoices(weaponAttacks, wordingUses), mechanics);
+                  selected = { ...attack, offeredSituations: selected.offeredSituations };
+                }
             }
+          }
+          if (finale && !travel && input.content.id === 'wild-broadcast') {
+            selected = varyFinaleWeapon(selected, pool, events, mechanics, combatSituationUses, combatSituationOpportunities);
           }
           const { template, bindings } = selected;
           const effectRandom=createRandom(`${input.settings.seed}:effects:${sequence}:${template.id}:${Object.values(bindings).join('|')}`);
@@ -320,7 +368,7 @@ function simulate(input: RunInput, narrative: NarrativeAdapter, outcomeOnly: boo
           (lastUsed[t.id] === undefined || phaseIndex - lastUsed[t.id] > t.cooldown));
         if (gifts.length && sponsorRandom.next() < sponsorChance(input.cast.players.find(p => p.id === anchor)?.team)) {
           candidates = [];
-          gifts.forEach(addCandidate);
+          for (const gift of gifts) addCandidate(gift);
           if (candidates.length) {
             const { template, bindings } = weighted(candidates, sponsorRandom);
             const effectRandom = createRandom(`${input.settings.seed}:effects:${sequence}:${template.id}:${Object.values(bindings).join('|')}`);
@@ -342,6 +390,17 @@ function simulate(input: RunInput, narrative: NarrativeAdapter, outcomeOnly: boo
           addCandidate(template);
         }
         chosen = chooseValid();
+      }
+      // A Loyal anchor can be unable to attack even when their opponent can take the role.
+      if (!chosen && finale && input.content.id === 'wild-broadcast') {
+        const alternatives = templates.filter(template => template.phases.includes('finale') && !template.schedule && !template.arena
+          && template.category !== 'announcement' && (!template.rare || allowMultikill) && template.effects.some(effect => effect.kind === 'eliminate'));
+        for (const alternate of available.filter(id => id !== anchor)) {
+          candidates = [];
+          for (const template of alternatives) addCandidate(template, alternate);
+          chosen = chooseValid();
+          if (chosen) break;
+        }
       }
       if (!chosen) {const template=fallback(finale);const bindings={actor:anchor};const result=applyEffects(state,template.effects,bindings,input.content,mechanics,sequence,events,input)!;chosen={template,bindings,result};}
       record(chosen);

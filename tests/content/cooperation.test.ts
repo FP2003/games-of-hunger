@@ -37,12 +37,12 @@ describe('cooperative scenes and natural game frequency', () => {
     }
   });
 
-  it('measures cooperation without forcing event choices in 24 complete games', () => {
+  it('measures cooperation without forcing event choices across seeded games', () => {
     const templates = defaultContentPack.events.filter(cooperative);
     const templateById = new Map(defaultContentPack.events.map(t=>[t.id,t]));
     const frequency: Record<string, { events: number; games: number }> = {};
     const summaries = [], samples = [];
-    for (let i=1; i<=24; i++) {
+    for (let i=1; i<=36; i++) {
       const input = setup(`cooperation-audit-${i}`,i>16);
       const run = generateRun(input,narrativeAdapter);
       const seen = new Set<string>(), usedByPhase = new Map<number,Set<string>>();
@@ -60,7 +60,8 @@ describe('cooperative scenes and natural game frequency', () => {
           const participants = Object.values(event.bindings);
           expect(new Set(participants).size).toBe(participants.length);
           expect(participants.every(id=>before.players.find(p=>p.id===id)?.alive)).toBe(true);
-          expect(participants.every(id=>event.state.players.find(p=>p.id===id)?.alive)).toBe(true);
+          const casualties = new Set(template.effects.flatMap(effect => effect.kind === 'eliminate' ? [event.bindings[effect.role]] : []));
+          for (const id of participants) expect(event.state.players.find(p => p.id === id)?.alive).toBe(!casualties.has(id));
           if (template.scope==='local') expect(new Set(participants.map(id=>before.players.find(p=>p.id===id)!.biome)).size).toBe(1);
           expect(event.facts.some(f=>f.type==='assistance'||f.type==='alliance')).toBe(true);
           expect(event.text).not.toMatch(/\bthe item\b|\{(?:actor|target|third|fourth|pursuer)\./);
@@ -79,7 +80,7 @@ describe('cooperative scenes and natural game frequency', () => {
       expect(run.events.at(-1)!.state.players.filter(p=>p.alive)).toHaveLength(1);
     }
     expect(Object.values(frequency).reduce((total,f)=>total+f.events,0)).toBeGreaterThan(0);
-    for (const id of ['night-watch-2','night-watch-3','night-watch-4']) expect(frequency[id]?.events,id).toBeGreaterThan(0);
+    for (const id of ['night-watch-2','night-watch-3','night-watch-4']) expect(frequency[id]?.events ?? 0,id).toBeGreaterThan(0);
     expect(Object.keys(frequency).filter(id=>id.startsWith('group-')).length).toBeGreaterThanOrEqual(5);
     expect(summaries.reduce((total,s)=>total+s.namedRescues,0)).toBeGreaterThan(0);
     const output=process.env.COOPERATION_REPORT_DIR;
