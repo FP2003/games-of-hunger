@@ -73,17 +73,17 @@ test('six players form a hexagon and matching incoming arrows share a trunk', as
   const chart = page.getByRole('region', { name: 'Cast relationship network', exact: true });
   await expectCircularNetwork(chart, 6);
   await expectReadableNetwork(chart, 13);
-  await chart.getByRole('button', { name: 'Select Hiro, cast entry 1', exact: true }).click();
+  await chart.getByRole('button', { name: 'Select Hiro (cast entry 1)', exact: true }).click();
   const incoming = chart.locator('.network-bundle[data-status="trusted"][data-direction="incoming"]');
   await expect(incoming).toHaveAttribute('data-count', '5');
   await expect(incoming.locator('.network-bundle-branch')).toHaveCount(5);
   await expect(incoming.locator('.network-bundle-trunk[marker-start]')).toHaveCount(1);
   await expect(incoming.locator('.network-bundle-branch[marker-end]')).toHaveCount(0);
   await expect(chart.locator('.network-bundle[data-status="neutral"]')).toHaveCount(0);
-  await chart.getByRole('button', { name: 'Select Cleo, cast entry 2', exact: true }).click();
+  await chart.getByRole('button', { name: 'Select Cleo (cast entry 2)', exact: true }).click();
   await chart.getByRole('button', { name: 'Cleo toward Hiro: Rival', exact: true }).click();
   await chart.getByRole('button', { name: 'Clear selection', exact: true }).click();
-  await chart.getByRole('button', { name: 'Select Hiro, cast entry 1', exact: true }).click();
+  await chart.getByRole('button', { name: 'Select Hiro (cast entry 1)', exact: true }).click();
   await expect(incoming).toHaveAttribute('data-count', '4');
   await expect(chart.locator('.network-bundle[data-status="rival"][data-direction="incoming"]')).toHaveAttribute('data-count', '1');
   await chart.screenshot({ path: test.info().outputPath('hexagon-bundles.png') });
@@ -103,8 +103,8 @@ test('network preserves different feelings in each direction and shares edits wi
   await expect(chart.locator('.network-node.central')).toHaveCount(0);
   await expect(chart.locator('.network-edge[data-from="alex"][data-to="riley"]')).toHaveAttribute('data-status', 'trusted');
   await expect(chart.locator('.network-edge[data-from="riley"][data-to="alex"]')).toHaveAttribute('data-status', 'rival');
-  await chart.getByRole('button', { name: 'Select Alex, cast entry 1', exact: true }).click();
-  await chart.getByRole('button', { name: 'Select Riley, cast entry 2', exact: true }).click();
+  await chart.getByRole('button', { name: 'Select Alex (cast entry 1)', exact: true }).click();
+  await chart.getByRole('button', { name: 'Select Riley (cast entry 2)', exact: true }).click();
   await expect(chart.locator('.network-edge')).toHaveCount(2);
   await expect(chart.locator('.network-edge.dimmed')).toHaveCount(0);
   await expect(chart.getByRole('button', { name: 'Alex toward Riley: Trusted', exact: true })).toHaveAttribute('aria-pressed', 'true');
@@ -115,7 +115,7 @@ test('network preserves different feelings in each direction and shares edits wi
   await chart.getByRole('button', { name: 'Edit Alex’s character', exact: false }).click();
   const dialog = page.getByRole('dialog');
   await expect(dialog.locator('.network-node.central')).toContainText('Alex');
-  await dialog.getByRole('button', { name: 'Select Riley, cast entry 2', exact: true }).click();
+  await dialog.getByRole('button', { name: 'Select Riley (cast entry 2)', exact: true }).click();
   await expect(dialog.locator('.network-edge')).toHaveCount(0);
   await expect(dialog.getByRole('button', { name: 'Alex toward Riley: Neutral', exact: true })).toHaveAttribute('aria-pressed', 'true');
   await dialog.getByRole('button', { name: 'Alex toward Riley: Trusted', exact: true }).click();
@@ -132,8 +132,8 @@ test('network preserves different feelings in each direction and shares edits wi
   await page.reload();
   await page.getByRole('button', { name: 'Relationship network', exact: true }).click();
   await expect(page.locator('.network-edge[data-from="alex"][data-to="riley"]')).toHaveAttribute('data-status', 'trusted');
-  await chart.getByRole('button', { name: 'Select Alex, cast entry 1', exact: true }).click();
-  await chart.getByRole('button', { name: 'Select Riley, cast entry 2', exact: true }).click();
+  await chart.getByRole('button', { name: 'Select Alex (cast entry 1)', exact: true }).click();
+  await chart.getByRole('button', { name: 'Select Riley (cast entry 2)', exact: true }).click();
   for (const status of ['Devoted', 'Friendly', 'Wary', 'Nemesis']) {
     const option = chart.getByRole('button', { name: `Alex toward Riley: ${status}`, exact: true });
     await option.click();
@@ -196,10 +196,10 @@ for (const width of [1280, 390]) {
       expect(box.bottom).toBeLessThanOrEqual(viewport!.y + viewport!.height);
     }
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
-    const source = chart.getByRole('button', { name: 'Select Alex #1, cast entry 1', exact: true });
+    const source = chart.getByRole('button', { name: 'Select Alex #1 (cast entry 1)', exact: true });
     await source.focus();
     await page.keyboard.press('Enter');
-    await chart.getByRole('button', { name: 'Select Alex #2, cast entry 2', exact: true }).click();
+    await chart.getByRole('button', { name: 'Select Alex #2 (cast entry 2)', exact: true }).click();
     // The two directed controls remain independent even when names are identical.
     await chart.getByRole('button', { name: 'Alex #1 toward Alex #2: Rival', exact: true }).click();
     await expect(chart.getByRole('button', { name: 'Alex #1 toward Alex #2: Rival', exact: true })).toHaveAttribute('aria-pressed', 'true');
@@ -217,3 +217,29 @@ for (const width of [1280, 390]) {
     await chart.screenshot({ path: test.info().outputPath(`large-network-${width}.png`) });
   });
 }
+
+test('names hug their own portraits at the Legionairre cast viewport', async ({ page }) => {
+  await page.setViewportSize({ width: 1135, height: 855 });
+  await page.goto('/');
+  await page.locator('input[type=file]').first().setInputFiles({
+    name: 'cast.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(season2Cast)),
+  });
+  await page.getByRole('button', { name: 'Relationship network', exact: true }).click();
+  const chart = page.getByRole('region', { name: 'Cast relationship network', exact: true });
+  await expectReadableNetwork(chart);
+
+  for (const name of ['Hiro', 'Chaos', 'Emma', 'Rick']) {
+    const node = chart.getByRole('button', { name: new RegExp(`^Select ${name} `) });
+    const portrait = (await node.locator('.portrait').boundingBox())!;
+    const label = (await node.locator('.network-node-name').boundingBox())!;
+    const horizontalGap = Math.max(portrait.x - label.x - label.width, label.x - portrait.x - portrait.width);
+    expect(horizontalGap, `${name} stays beside their portrait`).toBeLessThanOrEqual(14);
+    expect(Math.abs(label.y + label.height / 2 - portrait.y - portrait.height / 2)).toBeLessThanOrEqual(8);
+  }
+
+  const toolbar = (await page.locator('.cast-roster-bar').boundingBox())!;
+  const panel = (await chart.boundingBox())!;
+  const setup = (await page.getByRole('region', { name: 'Cast setup' }).boundingBox())!;
+  expect(panel.y - toolbar.y - toolbar.height).toBeCloseTo(toolbar.y - setup.y - setup.height, 0);
+  await chart.screenshot({ path: test.info().outputPath('legionairre-labels.png') });
+});

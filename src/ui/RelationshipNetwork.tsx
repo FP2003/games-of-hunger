@@ -1,4 +1,4 @@
-import { useLayoutEffect, useId, useRef, useState, type CSSProperties, type ReactNode } from 'react';
+import { useLayoutEffect, useId, useMemo, useRef, useState, useSyncExternalStore, type CSSProperties, type ReactNode } from 'react';
 import type { PlayerDefinition, Relationship } from '../domain';
 import { circularNetwork } from './networkLayout';
 import { type RelationshipStatus, relationshipStatuses as statuses, relationshipLabels as labels, relationshipColours as colours, relationshipTextColours as textColours, relationshipStatus as statusOf, relationshipPresets } from '../domain/relationshipStatus';
@@ -7,6 +7,13 @@ export type { RelationshipStatus } from '../domain/relationshipStatus';
 const descriptions = Object.fromEntries(statuses.map(status => [status, `Trust ${relationshipPresets[status].trust} · Grudge ${relationshipPresets[status].grudge}`]));
 
 type Point = { x: number; y: number };
+const touchLayoutQuery = '(max-width: 900px) and (any-pointer: coarse)';
+const usesTouchLayout = () => window.matchMedia(touchLayoutQuery).matches;
+function subscribeToTouchLayout(notify: () => void) {
+  const query = window.matchMedia(touchLayoutQuery);
+  query.addEventListener('change', notify);
+  return () => query.removeEventListener('change', notify);
+}
 
 export function RelationshipNetwork({ players, relationships, focalId, onChange, portrait, onEdit, eliminatedIds = [] }: {
   players: PlayerDefinition[];
@@ -21,6 +28,8 @@ export function RelationshipNetwork({ players, relationships, focalId, onChange,
   const [selection, setSelection] = useState<{ from?: string; to?: string }>({});
   const [query, setQuery] = useState('');
   const [chartOpen, setChartOpen] = useState(false);
+  const touchLayout = useSyncExternalStore(subscribeToTouchLayout, usesTouchLayout);
+  const showChart = !touchLayout || chartOpen;
   const viewport = useRef<HTMLDivElement>(null);
   const [viewportSize, setViewportSize] = useState({ width: 500, height: 380 });
   const [chromeHeight, setChromeHeight] = useState(200);
@@ -56,7 +65,7 @@ export function RelationshipNetwork({ players, relationships, focalId, onChange,
     .filter(player => player.id !== excluded && (player.id === selected || matches.includes(player)))
     .map(player => <option key={player.id} value={player.id}>{caption(player)}{eliminatedIds.includes(player.id) ? ' (eliminated)' : ''}</option>);
   const { width, height } = viewportSize;
-  const layout = circularNetwork(ring.length, width, height);
+  const layout = useMemo(() => circularNetwork(ring.length, width, height), [ring.length, width, height]);
   const { narrow, dense, nodeWidth, nodeHeight } = layout;
   const minimumHeight = layout.minimumDiameter + chromeHeight + 2;
   const points = new Map<string, Point>();
@@ -113,7 +122,7 @@ export function RelationshipNetwork({ players, relationships, focalId, onChange,
 
   if (players.length < 2) return <p className="muted">Add another player to start connecting relationships.</p>;
 
-  return <section className={`relationship-network${dense ? ' dense' : ''}${chartOpen ? ' chart-open' : ''}`} style={{ '--network-min-height': `${minimumHeight}px`, '--node-width': `${nodeWidth}px`, '--node-height': `${nodeHeight}px`, '--node-font': `${narrow ? dense ? 11 : 12 : dense ? 12 : 13}px`, '--node-portrait': `${Math.max(4, nodeWidth - 4)}px`, '--label-width': `${layout.labelWidth}px`, '--label-height': `${layout.labelHeight}px` } as CSSProperties} aria-label={focal ? `Starting relationships for ${name(focal)}` : 'Cast relationship network'}>
+  return <section className={`relationship-network${dense ? ' dense' : ''}${showChart ? ' chart-open' : ''}`} style={{ '--network-min-height': `${minimumHeight}px`, '--node-width': `${nodeWidth}px`, '--node-height': `${nodeHeight}px`, '--node-font': `${narrow ? dense ? 11 : 12 : dense ? 12 : 13}px`, '--node-portrait': `${Math.max(4, nodeWidth - 4)}px`, '--label-width': `${layout.labelWidth}px`, '--label-height': `${layout.labelHeight}px` } as CSSProperties} aria-label={focal ? `Starting relationships for ${name(focal)}` : 'Cast relationship network'}>
     <p id={`${id}-instructions`} className="sr-only">{!onChange ? 'Select two tributes to inspect their relationship.' : focal ? `Select a player to edit how ${name(focal)} feels about them.` : 'Select two players to edit their relationship.'} Arrows show direction.</p>
     <div className="network-toolbar"><h4>Relationships</h4><div className="network-legend" aria-label="Relationship colours">{statuses.map(value => <span key={value} style={{ '--relationship-colour': colours[value] } as CSSProperties}><i className={value} />{labels[value]}</span>)}</div></div>
     <div className="network-picker">
@@ -138,7 +147,7 @@ export function RelationshipNetwork({ players, relationships, focalId, onChange,
       </button>
     </div>
     <div ref={viewport} id={`${id}-chart`} className="network-viewport" role="group" aria-label="Relationship chart" aria-describedby={`${id}-instructions`}>
-      <div className="network-canvas" style={{ width, height }}>
+      {showChart && <div className="network-canvas" inert={touchLayout} style={{ width, height }}>
         <svg viewBox={`0 0 ${width} ${height}`} aria-hidden="true" className="network-lines">
           <defs>{statuses.map(value => <marker key={value} id={`${id}-${value}`} viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M 1 1 L 9 5 L 1 9 z" fill={colours[value]} /></marker>)}</defs>
           <circle cx={width / 2} cy={height / 2} r={layout.radius} className="network-orbit" />
@@ -200,11 +209,13 @@ export function RelationshipNetwork({ players, relationships, focalId, onChange,
           const label = central ? undefined : layout.points[ring.findIndex(other => other.id === player.id)];
           const labelAnchor = label?.side === 'left' ? 1 : label?.side === 'right' || !label ? 0 : 0.5;
           const style = { left: point.x, top: point.y, '--label-x': `${label ? label.labelX + layout.labelWidth * labelAnchor - point.x + nodeWidth / 2 - 1 : 0}px`, '--label-y': `${label ? label.labelY - point.y + nodeHeight / 2 - layout.labelHeight / 2 - 1 : 0}px`, '--label-shift': `${-100 * labelAnchor}%`, '--label-align': label?.side === 'left' ? 'right' : label?.side === 'right' ? 'left' : 'center', '--relationship-colour': central ? 'var(--acid)' : colours[relation] } as CSSProperties;
-          return central ? <div key={player.id} className="network-node central" style={style} title={entry(player)}>{contents}</div> : <button key={player.id} className={`network-node${selected ? ' selected' : ''}${eliminatedIds.includes(player.id) ? ' eliminated' : ''}`} style={style} aria-pressed={selected} title={`${entry(player)}${from && from.id !== player.id ? ` · ${name(from)} → ${name(player)}: ${labels[relation]}` : ''}`} onClick={() => choose(player.id)}>
-            <span className="sr-only">Select </span>{contents}<span className="sr-only">, cast entry {players.indexOf(player) + 1}{eliminated && ' (eliminated)'}</span>
+          const nodeClass = `network-node${central ? ' central' : ''}${selected ? ' selected' : ''}${eliminated ? ' eliminated' : ''}`;
+          if (central || touchLayout) return <div key={player.id} className={nodeClass} style={style} title={entry(player)}>{contents}</div>;
+          return <button key={player.id} className={nodeClass} style={style} aria-pressed={selected} title={`${entry(player)}${from && from.id !== player.id ? ` · ${name(from)} → ${name(player)}: ${labels[relation]}` : ''}`} onClick={() => choose(player.id)}>
+            <span className="sr-only">Select </span>{contents}<span className="sr-only">(cast entry {players.indexOf(player) + 1}){eliminated && ' (eliminated)'}</span>
           </button>;
         })}
-      </div>
+      </div>}
     </div>
     {bundleFocus && <ul className="sr-only" aria-label="Grouped relationships">{bundles.map(bundle => <li key={`${bundle.status}-${bundle.direction}`}>{bundle.members.length} {labels[bundle.status]} · {bundle.direction}: {bundle.members.map(caption).join(', ')}</li>)}</ul>}
     {from && (to || !focal) && <div className="network-selection" aria-live="polite">
@@ -212,7 +223,7 @@ export function RelationshipNetwork({ players, relationships, focalId, onChange,
       {to ? <>
         {(focal ? [[from, to]] : [[from, to], [to, from]]).map(([a, b], index) => <div className="network-relationship-control" key={a.id}>
           <span id={`${id}-direction-${index}`}>{caption(a)} <span aria-label="toward">→</span> {caption(b)}</span>
-          {onChange ? <div className="network-status-options" role="group" aria-labelledby={`${id}-direction-${index}`}>{statuses.map(value => <button key={value} aria-label={`${caption(a)} toward ${caption(b)}: ${labels[value]}`} aria-pressed={status(a.id, b.id) === value} style={{ '--relationship-colour': colours[value], '--relationship-text': textColours[value] } as CSSProperties} title={descriptions[value]} onClick={() => onChange(a.id, b.id, value)}><i />{labels[value]}</button>)}</div> : <span className="network-status-readout" style={{ color: textColours[status(a.id, b.id)] }}>{labels[status(a.id, b.id)]} · Trust {lookup.get(JSON.stringify([a.id, b.id]))?.trust ?? 0} · Grudge {lookup.get(JSON.stringify([a.id, b.id]))?.grudge ?? 0}</span>}
+          {onChange ? <div className="network-status-options" role="group" aria-labelledby={`${id}-direction-${index}`}>{statuses.map(value => <button key={value} aria-label={`${caption(a)} toward ${caption(b)}: ${labels[value]}`} aria-pressed={status(a.id, b.id) === value} style={{ '--relationship-colour': colours[value], '--relationship-text': textColours[value] } as CSSProperties} title={descriptions[value]} onClick={() => onChange(a.id, b.id, value)}><i />{labels[value]}</button>)}</div> : <span className="network-status-readout" style={{ '--relationship-text': textColours[status(a.id, b.id)] } as CSSProperties}>{labels[status(a.id, b.id)]} · Trust {lookup.get(JSON.stringify([a.id, b.id]))?.trust ?? 0} · Grudge {lookup.get(JSON.stringify([a.id, b.id]))?.grudge ?? 0}</span>}
         </div>)}
       </> : <span className="network-selected-name">{caption(from)}</span>}
       {!focal && onEdit && <button className="network-edit subtle" aria-label={`Edit ${name(from)}’s character`} onClick={() => onEdit(from.id)}>Edit character ↗</button>}

@@ -28,6 +28,13 @@ describe('regular circular network layout', () => {
             expect(corner.y).toBeGreaterThanOrEqual(0);
             expect(corner.y).toBeLessThanOrEqual(height);
           }
+          for (const node of layout.points) {
+            const overlaps = point.labelX < node.x + layout.nodeWidth / 2 - 0.01
+              && point.labelX + layout.labelWidth > node.x - layout.nodeWidth / 2 + 0.01
+              && point.labelY - layout.labelHeight / 2 < node.y + layout.nodeHeight / 2 - 0.01
+              && point.labelY + layout.labelHeight / 2 > node.y - layout.nodeHeight / 2 + 0.01;
+            expect(overlaps, `${count} players: label ${i} clears every node`).toBe(false);
+          }
           for (let j = i + 1; j < count; j++) {
             const other = layout.points[j];
             expect(Math.hypot(point.x - other.x, point.y - other.y), `${count} players: round nodes ${i} and ${j}`).toBeGreaterThanOrEqual(layout.nodeWidth - 0.01);
