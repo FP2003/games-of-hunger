@@ -1,6 +1,7 @@
 import { supplyReport } from '../analytics/supplies';
 import { useEffect, useRef, useState } from 'react';
-import type { CastDefinition, ContentPack, GameSettings } from '../domain';
+import type { CastDefinition, GameSettings } from '../domain';
+import { defaultContentPack as content } from '../content';
 import { ENGINE_VERSION, validateCast } from '../domain';
 import { demoCast, demoMetrics, demoReport, demoSituations, emptyDemoStats, distribution, combatMethodDefinitions, type DemoStats } from '../analytics/demo';
 import './stats.css';
@@ -9,7 +10,7 @@ import { TraitImpact } from './TraitImpact';
 import { PairedDemos } from './PairedDemos';
 
 const storageKey = 'survival-demo-analytics-v1';
-export function DemoLab({ cast, settings, content }: { cast: CastDefinition; settings: GameSettings; content: ContentPack }) {
+export function DemoLab({ cast, settings }: { cast: CastDefinition; settings: GameSettings }) {
   const [view, setView] = useState<'batches' | 'traits' | 'paired'>('batches');
   const [stats, setStats] = useState<DemoStats>(emptyDemoStats);
   const [count, setCount] = useState(100);

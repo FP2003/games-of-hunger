@@ -71,11 +71,11 @@ function Portrait({ player, repository, large = false }: { player: PlayerDefinit
 }
 
 export function App({ services }: { services: AppServices }) {
-  const { repository, content } = services;
+  const { repository, arena } = services;
   const [screen, setScreen] = useState<Screen>('cast');
   const [cast, setCast] = useState<CastDefinition>(freshCast);
   const [settings, setSettings] = useState<GameSettings>({ ...DEFAULT_SETTINGS });
-  const setupBiomes = screen === 'setup' && settings.seed.trim() ? arenaLayout(content, settings.seed.trim()) : undefined;
+  const setupBiomes = screen === 'setup' && settings.seed.trim() ? arenaLayout(arena, settings.seed.trim()) : undefined;
   const [paste, setPaste] = useState('');
   const [run, setRun] = useState<RunRecord | null>(null);
   const [cursor, setCursor] = useState(0);
@@ -302,7 +302,8 @@ export function App({ services }: { services: AppServices }) {
       const seasons = await repository.getHistory().catch(() => history);
       // Yield once so the generation status reaches the screen before synchronous simulation.
       await new Promise(resolve => setTimeout(resolve, 20));
-      const lore = services.lore(seasons, checked.data, config.data.loreCarryover);
+      const content = await services.loadContent();
+      const lore = services.lore(seasons, checked.data, content, config.data.loreCarryover);
       if (config.data.grudgeCarryover) lore.rivalryEvidence = await loadRivalryEvidence(seasons, checked.data, id => repository.getRun(id));
       const record = await services.generate({ cast: checked.data, settings: config.data, content, lore });
       setCast(checked.data); setRun(record); setCursor(0); selectBroadcastPage(record, 0, 'phase'); go('watch');
@@ -478,21 +479,22 @@ export function App({ services }: { services: AppServices }) {
   };
 
   return <div className={`app ${presentation ? 'presentation' : ''}`}>
+    <a className="skip-link" href="#main-content">Skip to main content</a>
     <header className="topbar">
       <nav aria-label="Main navigation">
-        <button className={screen === 'cast' || screen === 'setup' ? 'active' : ''} onClick={() => go('cast')}>The cast</button>
-        {run && <button className={screen === 'watch' ? 'active' : ''} disabled={deletingRunId !== null} onClick={() => go('watch')}>The arena</button>}
-        <button className={screen === 'history' ? 'active' : ''} onClick={() => go('history')}>Season archive <span className="count">{history.seasons.length}</span></button>
-        <button className={screen === 'demos' ? 'active' : ''} onClick={() => go('demos')}>Demo statistics</button>
+        <button aria-current={screen === 'cast' || screen === 'setup' ? 'page' : undefined} className={screen === 'cast' || screen === 'setup' ? 'active' : ''} onClick={() => go('cast')}>The cast</button>
+        {run && <button aria-current={screen === 'watch' ? 'page' : undefined} className={screen === 'watch' ? 'active' : ''} disabled={deletingRunId !== null} onClick={() => go('watch')}>The arena</button>}
+        <button aria-current={screen === 'history' ? 'page' : undefined} className={screen === 'history' ? 'active' : ''} onClick={() => go('history')}>Season archive <span className="count">{history.seasons.length}</span></button>
+        <button aria-current={screen === 'demos' ? 'page' : undefined} className={screen === 'demos' ? 'active' : ''} onClick={() => go('demos')}>Demo statistics</button>
       </nav>
       <span className="draft-status" role="status">{draftStatus}</span>
     </header>
-    <main ref={main} tabIndex={-1}>
+    <main id="main-content" ref={main} tabIndex={-1}>
       {error && <div className="error" role="alert">{error}<button aria-label="Dismiss error" onClick={() => setError('')}>×</button></div>}
       {!ready ? <p role="status">Loading saved games…</p> : <>
       {screen === 'demos' && <section aria-labelledby="demos-title">
         <header className="page-intro"><h1 id="demos-title" tabIndex={-1}>Demo statistics</h1></header>
-        <DeferredPanel name="demo statistics"><DemoLab cast={cast} settings={settings} content={content} /></DeferredPanel>
+        <DeferredPanel name="demo statistics"><DemoLab cast={cast} settings={settings} /></DeferredPanel>
       </section>}
       {screen === 'cast' && <section className="cast-workspace" aria-labelledby="cast-title">
         <header className="cast-masthead">
@@ -591,7 +593,7 @@ export function App({ services }: { services: AppServices }) {
         <details className="settings-disclosure arena-guide">
           <summary>Arena routes</summary>
           <div className="arena-routes">
-            {(setupBiomes ?? content.biomes).map(biome => <section className="region-theme" data-region={biome.id} key={biome.id}>
+            {(setupBiomes ?? arena.biomes).map(biome => <section className="region-theme" data-region={biome.id} key={biome.id}>
               <h2><BiomeSymbol biome={biome.id} /> {biome.name}</h2>
               <p>{biome.description}</p>
               {setupBiomes && <p className="muted">Connected to {biome.adjacent.map(id => setupBiomes.find(b => b.id === id)?.name).join(', ')}</p>}
