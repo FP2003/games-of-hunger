@@ -61,6 +61,22 @@ describe('moment-specific confessionals', () => {
     expect(selectConfessional(ctx)).toBeNull();
   });
 
+  it('lets the shelter defender deliver the dismissal once per season', () => {
+    const ctx = context('intimidation-shelter');
+    ctx.facts = [{ type: 'survival', actorId: 'alex' }];
+    expect(selectConfessional(ctx)).toMatchObject({ speakerId: 'alex', text: 'Hit the road, dude.' });
+
+    ctx.usedThisPhase = ['alex'];
+    expect(selectConfessional(ctx)?.idea).not.toBe('shelter-dismissal');
+    ctx.usedThisPhase = [];
+    ctx.usedIdeas = ['shelter-dismissal'];
+    expect(selectConfessional(ctx)?.idea).not.toBe('shelter-dismissal');
+
+    const trail = context('intimidation-trail');
+    trail.facts = ctx.facts;
+    expect(selectConfessional(trail)?.idea).not.toBe('shelter-dismissal');
+  });
+
   it('does not imply a companion or promises from finding supplies alone', () => {
     expect(defaultContentPack.confessionals.some(t => t.id === 'interview-loyal-15')).toBe(false);
     expect(defaultContentPack.confessionals.some(t => t.id === 'interview-loyal-14')).toBe(false);

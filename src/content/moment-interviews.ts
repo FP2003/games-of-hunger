@@ -43,6 +43,9 @@ export function momentInterviews(events: readonly EventTemplate[]): Confessional
     'I did not realise how close that was until I was clear of it.',
     'I would like to tell you I was calm. I was trying very hard to get out of there.',
   ]);
+  add('shelter-dismissal', ids(e => e.id === 'intimidation-shelter'), ['survival', 'nemesis'], 'any', [
+    'Hit the road, dude.',
+  ], { speakerRole: 'actor' });
   const help = ids(e => e.effects.some(effect => effect.kind === 'relationship' && effect.fact === 'assistance'));
   add('help-neutral', help, ['assistance'], 'actor', [
     'I do not know {other.name} that well. I could help, so I did.',
