@@ -35,6 +35,9 @@ import { arenaGearItems, arenaGearScenes } from './arena-gear';
 import { weaponLootWeights } from './weapon-catalogue';
 import { publicResupplyScenes } from './resupply';
 import { contextualFinales } from './finale-encounters';
+import { biomes, defaultArena } from './defaultArena';
+
+export { biomes } from './defaultArena';
 
 const ordinary = ['day', 'night'] as const;
 const allTones = ['dramatic', 'absurd', 'mixed'] as const;
@@ -47,14 +50,6 @@ const biomeCondition = (biome: BiomeId): Condition => ({ kind: 'biome', role: 'a
 const holds = (role: string, definitionId?: string): Condition => ({ kind: 'item', role, ...(definitionId ? { definitionId } : {}) });
 const relation = (from: string, to: string, trust: number, grudge = 0, fact?: 'assistance' | 'alliance' | 'betrayal' | 'revenge'): Effect => ({ kind: 'relationship', from, to, trust, grudge, ...(fact ? { fact } : {}) });
 
-export const biomes: ContentPack['biomes'] = [
-  { id: 'forest', name: 'The Forest', description: 'Climbable trees and boars hidden in dense brush.', adjacent: ['swamp', 'mountains', 'ruins'] },
-  { id: 'swamp', name: 'The Swamp', description: 'Raised boardwalks cross channels where crocodiles wait beneath the planks.', adjacent: ['forest', 'desert', 'ruins'] },
-  { id: 'mountains', name: 'The Mountains', description: 'Exposed ridges overlook gullies where wolf packs hunt.', adjacent: ['forest', 'tundra', 'ruins'] },
-  { id: 'desert', name: 'The Desert', description: 'Open sand and scarce water put every bargain under pressure.', adjacent: ['swamp', 'ruins'] },
-  { id: 'tundra', name: 'The Tundra', description: 'A quiet white expanse where shelter becomes a currency.', adjacent: ['mountains', 'ruins'] },
-  { id: 'ruins', name: 'The Center Podium', description: 'The central supply ground, with routes into every outer region.', adjacent: ['forest', 'swamp', 'mountains', 'desert', 'tundra'] },
-];
 export const items: ContentPack['items'] = [
   ...weaponItems,
   ...arenaGearItems,
@@ -344,7 +339,7 @@ const confessionals: ConfessionalTemplate[] = reactions.map(([trait, triggers, v
 ].forEach(([trigger, text], i) => confessionals.push({ id: `interview-open-${i + 1}`, traits: [], tones: [...allTones], triggers: [trigger as FactType], speaker: trigger === 'elimination' ? 'eliminated' : 'any', variants: [text], cooldown: 8 }));
 
 const baseContentPack: ContentPack = ContentPackSchema.parse({
-  id: 'wild-broadcast', version: '1.46.0', title: 'The Wild Broadcast', biomes, items, loreCallbacks: pastSeasonCallbacks, arenaRoutes: 'seeded',
+  id: 'wild-broadcast', version: '1.48.0', title: 'The Wild Broadcast', ...defaultArena, items, loreCallbacks: pastSeasonCallbacks,
   markers: [
     { id: 'podium-resupply-collected', type: 'boolean', lifetime: 'season', description: 'This tribute collected supplies from the Center Podium delivery.' },
     { id: 'stolen-from', type: 'player', lifetime: 'season', description: 'The living player who stole from this participant.' },

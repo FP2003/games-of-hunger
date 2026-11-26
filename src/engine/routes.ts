@@ -1,7 +1,7 @@
 import type { BiomeId, ContentPack } from '../domain';
 import { createRandom } from './random';
 
-export function arenaLayout(content: ContentPack, seed: string): ContentPack['biomes'] {
+export function arenaLayout(content: Pick<ContentPack, 'biomes' | 'arenaRoutes'>, seed: string): ContentPack['biomes'] {
   if (content.arenaRoutes !== 'seeded') return content.biomes;
 
   // Sort before shuffling so authoring order does not change the layout.
