@@ -172,7 +172,7 @@ export function CastCards({ players, selectedId, onEdit, onRemove, onSwap, portr
               onClick={() => { if (!ignoreClick.current) { if (pickedId) choose(player.id); else onEdit(player.id); } }}>
               <span className="sr-only">{pickedId ? pickedId === player.id ? 'Cancel moving ' : `Swap ${source ? label(source) : 'player'} with ` : 'Edit '}</span>
               {portrait(player)}<span className="cast-person-details"><strong>{label(player)}</strong>{traitsId && <small id={traitsId} aria-hidden="true">{player.traits.map(trait => TRAIT_LABELS[trait]).join(' · ')}</small>}{duplicate && <small aria-hidden="true">Cast entry {number}</small>}</span>
-              <span className="sr-only">{pickedId ? pickedId === player.id ? '' : `, slot ${number}` : `, cast entry ${number}`}</span><span className="cast-person-arrow" aria-hidden="true">↗</span>
+              <span className="sr-only">{pickedId ? pickedId === player.id ? '' : `(slot ${number})` : `(cast entry ${number})`}</span><span className="cast-person-arrow" aria-hidden="true">↗</span>
             </button>
           </article>;
         })}</div>

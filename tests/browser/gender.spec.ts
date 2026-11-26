@@ -4,7 +4,7 @@ test('player gender persists in drafts and cast exports, including imported cust
   await page.goto('/');
   await page.getByLabel('Names, one per line', { exact: true }).fill('Skizzo\nAdur');
   await page.getByRole('button', { name: 'Add to cast', exact: true }).click();
-  const edit = () => page.getByRole('button', { name: 'Edit Skizzo, cast entry 1', exact: true }).click();
+  const edit = () => page.getByRole('button', { name: 'Edit Skizzo (cast entry 1)', exact: true }).click();
   const gender = () => page.getByLabel('Gender', { exact: true });
   const done = () => page.getByRole('button', { name: 'Done', exact: true }).click();
   const exported = async () => {
