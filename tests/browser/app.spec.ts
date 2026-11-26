@@ -188,7 +188,7 @@ for (const viewport of [{ width: 1280, height: 900 }, { width: 390, height: 844 
     await page.setViewportSize(viewport);
     await open(page);
     await upload(page, season2Cast);
-    const edit = page.getByRole('button', { name: /^Edit .+, cast entry 24$/ });
+    const edit = page.getByRole('button', { name: /^Edit .+ \(cast entry 24\)$/ });
     await edit.scrollIntoViewIfNeeded();
     await edit.focus();
     const before = await page.evaluate(() => ({ scroll: window.scrollY, height: document.documentElement.scrollHeight }));
@@ -257,7 +257,7 @@ test('keyboard and click selection swap distant slots and Escape cancels', async
   await expect(page.getByRole('region', { name: 'District 3', exact: true }).locator('.cast-person strong')).toHaveText(['Hiro', 'Jokin']);
   await expect(page.getByRole('button', { name: 'Move Gulliver, slot 24', exact: true })).toBeFocused();
   await page.getByRole('button', { name: 'Move Gulliver, slot 24', exact: true }).click();
-  await page.getByRole('button', { name: 'Swap Gulliver with Hiro, slot 5', exact: true }).click();
+  await page.getByRole('button', { name: 'Swap Gulliver with Hiro (slot 5)', exact: true }).click();
   await expect(page.getByRole('region', { name: 'District 3', exact: true }).locator('.cast-person strong')).toHaveText(['Gulliver', 'Jokin']);
   await expect(page.getByRole('dialog')).toHaveCount(0);
 });
@@ -286,7 +286,7 @@ test('dragging scrolls the cast and cancelling or dropping outside leaves player
   await expect(page.locator('.cast-drag-preview')).toHaveCount(0);
   await expect(page.locator('.drop-target')).toHaveCount(0);
   expect((await castExport(page)).cast.players).toEqual(season2Cast.players);
-  await page.getByRole('button', { name: 'Edit Marcos, cast entry 1', exact: true }).click();
+  await page.getByRole('button', { name: 'Edit Marcos (cast entry 1)', exact: true }).click();
   await expect(page.getByRole('dialog')).toBeVisible();
 });
 
@@ -312,7 +312,7 @@ test('touch dragging swaps players across districts without opening the editor',
     await expect(page.getByRole('region', { name: 'District 2', exact: true }).locator('.cast-person strong')).toHaveText(['Joshi', 'Marcos']);
     await expect(page.getByRole('button', { name: 'Move Marcos, slot 4', exact: true })).toHaveAttribute('aria-pressed', 'false');
     await expect(page.getByRole('dialog')).toHaveCount(0);
-    await page.getByRole('button', { name: 'Edit Marcos, cast entry 4', exact: true }).tap();
+    await page.getByRole('button', { name: 'Edit Marcos (cast entry 4)', exact: true }).tap();
     await expect(page.getByRole('dialog')).toBeVisible();
   } finally { await context.close(); }
 });
@@ -329,7 +329,7 @@ test('grouped cards number players in display order even when the saved cast int
   await expect(gulliver.locator('.entry-number')).toHaveText('05');
   await expect(page.locator('.cast-card').getByText('No traits selected', { exact: true })).toHaveCount(0);
   await expect(akesel.locator('.cast-person-details small')).toHaveCount(0);
-  await akesel.getByRole('button', { name: 'Edit Akesel, cast entry 4', exact: true }).click();
+  await akesel.getByRole('button', { name: 'Edit Akesel (cast entry 4)', exact: true }).click();
   await expect(page.getByRole('dialog').getByLabel('Name', { exact: true })).toHaveValue('Akesel');
   await page.getByLabel('Sneaky', { exact: true }).check();
   await page.getByRole('button', { name: 'Done', exact: true }).click();
@@ -348,9 +348,9 @@ test('reload restores incomplete draft fields, customization, relationships, pas
   await page.getByLabel('Game seed', { exact: true }).fill('');
   await page.getByLabel('Danger', { exact: true }).selectOption('high');
   await page.getByRole('button', { name: 'Back to cast' }).click();
-  await page.getByRole('button', { name: 'Edit Alex, cast entry 1', exact: true }).click();
+  await page.getByRole('button', { name: 'Edit Alex (cast entry 1)', exact: true }).click();
   await page.getByLabel('Sneaky', { exact: true }).check();
-  await page.getByRole('button', { name: 'Select Riley, cast entry 2', exact: true }).click();
+  await page.getByRole('button', { name: 'Select Riley (cast entry 2)', exact: true }).click();
   await page.getByRole('button', { name: 'Alex toward Riley: Trusted', exact: true }).click();
   await page.getByLabel('Portrait', { exact: true }).selectOption('/assets/fern.svg');
   await page.getByLabel('Name', { exact: true }).fill('');
@@ -360,11 +360,11 @@ test('reload restores incomplete draft fields, customization, relationships, pas
   await expect(page.getByText('Draft saved', { exact: true })).toBeVisible();
   await page.reload(); await expect(page.getByLabel('Season title', { exact: true })).toHaveValue('');
   await expect(page.getByLabel('Names, one per line', { exact: true })).toHaveValue('Still waiting\nAnother name');
-  await page.getByRole('button', { name: 'Edit character, cast entry 1', exact: true }).click();
+  await page.getByRole('button', { name: 'Edit Unnamed player (cast entry 1)', exact: true }).click();
   await expect(page.getByLabel('Name', { exact: true })).toHaveValue('');
   await expect(page.getByLabel('Sneaky', { exact: true })).toBeChecked();
   await expect(page.getByLabel('Portrait', { exact: true })).toHaveValue('/assets/fern.svg');
-  await page.getByRole('button', { name: 'Select Riley, cast entry 2', exact: true }).click();
+  await page.getByRole('button', { name: 'Select Riley (cast entry 2)', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Unnamed player toward Riley: Trusted', exact: true })).toHaveAttribute('aria-pressed', 'true');
   await page.getByLabel('Name', { exact: true }).fill('Alex');
   await page.getByRole('button', { name: 'Done', exact: true }).click();
@@ -402,7 +402,7 @@ test('undo survives reload and restores removed relationships without discarding
   const cast = { ...exampleCast, players: [...exampleCast.players, { id: 'sam', name: 'Sam', traits: [] }], relationships: [{ from: 'alex', to: 'riley', trust: 60, grudge: 0 }, { from: 'riley', to: 'alex', trust: -50, grudge: 60 }] };
   await upload(page, cast);
   await page.getByRole('button', { name: 'Remove Alex', exact: true }).click();
-  await page.getByRole('button', { name: 'Edit Riley, cast entry 1', exact: true }).click();
+  await page.getByRole('button', { name: 'Edit Riley (cast entry 1)', exact: true }).click();
   await page.getByLabel('Name', { exact: true }).fill('Renamed Riley');
   await expect(page.getByText('Draft saved', { exact: true })).toBeVisible();
   await page.reload();
@@ -623,13 +623,13 @@ test('an unreadable draft is preserved while healthy named casts remain usable',
 
 test('portrait cleanup removes replaced uploads through the interface', async ({ page }) => {
   await open(page); await upload(page, exampleCast);
-  await page.getByRole('button', { name: 'Edit Alex, cast entry 1', exact: true }).click();
+  await page.getByRole('button', { name: 'Edit Alex (cast entry 1)', exact: true }).click();
   await page.locator('input[accept="image/png,image/jpeg,image/webp"]').setInputFiles({ name: 'portrait.png', mimeType: 'image/png', buffer: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a6GQAAAAASUVORK5CYII=', 'base64') });
   await expect(page.locator('.editor')).toBeVisible();
   await expect(page.getByText('Draft saved', { exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Done', exact: true }).click();
   const portraitId = (await castExport(page)).cast.players[0].portrait.slice(6);
-  await page.getByRole('button', { name: 'Edit Alex, cast entry 1', exact: true }).click();
+  await page.getByRole('button', { name: 'Edit Alex (cast entry 1)', exact: true }).click();
   await page.getByLabel('Portrait', { exact: true }).selectOption('/assets/fern.svg');
   await expect(page.getByText('Draft saved', { exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Done', exact: true }).click();
@@ -651,12 +651,12 @@ test('the file picker accepts a valid replay larger than 30 MB', async ({ page }
 
 test('unused uploaded portraits are also reclaimed automatically after a quiet minute', async ({ page }) => {
   await open(page); await page.clock.install(); await upload(page, exampleCast);
-  await page.getByRole('button', { name: 'Edit Alex, cast entry 1', exact: true }).click();
+  await page.getByRole('button', { name: 'Edit Alex (cast entry 1)', exact: true }).click();
   await page.locator('input[accept="image/png,image/jpeg,image/webp"]').setInputFiles({ name: 'portrait.png', mimeType: 'image/png', buffer: Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAwMCAO+a6GQAAAAASUVORK5CYII=', 'base64') });
   await expect(page.getByText('Draft saved', { exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Done', exact: true }).click();
   expect((await castExport(page)).cast.players[0].portrait).toMatch(/^asset:/);
-  await page.getByRole('button', { name: 'Edit Alex, cast entry 1', exact: true }).click();
+  await page.getByRole('button', { name: 'Edit Alex (cast entry 1)', exact: true }).click();
   await page.getByLabel('Portrait', { exact: true }).selectOption('/assets/fern.svg');
   await expect(page.getByText('Draft saved', { exact: true })).toBeVisible();
   await page.clock.fastForward(61_001);

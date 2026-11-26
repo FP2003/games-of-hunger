@@ -1,9 +1,10 @@
 import type { Condition, ContentPack, Effect, EventTemplate } from '../domain';
-import { trapWording, weaponWording, woundedEscapeWording } from './weapon-wording';
-import { additionalWeapons, additionalWeaponWording, killAndLootWording } from './weapon-expansion';
+import { trapWording, weaponWording, weaponWoundSites, woundedEscapeWording } from './weapon-wording';
+import { additionalWeapons, expandedWeaponHits, killAndLootWording } from './weapon-expansion';
+import { expandedWeaponOutcomes } from './weapon-outcomes';
+import { woundSites } from './encounters';
 
-type Weapon = { id: string; name: string; description: string; fatal: string[]; hit: (site: string) => string; miss: string };
-const weapons: Weapon[] = [
+const originalWeapons: { id: string; name: string; description: string; fatal: string[]; hit: (site: string) => string; miss: string }[] = [
   { id: 'bow', name: 'bow and arrows', description: 'A wooden hunting bow bundled with a quiver of arrows.',
     fatal: [
       '{actor.name} fires an arrow at {target.name} across a clearing in {biome}. It pierces {target.possessive} chest. {target.name} collapses and dies before reaching cover.',
@@ -27,25 +28,42 @@ const weapons: Weapon[] = [
     hit: site => `{actor.name} swings a wooden club at {target.name} in {biome}, striking the ${site} and opening a bleeding cut against the rough edge of a supply barrier.`,
     miss: '{actor.name} swings a wooden club at {target.name} in {biome}. {target.name} steps back beyond the swing and runs around a supply shelter, escaping unharmed.' },
 ];
-
-for (const weapon of additionalWeapons) {
-  const wording = additionalWeaponWording[weapon.id];
-  weapons.push({ ...weapon, fatal: wording.fatal.slice(0, 1), hit: site => wording.hit(site)[0], miss: wording.missed[0] });
-}
+const weapons = [...originalWeapons, ...additionalWeapons];
 
 export const weaponItems: ContentPack['items'] = weapons.map(({ id, name, description }) => ({ id, name, description, tags: ['weapon'] }));
-const sites = ['thigh', 'shoulder', 'side'] as const;
-const unwounded: Condition[] = sites.map(site => ({ kind: 'marker', role: 'target', marker: `bleeding-${site}`, exists: false }));
+const unwounded: Condition[] = woundSites.map(site => ({ kind: 'marker', role: 'target', marker: `bleeding-${site}`, exists: false }));
 const hostility: Effect = { kind: 'relationship', from: 'target', to: 'actor', trust: -35, grudge: 45 };
+const shoulderStrainWording = {
+  broadsword: [
+    '{actor.name} swings the broadsword at {target.name}, feels a jolt in {actor.possessive} shoulder, and drops it.',
+    '{actor.name} grabs {actor.possessive} sore shoulder and drops the broadsword. {target.name} backs away.',
+    '{actor.name} drops the broadsword mid-swing as pain shoots through {actor.possessive} shoulder. {target.name} slips away.',
+  ],
+  'combat-axe': [
+    '{actor.name} lifts the axe over {target.name}, then drops it with a sharp pain in {actor.possessive} shoulder.',
+    '{target.name} ducks. {actor.name} grabs {actor.possessive} sore shoulder as the axe falls.',
+    '{actor.name} swings at {target.name}, but pain shoots through {actor.possessive} shoulder and the axe slips free.',
+    "{actor.name}'s shoulder hurts too much to finish the swing. The axe drops at {target.name}'s feet.",
+    '{target.name} backs away as {actor.name} brings up the axe. A sharp pain in {actor.possessive} shoulder, and the axe slips free.',
+  ],
+};
+const heavyWeaponIds = new Set(Object.keys(shoulderStrainWording));
+const shoulderWound = { kind: 'marker', role: 'actor', marker: 'bleeding-shoulder', exists: true } as const;
 function scene(id: string, variants: string | string[], effects: Effect[], conditions: Condition[], extra: Partial<EventTemplate> = {}): EventTemplate {
   return { id, category: 'conflict', phases: ['day', 'night'], tones: ['dramatic', 'absurd', 'mixed'], scope: 'local', roles: [{ id: 'actor' }, { id: 'target' }], conditions, effects, variants: typeof variants === 'string' ? [variants] : variants, weight: 1, cooldown: 5, ...extra };
 }
 
 export const weaponScenes: EventTemplate[] = weapons.flatMap(weapon => {
   const held: Condition[] = [{ kind: 'item', role: 'actor', definitionId: weapon.id }];
+  if (heavyWeaponIds.has(weapon.id)) held.push({ ...shoulderWound, exists: false });
   const equipment = weapon.id === 'bow' ? 'a bow and a quiver of arrows' : `a ${weapon.name}`;
-  const expanded = additionalWeaponWording[weapon.id];
-  const wording = expanded ? { fatal: expanded.fatal.slice(1, 3), hit: (site: string) => expanded.hit(site).slice(1, 3), missed: expanded.missed.slice(1, 3) } : weaponWording[weapon.id];
+  const outcomes = 'miss' in weapon ? {
+    fatal: [...weapon.fatal, ...weaponWording[weapon.id].fatal],
+    missed: [weapon.miss, ...weaponWording[weapon.id].missed],
+  } : expandedWeaponOutcomes[weapon.id];
+  const hits = (site: string) => 'miss' in weapon
+    ? [weapon.hit(site), ...weaponWording[weapon.id].hit(site)]
+    : expandedWeaponHits(weapon, site).slice(0, 3);
   return [
     scene(`weapon-${weapon.id}-opening`, [
       `{actor.name} reaches the Center Podium weapon rack and claims ${equipment}, then backs away from the scramble.`,
@@ -57,11 +75,37 @@ export const weaponScenes: EventTemplate[] = weapons.flatMap(weapon => {
       `Inside an equipment case in {biome}, {actor.name} discovers ${equipment} and takes it.`,
       `{actor.name} searches an equipment case in {biome} and retrieves ${equipment}.`,
     ], [{ kind: 'createItem', role: 'actor', definitionId: weapon.id }], [], { category: 'survival', roles: [{ id: 'actor' }], weight: 0.65 }),
-    scene(`weapon-${weapon.id}-fatal`, [...weapon.fatal, ...wording.fatal], [{ kind: 'eliminate', role: 'target', credit: 'actor' }], held, { weight: 0.8, phases: ['day', 'night', 'finale'] }),
-    ...sites.map(site => scene(`weapon-${weapon.id}-${site}-survived`, [weapon.hit(site), ...wording.hit(site)].map((attack, i) => attack + woundedEscapeWording(site)[i]), [hostility, { kind: 'setMarker', role: 'target', marker: `bleeding-${site}`, value: true }], [...held, ...unwounded], { weight: 0.45 })),
-    scene(`weapon-${weapon.id}-missed`, [weapon.miss, ...wording.missed], [hostility], held, { weight: 1.1 }),
+    scene(`weapon-${weapon.id}-fatal`, [...outcomes.fatal], [{ kind: 'eliminate', role: 'target', credit: 'actor' }], held, { weight: 0.8, phases: ['day', 'night', 'finale'] }),
+    ...weaponWoundSites.map(site => scene(`weapon-${weapon.id}-${site}-survived`, hits(site).map((attack, i) => `${attack} ${woundedEscapeWording(site, i)}`), [hostility, { kind: 'setMarker', role: 'target', marker: `bleeding-${site}`, value: true }], [...held, ...unwounded], { weight: 0.45 })),
+    scene(`weapon-${weapon.id}-missed`, [...outcomes.missed], [hostility], held, { weight: 1.1 }),
   ];
 });
+
+const kneeHitWording = {
+  bow: [
+    '{target.name} tries to run, but {actor.name} shoots {target.object} in the knee. {target.name} dives into cover and stays low.',
+    "{actor.name}'s arrow catches {target.name} in the knee, leaving {target.object} limping into cover.",
+    '{actor.name} fires as {target.name} runs. An arrow to the knee sends {target.object} tumbling into cover.',
+    '{target.name} is almost across the clearing when {actor.name} hits {target.object} in the knee. The last few feet are a crawl.',
+    '{actor.name} shoots low. The arrow hits {target.name} in the knee, and a sprint turns into a limp.',
+  ],
+  'capitol-bow': [
+    "An arrow from {actor.name}'s silver bow catches {target.name} in the knee and leaves {target.object} limping.",
+    '{target.name} breaks into a run, but {actor.name} stops {target.object} with an arrow to the knee.',
+    '{actor.name} draws the silver bow and hits {target.name} in the knee, forcing {target.object} to crawl into cover.',
+  ],
+};
+const kneeHitScenes = Object.entries(kneeHitWording).map(([id, variants]) => scene(`weapon-${id}-knee-survived`, variants,
+  [hostility, { kind: 'setMarker', role: 'target', marker: 'bleeding-knee', value: true }], [
+    { kind: 'item', role: 'actor', definitionId: id }, ...unwounded,
+  ], { weight: 0.85 }));
+
+const shoulderStrainScenes = Object.entries(shoulderStrainWording).map(([id, variants]) => scene(`weapon-${id}-shoulder-dropped`, variants,
+  [{ kind: 'dropItem', role: 'actor', definitionId: id }, hostility], [
+  { kind: 'item', role: 'actor', definitionId: id }, shoulderWound,
+], { weight: 2 }));
+
+export const weaponInjuryScenes = [...kneeHitScenes, ...shoulderStrainScenes];
 
 // Finalists may converge from different regions while retaining their own weapon.
 // Three location cases avoid no-op moves and keep every route explicit.
@@ -72,7 +116,8 @@ for (const weapon of weapons) for (const [index, actorOuter, targetOuter] of [[0
   weaponFinaleScenes.push({ ...fatal, id: `weapon-${weapon.id}-final-converge-${index}`, category: 'finale', phases: ['finale'], scope: 'global', cooldown: 0,
     conditions: [...fatal.conditions, { kind: 'biome', role: 'actor', biomes: actorOuter ? [...outer] : ['ruins'] }, { kind: 'biome', role: 'target', biomes: targetOuter ? [...outer] : ['ruins'] }],
     effects: [...(actorOuter ? [{ kind: 'move' as const, role: 'actor', biome: 'ruins' as const }] : []), ...(targetOuter ? [{ kind: 'move' as const, role: 'target', biome: 'ruins' as const }] : []), ...fatal.effects],
-    variants: fatal.variants.map(text => `The finalists follow the closing arena back to the Center Podium. ${text}`),
+    variants: fatal.variants.map(text => `{podiumArrival} ${text}`),
+    variantSituations: fatal.variants.map(() => `finale-armed-${weapon.id}`),
   });
 }
 

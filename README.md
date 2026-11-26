@@ -74,6 +74,8 @@ Portrait image bytes are omitted from JSON; missing local portraits fall back to
 
 Completed seasons count once per canonical run ID. An identical seed, cast, settings, content and lore is the same season; choose a new seed for another season. Lore is optional, factual, source-backed and matched by player ID. It never restores previous survival state or inventory.
 
+**Carry grudges into this season** is an independent, opt-in game setting. It uses the six most recent completed seasons with exactly the same player IDs. Theft, betrayal and a Grudge player's loss of an ally can increase starting grudges, while reconciliation and age reduce their effect. Starting penalties are capped and apply after cast presets and personality initialization. Starting rivals and later changes appear in the **Rivalry timeline** during playback and in the season archive. Earlier replays remain playable with their recorded outcomes.
+
 Engine 1.29/content 1.35 adds 72 natural past-season callback lines for champions, prior kills, help, alliances, betrayal, revenge, nemeses, theft and item exchanges. Up to four spaced references recall actual completed-season events when the current scene fits; pair memories require both returning players and a relevant action between them. Names follow the current cast. History selection balances players and topics and reserves champion history. New seasons record kills, assistance, alliances and theft separately; older summaries and saved replays keep their original data. The [five-season audit](examples/past-season-audit/review.md) covers six histories and 60 paired runs, verifying unchanged gameplay with lore enabled or disabled.
 
 There are no accounts, cloud sync, AI calls or external runtime content requests. Core gameplay works without network access after assets load. Cold-start offline installation and online multiplayer are backlog items. No website deployment is configured. Vite uses a relative asset base for repository-subpath hosting if deployment is added later.
@@ -81,6 +83,8 @@ There are no accounts, cloud sync, AI calls or external runtime content requests
 ## Demo statistics
 
 Open **Demo statistics** in the main navigation to generate 100 demo games at a time (up to 1,000 per batch). Use the neutral 24-player cast or your current cast and settings. Runs execute in a background worker and stay separate from saved seasons. **Stop batch** keeps completed games; **Reset demo statistics** clears only this lab's data. Completed/stopped batches persist in this browser. **Export demo JSON** downloads averages, raw counters, repetition rankings, scene coverage, classification examples and reproducible batch inputs.
+
+Open **Paired demos** in the same screen to compare two danger settings with an identical cast and seed sequence. It shows separate averages and paired differences. **Stop experiment** saves through the last complete pair. **Continue experiment** resumes from that checkpoint with the original inputs. The export includes every completed pair and its seed. Regular Demo Lab reports also group the tagged combat situations across prose variants and show where scene candidates were observed.
 
 For a reproducible report from the current engine and content, run:
 

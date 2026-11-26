@@ -17,8 +17,9 @@ const wounds = [
   { site: 'side', attack: '{actor.name} corners {target.name} at a supply cache in {biome} and stabs {target.object} in the side.', escape: '{target.name} topples the cache between them and scrambles over its lid. Pressing a hand against the bleeding wound, {target.name} escapes the attack.', fatal: '{target.name} presses a hand against the wound and tries to reach cover, but collapses beside the cache and dies from blood loss.' },
 ] as const;
 
-export const woundMarkers: ContentPack['markers'] = wounds.map(({ site }) => ({ id: `bleeding-${site}`, type: 'boolean', lifetime: 'season', description: `An untreated ${site} wound is still bleeding.` }));
-const notBleeding: Condition[] = wounds.map(({ site }) => ({ kind: 'marker', role: 'target', marker: `bleeding-${site}`, exists: false }));
+export const woundSites = [...wounds.map(({ site }) => site), 'knee'] as const;
+export const woundMarkers: ContentPack['markers'] = woundSites.map(site => ({ id: `bleeding-${site}`, type: 'boolean', lifetime: 'season', description: `An untreated ${site} wound is still bleeding.` }));
+const notBleeding: Condition[] = woundSites.map(site => ({ kind: 'marker', role: 'target', marker: `bleeding-${site}`, exists: false }));
 
 export const injuryEncounters: EventTemplate[] = wounds.flatMap(({ site, attack, escape, fatal }) => {
   const marker = `bleeding-${site}`;
@@ -34,6 +35,33 @@ export const injuryEncounters: EventTemplate[] = wounds.flatMap(({ site, attack,
     scene(`wound-${site}-pursuit`, 'conflict', `{actor.name} hears {target.name} approaching a trail bank in {biome}. The earlier ${site} wound is still bleeding, so {actor.name} cannot risk a chase. A stone thrown down the opposite path draws {target.name} away long enough for {actor.name} to hide.`, [], { conditions: active('actor'), weight: 2, combat: { attacker: 'target', method: 'unknown' } }),
   ];
 });
+
+const kneeWound: Condition = { kind: 'marker', role: 'actor', marker: 'bleeding-knee', exists: true };
+export const kneeFollowups: EventTemplate[] = [
+  scene('wound-knee-slow-escape', 'hazard', [
+    'The path gives way. With a bad knee, {actor.name} drops {actor.possessive} {item} and crawls to safety.',
+    "The bank crumbles. {actor.name} can't jump on the injured knee and drops {actor.possessive} {item} to grab the edge.",
+    '{actor.name} falls short of the jump on a bad knee and lets go of {actor.possessive} {item} to pull up.',
+    "{actor.name} can't put weight on the injured knee. At the broken steps, both hands go to the rail and {actor.possessive} {item} falls.",
+    "{actor.name} can't run on the injured knee and leaves {actor.possessive} {item} behind to scramble up the bank.",
+  ], [{ kind: 'dropItem', role: 'actor' }], {
+    roles: [{ id: 'actor' }], conditions: [kneeWound, { kind: 'item', role: 'actor' }], weight: 11, cooldown: 2,
+  }),
+  scene('wound-knee-bandage', 'survival', [
+    '{actor.name} wraps the injured knee and rests until it can take weight again.',
+    '{actor.name} stops to bandage the knee. After a rest, it holds when {actor.name} stands.',
+    '{actor.name} binds the sore knee and waits for the bleeding to stop before getting up.',
+  ], [{ kind: 'removeMarker', role: 'actor', marker: 'bleeding-knee' }], {
+    roles: [{ id: 'actor' }], conditions: [kneeWound], weight: 3,
+  }),
+  scene('wound-knee-assistance', 'social', [
+    '{actor.name} helps {target.name} wrap the injured knee and get back up.',
+    '{actor.name} keeps watch while {target.name} binds the knee. The bleeding stops.',
+    '{actor.name} helps stop the bleeding from {target.name}’s knee and waits until {target.name} can stand.',
+  ], [help, { kind: 'removeMarker', role: 'target', marker: 'bleeding-knee' }], {
+    conditions: [{ ...kneeWound, role: 'target' }], weight: 2,
+  }),
+];
 
 const traps: Record<BiomeId, { fatal: string[]; escape: string[]; rescue: string[] }> = {
   forest: {

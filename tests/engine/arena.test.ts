@@ -15,7 +15,11 @@ const input = (seed = 'arena-0', size = 24): RunInput => ({
 });
 
 describe('warned arena disruptions and rare multikills', () => {
-  const runs = Array.from({ length: 64 }, (_, i) => generateRun(input(`arena-${i}`, i < 48 ? 24 : 48), narrativeAdapter));
+  const sample = Array.from({ length: 64 }, (_, i) => input(`arena-${i}`, i < 48 ? 24 : 48));
+  const rareEncounter = input('nov20-audit-20');
+  rareEncounter.settings.danger = 'low';
+  // Exercise a rare multikill even when the broad arena sample misses it.
+  const runs = [...sample, rareEncounter].map(setup => generateRun(setup, narrativeAdapter));
   const events = runs.flatMap(r => r.events);
 
   it('resupplies the podium once from Day 3, leaving collectible supplies and using one assignment', () => {

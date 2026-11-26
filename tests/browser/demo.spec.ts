@@ -24,9 +24,11 @@ for (const width of [1280, 390]) test(`demo batches persist, export and reset at
   await expect(page.getByRole('table', { name: 'Phase outcomes and weapon ownership' })).toBeVisible();
   await expect(page.getByRole('table', { name: 'Combat method breakdown' })).toBeVisible();
   await expect(page.getByRole('table', { name: 'Combat method breakdown' }).getByText('Seized weapons', { exact: true })).toBeVisible();
+  await expect(page.getByRole('table', { name: 'Finale situations' }).getByText('See example').first()).toBeVisible();
   const stored = await page.evaluate(() => JSON.parse(localStorage.getItem('survival-demo-analytics-v1')!));
   expect(stored.version).toBe(2);
   expect(stored.gameSamples).toHaveLength(2);
+  expect(Object.keys(stored.finaleSituations).length).toBeGreaterThan(0);
   expect(stored.totals.armedAttacks).toBeGreaterThan(0);
   const downloadPromise = page.waitForEvent('download');
   await page.getByRole('button', { name: 'Export demo JSON' }).click();

@@ -1,5 +1,5 @@
 import { TRAIT_LABELS } from '../domain';
-import { useCallback, useEffect, useRef, useState, type KeyboardEvent, type PointerEvent, type ReactNode } from 'react';
+import { useCallback, useEffect, useId, useRef, useState, type KeyboardEvent, type PointerEvent, type ReactNode } from 'react';
 import type { PlayerDefinition } from '../domain';
 import { groupCastPlayers } from './editor';
 import { teamStyle } from './teamColours';
@@ -14,6 +14,7 @@ export function CastCards({ players, selectedId, onEdit, onRemove, onSwap, portr
   onSwap: (id: string, targetId: string) => void;
   portrait: (player: PlayerDefinition) => ReactNode;
 }) {
+  const rosterId = useId();
   const root = useRef<HTMLDivElement>(null);
   const handles = useRef(new Map<string, HTMLButtonElement>());
   const pointer = useRef<PointerDrag | null>(null);
@@ -158,6 +159,7 @@ export function CastCards({ players, selectedId, onEdit, onRemove, onSwap, portr
         <div className="cast-grid">{group.members.map(player => {
           const number = numbers.get(player.id)!;
           const duplicate = players.some(other => other.id !== player.id && other.name === player.name);
+          const traitsId = player.traits.length ? `${rosterId}-traits-${number}` : undefined;
           return <article className={`cast-card ${selectedId === player.id ? 'selected' : ''} ${sourceId === player.id ? 'moving' : ''} ${sourceId && targetId === player.id && sourceId !== player.id ? 'drop-target' : ''}`} style={teamStyle(player.team)} data-cast-player={player.id} key={player.id}>
             <div className="cast-card-top"><span className="entry-number">{String(number).padStart(2, '0')}</span><div className="mini-actions">
               <button className="cast-drag-handle" ref={element => { if (element) handles.current.set(player.id, element); else handles.current.delete(player.id); }} aria-label={`Move ${label(player)}, slot ${number}`} aria-describedby="cast-move-instructions" aria-pressed={pickedId === player.id} title="Drag to swap slots" disabled={players.length < 2}
@@ -165,10 +167,12 @@ export function CastCards({ players, selectedId, onEdit, onRemove, onSwap, portr
                 onClick={() => choose(player.id)} onKeyDown={event => navigate(event, player.id)} onFocus={() => { if (pickedId) setTargetId(player.id); }}><span aria-hidden="true">⠿</span></button>
               <button aria-label={`Remove ${player.name || 'player'}`} onClick={() => { stop(); onRemove(player.id); }}>×</button>
             </div></div>
-            <button className="cast-person" aria-label={pickedId ? pickedId === player.id ? `Cancel moving ${label(player)}` : `Swap ${source ? label(source) : 'player'} with ${label(player)}, slot ${number}` : `Edit ${player.name || 'character'}, cast entry ${number}`} aria-haspopup={pickedId ? undefined : 'dialog'} aria-controls={!pickedId && selectedId === player.id ? 'character-editor' : undefined}
+            <button className="cast-person" aria-describedby={traitsId} aria-haspopup={pickedId ? undefined : 'dialog'} aria-controls={!pickedId && selectedId === player.id ? 'character-editor' : undefined}
               onPointerDown={event => start(event, player.id)} onPointerMove={move} onPointerUp={event => release(event)} onPointerCancel={stop} onLostPointerCapture={() => { if (pointer.current) stop(); }} onDragStart={event => event.preventDefault()}
               onClick={() => { if (!ignoreClick.current) { if (pickedId) choose(player.id); else onEdit(player.id); } }}>
-              {portrait(player)}<span className="cast-person-details"><strong>{label(player)}</strong>{player.traits.length > 0 && <small>{player.traits.map(trait => TRAIT_LABELS[trait]).join(' · ')}</small>}{duplicate && <small>Cast entry {number}</small>}</span><span className="cast-person-arrow" aria-hidden="true">↗</span>
+              <span className="sr-only">{pickedId ? pickedId === player.id ? 'Cancel moving ' : `Swap ${source ? label(source) : 'player'} with ` : 'Edit '}</span>
+              {portrait(player)}<span className="cast-person-details"><strong>{label(player)}</strong>{traitsId && <small id={traitsId} aria-hidden="true">{player.traits.map(trait => TRAIT_LABELS[trait]).join(' · ')}</small>}{duplicate && <small aria-hidden="true">Cast entry {number}</small>}</span>
+              <span className="sr-only">{pickedId ? pickedId === player.id ? '' : `(slot ${number})` : `(cast entry ${number})`}</span><span className="cast-person-arrow" aria-hidden="true">↗</span>
             </button>
           </article>;
         })}</div>

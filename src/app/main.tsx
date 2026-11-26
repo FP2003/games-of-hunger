@@ -3,9 +3,7 @@ import { createRoot } from 'react-dom/client';
 import { App } from '../ui/App';
 import { createIndexedDbRepository, createMemoryRepository, exportHistory, importHistory } from '../persistence';
 import { selectLoreContext } from '../lore';
-import { defaultContentPack } from '../content';
-import { narrativeAdapter } from '../narrative';
-import { generateRun } from '../engine';
+import { defaultArena } from '../content/defaultArena';
 import type { AppServices } from './services';
 
 async function launch() {
@@ -16,9 +14,13 @@ async function launch() {
   });
   const services: AppServices = {
     repository,
-    content: defaultContentPack,
-    generate: input => generateRun(input, narrativeAdapter),
-    lore: (history, cast, enabled) => selectLoreContext(history, cast, defaultContentPack, enabled),
+    arena: defaultArena,
+    loadContent: () => import('../content').then(module => module.defaultContentPack),
+    generate: async input => {
+      const [{ generateRun }, { narrativeAdapter }] = await Promise.all([import('../engine'), import('../narrative')]);
+      return generateRun(input, narrativeAdapter);
+    },
+    lore: selectLoreContext,
     exportHistory: () => exportHistory(repository),
     importHistory: text => importHistory(text, repository),
     storageWarning,

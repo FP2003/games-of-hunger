@@ -1,8 +1,8 @@
 import { useEffect, useState, type RefObject } from 'react';
-import { toBlob } from 'html-to-image';
 
 /** Capture the full report, including content below the viewport. */
 async function scenePng(node: HTMLElement): Promise<Blob> {
+  const { toBlob } = await import('html-to-image');
   await document.fonts.ready;
   await Promise.all(Array.from(node.querySelectorAll('img'), image => image.decode().catch(() => undefined)));
   const blob = await toBlob(node, {

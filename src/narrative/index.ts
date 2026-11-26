@@ -1,6 +1,34 @@
-import type { ConfessionalSelection, ConfessionalInput, EventNarrativeInput, NarrativeAdapter, PlayerDefinition, RandomSource } from '../domain';
+import type { BiomeId, ConfessionalSelection, ConfessionalInput, EventNarrativeInput, NarrativeAdapter, PlayerDefinition, RandomSource } from '../domain';
 import { deathSiteCallback } from './site-memory';
 import { pastSeasonCallback } from './lore';
+import { weaponCoverWording } from '../content/weapon-cover';
+import { isWeaponFinaleConvergence, weaponCoverToken, wordingUseCount } from '../domain/situations';
+
+const podiumArrivals = [
+  'The arena closes in, pushing them toward the Center Podium.',
+  'They meet at the Center Podium.',
+  'The open paths lead to the Center Podium.',
+  'Their paths cross at the Center Podium.',
+  'The Center Podium is still open when they arrive.',
+];
+
+function podiumArrival({ history, sequence }: EventNarrativeInput): string {
+  // Start at a different line as the first convergence shifts between games.
+  const arrivals = history?.filter(event => isWeaponFinaleConvergence(event.templateId)) ?? [];
+  const firstSequence = arrivals[0]?.sequence ?? sequence;
+  return podiumArrivals[(firstSequence + arrivals.length) % podiumArrivals.length];
+}
+
+function weaponCover(biome: BiomeId, slot: number, history: EventNarrativeInput['history'] = []): string {
+  const lines = weaponCoverWording[biome];
+  for (let index = history.length - 1; index >= 0; index--) {
+    const { biome: previousBiome, text } = history[index];
+    if (previousBiome !== biome || !text) continue;
+    const last = lines.findIndex(line => text.startsWith(line));
+    if (last >= 0) return lines[(last + 1) % lines.length];
+  }
+  return lines[slot];
+}
 
 function nameValue(player: PlayerDefinition, field: string): string {
   if (field === 'name') return player.name;
@@ -35,6 +63,9 @@ function itemLabel(input: EventNarrativeInput): string {
 export function renderTemplate(text: string, input: EventNarrativeInput, speaker?: PlayerDefinition): string {
   const first = input.after.players.find(p => p.id === Object.values(input.bindings)[0]);
   return text.replace(/\{([^{}]+)\}/g, (_match, token: string) => {
+    if (token === 'podiumArrival') return podiumArrival(input);
+    const cover = weaponCoverToken.exec(token);
+    if (cover) return weaponCover(first?.biome ?? 'ruins', Number(cover[1]), input.history);
     if (token === 'item') return itemLabel(input);
     if (token === 'biome') return input.content.biomes.find(b => b.id === (input.template.category === 'announcement' ? input.template.arena?.biome : first?.biome))?.name ?? 'the arena';
     const [role, field] = token.split('.');
@@ -59,9 +90,9 @@ function confessionalFingerprint(text: string, input: ConfessionalInput): string
 }
 
 export function renderEvent(input: EventNarrativeInput): { text: string; wording: string } {
-  const uses = (text: string) => input.wordingUses && Object.hasOwn(input.wordingUses, text) ? input.wordingUses[text] : 0;
-  const leastUsed = Math.min(...input.template.variants.map(uses));
-  const pool = input.template.variants.filter(text => uses(text) === leastUsed);
+  const uses = input.template.variants.map((text, index) => wordingUseCount(text, input.wordingUses, input.template.variantSituations?.[index]));
+  const leastUsed = Math.min(...uses);
+  const pool = input.template.variants.filter((_, index) => uses[index] === leastUsed);
   const alternatives = pool.filter(text => text !== input.previousWording);
   // Use all available situations before returning to familiar ones. Raw text
   // shared by regional templates participates in the same per-run count.
@@ -79,6 +110,10 @@ export function renderEvent(input: EventNarrativeInput): { text: string; wording
       `${griever} learns that ${killer} killed ${ally} and promises not to forget it.`,
       `When ${griever} hears that ${killer} killed ${ally}, the grudge is set.`,
     ])}`;
+  }
+  for (const fact of input.facts.filter(f => f.type === 'revenge' && f.sourceRunId)) {
+    const actor = name(fact.actorId), target = name(fact.targetId);
+    if (actor && target) text += ` For ${actor}, this settles a score with ${target} from an earlier season.`;
   }
   const tinTransfer = input.facts.find(f => f.type === 'curse' && f.targetId && input.content.items.find(i => i.id === f.itemDefinitionId)?.curse === 'tin' && input.facts.some(t => (t.type === 'transfer' || t.type === 'theft') && t.itemId === f.itemId));
   if (tinTransfer) {

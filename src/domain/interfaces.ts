@@ -24,7 +24,7 @@ export interface EventNarrativeInput {
   previousWording?: string;
   /** Per-run raw event wording counts, shared across template IDs and bindings. */
   wordingUses?: Readonly<Record<string, number>>;
-  history?: readonly Pick<EventRecord, 'sequence' | 'templateId' | 'biome' | 'facts'>[];
+  history?: readonly (Pick<EventRecord, 'sequence' | 'templateId' | 'biome' | 'facts'> & { text?: string })[];
 }
 export interface RenderedEvent { text: string; wording?: string }
 export interface ConfessionalInput extends EventNarrativeInput {

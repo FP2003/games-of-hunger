@@ -19,6 +19,6 @@ export function combatRecord(template: EventTemplate, bindings: Record<string, s
     : method === 'seized-weapon' && acquired?.kind === 'acquireItem' ? before.items.find(i => !i.destroyed && i.ownerId === bindings[acquired.from!] && i.definitionId === acquired.definitionId && after.items.some(a => a.id === i.id && a.ownerId === attackerId)) : undefined;
   const died = targetIds.some(id => before.players.find(p => p.id === id)?.alive && !after.players.find(p => p.id === id)?.alive);
   const injured = template.effects.some(e => e.kind === 'setMarker' && e.marker.startsWith('bleeding-') && targetIds.includes(bindings[e.role]));
-  return { ...(variantMethods && validVariant ? { variantIndex } : {}), attackerId, targetIds, method, armed: held.length > 0,
+  return { ...((variantMethods || template.variantSituations) && validVariant ? { variantIndex } : {}), attackerId, targetIds, method, armed: held.length > 0,
     ...(weapon ? { weaponItemId: weapon.id, weaponDefinitionId: weapon.definitionId } : {}), outcome: died ? 'death' : injured ? 'injury' : 'unharmed' };
 }

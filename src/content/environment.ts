@@ -1,15 +1,22 @@
-import type { BiomeId, Condition, Effect, EventTemplate } from '../domain';
+import type { BiomeId, Condition, Effect, EventTemplate, MarkerDefinition } from '../domain';
+import { woundSites } from './encounters';
 
 export const environmentalItems = [
-  { id: 'berries', name: 'picked berries', description: 'A small handful of ripe berries gathered from a familiar bush.', tags: ['supplies', 'food'] },
   { id: 'explosive', name: 'sealed arena charge', description: 'One factory-sealed arena charge with its matching remote.', tags: ['weapon'] },
 ];
 const here = (...biomes: BiomeId[]): Condition[] => [{ kind: 'biome', role: 'actor', biomes }];
 const held = (definitionId: string): Condition => ({ kind: 'item', role: 'actor', definitionId });
 const unused = (definitionId: string): Condition => ({ kind: 'item', role: 'actor', definitionId, exists: false });
 const consume: Effect[] = [{ kind: 'consumeItem', role: 'actor', definitionId: 'explosive' }];
-const unhurt: Condition[] = ['thigh', 'shoulder', 'side'].map(site => ({ kind: 'marker', role: 'actor', marker: `bleeding-${site}`, exists: false }));
+const unhurt = (role: string): Condition[] => woundSites.map(site => ({ kind: 'marker', role, marker: `bleeding-${site}`, exists: false }));
 const hostility: Effect = { kind: 'relationship', from: 'target', to: 'actor', trust: -20, grudge: 30 };
+const pair = [{ id: 'actor' }, { id: 'target' }];
+const tripwireMarker = 'swamp-tripwire-settled';
+const freshTripwire: Condition[] = [...here('swamp'), { kind: 'marker', role: 'actor', marker: tripwireMarker, exists: false }];
+const settleTripwire: Effect = { kind: 'setMarker', role: 'actor', marker: tripwireMarker, value: true };
+export const environmentalMarkers: MarkerDefinition[] = [
+  { id: tripwireMarker, type: 'boolean', lifetime: 'season', description: 'This tribute has already acted on a swamp tripwire.' },
+];
 function scene(id: string, variants: string[], effects: Effect[] = [], conditions: Condition[] = [], options: Partial<EventTemplate> = {}): EventTemplate {
   return { id, category: 'survival', phases: ['day', 'night'], tones: ['dramatic', 'absurd', 'mixed'], scope: 'local', roles: [{ id: 'actor' }], conditions, effects, variants, weight: 1.5, cooldown: 4, ...options };
 }
@@ -23,7 +30,7 @@ export const environmentalScenes: EventTemplate[] = [
     '{actor.name} pulls up through the lower branches of a tree in {biome}, scouts the trail below, and comes down on the sheltered side.',
     'The view from the ground is poor in {biome}, so {actor.name} climbs a tree. A few quiet minutes above the brush reveal the nearby trails before the descent.',
     '{actor.name} tests the branches of a tree in {biome} and climbs high enough to see over the brush. After checking the approaches, {actor.name} returns to the trail.',
-  ], [], here('forest'), { phases: ['day'] }),
+  ], [], [...here('forest'), { kind: 'marker', role: 'actor', marker: 'bleeding-shoulder', exists: false }], { phases: ['day'] }),
   scene('tree-pursuit-escape', [
     '{actor.name} pursues {target.name} through {biome}. {target.name} climbs a leaning tree, crosses a thick branch and drops behind a fallen trunk, escaping the chase.',
     'With {actor.name} closing in through {biome}, {target.name} scrambles up a leaning tree and along a low branch. A drop behind a fallen trunk breaks the pursuit.',
@@ -32,34 +39,19 @@ export const environmentalScenes: EventTemplate[] = [
     'A leaning tree offers {target.name} a way out of {actor.name}\'s chase in {biome}. {target.name} climbs over a fallen trunk on its branches and lands safely out of sight.',
     '{target.name} hauls up a sloping trunk in {biome} as {actor.name} approaches. Crossing the branches and dropping behind a fallen tree gives {target.name} time to escape.',
     'The chase in {biome} ends at a leaning tree. {target.name} climbs, moves along a sturdy branch and drops behind a fallen trunk before {actor.name} can follow.',
-  ], [hostility], here('forest'), { category: 'conflict', roles: [{ id: 'actor' }, { id: 'target' }] }),
-  scene('berries-forage', [
-    '{actor.name} recognizes a ripe berry bush in {biome}, picks a few handfuls and eats them beside the trail.',
-    'In {biome}, {actor.name} finds familiar berries among the brush and stops to pick and eat a small meal.',
-    '{actor.name} checks a familiar berry bush in {biome}, chooses the ripe fruit and eats it before moving on.',
-    'A patch of ripe berries gives {actor.name} a reason to pause in {biome}. {actor.name} picks enough for a meal and eats them there.',
-    '{actor.name} spots familiar fruit on a bush in {biome} and gathers the ripe berries, eating each handful at the patch.',
-    'Rather than search another supply case in {biome}, {actor.name} picks ripe berries from a familiar bush and eats them.',
-    '{actor.name} works along a berry bush in {biome}, picking its ripe fruit and eating it before returning to the path.',
-  ], [], here('forest', 'swamp'), { phases: ['day'] }),
-  scene('berries-gather', [
-    '{actor.name} picks a handful of ripe berries in {biome} and wraps them in a broad leaf to carry along.',
-    'A familiar berry bush in {biome} yields a small handful for {actor.name}, who packs the fruit in a folded leaf.',
-    '{actor.name} gathers ripe berries beside the trail in {biome} and saves the handful in a leaf wrapper.',
-    'In {biome}, {actor.name} carefully picks the ripe fruit from a familiar bush and carries it away in a leaf.',
-    '{actor.name} fills a folded leaf with a handful of berries from a familiar bush in {biome}, saving them for later.',
-    'The brush in {biome} holds ripe berries. {actor.name} picks a small handful and folds a leaf around them for the road.',
-    '{actor.name} stops at a familiar berry patch in {biome}, gathers a handful and tucks the leaf-wrapped fruit away.',
-  ], [{ kind: 'createItem', role: 'actor', definitionId: 'berries' }], [...here('forest', 'swamp'), unused('berries')], { phases: ['day'] }),
-  scene('berries-eat', [
-    '{actor.name} unwraps the berries carried into {biome} and eats the whole handful during a rest.',
-    'At a quiet stop in {biome}, {actor.name} finishes the saved berries and folds away the empty leaf.',
-    '{actor.name} takes out the gathered berries in {biome} and eats them one by one until none remain.',
-    'The saved berries become a small meal in {biome}. {actor.name} eats the last of them before setting out again.',
-    '{actor.name} opens the leaf-wrapped berries beside the trail in {biome} and finishes the fruit.',
-    'In {biome}, {actor.name} pauses to eat the berries being carried around. Only the leaf wrapper remains.',
-    '{actor.name} settles out of sight in {biome}, unwraps the saved berries and eats the entire handful.',
-  ], [{ kind: 'consumeItem', role: 'actor', definitionId: 'berries' }], [held('berries')], { weight: 10, cooldown: 2 }),
+  ], [hostility], [...here('forest'), { kind: 'marker', role: 'target', marker: 'bleeding-shoulder', exists: false }], { category: 'conflict', roles: pair }),
+  scene('tree-pursuit-shoulder', [
+    "{actor.name} grabs a branch, but the sore shoulder won't hold. {target.name} loses sight of {actor.object} on the trail into {biome}.",
+    '{target.name} gives chase. With a sore shoulder, {actor.name} skips the climb and flees into {biome}.',
+    "{actor.name} can't climb with a bad shoulder and loses {target.name} on the trail into {biome}.",
+    '{actor.name} drops to the ground with a sore shoulder and shakes {target.name} on the lower trail into {biome}.',
+    '{target.name} closes in at the tree. One pull on a branch sends {actor.name} running for {biome}, clutching {actor.possessive} shoulder.',
+  ], [
+    { kind: 'move', role: 'actor', biome: 'adjacent', avoidDanger: true },
+    { ...hostility, from: 'actor', to: 'target' },
+  ], [
+    ...here('forest'), { kind: 'marker', role: 'actor', marker: 'bleeding-shoulder', exists: true },
+  ], { category: 'conflict', roles: pair, combat: { attacker: 'target', method: 'pursuit' }, weight: 4 }),
   scene('forest-boar-escape', [
     'A boar charges from the brush in {biome}. {actor.name} climbs onto a fallen tree and waits until it crashes past, then slips away unharmed.',
     '{actor.name} hears a grunt in {biome} and scrambles onto a fallen trunk as a boar charges. The animal passes beneath, leaving time to escape.',
@@ -122,7 +114,7 @@ export const environmentalScenes: EventTemplate[] = [
     'A hidden pit catches {actor.name} on a trail in {biome}. A broken stake leaves a bleeding thigh wound, but roots along the wall let {actor.object} climb out alive.',
     '{actor.name} drops through loose leaves into a pit in {biome}. The thigh catches a stake on the way down; {actor.name} survives and hauls out on the roots with the cut still bleeding.',
     'The trail collapses into a covered pit beneath {actor.name} in {biome}. A stake cuts the thigh, but {actor.name} reaches exposed roots and climbs free, surviving with a bleeding wound.',
-  ], [{ kind: 'setMarker', role: 'actor', marker: 'bleeding-thigh', value: true }], [...here('forest', 'swamp'), ...unhurt], { category: 'hazard', site: { id: 'covered-trail-pit', name: 'the covered trail pit' } }),
+  ], [{ kind: 'setMarker', role: 'actor', marker: 'bleeding-thigh', value: true }], [...here('forest', 'swamp'), ...unhurt('actor')], { category: 'hazard', site: { id: 'covered-trail-pit', name: 'the covered trail pit' } }),
   scene('pitfall-fatal', [
     '{actor.name} breaks through a leaf-covered pit on a trail in {biome}. The fall drives a sharpened stake into {actor.possessive} chest, and the wound is fatal.',
     'A concealed pit opens beneath {actor.name} in {biome}. Landing on a sharpened stake leaves a fatal chest wound.',
@@ -132,15 +124,31 @@ export const environmentalScenes: EventTemplate[] = [
     '{actor.name} crosses what looks like leaf-strewn ground in {biome}. The pit beneath gives way, and the fall onto a stake kills {actor.object}.',
     'A leaf-covered trap on a trail in {biome} catches {actor.name}. The fall onto a sharpened stake leaves a chest wound that {actor.name} does not survive.',
   ], [{ kind: 'eliminate', role: 'actor' }], here('forest', 'swamp'), { category: 'hazard', weight: 0.6, site: { id: 'covered-trail-pit', name: 'the covered trail pit' } }),
-  scene('tripwire-noticed', [
-    '{actor.name} notices a wire across a service trail in {biome}, steps over it and takes the longer path around the trap.',
-    'A glint at ankle height stops {actor.name} in {biome}. The wire across the trail is left untouched as {actor.name} goes around it.',
-    '{actor.name} spots a tripwire beside a trail marker in {biome} and backs away, choosing another approach.',
-    'In {biome}, {actor.name} pauses at a wire stretched across the path. A careful detour avoids whatever it was meant to trigger.',
-    '{actor.name} catches sight of a wire across the service path in {biome} and skirts its anchor, leaving the trap alone.',
-    'An ankle-high wire blocks {actor.name}\'s path in {biome}. {actor.name} stops in time and walks around the trapped stretch.',
-    '{actor.name} sees a tripwire just before reaching it in {biome}, steps back and works around the edge of the trail.',
-  ]),
+  scene('swamp-tripwire-warn', [
+    '{actor.name} pulls {target.name} back from a tripwire. They take the long way into {biome}.',
+    '{actor.name} points out the wire to {target.name}. They follow the bank into {biome}.',
+    '{actor.name} stops {target.name} just short of a tripwire. Both head into {biome}.',
+    'A wire glints across the boardwalk. {actor.name} waves {target.name} back, and they reach {biome} by the dry path.',
+    'Just as {target.name} steps forward, {actor.name} calls out a warning. They leave the wire alone and follow the bank into {biome}.',
+  ], [
+    { kind: 'moveGroup', roles: ['actor', 'target'], biome: 'adjacent', avoidDanger: true },
+    { kind: 'relationship', from: 'target', to: 'actor', trust: 25, grudge: -10, fact: 'assistance' },
+    settleTripwire,
+  ], [
+    ...freshTripwire,
+    { kind: 'relationship', from: 'actor', to: 'target', minTrust: 40 },
+    { kind: 'relationship', from: 'target', to: 'actor', minTrust: 40 },
+  ], { category: 'social', roles: pair, weight: 6, cooldownGroup: 'swamp-tripwire' }),
+  scene('swamp-tripwire-rival', [
+    '{actor.name} spots a wire across the boardwalk and says nothing. {target.name} trips and cuts {target.possessive} leg on a broken plank.',
+    '{actor.name} steps over the wire without a word. It catches {target.name}, who limps off with a bloody leg.',
+    '{actor.name} sees the wire and keeps quiet. {target.name} hits the boards hard and gets up with blood running down one leg.',
+    '{actor.name} lets {target.name} walk right into the wire. A splintered plank cuts {target.possessive} leg on the way down.',
+    "{actor.name} walks past the wire in silence. {target.name}'s boot catches it a step later. The fall leaves a cut across {target.possessive} leg.",
+  ], [settleTripwire, hostility, { kind: 'setMarker', role: 'target', marker: 'bleeding-thigh', value: true }], [
+    ...freshTripwire, ...unhurt('target'),
+    { kind: 'relationship', from: 'actor', to: 'target', minGrudge: 40, maxTrust: 39 },
+  ], { category: 'conflict', roles: pair, combat: { attacker: 'actor', method: 'environment' }, weight: 5, cooldownGroup: 'swamp-tripwire' }),
   scene('explosive-find', [
     '{actor.name} opens a marked equipment case in {biome} and takes a sealed arena charge with its matching remote.',
     'An equipment case in {biome} holds a sealed arena charge and remote. {actor.name} claims the pair.',

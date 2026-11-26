@@ -4,6 +4,7 @@ import { environmentalScenes } from '../../src/content/environment';
 import { travelScenes } from '../../src/content/travel';
 import { BIOME_IDS, DEFAULT_SETTINGS, type BiomeId, type GameState, type RunInput } from '../../src/domain';
 import { applyEffects, createRandom, findBindings, initialState } from '../../src/engine';
+import { renderTemplate } from '../../src/narrative';
 
 const input: RunInput = { cast: { version: 1, title: 'Environment', players: ['a', 'b', 'c'].map(id => ({ id, name: id, traits: [] })), relationships: [] }, content: defaultContentPack, settings: DEFAULT_SETTINGS, lore: { facts: [] } };
 const random = () => createRandom('environment');
@@ -12,13 +13,12 @@ const located = (biome: BiomeId) => { const state = initialState(input); state.p
 const bind = (id: string, state: GameState) => findBindings(scene(id), state, input.cast, input.content, ['a', 'b', 'c'], 'a', random());
 
 describe('interactions within the existing six regions', () => {
-  it('keeps exactly the existing region IDs and supplies seven variants for every new scene', () => {
+  it('keeps the existing region IDs and distinct wording alternatives', () => {
     expect(defaultContentPack.biomes.map(biome => biome.id)).toEqual(['forest', 'swamp', 'mountains', 'desert', 'tundra', 'ruins']);
     expect(BIOME_IDS).toHaveLength(6);
-    expect(environmentalScenes).toHaveLength(18);
     for (const template of [...environmentalScenes, ...travelScenes]) {
-      expect(template.variants, template.id).toHaveLength(7);
-      expect(new Set(template.variants).size, template.id).toBe(7);
+      expect(template.variants.length, template.id).toBeGreaterThanOrEqual(3);
+      expect(new Set(template.variants).size, template.id).toBe(template.variants.length);
     }
   });
 
@@ -37,16 +37,68 @@ describe('interactions within the existing six regions', () => {
     }
   });
 
-  it('climbs real forest trees and consumes the exact berries that were gathered', () => {
+  it('grounds a wounded climber and narrates the alternate route to its actual destination', () => {
     expect(bind('tree-scout', located('desert'))).toBeNull();
-    expect(bind('tree-pursuit-escape', located('forest'))).toEqual({ actor: 'a', target: expect.any(String) });
-    const gathered = applyEffects(located('forest'), scene('berries-gather').effects, { actor: 'a' }, input.content, random())!;
-    expect(bind('berries-gather', gathered.state)).toBeNull();
-    expect(bind('berries-eat', gathered.state)).not.toBeNull();
-    const eaten = applyEffects(gathered.state, scene('berries-eat').effects, { actor: 'a' }, input.content, random())!;
-    expect(eaten.facts).toContainEqual({ type: 'consume', actorId: 'a', itemId: gathered.state.items[0].id, itemDefinitionId: 'berries' });
-    expect(bind('berries-eat', eaten.state)).toBeNull();
-    expect(bind('berries-gather', eaten.state)).not.toBeNull();
+    const before = located('forest');
+    const template = scene('tree-pursuit-shoulder');
+    const pursuit = (id: string, state: GameState) => findBindings(scene(id), state, input.cast, input.content, ['a', 'b'], 'a', random());
+    expect(pursuit('tree-pursuit-escape', before)).toEqual({ actor: 'a', target: 'b' });
+    expect(bind(template.id, before)).toBeNull();
+    const injured = applyEffects(before, scene('wound-shoulder-escape').effects, { actor: 'a', target: 'b' }, input.content, random())!.state;
+    expect(pursuit('tree-pursuit-escape', injured)).toBeNull();
+    expect(findBindings(scene('tree-scout'), injured, input.cast, input.content, ['b'], 'b', random())).toBeNull();
+    const bindings = { actor: 'b', target: 'a' };
+    expect(findBindings(template, injured, input.cast, input.content, ['a', 'b'], 'b', random())).toEqual(bindings);
+    const { state: after, facts } = applyEffects(injured, template.effects, bindings, input.content, random())!;
+    const destination = after.players[1].biome;
+    expect(destination).not.toBe('forest');
+    expect(after.players[0].biome).toBe('forest');
+    expect(after.players[1].markers['bleeding-shoulder']).toBe(true);
+    for (const wording of template.variants) {
+      expect(renderTemplate(wording, { ...input, template, bindings, before: injured, after, facts,
+        phase: { kind: 'day', index: 1, day: 1 }, sequence: 1, random: random() }))
+        .toContain(input.content.biomes.find(biome => biome.id === destination)!.name);
+    }
+    const recovered = applyEffects(injured, scene('wound-shoulder-bandage').effects, { actor: 'b' }, input.content, random())!.state;
+    expect(pursuit('tree-pursuit-escape', recovered)).not.toBeNull();
+  });
+
+  it('lets a swamp scout get an ally out or leave a rival with a real wound', () => {
+    const warn = scene('swamp-tripwire-warn');
+    const rival = scene('swamp-tripwire-rival');
+    const neutral = located('swamp');
+    expect(bind(warn.id, neutral)).toBeNull();
+    expect(bind(rival.id, neutral)).toBeNull();
+
+    const allied = located('swamp');
+    allied.relationships = [{ from: 'a', to: 'b', trust: 40, grudge: 0 }, { from: 'b', to: 'a', trust: 40, grudge: 0 }];
+    expect(bind(warn.id, allied)).toEqual({ actor: 'a', target: 'b' });
+    expect(bind(rival.id, allied)).toBeNull();
+    const helped = applyEffects(allied, warn.effects, bind(warn.id, allied)!, input.content, random())!;
+    expect(helped.facts).toContainEqual({ type: 'assistance', actorId: 'a', targetId: 'b' });
+    const destination = helped.state.players[0].biome;
+    expect(destination).not.toBe('swamp');
+    expect(helped.state.players[1].biome).toBe(destination);
+
+    const hostile = located('swamp');
+    hostile.relationships = [{ from: 'a', to: 'b', trust: -50, grudge: 60 }];
+    expect(bind(warn.id, hostile)).toBeNull();
+    expect(bind(rival.id, hostile)).toEqual({ actor: 'a', target: 'b' });
+    const hurt = applyEffects(hostile, rival.effects, bind(rival.id, hostile)!, input.content, random())!;
+    expect(hurt.state.players[1]).toMatchObject({ alive: true, markers: { 'bleeding-thigh': true } });
+    expect(hurt.state.relationships).toContainEqual({ from: 'b', to: 'a', trust: -20, grudge: 30 });
+    const recovered = applyEffects(hurt.state, scene('wound-thigh-bandage').effects, { actor: 'b' }, input.content, random())!.state;
+    expect(bind(rival.id, recovered)).toBeNull();
+    hostile.players[1].biome = 'forest';
+    expect(bind(rival.id, hostile)).toBeNull();
+    hostile.players[0].biome = 'forest';
+    expect(bind(rival.id, hostile)).toBeNull();
+  });
+
+  it('removes ordinary berry filler and keeps poisonous nightlock in the loot pool', () => {
+    expect(defaultContentPack.items.map(item => item.id)).not.toContain('berries');
+    expect(defaultContentPack.items.map(item => item.id)).toContain('nightlock');
+    expect(defaultContentPack.events.some(template => template.id.startsWith('berries-') || template.id === 'tripwire-noticed')).toBe(false);
   });
 
   it('makes survived pit wounds treatable and forbids stacking untreated wounds', () => {

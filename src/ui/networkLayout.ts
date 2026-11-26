@@ -40,6 +40,33 @@ export function circularNetwork(count: number, width: number, height: number) {
       const shift = Math.min(last - labels[labels.length - 1].labelY, Math.max(first - labels[0].labelY, preferredShift));
       labels.forEach(point => { point.labelY += shift; });
     }
+    const clearance = (label: NetworkPoint, y: number) => {
+      let x = label.labelX;
+      for (const node of points) {
+        if (Math.abs(node.y - y) >= (nodeHeight + labelHeight) / 2) continue;
+        if (side === 'left') x = Math.min(x, node.x - nodeWidth / 2 - gap - labelWidth);
+        else x = Math.max(x, node.x + nodeWidth / 2 + gap);
+      }
+      return x;
+    };
+    labels.forEach((label, i) => {
+      let x = clearance(label, label.labelY);
+      if (x === label.labelX) return;
+
+      // A slight vertical nudge keeps the name beside its own portrait.
+      const minY = i ? labels[i - 1].labelY + labelHeight : first;
+      const maxY = i + 1 < labels.length ? labels[i + 1].labelY - labelHeight : last;
+      const outward = label.y < height / 2 ? -1 : 1;
+      for (let step = 1; step <= gap; step++) {
+        const options = [label.labelY + step * outward, label.labelY - step * outward];
+        const y = options.find(candidate => candidate >= minY && candidate <= maxY && clearance(label, candidate) === label.labelX);
+        if (y === undefined) continue;
+        label.labelY = y;
+        x = label.labelX;
+        break;
+      }
+      label.labelX = x;
+    });
   }
   return { points, radius, nodeWidth, nodeHeight, labelWidth, labelHeight, minimumDiameter, narrow, dense };
 }

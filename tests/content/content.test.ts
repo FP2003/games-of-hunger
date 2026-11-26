@@ -20,7 +20,7 @@ describe('release content inventory and references', () => {
     expect(ContentPackSchema.safeParse(defaultContentPack).success).toBe(true);
     const inventory = contentInventory();
     expect(inventory.events).toBeGreaterThanOrEqual(120);
-    expect(inventory.categories).toEqual({ opening: 75, survival: 899, social: 70, conflict: 260, curse: 0, hazard: 34, finale: 99, announcement: 30 });
+    expect(inventory.categories).toEqual({ opening: 75, survival: 896, social: 73, conflict: 352, curse: 0, hazard: 35, finale: 109, announcement: 30 });
     expect(Object.values(inventory.biomes).every(n => n >= 8)).toBe(true);
     expect(inventory.confessionals).toBeGreaterThanOrEqual(40);
     expect(inventory.curses).toBe(0);
@@ -91,7 +91,10 @@ describe('all shipped templates are mechanically reachable', () => {
       for (const condition of template.conditions) {
         if (condition.kind === 'biomeStatus') input.before.arena = [{ biome: input.before.players.find(p => p.id === binding[condition.role])!.biome, status: condition.statuses[0] }];
         if (condition.kind === 'biome') input.before.players.find(p => p.id === binding[condition.role])!.biome = condition.biomes[0];
-        if (condition.kind === 'item' && condition.exists !== false) addItem(binding[condition.role], condition.definitionId);
+        if (condition.kind === 'item' && condition.exists !== false) {
+          const definitionId = condition.definitionId ?? defaultContentPack.items.find(item => condition.tag && item.tags.includes(condition.tag))?.id;
+          addItem(binding[condition.role], definitionId);
+        }
         if (condition.kind === 'groundItem') addItem(null, condition.definitionId);
         if (condition.kind === 'relationship') input.before.relationships.push({ from: binding[condition.from], to: binding[condition.to], trust: condition.minTrust ?? Math.min(0, condition.maxTrust ?? 0), grudge: condition.minGrudge ?? 0 });
         if (condition.kind === 'nemesis') input.before.relationships.push({ from: binding[condition.from], to: binding[condition.to], trust: -20, grudge: 60 });

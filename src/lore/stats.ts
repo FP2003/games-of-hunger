@@ -50,7 +50,7 @@ export function aggregateCastRecords(runs: readonly RunRecord[]): CastRecord[] {
         switch (fact.type) {
           case 'assistance': record.assists++; break;
           case 'betrayal': record.betrayals++; break;
-          case 'revenge': if (fact.sourceEvent !== undefined && fact.sourceEvent < event.sequence) record.revenge++; break;
+          case 'revenge': if (fact.sourceEvent !== undefined && (fact.sourceRunId || fact.sourceEvent < event.sequence)) record.revenge++; break;
           case 'theft': record.thefts++; break;
           case 'curse': record.curses++; break;
         }

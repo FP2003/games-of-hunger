@@ -1,21 +1,25 @@
 import { supplyReport } from '../analytics/supplies';
 import { useEffect, useRef, useState } from 'react';
-import type { CastDefinition, ContentPack, GameSettings } from '../domain';
-import { ENGINE_VERSION } from '../domain';
-import { demoCast, demoMetrics, demoReport, emptyDemoStats, distribution, combatMethodDefinitions, type DemoStats } from '../analytics/demo';
+import type { CastDefinition, GameSettings } from '../domain';
+import { defaultContentPack as content } from '../content';
+import { ENGINE_VERSION, validateCast } from '../domain';
+import { demoCast, demoMetrics, demoReport, demoSituations, emptyDemoStats, distribution, combatMethodDefinitions, type DemoStats } from '../analytics/demo';
 import './stats.css';
 import './demo.css';
 import { TraitImpact } from './TraitImpact';
+import { PairedDemos } from './PairedDemos';
 
 const storageKey = 'survival-demo-analytics-v1';
-export function DemoLab({ cast, settings, content }: { cast: CastDefinition; settings: GameSettings; content: ContentPack }) {
-  const [view, setView] = useState<'batches' | 'traits'>('batches');
+export function DemoLab({ cast, settings }: { cast: CastDefinition; settings: GameSettings }) {
+  const [view, setView] = useState<'batches' | 'traits' | 'paired'>('batches');
   const [stats, setStats] = useState<DemoStats>(emptyDemoStats);
   const [count, setCount] = useState(100);
   const [seed, setSeed] = useState(() => `demo-${Date.now()}`);
   const [useCast, setUseCast] = useState(false);
   const [running, setRunning] = useState(false);
+  const [stopping, setStopping] = useState(false);
   const [traitsRunning, setTraitsRunning] = useState(false);
+  const [pairedRunning, setPairedRunning] = useState(false);
   const [progress, setProgress] = useState(0);
   const [error, setError] = useState('');
   const [filter, setFilter] = useState('');
@@ -41,23 +45,28 @@ export function DemoLab({ cast, settings, content }: { cast: CastDefinition; set
       if (worker.current) { try { localStorage.setItem(storageKey, JSON.stringify(latest.current)); } catch { /* Export is available while mounted. */ } }
     };
   }, []);
-  const stop = () => { worker.current?.terminate(); worker.current = null; setRunning(false); persist(latest.current); };
+  const finish = () => { worker.current?.terminate(); worker.current = null; setRunning(false); setStopping(false); };
+  const stop = () => { if (worker.current) { setStopping(true); worker.current.postMessage({ stop: true }); } };
   const start = () => {
     if (!Number.isInteger(count) || count < 1 || count > 1000 || !seed.trim()) { setError('Choose 1–1,000 games and a batch seed.'); return; }
     if (stats.games && (stats.engineVersion !== ENGINE_VERSION || stats.contentVersion !== content.version)) { setError('These results use older versions. Export and reset demo statistics before running the updated content.'); return; }
     if (stats.batches.some(b => b.seed === seed.trim())) { setError('This batch seed has already been used. Choose a new seed to avoid counting duplicate games.'); return; }
+    const validated = validateCast(useCast ? cast : demoCast);
+    if (!validated.success) { setError('Choose a valid cast with at least two named players.'); return; }
     setError(''); setProgress(0); setRunning(true);
     const task = new Worker(new URL('../analytics/demo.worker.ts', import.meta.url), { type: 'module' });
     worker.current = task;
-    task.onmessage = ({ data }: MessageEvent<{ stats: DemoStats; completed?: number; done?: boolean; error?: string }>) => {
-      latest.current = data.stats; setStats(data.stats); setProgress(data.completed ?? data.stats.batches.at(-1)?.completed ?? 0);
-      if (data.done || data.error) { stop(); if (data.error) setError(data.error); else setSeed(`demo-${Date.now()}`); }
+    task.onmessage = ({ data }: MessageEvent<{ stats?: DemoStats; completed: number; done?: boolean; stopped?: boolean; error?: string }>) => {
+      if (worker.current !== task) return;
+      setProgress(data.completed);
+      if (data.stats) persist(data.stats);
+      if (data.done || data.error) { finish(); if (data.error) setError(data.error); else if (!data.stopped) setSeed(`demo-${Date.now()}`); }
     };
-    task.onerror = event => { stop(); setError(event.message || 'The demo worker stopped unexpectedly. Completed games have been kept.'); };
-    task.postMessage({ stats, cast: useCast ? cast : demoCast, settings: { ...settings, loreCarryover: false }, content, count, seed: seed.trim() });
+    task.onerror = event => { if (worker.current === task) { finish(); setError(event.message || 'The demo worker stopped. Results from the last checkpoint were saved.'); } };
+    task.postMessage({ stats, cast: validated.data, settings: { ...settings, loreCarryover: false, grudgeCarryover: false }, content, count, seed: seed.trim() });
   };
   const reset = () => {
-    worker.current?.terminate(); worker.current = null; setRunning(false); setProgress(0); setError('');
+    finish(); setProgress(0); setError('');
     latest.current = emptyDemoStats(); setStats(latest.current);
     try { localStorage.removeItem(storageKey); } catch { setError('Could not clear browser storage.'); }
   };
@@ -68,18 +77,25 @@ export function DemoLab({ cast, settings, content }: { cast: CastDefinition; set
   };
   const rows = Object.values(stats.wording).filter(r => (ranking === 'within' ? r.repeatsWithinGames > 0 : r.count > 1) && `${r.text} ${r.templates.join(' ')}`.toLowerCase().includes(filter.toLowerCase())).sort((a, b) => ranking === 'within' ? b.repeatsWithinGames - a.repeatsWithinGames || b.count - a.count : b.count - a.count);
   const templates = content.events.map(t => ({ id: t.id, count: stats.templates[t.id] ?? 0, variants: t.variants.length })).sort((a, b) => a.count - b.count || a.id.localeCompare(b.id));
+  const situationGroups = [
+    { title: 'Finale situations', rows: demoSituations(stats, 'finaleSituations') },
+    { title: 'Recurring situations', rows: demoSituations(stats) },
+  ];
   const supplies = stats.supplies ? supplyReport(stats.supplies) : null;
   const percent = (value: number | null) => value === null ? '—' : `${value.toFixed(2)}%`;
   return <section className="demo-lab">
-    <header className="page-intro"><h1>Demo statistics</h1></header>
     <div className="view-switch" role="group" aria-label="Demo statistics view">
       <button aria-pressed={view === 'batches'} onClick={() => setView('batches')}>Demo batches</button>
+      <button aria-pressed={view === 'paired'} onClick={() => setView('paired')}>Paired demos</button>
       <button aria-pressed={view === 'traits'} onClick={() => setView('traits')}>Trait impact</button>
     </div>
     {view === 'batches' && traitsRunning && <p className="muted" role="status">A trait experiment is running.</p>}
     {view === 'traits' && running && <p className="muted" role="status">A demo batch is running.</p>}
     <div hidden={view !== 'traits'}>
-      <TraitImpact settings={settings} content={content} busy={running || traitsRunning} onBusy={setTraitsRunning} />
+      <TraitImpact settings={settings} content={content} busy={running || traitsRunning || pairedRunning} onBusy={setTraitsRunning} />
+    </div>
+    <div hidden={view !== 'paired'}>
+      <PairedDemos cast={cast} settings={settings} content={content} busy={running || traitsRunning || pairedRunning} onBusy={setPairedRunning} />
     </div>
     <div hidden={view !== 'batches'}>
     <section className="panel stats-board demo-batch">
@@ -90,8 +106,8 @@ export function DemoLab({ cast, settings, content }: { cast: CastDefinition; set
         <label className="field">Cast<select aria-label="Demo cast" disabled={running} value={useCast ? 'current' : 'demo'} onChange={e => setUseCast(e.target.value === 'current')}><option value="demo">24 neutral demo tributes</option><option value="current">Current cast ({cast.players.length} players)</option></select></label>
       </div>
       <p className="muted">Runs with your current game settings and keeps its results separate from the season archive.</p>
-      {stats.games > 0 && (stats.engineVersion !== ENGINE_VERSION || stats.contentVersion !== content.version) && <p role="alert">Displayed results are from an older version. Export them and reset demo statistics to measure the updated loot.</p>}
-      <div className="button-row"><button className="primary" disabled={running || traitsRunning || (useCast && cast.players.length < 2)} onClick={start}>Run demo batch</button><button disabled={!running} onClick={stop}>Stop batch</button><button disabled={!stats.games} onClick={exportData}>Export demo JSON</button><button className="subtle analytics-reset" onClick={reset}>Reset demo statistics</button></div>
+      {stats.games > 0 && (stats.engineVersion !== ENGINE_VERSION || stats.contentVersion !== content.version) && <p role="alert">Displayed results are from an older version. Export them and reset demo statistics to measure the current version.</p>}
+      <div className="button-row"><button className="primary" disabled={running || traitsRunning || pairedRunning || (useCast && cast.players.length < 2)} onClick={start}>Run demo batch</button><button disabled={!running || stopping} onClick={stop}>Stop batch</button><button disabled={!stats.games} onClick={exportData}>Export demo JSON</button><button className="subtle analytics-reset" onClick={reset}>Reset demo statistics</button></div>
       <p role="status" aria-label="Demo batch status">{running ? `Running: ${progress} / ${count} games completed` : `${stats.games} demo games analysed`}</p>
       {running && <progress max={count} value={progress} aria-label="Demo batch progress" />}
       {error && <p role="alert">{error}</p>}
@@ -130,7 +146,13 @@ export function DemoLab({ cast, settings, content }: { cast: CastDefinition; set
       <div className="stats-controls"><label className="field">Find wording or scene<input value={filter} onChange={e => setFilter(e.target.value)} /></label><label className="field">Rank repetitions<select value={ranking} onChange={e => setRanking(e.target.value)}><option value="repeats">Most uses across all games</option><option value="within">Most repeats within a game</option></select></label></div>
       <div className="stats-table-scroll"><table className="stats-table demo-table"><caption>Repetition leaderboard</caption><thead><tr><th>Wording / example</th><th>Uses</th><th>Games</th><th>Within-game repeats</th></tr></thead><tbody>{rows.slice(0, 100).map(r => <tr key={r.text}><th scope="row"><p>{r.text}</p><details><summary>Example and scene IDs</summary><p>{r.example}</p><small>{r.templates.join(', ')}</small></details></th><td>{r.count}</td><td>{r.games}</td><td>{r.repeatsWithinGames}</td></tr>)}</tbody></table></div>
     </section>
-    <section className="panel stats-board"><h2>Scene coverage gaps</h2><p>{templates.filter(t => t.count === 0).length} / {templates.length} scenes not seen. Rare scenes and unmet trait or inventory requirements can explain gaps.</p><p className="muted">Showing the 100 least-used scenes. Full usage counts are in the JSON export.</p><div className="stats-table-scroll"><table className="stats-table"><caption>Least-used scenes</caption><thead><tr><th>Scene</th><th>Uses</th><th>Available variants</th></tr></thead><tbody>{templates.slice(0, 100).map(t => <tr key={t.id}><th scope="row">{t.id}</th><td>{t.count}</td><td>{t.variants}</td></tr>)}</tbody></table></div></section>
+    {situationGroups.filter(group => group.rows.length).map(group => <section className="panel stats-board" key={group.title}><h2>{group.title}</h2>
+      <div className="stats-table-scroll"><table className="stats-table demo-table"><caption>{group.title}</caption>
+        <thead><tr><th>Situation</th><th>Games</th><th>Uses</th><th>Within-game repeats</th></tr></thead>
+        <tbody>{group.rows.map(row => <tr key={row.id}><th scope="row">{row.label}<details><summary>See example</summary><p>{row.example}</p><p>Seed <code>{row.seed}</code></p></details></th><td>{row.games} / {stats.games}</td><td>{row.count}</td><td>{row.repeatsWithinGames}</td></tr>)}</tbody>
+      </table></div>
+    </section>)}
+    <section className="panel stats-board"><h2>Scene coverage gaps</h2><p>{templates.filter(t => t.count === 0).length} / {templates.length} scenes not seen. Rare scenes and unmet trait or inventory requirements can explain gaps.</p><p className="muted">Showing the 100 least-used scenes. Eligible games counts observed candidate bindings or committed scenes. A zero means the simulator found no opportunity in these games.</p><div className="stats-table-scroll"><table className="stats-table"><caption>Least-used scenes</caption><thead><tr><th>Scene</th><th>Uses</th><th>Eligible games</th><th>Available variants</th></tr></thead><tbody>{templates.slice(0, 100).map(t => <tr key={t.id}><th scope="row">{t.id}</th><td>{t.count}</td><td>{stats.eligibility ? stats.eligibility[t.id] ?? 0 : '—'}</td><td>{t.variants}</td></tr>)}</tbody></table></div></section>
     <section className="panel stats-board"><h2>Regional movement and loot</h2><div className="demo-breakdowns"><div><h3>Arrivals by region</h3>{content.biomes.map(b => <p key={b.id}>{b.name}: {stats.regions[b.id] ?? 0}</p>)}</div><div><h3>Acquisitions by item</h3>{Object.entries(stats.items).sort((a, b) => b[1] - a[1]).map(([id, n]) => <p key={id}>{content.items.find(i => i.id === id)?.name ?? id}: {n}</p>)}</div></div></section>
     </>}
     </div>

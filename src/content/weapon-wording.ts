@@ -72,11 +72,36 @@ export const weaponWording: Record<string, { fatal: [string, string]; hit: (site
   },
 };
 
-export const woundedEscapeWording = (site: string) => [
-  ` {target.name} forces a supply crate between them and escapes into cover. The ${site} wound is bleeding, but {target.name} survives the attack.`,
-  ` Pushing a supply crate into the gap between them, {target.name} reaches cover. {target.name} survives, though the ${site} wound keeps bleeding.`,
-  ` {target.name} shoves a supply crate between them and gets behind cover, alive but bleeding from the ${site} wound.`,
-];
+export const weaponWoundSites = ['thigh', 'shoulder', 'side'] as const;
+
+const woundedEscapes = {
+  thigh: [
+    '{target.name} limps out of sight, blood running down {target.possessive} leg.',
+    '{target.name} stumbles around the bend with a hand pressed to {target.possessive} thigh.',
+    '{target.name} drags {target.possessive} wounded leg behind a crate.',
+    '{target.name} makes it to cover, barely able to put weight on that leg.',
+    '{target.name} slips into a ditch and crawls away, leaving blood on the ground.',
+  ],
+  shoulder: [
+    '{target.name} ducks behind a wall, holding {target.possessive} injured arm close.',
+    '{target.name} backs out of sight, blood spreading across {target.possessive} shoulder.',
+    '{target.name} pushes a door shut with {target.possessive} good arm.',
+    '{target.name} slips around the corner with one arm hanging limp.',
+    '{target.name} drops behind a crate and grabs {target.possessive} bleeding shoulder.',
+  ],
+  side: [
+    '{target.name} doubles over and ducks into cover, one hand on {target.possessive} side.',
+    '{target.name} gets around the corner, blood soaking through {target.possessive} shirt.',
+    '{target.name} holds {target.possessive} side and backs through a gap.',
+    '{target.name} stays low and slips away, wincing with each breath.',
+    '{target.name} makes it behind a crate, hunched over the bleeding wound.',
+  ],
+};
+
+export function woundedEscapeWording(site: typeof weaponWoundSites[number], index: number): string {
+  const endings = woundedEscapes[site];
+  return endings[index % endings.length];
+}
 
 export const trapWording: Record<string, { setup: [string, string]; fatal: [string, string]; injury: [string, string]; escape: [string, string] }> = {
   snare: {

@@ -1,4 +1,5 @@
 import type { Condition, ConfessionalTemplate, Effect, EventTemplate, Trait } from '../domain';
+import { woundSites } from './encounters';
 
 function scene(id: string, trait: Trait, variants: string[], effects: Effect[] = [], options: Partial<EventTemplate> = {}): EventTemplate {
   return { id: `trait-${id}`, category: 'survival', phases: ['day', 'night'], tones: ['dramatic', 'absurd', 'mixed'], scope: 'local', roles: [{ id: 'actor', traits: [trait] }], conditions: [], effects, variants, weight: 3.5, cooldown: 4, ...options };
@@ -28,7 +29,7 @@ export const expandedTraitScenes: EventTemplate[] = [
     'The tracks {actor.name} follows in {biome} cross and recross the same clearing. The investigation takes the turn and ends at its starting point.',
     '{actor.name} traces footprints around a trail loop in {biome}, discovering too late that they lead nowhere new.',
   ], [], { weight: 0.8 }),
-  ...['thigh', 'shoulder', 'side'].map(site => scene(`medic-${site}`, 'medic', [
+  ...woundSites.map(site => scene(`medic-${site}`, 'medic', [
     `{actor.name} finds {target.name} bleeding from the ${site} in {biome} and applies a firm cloth dressing. The bleeding stops, though the wound still needs rest.`,
     `In {biome}, {actor.name} checks {target.name}'s ${site} wound and secures a cloth dressing over it. The bleeding is brought under control.`,
     `{target.name}'s ${site} wound is still bleeding in {biome}. {actor.name} cleans the edges and holds a dressing in place until the bleeding stops.`,
@@ -76,7 +77,7 @@ export const expandedTraitScenes: EventTemplate[] = [
     'The barrier in {biome} is low enough to cross but awkward enough to trip {actor.name}. A sharp panel leaves the shoulder bleeding; {actor.name} survives the fall.',
     '{actor.name} stumbles over a barrier in {biome}, scraping the shoulder on a jagged panel. Back on the path, {actor.name} is alive with the wound still bleeding.',
   ], [{ kind: 'setMarker', role: 'actor', marker: 'bleeding-shoulder', value: true }], {
-    category: 'hazard', conditions: ['thigh', 'shoulder', 'side'].map(site => ({ kind: 'marker', role: 'actor', marker: `bleeding-${site}`, exists: false })), weight: 1.1,
+    category: 'hazard', conditions: woundSites.map(site => ({ kind: 'marker', role: 'actor', marker: `bleeding-${site}`, exists: false })), weight: 1.1,
   }),
   scene('clumsy-drop', 'clumsy', [
     '{actor.name} stumbles in {biome}, dropping {item} into a deep drainage gap beyond reach.',

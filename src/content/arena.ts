@@ -1,64 +1,165 @@
 import type { BiomeId, BiomeStatus, EventTemplate } from '../domain';
 
-type Copy = { weatherWarning: string[]; weatherStart: string; weatherEnd: string; closureWarning: string[]; closureStart: string; close: string; escape: string[]; casualty: string[] };
+type Copy = Record<'weatherWarning' | 'weatherStart' | 'weatherEnd' | 'closureWarning' | 'closureStart' | 'close' | 'escape' | 'casualty', string[]>;
 
 const copy: Record<Exclude<BiomeId, 'ruins'>, Copy> = {
   tundra: {
-    weatherWarning: ['A little weather update for our tundra guests: a whiteout is due tonight. Do pick a landmark before we lose the scenery.', 'Snow is on its way to the tundra this evening. Those lovely wide shots may become rather intimate.', 'Coming up tonight in the tundra: whiteout conditions and a much shorter view. Find your bearings before the snow arrives; our coverage will continue from closer quarters.'],
-    weatherStart: 'The tundra whiteout is now under way. Visibility is down, but our microphones are doing splendidly.',
-    weatherEnd: 'The tundra forecast has cleared. Thank you to everyone who kept moving; the tracking shots were a treat.',
-    closureWarning: ['Tundra residents, a scheduling note: temperatures will fall beyond habitable levels tonight. Please relocate before nightfall; the next segment takes place elsewhere.', 'We are retiring the tundra from tonight\'s programme. The cold will be quite permanent. Please make your way to an exit while the signs are still visible.', 'A final call for the tundra: please reach the Center Podium before nightfall. Temperatures here will become fatal tonight, and the region will stay closed. We need everyone in position for the next segment.'],
-    closureStart: 'The tundra temperature drop has begun. Anyone still making an exit, do keep the pace up. We have a very full evening ahead.',
-    close: 'The tundra is now closed for the remainder of the games. A lovely location. On to our remaining attractions.',
+    weatherWarning: [
+      'Whiteout tonight in the tundra. Pick a landmark while you can see one.',
+      'The tundra is in for heavy snow tonight. Find shelter before visibility drops.',
+      'Tundra whiteout due tonight. We’ve cancelled the wide shots.',
+    ],
+    weatherStart: [
+      'The tundra whiteout is now under way. Visibility is down, but our microphones are doing splendidly.',
+      'The tundra has vanished into snow. Keep the trail poles in sight.',
+      'Whiteout in the tundra. The next ridge is out of sight.',
+    ],
+    weatherEnd: [
+      'The tundra forecast has cleared. Thank you to everyone who kept moving; the tracking shots were a treat.',
+      'The tundra whiteout has lifted. The trail poles are visible again.',
+      'The tundra is clear again. We can go back to wide shots.',
+    ],
+    closureWarning: [
+      'Fatal cold closes the tundra for good tonight. Follow the trail poles to the Center Podium before dark.',
+      'Last call for the tundra. Temperatures turn lethal tonight. Follow the guide lights to the Center Podium.',
+    ],
+    closureStart: [
+      'Tundra temperatures are plummeting. Follow the trail poles to the Center Podium now.',
+      'The cold is already freezing the tundra shelter doors. Follow the guide lights to the Center Podium.',
+    ],
+    close: [
+      'The tundra is closed for the rest of the games.',
+      'The tundra is closed for good. We have enough footage of snow.',
+    ],
     escape: ['{actor.name} follows the last visible tundra trail poles toward the Center Podium. Ice forms on the shelter doors behind {actor.object}, but {actor.name} reaches the central boundary before the cold becomes fatal.', '{actor.name} abandons the tundra shelter as its doorway freezes over, keeping a hand on the guide cable until the path reaches the Center Podium. Behind {actor.object}, the snow buries the return route.'],
     casualty: ['{actor.name} tries to leave the tundra after the temperature drops, but drifting snow hides the trail poles. Lost between shelters, {actor.name} collapses and freezes to death before reaching the boundary.', '{actor.name} mistakes a frozen drainage line for the tundra exit trail. By the time the mistake becomes clear, the cold has made walking impossible. {actor.name} dies of exposure within sight of the boundary lights.'],
   },
   forest: {
-    weatherWarning: ['Forest guests, strong winds are expected tonight. Loose branches may interrupt your arrangements. Our cameras have been secured.', 'Tonight’s forest coverage comes with strong winds and falling branches. Choose your resting place accordingly; the overhead cameras will be staying well clear.'],
-    weatherStart: 'The forest wind has arrived right on cue. Please speak clearly near the microphones; the trees are rather loud.',
-    weatherEnd: 'The forest wind has eased. A few changes to the canopy, but nothing to delay the programme.',
-    closureWarning: ['A controlled burn will begin in the forest tonight. The forest will then leave our available locations. Please use the marked exits before the lighting changes.', 'Forest residents, tonight\'s fire sequence requires the whole region. Please relocate by nightfall. The production team would hate to miss your arrival elsewhere.', 'Forest guests, please complete your exit before nightfall. Tonight’s controlled burn will make this region uninhabitable for the rest of the games. Our next forest shot is strictly a wide angle.'],
-    closureStart: 'The forest burn has started. Those still beneath the canopy should head for the boundary. What wonderful light on the smoke.',
-    close: 'The forest is now closed. The fire will continue without further announcements; there is plenty happening elsewhere.',
+    weatherWarning: [
+      'Strong winds in the forest tonight. Keep clear of loose branches.',
+      'Forest gusts are due at nightfall. Check what’s overhead before settling in.',
+    ],
+    weatherStart: [
+      'The forest wind has arrived right on cue. Please speak clearly near the microphones; the trees are rather loud.',
+      'The forest gusts have arrived. Branches are coming down.',
+      'The forest canopy is thrashing. Give the trees some room.',
+    ],
+    weatherEnd: [
+      'The forest wind has eased. A few changes to the canopy, but nothing to delay the programme.',
+      'The forest gusts have died down. Watch for branches across the trails.',
+      'The wind has dropped in the forest. You can hear the footsteps again.',
+    ],
+    closureWarning: [
+      'A controlled burn closes the forest for good at nightfall. Marked exits lead to the Center Podium.',
+      'Last call for the forest before tonight’s controlled burn. Take a marked exit to the Center Podium.',
+    ],
+    closureStart: [
+      'Fire is spreading under the forest canopy. Take a marked exit to the Center Podium now.',
+      'The forest burn has started. Follow the boundary lamps to the Center Podium before smoke hides them.',
+    ],
+    close: [
+      'The forest is closed for the rest of the games.',
+      'The forest is closed for good. The wide shot will do.',
+    ],
     escape: ['{actor.name} follows the forest exit markers while fire spreads through the canopy. Crouching beneath the smoke, {actor.name} reaches the Center Podium before burning branches block the trail.'],
     casualty: ['{actor.name} doubles back through the forest looking for a gap in the fire. Smoke fills the narrow trail, and {actor.name} collapses before reaching the exit, dying from smoke inhalation.'],
   },
   swamp: {
-    weatherWarning: ['A water-level adjustment is scheduled for the swamp tonight. Do keep an eye on those boardwalks; we would like you in frame.', 'For those joining us from the swamp, water levels will rise tonight and cover the lower paths. Do check your route while the planks are visible. We would prefer an uninterrupted crossing.'],
-    weatherStart: 'The swamp water is rising nicely. Some of the lower paths are already beneath it. Lovely reflections for the night cameras.',
-    weatherEnd: 'Water levels in the swamp are returning to normal. The boardwalks are reappearing, which should simplify everyone\'s entrances.',
-    closureWarning: ['The swamp will be permanently flooded tonight. Please leave by the raised exit before nightfall. We have already moved the camera crew.', 'Swamp residents, the sluices open this evening. The region will close for the remainder of the games. Do make your crossing before the boardwalks go.', 'The swamp’s final crossing is scheduled before nightfall. Permanent flooding begins tonight, and the boardwalks will go under. Please take the raised exit; the cameras are already facing your destination.'],
-    closureStart: 'The swamp sluices are open. Anyone still below the raised walkways, this is your exit sequence. We are following several at once.',
-    close: 'The swamp is now closed. Its paths are underwater, so please find your next scene in one of our remaining locations.',
+    weatherWarning: [
+      'Swamp water rises tonight. Stick to the raised boardwalks.',
+      'The lower swamp paths will flood tonight. Plan your crossing now.',
+    ],
+    weatherStart: [
+      'The swamp water is rising nicely. Some of the lower paths are already beneath it. Lovely reflections for the night cameras.',
+      'The swamp is rising. The lowest boards are already underwater.',
+      'Water is spilling over the swamp’s lower paths. Use the raised walkways.',
+    ],
+    weatherEnd: [
+      'Water levels in the swamp are returning to normal. The boardwalks are reappearing, which should simplify everyone\'s entrances.',
+      'The swamp water has dropped. The lower crossings are visible again.',
+      'The swamp has given back the boardwalks. They’re still wet.',
+    ],
+    closureWarning: [
+      'The swamp will flood for good tonight. Take the raised causeway to the Center Podium before dark.',
+      'Last crossing before the swamp sluices open tonight. Take the raised causeway to the Center Podium.',
+    ],
+    closureStart: [
+      'The swamp sluices are open. Take the raised causeway to the Center Podium now.',
+      'Floodwater is covering the lower swamp paths. Get onto the raised causeway and head to the Center Podium.',
+    ],
+    close: [
+      'The swamp is closed for the rest of the games.',
+      'The swamp is closed for good. We’ve lost the low camera.',
+    ],
     escape: ['{actor.name} climbs onto the raised swamp boardwalk as water tears the lower planks loose. Keeping ahead of the rising flood, {actor.name} crosses the final causeway into the Center Podium.'],
     casualty: ['{actor.name} reaches the swamp causeway after the flood tears its middle span away. The current knocks {actor.object} from the broken edge and pulls {actor.object} beneath the walkway. {actor.name} drowns before reaching the boundary.'],
   },
   mountains: {
-    weatherWarning: ['Mountain residents, freezing rain is expected tonight. The ridges may become slippery. Our aerial coverage should remain excellent.', 'A note for our mountain coverage: freezing rain arrives tonight, leaving the ridges slippery. Allow a little longer for your entrances. The aerial team can wait.'],
-    weatherStart: 'Freezing rain has reached the mountains. The paths have acquired quite a shine. A little care with your footing will keep the action moving.',
-    weatherEnd: 'The mountain rain has stopped. We can see the passes again, and a few of you have selected some very ambitious routes.',
-    closureWarning: ['The mountains are scheduled for a rockfall tonight. Please descend to the Center Podium before nightfall; the passes will not be reopening.', 'A reminder for our mountain guests: the ridge barriers come down this evening. The region will close behind them. Please complete your descent in good time.', 'Mountain guests, your descent to the Center Podium must be complete before nightfall. Tonight’s rockfall will seal the passes for the remainder of the games. We have finished filming at altitude.'],
-    closureStart: 'The mountain rockfall is under way. The descending groups are giving us some splendid coverage. Please continue toward the central boundary.',
-    close: 'The mountains are now closed. All return passes are blocked. We look forward to seeing everyone in a slightly smaller setting.',
+    weatherWarning: [
+      'Freezing rain in the mountains tonight. Watch your footing on the ridges.',
+      'The mountain passes will ice over tonight. Cross before the rain arrives.',
+    ],
+    weatherStart: [
+      'Freezing rain has reached the mountains. The paths have acquired quite a shine. A little care with your footing will keep the action moving.',
+      'Freezing rain is coating the mountain paths. Take the bends slowly.',
+      'Ice is forming on the mountain ridges. The shine is misleading.',
+    ],
+    weatherEnd: [
+      'The mountain rain has stopped. We can see the passes again, and a few of you have selected some very ambitious routes.',
+      'The freezing rain is over. The mountain passes are back in view.',
+      'The rain has cleared over the mountains. Shaded ledges may still be slick.',
+    ],
+    closureWarning: [
+      'Rockfall will seal the mountain passes tonight. Take the marked descent to the Center Podium before dark.',
+      'Last descent before tonight’s mountain rockfall. Follow the lower-pass lamps to the Center Podium.',
+    ],
+    closureStart: [
+      'Rockfall has started in the mountains. Take the marked descent to the Center Podium now.',
+      'Rocks are crossing the upper mountain trails. Follow the lower-pass lamps to the Center Podium.',
+    ],
+    close: [
+      'The mountains are closed for the rest of the games.',
+      'The mountain passes are sealed for good. That wraps filming at altitude.',
+    ],
     escape: ['{actor.name} descends the marked mountain pass as rocks strike the trail above. Sliding down the last gravel bank, {actor.name} reaches the Center Podium before the pass disappears beneath the fall.'],
     casualty: ['{actor.name} reaches a mountain switchback just as the rockfall crosses the path. A falling slab knocks {actor.object} into the ravine; the fall is fatal. The exit remains below, beyond reach.'],
   },
   desert: {
-    weatherWarning: ['Desert residents, a sandstorm is due tonight. Please make any necessary introductions before visibility drops. The close-up cameras are ready.', 'The desert forecast calls for a sandstorm tonight and very little horizon. Settle your bearings before the view disappears; we have arranged closer coverage.'],
-    weatherStart: 'The desert sandstorm has arrived. We have lost the horizon, but several of you are still providing excellent audio.',
-    weatherEnd: 'The desert storm has passed. The exit signs may need uncovering. Thank you for your patience with the scenery.',
-    closureWarning: ['The desert cooling stations will shut down tonight. Temperatures will make the region uninhabitable. Please return to the Center Podium before nightfall; the remaining locations are ready.', 'Desert guests, we are switching off the climate equipment this evening. This region will then close permanently. Please follow the marked route before the heat becomes a scheduling issue.', 'Desert residents, please report to the Center Podium before nightfall. Cooling ends tonight, the heat will become fatal, and this region will close permanently. The evening programme continues at our remaining locations.'],
-    closureStart: 'The desert climate equipment is off. The temperature is rising on schedule. Anyone still out there, do finish your crossing promptly.',
-    close: 'The desert is now closed for the rest of the games. We have narrowed the setting, which should make following your favourites much easier.',
+    weatherWarning: [
+      'Sandstorm in the desert tonight. Get your bearings before the horizon goes.',
+      'Desert visibility will drop tonight. Find cover before the sandstorm hits.',
+    ],
+    weatherStart: [
+      'The desert sandstorm has arrived. We have lost the horizon, but several of you are still providing excellent audio.',
+      'The desert sandstorm is here. The route markers are fading fast.',
+      'Sand is sweeping across the desert. You can see about as far as we can.',
+    ],
+    weatherEnd: [
+      'The desert storm has passed. The exit signs may need uncovering. Thank you for your patience with the scenery.',
+      'The desert sandstorm has cleared. The horizon is back.',
+      'The desert dust is settling. Some of the signs will need digging out.',
+    ],
+    closureWarning: [
+      'Fatal heat closes the desert for good tonight. Take the service road to the Center Podium before dark.',
+      'Last call for the desert. Cooling ends tonight. Follow the boundary lamps to the Center Podium before temperatures turn lethal.',
+    ],
+    closureStart: [
+      'Desert cooling is off and temperatures are climbing. Take the service road to the Center Podium now.',
+      'The desert heat is rising fast. Follow the boundary lamps straight to the Center Podium.',
+    ],
+    close: [
+      'The desert is closed for the rest of the games.',
+      'The desert is closed for good. The crew has found shade elsewhere.',
+    ],
     escape: ['{actor.name} leaves the desert shelter when its cooling vent stops. Following the boundary lamps through the rising heat, {actor.name} reaches the Center Podium before the last station shuts down.'],
     casualty: ['{actor.name} follows the desert boundary lamps after the cooling stations stop, but the heat makes each step slower. {actor.name} collapses short of the Center Podium and dies of heatstroke before reaching shelter.'],
   },
 };
 
 export const arenaScenes: EventTemplate[] = (Object.entries(copy) as [Exclude<BiomeId, 'ruins'>, Copy][]).flatMap(([biome, lines]) => {
-  const announcement = (stage: NonNullable<EventTemplate['arena']>['stage'], status: BiomeStatus, variants: string | string[]): EventTemplate => ({
+  const announcement = (stage: NonNullable<EventTemplate['arena']>['stage'], status: BiomeStatus, variants: string[]): EventTemplate => ({
     id: `arena-${biome}-${stage}`, category: 'announcement', phases: ['day', 'night'], tones: ['dramatic', 'absurd', 'mixed'], scope: 'global', roles: [], conditions: [], weight: 1, cooldown: 0,
-    variants: (Array.isArray(variants) ? variants : [variants]).map(text => `Announcer: “${text}”`), effects: [{ kind: 'biomeStatus', biome, status }], arena: { biome, stage },
+    variants: variants.map(text => `Announcer: “${text}”`), effects: [{ kind: 'biomeStatus', biome, status }], arena: { biome, stage },
   });
   const outcome = (stage: 'escape' | 'casualty', variants: string[]): EventTemplate => ({
     id: `arena-${biome}-${stage}`, category: stage === 'escape' ? 'survival' : 'hazard', phases: ['day', 'night'], tones: ['dramatic', 'absurd', 'mixed'], scope: 'local', roles: [{ id: 'actor' }], conditions: [{ kind: 'biome', role: 'actor', biomes: [biome] }], weight: 1, cooldown: 0,

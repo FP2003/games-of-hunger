@@ -1,5 +1,5 @@
 :root {
-  --font-ui: Inter, "Segoe UI", system-ui, sans-serif;
+  --font-ui: "Segoe UI", system-ui, sans-serif;
   --font-story: "Source Serif 4", Georgia, serif;
   --text-xs: 12px;
   --text-sm: 14px;
@@ -12,6 +12,7 @@
   --space-2: 8px;
   --space-3: 12px;
   --space-4: 16px;
+  --space-5: 20px;
   --space-6: 24px;
   --space-8: 32px;
   --space-12: 48px;
@@ -23,10 +24,11 @@
   --input: oklch(0.18 0.016 157);
   --panel: oklch(0.24 0.018 155);
   --surface-2: oklch(0.29 0.024 150);
+  --portrait-surface: #43513b;
   --text: oklch(0.94 0.024 101);
   --muted: oklch(0.73 0.022 145);
   --line: rgb(255 255 255 / 0.12);
-  --control-line: oklch(0.47 0.025 148);
+  --control-line: oklch(0.55 0.025 148);
   --acid: oklch(0.91 0.11 120);
   --accent-hover: oklch(0.95 0.085 120);
   --accent-text: oklch(0.22 0.035 137);
@@ -41,6 +43,20 @@ button, .button { gap: var(--space-2); border-radius: var(--radius-md); }
 .field { gap: var(--space-2); }
 .field :is(input, select, textarea) { border-radius: var(--radius-md); }
 ::placeholder { color: var(--muted); opacity: 1; }
+.cast-tools > summary { border-color: var(--control-line); }
+.skip-link {
+  position: fixed;
+  inset: var(--space-2) auto auto var(--space-2);
+  z-index: 10;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--acid);
+  color: var(--accent-text);
+}
+.skip-link:not(:focus) { clip-path: inset(50%); }
+@media (prefers-contrast: more) {
+  :root { --muted: var(--text); --control-line: var(--muted); --line: var(--control-line); }
+}
 
 .topbar { min-height: var(--space-16); height: auto; }
 .topbar nav { align-self: stretch; height: auto; }
@@ -99,6 +115,7 @@ button, .button { gap: var(--space-2); border-radius: var(--radius-md); }
   align-items: center;
   flex-wrap: wrap;
   gap: var(--space-3);
+  margin-block-end: var(--space-6);
 }
 .cast-roster-bar .cast-view-toggle { margin: 0; }
 .cast-roster-bar .cast-view-toggle button { font-size: var(--text-sm); }
@@ -124,8 +141,35 @@ button, .button { gap: var(--space-2); border-radius: var(--radius-md); }
   pointer-events: none;
 }
 @media (forced-colors: active) {
+  :root {
+    --bg: Canvas;
+    --input: Field;
+    --panel: Canvas;
+    --surface-2: Canvas;
+    --portrait-surface: Canvas;
+    --text: CanvasText;
+    --muted: CanvasText;
+    --line: CanvasText;
+    --control-line: ButtonText;
+    --acid: Highlight;
+    --accent-hover: Highlight;
+    --accent-text: HighlightText;
+    --danger: CanvasText;
+  }
+  .app :is(button, .button) { color: ButtonText; }
+  .app :is(.character-name, .team-label, .cast-group-heading, .network-status-readout) { color: CanvasText; }
+  .app :is(.primary, .skip-link) {
+    forced-color-adjust: none;
+    background: Highlight;
+    border-color: Highlight;
+    color: HighlightText;
+  }
+  .app .primary:disabled { background: Canvas; border-color: GrayText; color: GrayText; }
   .select-control select { appearance: auto; padding-inline-end: var(--space-3); }
   .select-control::after { content: none; }
+  :is(button, summary, a):focus-visible { outline: 2px solid Highlight; }
+  :is(button[aria-pressed="true"], nav button[aria-current="page"]) { border-color: Highlight; }
+  .cast-card[style*="--team-colour"] .entry-number { background: Canvas; color: CanvasText; border: 1px solid CanvasText; }
 }
 
 .settings-workspace .toggle { margin: 0; padding: var(--space-4) 0; font-size: var(--text-sm); }
@@ -209,6 +253,7 @@ button, .button { gap: var(--space-2); border-radius: var(--radius-md); }
 .scene-export-controls [role=status] { font-size: var(--text-xs); }
 .scene-export-controls [role=status]:empty { position: absolute; min-width: 0; }
 .presentation-tools .scene-export-controls { display: grid; }
+.broadcast-stage { overflow-wrap: anywhere; }
 .presentation .topbar { display: none; }
 .presentation .arena-toolbar { max-width: 1200px; margin-inline: auto; }
 .presentation .phase-event-body > p { font-size: var(--text-xl); }
@@ -243,12 +288,6 @@ button, .button { gap: var(--space-2); border-radius: var(--radius-md); }
   letter-spacing: normal;
   font-variant-numeric: tabular-nums;
 }
-.region-theme[data-region=forest] { --region-colour: oklch(0.80 0.12 140); }
-.region-theme[data-region=swamp] { --region-colour: oklch(0.80 0.10 173); }
-.region-theme[data-region=mountains] { --region-colour: oklch(0.80 0.09 296); }
-.region-theme[data-region=desert] { --region-colour: oklch(0.85 0.11 80); }
-.region-theme[data-region=tundra] { --region-colour: oklch(0.84 0.10 235); }
-.region-theme[data-region=ruins] { --region-colour: oklch(0.81 0.09 51); }
 .broadcast .region-report {
   margin: var(--space-8) 0 0;
   padding: 0;
@@ -365,7 +404,11 @@ button, .button { gap: var(--space-2); border-radius: var(--radius-md); }
 
 @media (max-width: 820px) {
   .broadcast-stage .watch-layout { grid-template-columns: minmax(0, 1fr); }
-  .arena-toolbar .playback { flex-basis: 100%; }
+  .arena-toolbar .playback, .presentation-actions { flex-basis: 100%; }
+  .presentation-tools .cast-tools-menu {
+    inset-inline: 0 auto;
+    width: min(250px, calc(100vw - 2 * var(--space-5)));
+  }
   .arena-toolbar button, .arena-toolbar .speed select, .arena-actions button, .scene-export-controls a { font-size: var(--text-xs); }
   .broadcast .phase-report, .broadcast .fallen-tributes, .results { padding: var(--space-4); }
   .broadcast .phase-heading h1, .results .winner h1 { font-size: var(--text-2xl); }
@@ -405,3 +448,33 @@ button, .button { gap: var(--space-2); border-radius: var(--radius-md); }
 .demo-lab .stats-board .button-row { gap: var(--space-2); }
 .demo-lab .stats-board :is(button, summary, select, input) { font-size: var(--text-sm); }
 .demo-lab .analytics-reset { color: var(--danger); }
+
+.network-status-readout { color: var(--relationship-text); }
+.network-picker { display: none; }
+@media (any-pointer: coarse) {
+  .app :is(button:not(.network-node), .button, .speed select, .select-control select, details > summary) {
+    min-block-size: 44px;
+  }
+  .app :is(.mini-actions button, .character-modal-heading button, .network-clear, .error button) {
+    min-inline-size: 44px;
+  }
+  details > summary { align-content: center; }
+}
+@media (max-width: 900px) and (any-pointer: coarse) {
+  .network-picker {
+    display: grid;
+    flex: none;
+    gap: var(--space-2);
+    padding: var(--space-3);
+  }
+  .network-picker .field { min-width: 0; }
+  .network-picker :is(input, select, button) { min-width: 0; min-height: 44px; font-size: 16px; }
+  .network-picker p { margin: 0; }
+  .network-picker .network-chart-toggle { justify-self: start; font-size: var(--text-sm); }
+  .relationship-network:not(.chart-open) { height: auto; min-height: 0; }
+  .relationship-network:not(.chart-open) .network-viewport { display: none; }
+  .relationship-network .network-viewport { order: 1; }
+  .network-selection :is(.network-clear, .network-edit, .network-status-options button) { min-height: 44px; }
+  .network-selection .network-clear { min-width: 44px; }
+  .network-selected-name { overflow-wrap: anywhere; }
+}

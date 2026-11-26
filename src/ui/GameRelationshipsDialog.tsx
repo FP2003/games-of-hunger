@@ -2,12 +2,13 @@ import { useEffect, useRef, type ReactNode } from 'react';
 import type { GameState, PlayerDefinition } from '../domain';
 import { RelationshipNetwork } from './RelationshipNetwork';
 
-export function GameRelationshipsDialog({ players, state, phase, onClose, portrait }: {
+export function GameRelationshipsDialog({ players, state, phase, onClose, portrait, timeline }: {
   players: PlayerDefinition[];
   state: GameState;
   phase: string;
   onClose: () => void;
   portrait: (player: PlayerDefinition) => ReactNode;
+  timeline?: ReactNode;
 }) {
   const ref = useRef<HTMLDialogElement>(null);
   useEffect(() => {
@@ -37,8 +38,9 @@ export function GameRelationshipsDialog({ players, state, phase, onClose, portra
     }}>
     <div className="section-heading character-modal-heading"><h3 id="game-relationships-title">Relationship network</h3><button onClick={onClose} aria-label="Close relationship network">×</button></div>
     <div className="character-modal-body">
-      <p id="game-relationships-description" className="muted">{phase} · Read only. Select two tributes to see how each feels about the other. Faded tributes marked † have been eliminated.</p>
+      <p id="game-relationships-description" className="muted">{phase} · Select two tributes to see each direction. The network shows how strong each relationship is. The timeline shows each living player’s main rival. Tributes marked † have been eliminated.</p>
       <RelationshipNetwork players={players} relationships={state.relationships} eliminatedIds={state.players.filter(p => !p.alive).map(p => p.id)} portrait={portrait} />
+      {timeline}
     </div>
   </dialog>;
 }
